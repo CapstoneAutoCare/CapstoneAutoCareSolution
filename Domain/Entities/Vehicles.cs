@@ -19,7 +19,9 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public Guid VehicleModelId { get; set; }
+        public Guid ClientId { get; set; }
         public VehicleModel VehicleModel { get; set; }
+        public Client Client { get; set; }
         public ICollection<Booking> Bookings { get; set; }
         public ICollection<OdoHistory> OdoHistories { get; set; }
     }

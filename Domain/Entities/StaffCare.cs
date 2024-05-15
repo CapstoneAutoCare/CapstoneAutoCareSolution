@@ -17,7 +17,6 @@ namespace Domain.Entities
         public string LastName { get; set; }
         public string Address { get; set; }
         public DateTime Birthday { get; set; }
-        public string DoB {  get; set; }
         public string StaffCareDescription { get; set; }
 
         public Guid AccountId { get; set; }

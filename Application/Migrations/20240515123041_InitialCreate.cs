@@ -30,10 +30,8 @@ namespace Application.Migrations
                     ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DoB = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -147,7 +145,6 @@ namespace Application.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DoB = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StaffCareDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CenterId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -218,6 +215,7 @@ namespace Application.Migrations
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -284,11 +282,18 @@ namespace Application.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VehicleModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    VehicleModelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicles", x => x.VehiclesId);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "ClientId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Vehicles_VehicleModel_VehicleModelId",
                         column: x => x.VehicleModelId,
@@ -665,6 +670,11 @@ namespace Application.Migrations
                 column: "VehiclesBrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_ClientId",
+                table: "Vehicles",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_VehicleModelId",
                 table: "Vehicles",
                 column: "VehicleModelId");
@@ -701,9 +711,6 @@ namespace Application.Migrations
                 name: "Admins");
 
             migrationBuilder.DropTable(
-                name: "Clients");
-
-            migrationBuilder.DropTable(
                 name: "Vehicles");
 
             migrationBuilder.DropTable(
@@ -717,6 +724,9 @@ namespace Application.Migrations
 
             migrationBuilder.DropTable(
                 name: "InformationMaintenances");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "MaintananceSchedules");

@@ -35,6 +35,10 @@ namespace Application.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Logo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -133,15 +137,7 @@ namespace Application.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DoB")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -623,10 +619,6 @@ namespace Application.Migrations
                     b.Property<Guid>("CenterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DoB")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -727,6 +719,9 @@ namespace Application.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -754,6 +749,8 @@ namespace Application.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("VehiclesId");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("VehicleModelId");
 
@@ -1059,11 +1056,19 @@ namespace Application.Migrations
 
             modelBuilder.Entity("Domain.Entities.Vehicles", b =>
                 {
+                    b.HasOne("Domain.Entities.Client", "Client")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.VehicleModel", "VehicleModel")
                         .WithMany("Vehicles")
                         .HasForeignKey("VehicleModelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Client");
 
                     b.Navigation("VehicleModel");
                 });
@@ -1080,6 +1085,8 @@ namespace Application.Migrations
                         .IsRequired();
 
                     b.Navigation("Bookings");
+
+                    b.Navigation("Vehicles");
                 });
 
             modelBuilder.Entity("Domain.Entities.FeedBack", b =>

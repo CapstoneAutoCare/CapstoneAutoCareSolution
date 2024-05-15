@@ -25,6 +25,10 @@ namespace Application.ConfigurationDB
                     .WithMany(d => d.Vehicles)
                     .HasForeignKey(d => d.VehicleModelId)
                     .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(d => d.Client)
+                    .WithMany(d => d.Vehicles)
+                    .HasForeignKey(d => d.ClientId)
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
