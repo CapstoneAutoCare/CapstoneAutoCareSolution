@@ -20,7 +20,6 @@ namespace Domain.Entities
         public CustomerCare CustomerCare { get; set; }
         public ICollection<MaintenanceItem> MaintenanceItems { get; set; }
         public ICollection<Technician> Technicians { get; set; }
-        public ICollection<ServiceItem> ServiceItems { get; set; }
         public ICollection<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
         public Receipt Receipt { get; set; }
         public OdoHistory OdoHistory { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository.Imp
 {
-    public class ServiceItemRepositoryImp
+    public class MaintenanceHistoryStatusesRepositoryImp
     {
     }
 }
