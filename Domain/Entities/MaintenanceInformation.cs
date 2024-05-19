@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class InformationMaintenance
+    public class MaintenanceInformation
     {
         [Key]
 
@@ -15,14 +15,15 @@ namespace Domain.Entities
         public string InformationMaintenanceName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime FinishedDate { get; set; }
-        public string Status { get; set; }
         public string Note { get; set; }
-        public Guid StaffCareId { get; set; }
-        public StaffCare StaffCare { get; set; }
+        public Guid CustomerCareId { get; set; }
+        public CustomerCare CustomerCare { get; set; }
         public ICollection<MaintenanceItem> MaintenanceItems { get; set; }
-        public ICollection<TechnicianCost> TechnicianCost { get; set; }
+        public ICollection<Technician> Technicians { get; set; }
         public ICollection<ServiceItem> ServiceItems { get; set; }
+        public ICollection<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
         public Receipt Receipt { get; set; }
+        public OdoHistory OdoHistory { get; set; }
 
     }
 }

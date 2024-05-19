@@ -15,5 +15,6 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set;}
         public string Status { get; set;}
         public ICollection<VehicleModel> VehicleModels { get; set; }
+        public ICollection<VehiclesMaintenance> VehiclesMaintenance { get; set;}
     }
 }

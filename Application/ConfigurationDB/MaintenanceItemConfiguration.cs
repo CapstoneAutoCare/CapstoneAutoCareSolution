@@ -16,14 +16,17 @@ namespace Application.ConfigurationDB
             builder.HasKey(c => c.MaintenanceItemId);
             builder.Property(e => e.MaintenanceItemId)
                     .ValueGeneratedOnAdd();
+
             builder.HasOne(d => d.SparePartsCost)
                     .WithMany(d => d.MaintenanceItems)
                     .HasForeignKey(d => d.SparePartsCostId)
                     .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(d => d.ServiceCareCost)
                     .WithMany(d => d.MaintenanceItems)
                     .HasForeignKey(d => d.ServiceCareCostId)
                     .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(d => d.InformationMaintenance)
                     .WithMany(d => d.MaintenanceItems)
                     .HasForeignKey(d => d.InformationMaintenanceId)

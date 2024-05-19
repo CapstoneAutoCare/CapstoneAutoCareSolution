@@ -23,9 +23,9 @@ namespace Domain.Entities
         public Guid SparePartsCostId { get; set; }
         public Guid ServiceCareCostId { get; set; }
         public Guid InformationMaintenanceId { get; set; }
-        public ServiceCareCost ServiceCareCost { get; set; }
-        public SparePartsCost SparePartsCost { get; set; }
-        public InformationMaintenance InformationMaintenance { get; set; }
+        public MaintenanceService ServiceCareCost { get; set; }
+        public SparePartsItem SparePartsCost { get; set; }
+        public MaintenanceInformation InformationMaintenance { get; set; }
 
     }
 }

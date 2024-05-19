@@ -12,15 +12,15 @@ namespace Domain.Entities
         [Key]
 
         public Guid ServiceCareId { get; set; }
-        public string ServiceCareName { get; set;}
-        public string ServiceCareDescription { get; set;}
-        public string ServiceCareType { get; set;}
+        public string ServiceCareName { get; set; }
+        public string ServiceCareDescription { get; set; }
+        public string ServiceCareType { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public double OriginalPrice { get; set; }
         public string Status { get; set; }
         public Guid MaintenancePlanId { get; set; }
         public MaintenancePlan MaintenancePlan { get; set; }
-        public ServiceCareCost ServiceCareCost { get; set; }
+        public ICollection<MaintenanceService> MaintenanceServices { get; set; }
     }
 }

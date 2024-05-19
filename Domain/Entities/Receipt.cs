@@ -19,9 +19,7 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set; }
         public string Description { get; set; }
         public Guid InformationMaintenanceId { get; set; }
-        public Guid OdoHistoryId { get; set; }
-        public InformationMaintenance InformationMaintenance { get; set; }
-        public OdoHistory OdoHistory { get; set; }
+        public MaintenanceInformation InformationMaintenance { get; set; }
         public FeedBack FeedBack { get; set; }
     }
 }

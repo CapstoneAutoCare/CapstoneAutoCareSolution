@@ -20,6 +20,6 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public Guid InformationMaintenanceId { get; set; }
-        public InformationMaintenance InformationMaintenance { get; set; }
+        public MaintenanceInformation InformationMaintenance { get; set; }
     }
 }

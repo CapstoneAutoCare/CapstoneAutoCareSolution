@@ -9,20 +9,22 @@ using System.Threading.Tasks;
 
 namespace Application.ConfigurationDB
 {
-    public class InformationMaintenanceConfiguration : IEntityTypeConfiguration<InformationMaintenance>
+    public class MaintenanceInformationConfiguration : IEntityTypeConfiguration<MaintenanceInformation>
     {
-        public void Configure(EntityTypeBuilder<InformationMaintenance> builder)
+        public void Configure(EntityTypeBuilder<MaintenanceInformation> builder)
         {
             builder.HasKey(c => c.InformationMaintenanceId);
             builder.Property(e => e.InformationMaintenanceId)
                     .ValueGeneratedOnAdd();
+
             builder.Property(e => e.CreatedDate)
                .HasColumnType("datetime");
             builder.Property(e => e.FinishedDate)
                 .HasColumnType("datetime");
-            builder.HasOne(d => d.StaffCare)
+
+            builder.HasOne(d => d.CustomerCare)
                     .WithMany(d => d.InformationMaintenances)
-                    .HasForeignKey(d => d.StaffCareId)
+                    .HasForeignKey(d => d.CustomerCareId)
                     .OnDelete(DeleteBehavior.Restrict);
         }
     }

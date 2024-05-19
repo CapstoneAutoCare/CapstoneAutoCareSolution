@@ -20,6 +20,6 @@ namespace Domain.Entities
         public string Status { get; set; }
         public Guid MaintenancePlanId { get; set; }
         public MaintenancePlan MaintenancePlan { get; set; }
-        public SparePartsCost SparePartsCost { get; set; }
+        public ICollection<SparePartsItem> SparePartsItems { get; set; }
     }
 }

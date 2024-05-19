@@ -20,12 +20,9 @@ namespace Application.ConfigurationDB
                 .HasColumnType("datetime");
             builder.HasOne(d => d.InformationMaintenance)
                     .WithOne(d => d.Receipt)
-                    .HasForeignKey<InformationMaintenance>(d => d.InformationMaintenanceId)
+                    .HasForeignKey<MaintenanceInformation>(d => d.InformationMaintenanceId)
                     .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(d => d.OdoHistory)
-                    .WithOne(d => d.Receipt)
-                    .HasForeignKey<OdoHistory>(d => d.OdoHistoryId)
-                    .OnDelete(DeleteBehavior.Restrict);
+            
         }
     }
 }

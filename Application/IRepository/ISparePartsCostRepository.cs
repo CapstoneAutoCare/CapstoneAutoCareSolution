@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository
 {
-    public interface ISparePartsCostRepository: IGenericRepository<SparePartsCost>
+    public interface ISparePartsCostRepository: IGenericRepository<SparePartsItem>
     {
     }
 }

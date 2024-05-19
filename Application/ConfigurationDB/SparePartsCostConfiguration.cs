@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Application.ConfigurationDB
 {
-    public class SparePartsCostConfiguration : IEntityTypeConfiguration<SparePartsCost>
+    public class SparePartsCostConfiguration : IEntityTypeConfiguration<SparePartsItem>
     {
-        public void Configure(EntityTypeBuilder<SparePartsCost> builder)
+        public void Configure(EntityTypeBuilder<SparePartsItem> builder)
         {
-            builder.HasKey(c => c.SparePartsCostId);
+            builder.HasKey(c => c.SparePartsItemtId);
 
-            builder.Property(e => e.SparePartsCostId)
+            builder.Property(e => e.SparePartsItemtId)
                     .ValueGeneratedOnAdd();
 
             builder.Property(e => e.CreatedDate)
@@ -23,8 +23,8 @@ namespace Application.ConfigurationDB
 
 
             builder.HasOne(d => d.SpareParts)
-                    .WithOne(d => d.SparePartsCost)
-                    .HasForeignKey<SpareParts>(d => d.SparePartId)
+                    .WithMany(d => d.SparePartsItems)
+                    .HasForeignKey(d => d.SparePartsId)
                     .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.MaintenanceCenter)

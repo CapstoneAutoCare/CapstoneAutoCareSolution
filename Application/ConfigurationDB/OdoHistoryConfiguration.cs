@@ -22,6 +22,11 @@ namespace Application.ConfigurationDB
                     .WithMany(d => d.OdoHistories)
                     .HasForeignKey(d => d.VehiclesId)
                     .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(d => d.MaintenanceInformation)
+                    .WithOne(d => d.OdoHistory)
+                    .HasForeignKey<MaintenanceInformation>(d => d.InformationMaintenanceId)
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

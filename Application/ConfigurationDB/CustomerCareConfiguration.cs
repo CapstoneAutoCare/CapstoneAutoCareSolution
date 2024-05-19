@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +9,24 @@ using System.Threading.Tasks;
 
 namespace Application.ConfigurationDB
 {
-    public class StaffCareConfiguration : IEntityTypeConfiguration<StaffCare>
+    public class CustomerCareConfiguration : IEntityTypeConfiguration<CustomerCare>
     {
-        public void Configure(EntityTypeBuilder<StaffCare> builder)
+        public void Configure(EntityTypeBuilder<CustomerCare> builder)
         {
-            builder.HasKey(c => c.StaffCareId);
-            builder.Property(e => e.StaffCareId)
+            builder.HasKey(c => c.CustomerCareId);
+            builder.Property(e => e.CustomerCareId)
                     .ValueGeneratedOnAdd();
 
             builder.Property(e => e.Birthday)
                 .HasColumnType("datetime");
 
             builder.HasOne(d => d.Account)
-                    .WithOne(d => d.StaffCare)
+                    .WithOne(d => d.CustomerCare)
                     .HasForeignKey<Account>(d => d.AccountID)
                     .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.MaintenanceCenter)
-                    .WithMany(d => d.StaffCares)
+                    .WithMany(d => d.CustomerCares)
                     .HasForeignKey(d => d.CenterId)
                     .OnDelete(DeleteBehavior.Restrict);
         }
