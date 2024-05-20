@@ -9,8 +9,11 @@ namespace Domain.Entities
 {
     public class FeedBack
     {
-        [Key]
+        public FeedBack()
+        {
+        }
 
+        [Key]
         public Guid FeedBackId { get; set; }
         public string Comment { get; set; }
         public int Vote { get; set; }

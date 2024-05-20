@@ -12,6 +12,7 @@ namespace Domain.Entities
         public Account()
         {
         }
+
         [Key]
 
         public Guid AccountID { get; set; }

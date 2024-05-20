@@ -9,6 +9,12 @@ namespace Domain.Entities
 {
     public class VehiclesBrand
     {
+        public VehiclesBrand()
+        {
+            VehicleModels = new HashSet<VehicleModel>();
+            VehiclesMaintenance = new HashSet<VehiclesMaintenance>();
+        }
+
         [Key]
         public Guid VehiclesBrandId {  get; set; }
         public string VehiclesBrandName { get; set; }

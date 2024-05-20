@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.IService
 {
-    public interface ICustomerService
+    public interface IAdminService
     {
-        Task<Client> CreateCustomer(CreateClient client);
+        Task<Admin> CreateAdmin(CreateAdmin create);
     }
 }

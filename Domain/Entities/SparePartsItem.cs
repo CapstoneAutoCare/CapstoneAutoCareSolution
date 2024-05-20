@@ -9,6 +9,11 @@ namespace Domain.Entities
 {
     public class SparePartsItem
     {
+        public SparePartsItem()
+        {
+            MaintenanceItems =new HashSet<MaintenanceItem>();   
+        }
+
         [Key]
 
         public Guid SparePartsItemtId { get; set; }

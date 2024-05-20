@@ -9,9 +9,13 @@ namespace Domain.Entities
 {
     public class MaintananceSchedule
     {
-        public MaintananceSchedule() { }
+        public MaintananceSchedule()
+        {
+            MaintenancePlans = new HashSet<MaintenancePlan>();
+        }
+
         [Key]
-        public Guid MaintananceScheduleId {  get; set; }
+        public Guid MaintananceScheduleId { get; set; }
         public string Odo { get; set; }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }

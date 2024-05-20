@@ -18,11 +18,10 @@ namespace Application.ConfigurationDB
                     .ValueGeneratedOnAdd();
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime");
-            builder.HasOne(d => d.InformationMaintenance)
-                    .WithOne(d => d.Receipt)
-                    .HasForeignKey<MaintenanceInformation>(d => d.InformationMaintenanceId)
-                    .OnDelete(DeleteBehavior.Restrict);
-            
+
+            builder.HasIndex(e => e.InformationMaintenanceId).IsUnique();
+
+
         }
     }
 }

@@ -8,6 +8,11 @@ namespace Domain.Entities
 {
     public class StaffCare
     {
+        public StaffCare()
+        {
+            InformationMaintenances = new HashSet<MaintenanceInformation>();
+        }
+
         public Guid StaffCareId { get; set; }
         public string Gender { get; set; }
         public string FirstName { get; set; }

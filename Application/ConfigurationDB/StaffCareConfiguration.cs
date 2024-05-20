@@ -19,11 +19,9 @@ namespace Application.ConfigurationDB
 
             builder.Property(e => e.Birthday)
                 .HasColumnType("datetime");
+            builder.HasIndex(e => e.AccountId).IsUnique();
 
-            builder.HasOne(d => d.Account)
-                    .WithOne(d => d.StaffCare)
-                    .HasForeignKey<Account>(d => d.AccountID)
-                    .OnDelete(DeleteBehavior.Restrict);
+       
 
             builder.HasOne(d => d.MaintenanceCenter)
                     .WithMany(d => d.StaffCares)

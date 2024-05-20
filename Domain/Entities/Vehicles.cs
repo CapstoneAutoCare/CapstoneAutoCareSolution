@@ -9,7 +9,11 @@ namespace Domain.Entities
 {
     public class Vehicles
     {
-        public Vehicles() { }
+        public Vehicles()
+        {
+            Bookings = new HashSet<Booking>();
+            OdoHistories = new HashSet<OdoHistory>();
+        }
         [Key]
         public Guid VehiclesId { get; set; }
         public string Color { get; set; }

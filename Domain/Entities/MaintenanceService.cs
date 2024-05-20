@@ -9,6 +9,11 @@ namespace Domain.Entities
 {
     public class MaintenanceService
     {
+        public MaintenanceService()
+        {
+            MaintenanceItems = new HashSet<MaintenanceItem>();
+        }
+
         [Key]
         public Guid MaintenanceServiceId { get; set; }
         public double ActuralCost { get; set; }

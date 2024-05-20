@@ -9,6 +9,12 @@ namespace Domain.Entities
 {
     public class Client
     {
+        public Client()
+        {
+            Bookings = new HashSet<Booking>();
+            Vehicles = new HashSet<Vehicles>();
+        }
+
         [Key]
 
         public Guid ClientId { get; set; }

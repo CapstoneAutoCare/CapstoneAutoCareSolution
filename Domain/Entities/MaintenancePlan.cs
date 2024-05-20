@@ -9,7 +9,11 @@ namespace Domain.Entities
 {
     public class MaintenancePlan
     {
-        public MaintenancePlan() { }
+        public MaintenancePlan()
+        {
+            Parts = new HashSet<SpareParts>();
+            ServiceCares = new HashSet<ServiceCare>();
+        }
         [Key]
 
         public Guid MaintenancePlanId { get; set; }

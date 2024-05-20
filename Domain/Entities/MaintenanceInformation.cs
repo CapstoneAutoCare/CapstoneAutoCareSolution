@@ -9,8 +9,14 @@ namespace Domain.Entities
 {
     public class MaintenanceInformation
     {
-        [Key]
+        public MaintenanceInformation()
+        {
+            MaintenanceHistoryStatuses = new HashSet<MaintenanceHistoryStatus>();
+            MaintenanceItems = new HashSet<MaintenanceItem>();
+            Technicians = new HashSet<Technician>();
+        }
 
+        [Key]
         public Guid InformationMaintenanceId { get; set; }
         public string InformationMaintenanceName { get; set; }
         public DateTime CreatedDate { get; set; }

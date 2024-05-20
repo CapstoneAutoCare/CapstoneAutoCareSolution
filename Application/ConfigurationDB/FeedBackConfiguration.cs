@@ -20,10 +20,9 @@ namespace Application.ConfigurationDB
                     .WithMany(d => d.FeedBacks)
                     .HasForeignKey(d => d.MaintenanceCenterId)
                     .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(d => d.Receipt)
-                    .WithOne(d => d.FeedBack)
-                    .HasForeignKey<Receipt>(d => d.ReceiptId)
-                    .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(e => e.ReceiptId).IsUnique();
+
+
         }
     }
 }

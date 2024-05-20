@@ -9,6 +9,11 @@ namespace Domain.Entities
 {
     public class ServiceCare
     {
+        public ServiceCare()
+        {
+            MaintenanceServices =new HashSet<MaintenanceService>();
+        }
+
         [Key]
 
         public Guid ServiceCareId { get; set; }

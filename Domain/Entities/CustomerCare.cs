@@ -9,7 +9,11 @@ namespace Domain.Entities
 {
     public class CustomerCare
     {
-        public CustomerCare() { }
+        public CustomerCare()
+        {
+            InformationMaintenances = new HashSet<MaintenanceInformation>();
+        }
+
         [Key]
         public Guid CustomerCareId { get; set; }
         public string Gender { get; set; }

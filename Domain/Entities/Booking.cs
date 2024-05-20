@@ -9,8 +9,11 @@ namespace Domain.Entities
 {
     public class Booking
     {
-        [Key]
+        public Booking()
+        {
+        }
 
+        [Key]
         public Guid BookingId { get; set; }
         public string Note { get; set; }
         public DateTime CreatedDate { get; set; }

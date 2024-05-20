@@ -9,6 +9,7 @@ namespace Domain.Entities
 {
     public class Technician
     {
+        public Technician() { }
         [Key]
 
         public Guid TechnicianId { get; set; }

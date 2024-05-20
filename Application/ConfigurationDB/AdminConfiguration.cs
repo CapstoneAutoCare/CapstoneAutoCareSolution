@@ -16,10 +16,12 @@ namespace Application.ConfigurationDB
             builder.HasKey(c => c.AdminId);
             builder.Property(e => e.AdminId)
                     .ValueGeneratedOnAdd();
-            builder.HasOne(d => d.Account)
-                    .WithOne(d => d.Admin)
-                    .HasForeignKey<Account>(d => d.AccountID)
-                    .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(e => e.AccountId).IsUnique();
+
+            //builder.HasOne(d => d.Account)
+            //        .WithOne(d => d.Admin)
+            //        .HasForeignKey<Account>(d => d.AccountID)
+            //        .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
