@@ -17,13 +17,12 @@ namespace CapstoneAutoCareApi.Controllers
     public class AdminsController : ControllerBase
     {
         private readonly IAdminService _adminService;
-        private readonly ICustomerService _customerService;
 
-        public AdminsController(IAdminService adminService, ICustomerService customerService)
+        public AdminsController(IAdminService adminService)
         {
             _adminService = adminService;
-            _customerService = customerService;
         }
+
 
 
         //[HttpGet]
@@ -38,10 +37,9 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPut]
-        public async Task<IActionResult> PutAdmin(Guid id, Admin admin)
+        public async Task<IActionResult> PutAdmin(Guid id, UpdateAdmin admin)
         {
-
-            return NoContent();
+            return Ok(_adminService.UpdateAdmin(id, admin));
         }
 
         [HttpPost]
@@ -50,10 +48,10 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _adminService.CreateAdmin(admin));
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAdmin(Guid id)
+        [HttpPatch]
+        public async Task<IActionResult> ChangeStatus(Guid id, string status)
         {
-            return NoContent();
+            return Ok(await _adminService.ChangeStatusAdmin(id, status));
 
         }
 

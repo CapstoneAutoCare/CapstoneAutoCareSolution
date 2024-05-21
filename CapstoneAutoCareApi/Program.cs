@@ -8,10 +8,19 @@ using Application.IRepository;
 using Application.IRepository.Imp;
 using Application;
 using Infrastructure.Common.Mapper;
+using CapstoneAutoCareApi.Middlewares;
+using Infrastructure.ISecurity;
+using Infrastructure.ISecurity.Imp;
+using CapstoneAutoCareApi.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+builder.Services.DependencyInjection(configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,7 +34,9 @@ builder.Services.AddTransient<IAccountRepository,AccountRepositoryImp>();
 builder.Services.AddTransient<IAdminRepository, AdminRepositoryImp>();
 builder.Services.AddTransient<ICustomerService, CustomerServiceImp>();
 builder.Services.AddTransient<IAdminService, AdminServiceImp>();
+builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -36,10 +47,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
+
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors();
+app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

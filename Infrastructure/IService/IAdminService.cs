@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ResponseAdmin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,10 @@ namespace Infrastructure.IService
 {
     public interface IAdminService
     {
-        Task<Admin> CreateAdmin(CreateAdmin create);
-        Task<Admin> UpdateAdmin(Guid adminId,UpdateAdmin update);
-        Task<Admin> ChangeStatusAdmin(Guid adminId,string status);
+        Task<ResponseAdmin> CreateAdmin(CreateAdmin create);
+        Task<ResponseAdmin> UpdateAdmin(Guid adminId,UpdateAdmin update);
+        Task<ResponseAdmin> ChangeStatusAdmin(Guid adminId,string status);
+        Task<ResponseAdmin> GetById(Guid adminId);
 
     }
 }

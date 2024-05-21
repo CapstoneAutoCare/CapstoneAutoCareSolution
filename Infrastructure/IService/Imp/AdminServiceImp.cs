@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -21,17 +22,17 @@ namespace Infrastructure.IService.Imp
             _mapper = mapper;
         }
 
-        public async Task<Admin> ChangeStatusAdmin(Guid adminId, string status)
+        public async Task<ResponseAdmin> ChangeStatusAdmin(Guid adminId, string status)
         {
             var admin = await _unitofWork.Admin.GetById(adminId);
             admin.Account.Status = status;
             await _unitofWork.Account.Update(admin.Account);
             await _unitofWork.Commit();
-            return admin;
+            return _mapper.Map<ResponseAdmin>(admin);
 
         }
 
-        public async Task<Admin> CreateAdmin(CreateAdmin create)
+        public async Task<ResponseAdmin> CreateAdmin(CreateAdmin create)
         {
             var admin = _mapper.Map<Admin>(create);
             admin.Account.CreatedDate = DateTime.Now;
@@ -40,10 +41,15 @@ namespace Infrastructure.IService.Imp
             await _unitofWork.Admin.Add(admin);
             await _unitofWork.Account.Add(admin.Account);
             await _unitofWork.Commit();
-            return admin;
+            return _mapper.Map<ResponseAdmin>(admin);
         }
 
-        public async Task<Admin> UpdateAdmin(Guid adminId, UpdateAdmin update)
+        public async Task<ResponseAdmin> GetById(Guid adminId)
+        {
+            return _mapper.Map<ResponseAdmin>(await _unitofWork.Admin.GetById(adminId));
+        }
+
+        public async Task<ResponseAdmin> UpdateAdmin(Guid adminId, UpdateAdmin update)
         {
             var admin = await _unitofWork.Admin.GetById(adminId);
             admin.Account.Phone = update.Phone;
@@ -52,7 +58,7 @@ namespace Infrastructure.IService.Imp
             await _unitofWork.Account.Update(admin.Account);
             await _unitofWork.Commit();
 
-            return admin;
+            return _mapper.Map<ResponseAdmin>(admin);
         }
     }
 }
