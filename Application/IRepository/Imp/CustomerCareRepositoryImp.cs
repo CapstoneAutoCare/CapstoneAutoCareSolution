@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,25 @@ namespace Application.IRepository.Imp
     {
         public CustomerCareRepositoryImp(AppDBContext context) : base(context)
         {
+        }
+
+        public async Task<List<CustomerCare>> GetAll()
+        {
+            return await _context.Set<CustomerCare>().Include(c => c.Account).Include(c => c.MaintenanceCenter).ToListAsync();
+        }
+
+        public async Task<CustomerCare> GetById(Guid id)
+        {
+            var customercare = await _context.Set<CustomerCare>()
+                .Include(c => c.Account)
+                .Include(c => c.MaintenanceCenter)
+                .FirstOrDefaultAsync(c => c.CustomerCareId == id);
+            if (customercare == null)
+            {
+                throw new Exception("Not Found");
+
+            }
+            return customercare;
         }
     }
 }

@@ -10,5 +10,8 @@ namespace Application.IRepository
 {
     public interface ICustomerCareRepository : IGenericRepository<CustomerCare>
     {
+        Task<CustomerCare> GetById(Guid id);
+        Task<List<CustomerCare>> GetAll();
+
     }
 }

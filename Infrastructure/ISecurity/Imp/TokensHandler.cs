@@ -32,18 +32,18 @@ namespace Infrastructure.ISecurity.Imp
             var jwtToken = handler.ReadJwtToken(token);
             return jwtToken.Claims;
         }
-        public string ClaimsFromToken(string token)
-        {
-            var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
-            if (string.IsNullOrWhiteSpace(authorizationHeader))
-            {
-                throw new Exception("Authorization header is missing");
-            }
-            var tokens = authorizationHeader.Replace("Bearer ", "");
-            var claims = GetClaimsFromToken(token);
-            var username = claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
-            return username;
-        }
+        //public string ClaimsFromToken(string token)
+        //{
+        //    var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+        //    if (string.IsNullOrWhiteSpace(authorizationHeader))
+        //    {
+        //        throw new Exception("Authorization header is missing");
+        //    }
+        //    var tokens = authorizationHeader.Replace("Bearer ", "");
+        //    var claims = GetClaimsFromToken(token);
+        //    var username = claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
+        //    return username;
+        //}
         public string ClaimsFromToken()
         {
             var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
@@ -56,9 +56,9 @@ namespace Infrastructure.ISecurity.Imp
 
             var claims = GetClaimsFromToken(token);
 
-            var username = claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
+            var email = claims.FirstOrDefault(c => c.Type == "email")?.Value;
 
-            return username;
+            return email;
         }
         public AccessToken CreateAccessToken(Account account)
         {

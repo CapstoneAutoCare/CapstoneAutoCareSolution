@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ResponseClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Infrastructure.IService
 {
     public interface ICustomerService
     {
-        Task<Client> CreateCustomer(CreateClient client);
+        Task<ResponseClient> CreateCustomer(CreateClient client);
+        Task<ResponseClient> GetById(Guid id);
     }
 }

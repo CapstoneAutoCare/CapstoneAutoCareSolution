@@ -13,7 +13,7 @@ namespace Infrastructure.ISecurity
         AccessToken CreateAccessToken(Account customer);
         RefreshToken TakeRefreshToken(string token, string userName);
         void RevokeRefreshToken(string token, string userName);
-        string ClaimsFromToken(string token);
+        //string ClaimsFromToken(string token);
 
         string ClaimsFromToken();
     }

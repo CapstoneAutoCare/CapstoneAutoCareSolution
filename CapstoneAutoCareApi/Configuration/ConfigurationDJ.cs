@@ -12,7 +12,7 @@ namespace CapstoneAutoCareApi.Configuration
     {
         public static IServiceCollection DependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
-            var appConfiguration = configuration.GetSection("ConnectString").Get<AppConfiguration>();
+            //var appConfiguration = configuration.GetSection("ConnectString").Get<AppConfiguration>();
             var jwt = configuration.GetSection("JWT").Get<JWToken>();
 
             services.AddDJJWT(jwt.JWTSecretKey, jwt.Issuer, jwt.Audience);

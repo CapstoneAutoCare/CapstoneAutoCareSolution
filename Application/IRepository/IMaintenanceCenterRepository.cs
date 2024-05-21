@@ -1,6 +1,5 @@
 ﻿using Application.IGenericRepository;
 using Domain.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +9,7 @@ namespace Application.IRepository
 {
     public interface IMaintenanceCenterRepository: IGenericRepository<MaintenanceCenter>
     {
+        Task<MaintenanceCenter> GetById(Guid id);
+        Task<List<MaintenanceCenter>> GetAll();
     }
 }

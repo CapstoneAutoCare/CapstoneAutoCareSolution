@@ -10,5 +10,8 @@ namespace Application.IRepository
 {
     public interface IClientRepository: IGenericRepository<Client>
     {
+        Task<Client> GetById(Guid id);
+        Task<List<Client>> GetAll();
+
     }
 }

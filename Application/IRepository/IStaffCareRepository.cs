@@ -10,5 +10,7 @@ namespace Application.IRepository
 {
     public interface IStaffCareRepository : IGenericRepository<StaffCare>
     {
+        Task<StaffCare> GetById(Guid id);
+        Task<List<StaffCare>> GetAll();
     }
 }

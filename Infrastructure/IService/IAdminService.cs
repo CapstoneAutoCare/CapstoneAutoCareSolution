@@ -14,7 +14,8 @@ namespace Infrastructure.IService
         Task<ResponseAdmin> CreateAdmin(CreateAdmin create);
         Task<ResponseAdmin> UpdateAdmin(Guid adminId,UpdateAdmin update);
         Task<ResponseAdmin> ChangeStatusAdmin(Guid adminId,string status);
-        Task<ResponseAdmin> GetById(Guid adminId);
+        Task<ResponseAdmin> GetByEmail();
+        Task<ResponseAdmin> GetById(Guid id);
 
     }
 }

@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Response.ResponseAdmin;
+using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,13 @@ namespace Infrastructure.IService.Imp
     {
         private readonly IUnitOfWork _unitofWork;
         private readonly IMapper _mapper;
+        private readonly ITokensHandler _tokensHandler;
 
-        public AdminServiceImp(IUnitOfWork unitofWork, IMapper mapper)
+        public AdminServiceImp(IUnitOfWork unitofWork, IMapper mapper, ITokensHandler tokensHandler)
         {
             _unitofWork = unitofWork;
             _mapper = mapper;
+            _tokensHandler = tokensHandler;
         }
 
         public async Task<ResponseAdmin> ChangeStatusAdmin(Guid adminId, string status)
@@ -44,9 +47,17 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseAdmin>(admin);
         }
 
-        public async Task<ResponseAdmin> GetById(Guid adminId)
+        public async Task<ResponseAdmin> GetByEmail()
         {
-            return _mapper.Map<ResponseAdmin>(await _unitofWork.Admin.GetById(adminId));
+            var email = _tokensHandler.ClaimsFromToken();
+            var admin = await _unitofWork.Admin.GetByEmail(email);
+            return _mapper.Map<ResponseAdmin>(admin);
+        }
+
+        public async Task<ResponseAdmin> GetById(Guid id)
+        {
+            var admin = await _unitofWork.Admin.GetById(id);
+            return _mapper.Map<ResponseAdmin>(admin);
         }
 
         public async Task<ResponseAdmin> UpdateAdmin(Guid adminId, UpdateAdmin update)

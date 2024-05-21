@@ -11,5 +11,9 @@ namespace Application.IRepository
     public interface IAdminRepository : IGenericRepository<Admin>
     {
         Task<Admin> GetById(Guid id);
+        Task<Admin> GetByEmail(string  email);
+        Task<List<Admin>> GetAll();
+
+
     }
 }

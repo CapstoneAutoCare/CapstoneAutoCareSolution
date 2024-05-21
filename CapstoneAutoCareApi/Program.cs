@@ -30,14 +30,28 @@ builder.Services.AddDbContext<AppDBContext>();
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-builder.Services.AddTransient<IAccountRepository,AccountRepositoryImp>();
+builder.Services.AddTransient<IAccountRepository, AccountRepositoryImp>();
+builder.Services.AddTransient<IAccountService, AccountServiceImp>();
+
 builder.Services.AddTransient<IAdminRepository, AdminRepositoryImp>();
-builder.Services.AddTransient<ICustomerService, CustomerServiceImp>();
 builder.Services.AddTransient<IAdminService, AdminServiceImp>();
+
+builder.Services.AddTransient<ICustomerService, CustomerServiceImp>();
+
+
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
+
+
 builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
 builder.Services.AddHttpContextAccessor();
 
+
+//builder.Services.AddCors(c => c
+//            .AddDefaultPolicy(b => b
+//            .AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .AllowAnyOrigin()));
+builder.Services.AddHttpClient();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

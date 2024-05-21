@@ -10,5 +10,7 @@ namespace Application.IRepository
 {
     public interface IAccountRepository : IGenericRepository<Account>
     {
+        Task<Account> Login(string email, string password);
+        Task<Account> Profile(string email);
     }
 }

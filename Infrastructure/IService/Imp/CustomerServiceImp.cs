@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ResponseClient;
+using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -14,14 +16,16 @@ namespace Infrastructure.IService.Imp
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ITokensHandler _tokensHandler;
 
-        public CustomerServiceImp(IUnitOfWork unitOfWork, IMapper mapper)
+        public CustomerServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _tokensHandler = tokensHandler;
         }
 
-        public async Task<Client> CreateCustomer(CreateClient create)
+        public async Task<ResponseClient> CreateCustomer(CreateClient create)
         {
             var client = _mapper.Map<Client>(create);
             client.Account.Status = "ACTIVE";
@@ -50,7 +54,13 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Account.Add(client.Account);
             await _unitOfWork.Client.Add(client);
             await _unitOfWork.Commit();
-            return client;
+            return _mapper.Map<ResponseClient>(client);
+        }
+
+        public async Task<ResponseClient> GetById(Guid id)
+        {
+            var client = await _unitOfWork.Client.GetById(id);
+            return _mapper.Map<ResponseClient>(client);
         }
     }
 }

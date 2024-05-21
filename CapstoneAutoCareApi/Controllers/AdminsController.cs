@@ -9,6 +9,8 @@ using Application;
 using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ResponseAdmin;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -23,18 +25,16 @@ namespace CapstoneAutoCareApi.Controllers
             _adminService = adminService;
         }
 
-
-
         //[HttpGet]
         //public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
         //{
         //}
-
-        //[HttpGet]
-        //public async Task<ActionResult<Admin>> GetAdmin(Guid id)
-        //{
-        //    return id;
-        //}
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<ResponseAdmin>> GetProfileAdmin()
+        {
+            return Ok(await _adminService.GetByEmail());
+        }
 
         [HttpPut]
         public async Task<IActionResult> PutAdmin(Guid id, UpdateAdmin admin)
@@ -49,7 +49,7 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpPatch]
-        public async Task<IActionResult> ChangeStatus(Guid id, string status)
+        public async Task<IActionResult> ChangeStatusCenter(Guid id, string status)
         {
             return Ok(await _adminService.ChangeStatusAdmin(id, status));
 

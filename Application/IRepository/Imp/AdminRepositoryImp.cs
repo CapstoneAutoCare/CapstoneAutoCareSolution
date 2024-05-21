@@ -15,9 +15,25 @@ namespace Application.IRepository.Imp
         {
         }
 
-        public Task<Admin> GetById(Guid id)
+        public async Task<List<Admin>> GetAll()
         {
-            var admin = _context.Set<Admin>().Include(c => c.Account).FirstOrDefaultAsync(c => c.AdminId.Equals(id));
+            return await _context.Set<Admin>().Include(c => c.Account).ToListAsync();
+        }
+
+        public async Task<Admin> GetByEmail(string email)
+        {
+            var admin = await _context.Set<Admin>().Include(c => c.Account)
+                .FirstOrDefaultAsync(c => c.Account.Email.ToLower().Equals(email.ToLower()));
+            if (admin == null)
+            {
+                throw new Exception("Not Found");
+            }
+            return admin;
+        }
+
+        public async Task<Admin> GetById(Guid id)
+        {
+            var admin = await _context.Set<Admin>().Include(c => c.Account).FirstOrDefaultAsync(c => c.AdminId.Equals(id));
             if (admin == null)
             {
                 throw new Exception("Not Found");
