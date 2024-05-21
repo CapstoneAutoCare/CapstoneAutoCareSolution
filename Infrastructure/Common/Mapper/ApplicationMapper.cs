@@ -13,6 +13,7 @@ namespace Infrastructure.Common.Mapper
     {
         public ApplicationMapper()
         {
+            
             CreateMap<CreateClient, Client>()
             .ForMember(c => c.Address, act => act.MapFrom(src => src.Address))
             .ForMember(c => c.FirstName, act => act.MapFrom(src => src.FirstName))
@@ -36,6 +37,7 @@ namespace Infrastructure.Common.Mapper
                 Phone = src.Phone,
                 Email = src.Email
             }));
+            
         }
     }
 }

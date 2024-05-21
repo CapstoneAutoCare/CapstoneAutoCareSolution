@@ -26,7 +26,6 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
 
-
         //[HttpGet]
         //public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
         //{

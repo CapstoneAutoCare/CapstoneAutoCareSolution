@@ -21,9 +21,14 @@ namespace Infrastructure.IService.Imp
             _mapper = mapper;
         }
 
-        public Task<Admin> ChangeStatusAdmin(Guid adminId, string status)
+        public async Task<Admin> ChangeStatusAdmin(Guid adminId, string status)
         {
-            throw new NotImplementedException();
+            var admin = await _unitofWork.Admin.GetById(adminId);
+            admin.Account.Status = status;
+            await _unitofWork.Account.Update(admin.Account);
+            await _unitofWork.Commit();
+            return admin;
+
         }
 
         public async Task<Admin> CreateAdmin(CreateAdmin create)
@@ -43,6 +48,10 @@ namespace Infrastructure.IService.Imp
             var admin = await _unitofWork.Admin.GetById(adminId);
             admin.Account.Phone = update.Phone;
             admin.Account.Gender = update.Gender;
+            admin.Account.Logo = update.Logo;
+            await _unitofWork.Account.Update(admin.Account);
+            await _unitofWork.Commit();
+
             return admin;
         }
     }
