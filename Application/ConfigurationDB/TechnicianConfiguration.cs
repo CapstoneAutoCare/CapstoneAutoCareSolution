@@ -26,9 +26,12 @@ namespace Application.ConfigurationDB
                     .HasForeignKey(d => d.InformationMaintenanceId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(e => e.StaffCareId).IsUnique();
+            builder.HasOne(d => d.StaffCare)
+                   .WithMany(d => d.Technicians)
+                   .HasForeignKey(d => d.StaffCareId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
-            
+
         }
     }
 }

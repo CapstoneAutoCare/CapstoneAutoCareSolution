@@ -21,6 +21,11 @@ namespace Infrastructure.IService.Imp
             _mapper = mapper;
         }
 
+        public Task<Admin> ChangeStatusAdmin(Guid adminId, string status)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Admin> CreateAdmin(CreateAdmin create)
         {
             var admin = _mapper.Map<Admin>(create);
@@ -29,8 +34,15 @@ namespace Infrastructure.IService.Imp
             admin.Account.Role = "ADMIN";
             await _unitofWork.Admin.Add(admin);
             await _unitofWork.Account.Add(admin.Account);
-
             await _unitofWork.Commit();
+            return admin;
+        }
+
+        public async Task<Admin> UpdateAdmin(Guid adminId, UpdateAdmin update)
+        {
+            var admin = await _unitofWork.Admin.GetById(adminId);
+            admin.Account.Phone = update.Phone;
+            admin.Account.Gender = update.Gender;
             return admin;
         }
     }

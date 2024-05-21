@@ -11,6 +11,7 @@ namespace Domain.Entities
         public StaffCare()
         {
             InformationMaintenances = new HashSet<MaintenanceInformation>();
+            Technicians = new HashSet<Technician>();
         }
 
         public Guid StaffCareId { get; set; }
@@ -26,6 +27,6 @@ namespace Domain.Entities
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public Account Account { get; set; }
         public ICollection<MaintenanceInformation> InformationMaintenances { get; set; }
-        public Technician Technician { get; set; }
+        public ICollection<Technician> Technicians { get; set; }
     }
 }

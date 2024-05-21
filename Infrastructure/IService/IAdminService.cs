@@ -11,5 +11,8 @@ namespace Infrastructure.IService
     public interface IAdminService
     {
         Task<Admin> CreateAdmin(CreateAdmin create);
+        Task<Admin> UpdateAdmin(Guid adminId,UpdateAdmin update);
+        Task<Admin> ChangeStatusAdmin(Guid adminId,string status);
+
     }
 }
