@@ -2,7 +2,10 @@
 using Domain.Entities;
 using Infrastructure.Common.ModelSecurity;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Request.VehicleModel;
+using Infrastructure.Common.Request.VehicleRequest;
 using Infrastructure.Common.Response;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseClient;
 using System;
@@ -107,6 +110,21 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.Token, act => act.MapFrom(src => src.Token))
                 .ForMember(p => p.Expiration, act => act.MapFrom(src => src.ExpirationTicks))
                 .ForMember(p => p.RefreshToken, act => act.MapFrom(src => src.RefreshToken.Token));
+            //Vehicle Brand
+            CreateMap<VehiclesBrand, VehicleBrandUpdate>().ForMember(p => p.BrandName, act => act.MapFrom(src => src.VehiclesBrandName));
+            //VehicleModels
+            CreateMap<VehicleModel, CreateVehicleModel>()
+                .ForMember(p => p.VehicleModelName, act => act.MapFrom(src => src.VehicleModelName))
+                .ForMember(p => p.VehiclesBrandId, act => act.MapFrom(src => src.VehicleModelName))
+                .ForMember(p => p.Image, act => act.MapFrom(src => src.Image));
+            CreateMap<VehicleModel, UpdateVehicleModel>()
+                .ForMember(p => p.VehicleModelName, act => act.MapFrom(src => src.VehicleModelName))
+                .ForMember(p => p.VehiclesBrandId, act => act.MapFrom(src => src.VehicleModelName))
+                .ForMember(p => p.Image, act => act.MapFrom(src => src.Image));
+            CreateMap<VehicleModel, ReponseVehicleModel>()
+                .ForMember(p => p.VehiclesBrand, act => act.MapFrom(src => src.VehiclesBrand))
+                .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate));
+            //
         }
     }
 }

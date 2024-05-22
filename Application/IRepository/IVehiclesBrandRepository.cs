@@ -10,5 +10,8 @@ namespace Application.IRepository
 {
     public interface IVehiclesBrandRepository: IGenericRepository<VehiclesBrand>
     {
+        Task<VehiclesBrand> GetById(Guid id);
+        Task<VehiclesBrand> GetBrandbyName(string brandName);
+        Task<List<VehiclesBrand>> GetAll();
     }
 }
