@@ -40,6 +40,19 @@ namespace Infrastructure.IService.Imp
             return brand;
         }
 
+        public async Task<List<VehiclesBrand>> GetAllVehiclesBrand()
+        {
+            var brand = _unitofWork.VehiclesBrand.GetAll();
+            var brandView = _mapper.Map<List<VehiclesBrand>>(brand);
+            return brandView;
+        }
+
+        public async Task<VehiclesBrand> GetVehiclesBrandByID(Guid id)
+        {
+            var brand = await _unitofWork.VehiclesBrand.GetById(id);
+            return brand;
+        }
+
         public async Task<VehiclesBrand> UpdateVehicleBrand(Guid BrandId, VehicleBrandUpdate update)
         {
             var brand = await _unitofWork.VehiclesBrand.GetById(BrandId);

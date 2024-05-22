@@ -14,6 +14,11 @@ namespace Application.IRepository.Imp
         public VehiclesBrandRepositoryImp(AppDBContext context) : base(context)
         {
         }
+        public async Task<List<VehiclesBrand>> GetAll()
+        {
+            return await _context.Set<VehiclesBrand>().ToListAsync();
+        }
+
         public Task<VehiclesBrand> GetById(Guid id)
         {
             var brand = _context.Set<VehiclesBrand>().FirstOrDefaultAsync(c => c.VehiclesBrandId.Equals(id));
