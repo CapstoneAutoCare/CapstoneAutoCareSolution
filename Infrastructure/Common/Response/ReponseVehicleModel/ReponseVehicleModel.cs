@@ -9,10 +9,14 @@ namespace Infrastructure.Common.Response.ReponseVehicleModel
 {
     public class ReponseVehicleModel
     {
+        public Guid VehicleModelId { get; set; }
+        public Guid VehiclesBrandId { get; set; }
+        public string VehiclesBrandName { get; set; }
         public string VehicleModelName { get; set; }
         public string Image { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
-        public string CreatedDate { get; set; }
-        public string VehiclesBrand { get; set; }
+
+
     }
 }

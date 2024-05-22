@@ -57,6 +57,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseClient>(client);
         }
 
+        public async Task<List<ResponseClient>> GetAll()
+        {
+            return _mapper.Map<List<ResponseClient>>(await _unitOfWork.Client.GetAll());
+        }
+
         public async Task<ResponseClient> GetById(Guid id)
         {
             var client = await _unitOfWork.Client.GetById(id);

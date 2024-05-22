@@ -24,14 +24,17 @@ namespace Infrastructure.IService.Imp
         public async Task<ReponseVehicleModel> CreateNewVehicleModel(CreateVehicleModel vehicleModel)
         {
             var model = _mapper.Map<VehicleModel>(vehicleModel);
+            await _unitofWork.VehiclesBrand.GetById(model.VehiclesBrandId);
+
             model.CreatedDate = DateTime.Now;
             model.Status = "ACTIVE";
+
             await _unitofWork.VehicleModel.Add(model);
             await _unitofWork.Commit();
             return _mapper.Map<ReponseVehicleModel>(model);
         }
 
-        
+
 
         public async Task<List<ReponseVehicleModel>> GetAllVehiclesModels()
         {
@@ -45,7 +48,7 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ReponseVehicleModel>(model);
         }
 
-        public async Task<ReponseVehicleModel> UpdateStatusVehicleModel(Guid id ,string status)
+        public async Task<ReponseVehicleModel> UpdateStatusVehicleModel(Guid id, string status)
         {
             var model = await _unitofWork.VehicleModel.GetById(id);
             model.Status = status.ToUpper();

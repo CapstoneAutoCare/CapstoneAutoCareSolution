@@ -45,6 +45,15 @@ builder.Services.AddTransient<IVehicleModelService, VehicleModelImp>();
 builder.Services.AddTransient<IVehiclesBrandRepository, VehiclesBrandRepositoryImp>();
 builder.Services.AddTransient<IVehicleBrandService, VehicleBrandImp>();
 
+builder.Services.AddTransient<ICenterService, CenterServiceImp>();
+builder.Services.AddTransient<IMaintenanceCenterRepository, MaintenanceCenterRepositoryImp>();
+
+builder.Services.AddTransient<IStaffCareRepository, StaffCareRepositoryImp>();
+builder.Services.AddTransient<IStaffCareService, StaffCareServiceImp>();
+
+builder.Services.AddTransient<ICustomerCareRepository, CustomerCareRepositoryImp>();
+builder.Services.AddTransient<ICustomerCareService, CustomerCareServiceImp>();
+
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 

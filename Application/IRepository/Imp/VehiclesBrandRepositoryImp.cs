@@ -16,26 +16,35 @@ namespace Application.IRepository.Imp
         }
         public async Task<List<VehiclesBrand>> GetAll()
         {
-            return await _context.Set<VehiclesBrand>().ToListAsync();
+            return await _context.Set<VehiclesBrand>()
+                //.Include(c=>c.VehiclesMaintenance)
+                //.Include(c=>c.VehicleModels)
+                .ToListAsync();
         }
 
         public Task<VehiclesBrand> GetById(Guid id)
         {
-            var brand = _context.Set<VehiclesBrand>().FirstOrDefaultAsync(c => c.VehiclesBrandId.Equals(id));
+            var brand = _context.Set<VehiclesBrand>()
+                //.Include(c => c.VehiclesMaintenance)
+                //.Include(c => c.VehicleModels)
+                .FirstOrDefaultAsync(c => c.VehiclesBrandId.Equals(id));
             if (brand == null)
             {
                 throw new Exception("Not Found");
             }
             return brand;
         }
-        public Task<VehiclesBrand> GetBrandbyName(string brandName)
+        public async Task<VehiclesBrand> GetBrandbyName(string brandName)
         {
-            var brand = _context.Set<VehiclesBrand>().FirstOrDefaultAsync(c => c.VehiclesBrandName.Equals(brandName));
+            var brand = await _context.Set<VehiclesBrand>()
+                //.Include(c => c.VehiclesMaintenance)
+                //.Include(c => c.VehicleModels)
+                .FirstOrDefaultAsync(c => c.VehiclesBrandName.ToLower().Contains(brandName.ToLower()));
             if (brand != null)
             {
-                throw new Exception("Not Found");
+                throw new Exception("Existed");
             }
-            return null;
+            return brand;
         }
     }
 }

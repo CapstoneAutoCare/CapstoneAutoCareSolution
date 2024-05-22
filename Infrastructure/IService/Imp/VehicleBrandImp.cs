@@ -20,7 +20,7 @@ namespace Infrastructure.IService.Imp
             _unitofWork = unitofWork;
             _mapper = mapper;
         }
-    public async Task<VehiclesBrand> ChangeStatusVehicleBrand(Guid BrandId, string status)
+        public async Task<VehiclesBrand> ChangeStatusVehicleBrand(Guid BrandId, string status)
         {
             var brand = await _unitofWork.VehiclesBrand.GetById(BrandId);
             brand.Status = status;
@@ -31,7 +31,8 @@ namespace Infrastructure.IService.Imp
 
         public async Task<VehiclesBrand> CreateVehicleBrand(string vehiclesBrandName)
         {
-            var brand = await _unitofWork.VehiclesBrand.GetBrandbyName(vehiclesBrandName);
+            var check = await _unitofWork.VehiclesBrand.GetBrandbyName(vehiclesBrandName);
+            VehiclesBrand brand = new VehiclesBrand();
             brand.VehiclesBrandName = vehiclesBrandName;
             brand.CreatedDate = DateTime.Now;
             brand.Status = "ACTIVE";
@@ -42,9 +43,9 @@ namespace Infrastructure.IService.Imp
 
         public async Task<List<VehiclesBrand>> GetAllVehiclesBrand()
         {
-            var brand = _unitofWork.VehiclesBrand.GetAll();
-            var brandView = _mapper.Map<List<VehiclesBrand>>(brand);
-            return brandView;
+            var brand = await _unitofWork.VehiclesBrand.GetAll();
+            //var brandView = _mapper.Map<List<VehiclesBrand>>(brand);
+            return brand;
         }
 
         public async Task<VehiclesBrand> GetVehiclesBrandByID(Guid id)
@@ -59,7 +60,7 @@ namespace Infrastructure.IService.Imp
             brand.VehiclesBrandName = update.BrandName;
             await _unitofWork.VehiclesBrand.Update(brand);
             await _unitofWork.Commit();
-            return brand;   
+            return brand;
         }
     }
 }

@@ -13,30 +13,30 @@ namespace CapstoneAutoCareApi.Controllers
         {
             _vehicleBrandService = vehicleBrandService;
         }
-        [HttpGet("Get All")]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return NoContent();
+            return Ok(await _vehicleBrandService.GetAllVehiclesBrand());
         }
         [HttpGet]
-        public async Task<IActionResult> GetByID(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            return NoContent();
+            return Ok(await _vehicleBrandService.GetVehiclesBrandByID(id));
         }
         [HttpPost]
-        public async Task<IActionResult> CreateBrand(string brandName)
+        public async Task<IActionResult> Post(string brandName)
         {
-            return NotFound();
+            return Ok(await _vehicleBrandService.CreateVehicleBrand(brandName));
         }
-        [HttpPut("Update status")]
-        public async Task<IActionResult> UpdateStatus(Guid id, string status)
-        {
-            return NotFound();
-        }
-        [HttpPut]
-        public async Task<IActionResult> UpdateBrand(Guid id, VehicleBrandUpdate brandName)
-        {
-            return NotFound();
-        }
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateStatus(Guid id, string status)
+        //{
+        //    return NotFound();
+        //}
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateBrand(Guid id, VehicleBrandUpdate brandName)
+        //{
+        //    return NotFound();
+        //}
     }
 }

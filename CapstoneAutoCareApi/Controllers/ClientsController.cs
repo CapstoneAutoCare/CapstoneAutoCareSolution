@@ -25,24 +25,22 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> GetClients()
+        public async Task<ActionResult<IEnumerable<Client>>> GetAll()
         {
-            return NotFound();
-
+            return Ok(await _customerService.GetAll());
         }
 
         [HttpGet]
-        public async Task<ActionResult<Client>> GetClient(Guid id)
+        public async Task<ActionResult<Client>> GetById(Guid id)
         {
-            return NotFound();
-
+            return Ok(await _customerService.GetById(id));
         }
 
-        [HttpPut]
-        public async Task<IActionResult> PutClient(Guid id, Client client)
-        {
-            return NoContent();
-        }
+        //[HttpPut]
+        //public async Task<IActionResult> PutClient(Guid id, Client client)
+        //{
+        //    return NoContent();
+        //}
 
         [HttpPost]
         public async Task<ActionResult<Client>> PostClient(CreateClient client)
@@ -50,11 +48,10 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _customerService.CreateCustomer(client));
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteClient(Guid id)
-        {
-
-            return NoContent();
-        }
+        //[HttpDelete]
+        //public async Task<IActionResult> DeleteClient(Guid id)
+        //{
+        //    return NoContent();
+        //}
     }
 }

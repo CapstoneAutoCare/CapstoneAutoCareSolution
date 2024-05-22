@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.VehicleModel;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,30 +14,30 @@ namespace CapstoneAutoCareApi.Controllers
         {
             _VMService = vehicleModelService;
         }
-        [HttpGet("Get All")]
-        public async Task<IActionResult> GetAllVehicleModels()
+        [HttpGet]
+        public async Task<ActionResult<List<ReponseVehicleModel>>> GetAll()
         {
-            return NoContent();
+            return Ok(await _VMService.GetAllVehiclesModels());
         }
         [HttpGet]
-        public async Task<IActionResult> GetVehicleModelByID(Guid it)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            return NoContent();
+            return Ok(await _VMService.GetVehicleById(id));
         }
-        [HttpPut("Status")] 
-        public async Task<IActionResult> UpdateStatus(Guid id, string status)
-        {
-            return NotFound();
-        }
-        [HttpPut]
-        public async Task<IActionResult> UpdateVehicleModel(Guid id, UpdateVehicleModel model)
-        {
-            return NotFound();
-        }
+        //[HttpPut] 
+        //public async Task<IActionResult> UpdateStatus(Guid id, string status)
+        //{
+        //    return NotFound();
+        //}
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateVehicleModel(Guid id, UpdateVehicleModel model)
+        //{
+        //    return NotFound();
+        //}
         [HttpPost]
-        public async Task<IActionResult> CreateVehicleModels(CreateVehicleModel createVehicleModel)
+        public async Task<IActionResult> Post(CreateVehicleModel createVehicleModel)
         {
-            return NotFound();
+            return Ok(await _VMService.CreateNewVehicleModel(createVehicleModel));
         }
     }
 }
