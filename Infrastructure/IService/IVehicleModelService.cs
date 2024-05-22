@@ -14,8 +14,8 @@ namespace Infrastructure.IService
         Task<ReponseVehicleModel> GetVehicleById(Guid id);
         Task<ReponseVehicleModel> CreateNewVehicleModel(CreateVehicleModel vehicleModel);
         Task<ReponseVehicleModel> UpdateVehicleModel(Guid id, UpdateVehicleModel vehicleModel);
-        Task<ReponseVehicleModel> UpdateStatusVehicleModel(Guid id,string status);]
-        Task<List<ReponseVehicleModel>> GetAllVehicles();
+        Task<ReponseVehicleModel> UpdateStatusVehicleModel(Guid id,string status);
+        Task<List<ReponseVehicleModel>> GetAllVehiclesModels();
 
     }
 }

@@ -61,8 +61,8 @@ namespace Infrastructure.IUnitofWork.Imp
             //_SparePartsRepository = new SparePartsRepositoryImp(_context);
             //_StaffCare = new StaffCareRepositoryImp(_context);
             //_Technician = new TechnicianCostRepositoryImp(_context);
-            //_VehicleModel = new VehicleModelRepositoryImp(_context);
-            //_VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
+            _VehicleModel = new VehicleModelRepositoryImp(_context);
+            _VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
             //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
             //_Vehicles = new VehiclesRepositoryImp(_context);
         }

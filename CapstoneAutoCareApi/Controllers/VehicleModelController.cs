@@ -34,7 +34,7 @@ namespace CapstoneAutoCareApi.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateVehicleModels(CreateVehicleModel)
+        public async Task<IActionResult> CreateVehicleModels(CreateVehicleModel createVehicleModel)
         {
             return NotFound();
         }

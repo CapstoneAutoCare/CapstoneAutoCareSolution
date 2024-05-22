@@ -31,6 +31,8 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ReponseVehicleModel>(model);
         }
 
+        
+
         public async Task<List<ReponseVehicleModel>> GetAllVehiclesModels()
         {
             var models = await _unitofWork.VehicleModel.GetAll();
