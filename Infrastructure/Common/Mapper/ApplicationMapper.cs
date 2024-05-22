@@ -42,6 +42,34 @@ namespace Infrastructure.Common.Mapper
                 Email = src.Email
             }));
 
+            CreateMap<CreateCustomerCare, CustomerCare>()
+            .ForMember(c => c.Address, act => act.MapFrom(src => src.Address))
+            .ForMember(c => c.FirstName, act => act.MapFrom(src => src.FirstName))
+            .ForMember(c => c.LastName, act => act.MapFrom(src => src.LastName))
+            .ForMember(c => c.Birthday, act => act.MapFrom(src => src.Birthday))
+            .ForMember(p => p.Account, act => act.MapFrom(src => new Account
+            {
+                Logo = src.Logo,
+                Gender = src.Gender,
+                Password = src.Password,
+                Phone = src.Phone,
+                Email = src.Email
+            }));
+
+            CreateMap<CreateStaffCare, StaffCare>()
+            .ForMember(c => c.Address, act => act.MapFrom(src => src.Address))
+            .ForMember(c => c.FirstName, act => act.MapFrom(src => src.FirstName))
+            .ForMember(c => c.LastName, act => act.MapFrom(src => src.LastName))
+            .ForMember(c => c.Birthday, act => act.MapFrom(src => src.Birthday))
+            .ForMember(p => p.Account, act => act.MapFrom(src => new Account
+            {
+                Logo = src.Logo,
+                Gender = src.Gender,
+                Password = src.Password,
+                Phone = src.Phone,
+                Email = src.Email
+            }));
+
             CreateMap<Admin, ResponseAdmin>()
             .ForMember(c => c.Email, act => act.MapFrom(src => src.Account.Email))
             .ForMember(c => c.AccountId, act => act.MapFrom(src => src.AccountId))
@@ -71,6 +99,9 @@ namespace Infrastructure.Common.Mapper
             .ForMember(c => c.FirstName, act => act.MapFrom(src => src.FirstName))
             .ForMember(c => c.LastName, act => act.MapFrom(src => src.LastName))
             .ForMember(c => c.Birthday, act => act.MapFrom(src => src.Birthday));
+
+
+
 
             CreateMap<AccessToken, AuthenResponseMessToken>()
                 .ForMember(p => p.Token, act => act.MapFrom(src => src.Token))
