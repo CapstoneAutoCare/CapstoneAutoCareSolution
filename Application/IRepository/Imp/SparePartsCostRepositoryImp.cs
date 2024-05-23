@@ -22,7 +22,7 @@ namespace Application.IRepository.Imp
 
         public async Task<SparePartsItem> GetByID(Guid id)
         {
-            var spi = await _context.Set<SparePartsItem>().Include(p => p.SpareParts).FirstOrDefaultAsync(x => x.Equals(id));
+            var spi = await _context.Set<SparePartsItem>().Include(p => p.SpareParts).FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id));
             if (spi == null)
             {
                 throw new Exception("Not Found");

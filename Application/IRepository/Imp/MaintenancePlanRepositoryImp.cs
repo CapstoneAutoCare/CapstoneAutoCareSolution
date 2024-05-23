@@ -22,7 +22,7 @@ namespace Application.IRepository.Imp
 
         public async Task<MaintenancePlan> GetByID(Guid id)
         {
-            var mp = await _context.Set<MaintenancePlan>().Include(p => p.MaintananceSchedule).FirstOrDefaultAsync(x => x.Equals(id));
+            var mp = await _context.Set<MaintenancePlan>().Include(p => p.MaintananceSchedule).FirstOrDefaultAsync(x => x.MaintenancePlanId.Equals(id));
             if (mp == null)
             {
                 throw new Exception("Not Found");

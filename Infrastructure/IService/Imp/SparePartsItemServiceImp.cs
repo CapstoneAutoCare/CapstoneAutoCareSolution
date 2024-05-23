@@ -1,5 +1,9 @@
-﻿using Infrastructure.Common.Request.Sparepart;
+﻿using AutoMapper;
+using Domain.Entities;
+using Infrastructure.Common.Request.Sparepart;
+using Infrastructure.Common.Response.ReponseMaintenancePlan;
 using Infrastructure.Common.Response.ReponseSparePart;
+using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +12,29 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.IService.Imp
 {
-    public class SparePartsItemServiceImp : ISparePartsService
+    public class SparePartsItemServiceImp : ISparePartsItemService
     {
-        public Task<ResponseSparePart> Create(CreateSpareParts create)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public SparePartsItemServiceImp(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
+        public Task<ResponseSparePartsItem> Create(CreateSpareParts create)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ResponseSparePart>> GetAll()
+        public async Task<List<ResponseSparePartsItem>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<ResponseSparePartsItem>>(await _unitOfWork.SparePartsItem.GetAll());
         }
 
-        public Task<ResponseSparePart> GetById(Guid id)
+        public async Task<ResponseSparePartsItem> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var spi = await _unitOfWork.SparePartsItem.GetByID(id);
+            return _mapper.Map<ResponseSparePartsItem>(spi);
         }
     }
 }

@@ -1,5 +1,9 @@
-﻿using Infrastructure.Common.Request.MaintananceServices;
+﻿using AutoMapper;
+using Domain.Entities;
+using Infrastructure.Common.Request.MaintananceServices;
+using Infrastructure.Common.Response.ReponseMaintenancePlan;
 using Infrastructure.Common.Response.ReponseServicesCare;
+using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +14,27 @@ namespace Infrastructure.IService.Imp
 {
     public class ServicesCaresSerivceImp : IServiceCaresService
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public ServicesCaresSerivceImp(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
         public Task<ResponseServicesCare> Create(CreateServicesCare create)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ResponseServicesCare>> GetAll()
+        public async Task<List<ResponseServicesCare>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<ResponseServicesCare>>(await _unitOfWork.ServiceCare.GetAll());
         }
 
-        public Task<ResponseServicesCare> GetById(Guid id)
+        public async Task<ResponseServicesCare> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var maintanance_plan = await _unitOfWork.ServiceCare.GetByID(id);
+            return _mapper.Map<ResponseServicesCare>(maintanance_plan);
         }
     }
 }
