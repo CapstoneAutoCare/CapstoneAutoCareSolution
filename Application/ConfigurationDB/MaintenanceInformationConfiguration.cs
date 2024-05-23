@@ -21,6 +21,7 @@ namespace Application.ConfigurationDB
                .HasColumnType("datetime");
             builder.Property(e => e.FinishedDate)
                 .HasColumnType("datetime");
+            builder.HasIndex(e => e.BookingId).IsUnique();
 
             builder.HasOne(d => d.CustomerCare)
                     .WithMany(d => d.InformationMaintenances)

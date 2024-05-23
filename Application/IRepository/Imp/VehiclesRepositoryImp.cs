@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,21 @@ namespace Application.IRepository.Imp
     {
         public VehiclesRepositoryImp(AppDBContext context) : base(context)
         {
+        }
+
+        public async Task<List<Vehicles>> GetAll()
+        {
+            return await _context.Set<Vehicles>().Include(c => c.Client).ToListAsync();
+        }
+
+        public async Task<Vehicles> GetById(Guid id)
+        {
+            var vehicle = await _context.Set<Vehicles>().Include(c => c.Client).FirstOrDefaultAsync(c => c.VehiclesId == id);
+            if (vehicle == null)
+            {
+                throw new Exception("Not Found");
+            }
+            return vehicle;
         }
     }
 }

@@ -23,7 +23,9 @@ namespace Domain.Entities
         public DateTime FinishedDate { get; set; }
         public string Note { get; set; }
         public Guid CustomerCareId { get; set; }
+        public Guid BookingId { get; set; }
         public CustomerCare CustomerCare { get; set; }
+        public Booking Booking { get; set; }
         public ICollection<MaintenanceItem> MaintenanceItems { get; set; }
         public ICollection<Technician> Technicians { get; set; }
         public ICollection<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }

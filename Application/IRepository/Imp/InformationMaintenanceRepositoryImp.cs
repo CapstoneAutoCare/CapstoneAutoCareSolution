@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,27 @@ namespace Application.IRepository.Imp
     {
         public InformationMaintenanceRepositoryImp(AppDBContext context) : base(context)
         {
+        }
+
+        public async Task<List<MaintenanceInformation>> GetAll()
+        {
+            return await _context.Set<MaintenanceInformation>()
+                .Include(c => c.Booking)
+                .Include(c=>c.OdoHistory)
+                .ToListAsync();
+        }
+
+        public async Task<MaintenanceInformation> GetById(Guid id)
+        {
+            var mainifor = await _context.Set<MaintenanceInformation>()
+                .Include(c => c.Booking)
+                .Include(c => c.OdoHistory)
+                .FirstOrDefaultAsync(c => c.BookingId == id);
+            if (mainifor == null)
+            {
+                throw new Exception("Not Found");
+            }
+            return mainifor;
         }
     }
 }
