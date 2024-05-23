@@ -21,7 +21,7 @@ namespace Infrastructure.IService.Imp
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<ReponseMaintenanceSchedule> Create(CreateMaintenanceSchedule create)
+        public async Task<ResponseMaintenanceSchedule> Create(CreateMaintenanceSchedule create)
         {
             var maintanance_schedule = _mapper.Map<MaintananceSchedule>(create);
             await _unitOfWork.VehicleModel.GetById(maintanance_schedule.VehicleModelId);
@@ -32,17 +32,17 @@ namespace Infrastructure.IService.Imp
             // chưa vo unit mở nó lên
             await _unitOfWork.Commit();
 
-            return _mapper.Map<ReponseMaintenanceSchedule>(maintanance_schedule);
+            return _mapper.Map<ResponseMaintenanceSchedule>(maintanance_schedule);
         }
 
-        public async Task<List<ReponseMaintenanceSchedule>> GetAll()
-        {            return _mapper.Map<List<ReponseMaintenanceSchedule>>(await _unitOfWork.MaintenanceSchedule.GetAll());
+        public async Task<List<ResponseMaintenanceSchedule>> GetAll()
+        {            return _mapper.Map<List<ResponseMaintenanceSchedule>>(await _unitOfWork.MaintenanceSchedule.GetAll());
         }
 
-        public async Task<ReponseMaintenanceSchedule> GetById(Guid id)
+        public async Task<ResponseMaintenanceSchedule> GetById(Guid id)
         {
             var maintanance_schedule = await _unitOfWork.MaintenanceSchedule.GetByID(id);
-            return _mapper.Map<ReponseMaintenanceSchedule>(maintanance_schedule);
+            return _mapper.Map<ResponseMaintenanceSchedule>(maintanance_schedule);
         }
     }
 }

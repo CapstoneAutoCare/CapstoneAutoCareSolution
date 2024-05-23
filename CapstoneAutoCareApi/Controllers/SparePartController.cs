@@ -1,4 +1,8 @@
-﻿using Infrastructure.IService;
+﻿using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.Sparepart;
+using Infrastructure.Common.Response.ReponseSparePart;
+using Infrastructure.Common.Response.ReponseVehicleModel;
+using Infrastructure.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CapstoneAutoCareApi.Controllers
@@ -7,10 +11,26 @@ namespace CapstoneAutoCareApi.Controllers
     [ApiController]
     public class SparePartController : ControllerBase
     {
-       private readonly ISparePartsService _sparePartService;
+        private readonly ISparePartsService _sparePartService;
         public SparePartController(ISparePartsService sparePartService)
         {
             _sparePartService = sparePartService;
         }
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseSparePart>>> GetAll()
+        {
+            return Ok(await _sparePartService.GetAll());
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            return Ok(await _sparePartService.GetById(id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> Post(CreateSpareParts create)
+        {
+            return Ok(await _sparePartService.Create(create));
+        }
+
     }
 }

@@ -11,11 +11,11 @@ namespace Infrastructure.IService
 {
     public interface IVehicleModelService
     {
-        Task<ReponseVehicleModel> GetVehicleById(Guid id);
-        Task<ReponseVehicleModel> CreateNewVehicleModel(CreateVehicleModel vehicleModel);
-        Task<ReponseVehicleModel> UpdateVehicleModel(Guid id, UpdateVehicleModel vehicleModel);
-        Task<ReponseVehicleModel> UpdateStatusVehicleModel(Guid id,string status);
-        Task<List<ReponseVehicleModel>> GetAllVehiclesModels();
+        Task<ResponseVehicleModel> GetVehicleById(Guid id);
+        Task<ResponseVehicleModel> CreateNewVehicleModel(CreateVehicleModel vehicleModel);
+        Task<ResponseVehicleModel> UpdateVehicleModel(Guid id, UpdateVehicleModel vehicleModel);
+        Task<ResponseVehicleModel> UpdateStatusVehicleModel(Guid id,string status);
+        Task<List<ResponseVehicleModel>> GetAllVehiclesModels();
 
     }
 }

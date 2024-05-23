@@ -58,6 +58,28 @@ builder.Services.AddTransient<ICustomerCareService, CustomerCareServiceImp>();
 builder.Services.AddTransient<IMaintananceScheduleRepository, MaintananceScheduleRepositoryImp>();
 builder.Services.AddTransient<IMaintenanceScheduleService, MaintenanceScheduleServiceImp>();
 
+//Maintenance Plan
+builder.Services.AddTransient<IMaintenancePlanRepository, MaintenancePlanRepositoryImp>();
+builder.Services.AddTransient<IMaintenancePlanService, MaintenancePlanServiceImp>();
+
+//SparePart
+builder.Services.AddTransient<ISparePartsItemRepository, SparePartsItemRepositoryImp>();
+builder.Services.AddTransient<ISparePartsItemService, SparePartsServiceImp>();
+
+//SparePartItem
+builder.Services.AddTransient<ISparePartsItemRepository, SparePartsItemRepositoryImp>();
+builder.Services.AddTransient<ISparePartsItemService, SparePartsServiceImp>();
+
+
+//Services Care
+builder.Services.AddTransient<IServiceCareRepository, ServiceCareRepositoryImp>();
+builder.Services.AddTransient<IServiceCaresService, ServicesCaresSerivceImp>();
+
+//Maintanance Services
+builder.Services.AddTransient<IMaintenanceServiceRepository, MaintananceServicesRepositoryImp>();
+builder.Services.AddTransient<IMaintananceServicesService, IMaintananceServicesService>();
+
+
 
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();

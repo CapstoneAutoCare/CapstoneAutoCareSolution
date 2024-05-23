@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Common.Response.ReponseMaintenancePlan
 {
-    public class ReponseMaintenancePlan
+    public class ResponseMaintenancePlan
     {
         public Guid MaintenancePlanId { get; set; }
         public string MaintenancePlanName { get; set; }
