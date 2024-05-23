@@ -54,6 +54,11 @@ builder.Services.AddTransient<IStaffCareService, StaffCareServiceImp>();
 builder.Services.AddTransient<ICustomerCareRepository, CustomerCareRepositoryImp>();
 builder.Services.AddTransient<ICustomerCareService, CustomerCareServiceImp>();
 
+//Maintenance Schedule
+builder.Services.AddTransient<IMaintananceScheduleRepository, MaintananceScheduleRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceScheduleService, MaintenanceScheduleServiceImp>();
+
+
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 
@@ -76,7 +81,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 
