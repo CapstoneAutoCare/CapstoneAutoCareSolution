@@ -31,8 +31,8 @@ namespace Infrastructure.IService.Imp
             var booking = _mapper.Map<Booking>(create);
             var email = _tokensHandler.ClaimsFromToken();
             var account = await _unitOfWork.Account.Profile(email);
-            await _unitOfWork.Client.GetById(account.Client.ClientId);
-            booking.ClientId = account.Client.ClientId;
+            var client = await _unitOfWork.Client.GetById(account.Client.ClientId);
+            booking.ClientId = client.ClientId;
 
             await _unitOfWork.Vehicles.GetById(booking.VehicleId);
             await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
