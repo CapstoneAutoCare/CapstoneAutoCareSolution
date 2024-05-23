@@ -225,7 +225,31 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.Image, act => act.MapFrom(src => src.Image))
                 .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
                 .ForMember(p => p.Status, act => act.MapFrom(src => src.Status));
-            //
+
+
+            // Create Vehicle
+            CreateMap<CreateVehicle, Vehicles>()
+               .ForMember(p => p.Color, act => act.MapFrom(src => src.Color))
+               .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
+               .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
+               .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo));
+
+
+
+            //Maintenance Schedule
+            CreateMap<CreateMaintenanceSchedule, MaintananceSchedule>()
+                .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
+                .ForMember(p => p.Description, act => act.MapFrom(src => src.Description))
+                .ForMember(p => p.VehicleModelId, act => act.MapFrom(src => src.VehicleModelId));
+
+            CreateMap<MaintananceSchedule, ReponseMaintenanceSchedule>()
+                .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId))
+                .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
+                .ForMember(p => p.Description, act => act.MapFrom(src => src.Description))
+                .ForMember(p => p.CreateDate, act => act.MapFrom(src => src.CreateDate))
+                .ForMember(p => p.VehicleModelId, act => act.MapFrom(src => src.VehicleModelId))
+                .ForMember(p => p.VihecleModelName, act => act.MapFrom(src => src.VehicleModel.VehicleModelName));
+
         }
     }
 }
