@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.IService;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,9 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _sparePartsItemService.GetById(id));
         }
         [HttpPost]
-        public async Task<IActionResult> Post(CreateMaintenanceSchedule createMS)
+        public async Task<IActionResult> Post(CreateSpareParts create)
         {
-            return Ok(await _sparePartsItemService.Create(createMS));
+            return Ok(await _sparePartsItemService.Create(create));
         }
 
     }

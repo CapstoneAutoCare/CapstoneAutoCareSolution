@@ -6,6 +6,7 @@ using Infrastructure.Common.Request.MaintenancePlan;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Request.Sparepart;
+using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Request.VehicleRequest;
 using Infrastructure.Common.Response;
@@ -19,6 +20,7 @@ using Infrastructure.Common.Response.ResponseCenter;
 using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.ResponseStaffCare;
+using Infrastructure.Common.Response.ResponseVehicles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -230,7 +232,23 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.Image, act => act.MapFrom(src => src.Image))
                 .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
                 .ForMember(p => p.Status, act => act.MapFrom(src => src.Status));
-            #region Maintenance Schedule
+
+
+            // Create Vehicle
+            CreateMap<CreateVehicle, Vehicles>()
+               //.ForMember(p => p.VehicleModelId, act => act.MapFrom(src => src.VehicleModelId))
+               .ReverseMap();
+
+
+            CreateMap<Vehicles, ResponseVehicles>()
+               .ForMember(p => p.VehiclesBrandName, act => act.MapFrom(src => src.VehicleModel.VehiclesBrand.VehiclesBrandName))
+               .ForMember(p => p.VehicleModelName, act => act.MapFrom(src => src.VehicleModel.VehicleModelName))
+               .ForPath(p => p.VehiclesBrandId, act => act.MapFrom(src => src.VehicleModel.VehiclesBrandId))
+               //.ForMember(p => p.Color, act => act.MapFrom(src => src.Color))
+               //.ForMember(p => p.Description, act => act.MapFrom(src => src.Description))
+               .ReverseMap();
+
+            //Maintenance Schedule
             CreateMap<CreateMaintenanceSchedule, MaintananceSchedule>()
                 .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
                 .ForMember(p => p.Description, act => act.MapFrom(src => src.Description))
