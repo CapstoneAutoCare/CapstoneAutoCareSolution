@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Response.ReponseSparePart
+namespace Infrastructure.Common.Request.Sparepart
 {
-    public class ReponseSparePartsItem
+    public class CreateSparePartsItem
     {
-        public Guid SparePartsItemtId { get; set; }
-        public double OriginalCost {  get; set; }
         public double ActuralCost { get; set; }
         public string Status { get; set; }
-        public DateTime CreatedDate { get; set; }
         public Guid SparePartsId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
     }

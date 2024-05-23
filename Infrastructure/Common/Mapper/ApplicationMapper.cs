@@ -1,14 +1,20 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.ModelSecurity;
+using Infrastructure.Common.Request.MaintananceServices;
+using Infrastructure.Common.Request.MaintenancePlan;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Request.RequestVehicles;
+using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Request.VehicleRequest;
 using Infrastructure.Common.Response;
+using Infrastructure.Common.Response.ReponseMaintenancePlan;
 using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
+using Infrastructure.Common.Response.ReponseServicesCare;
+using Infrastructure.Common.Response.ReponseSparePart;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseBooking;
@@ -250,7 +256,7 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.Description, act => act.MapFrom(src => src.Description))
                 .ForMember(p => p.VehicleModelId, act => act.MapFrom(src => src.VehicleModelId));
 
-            CreateMap<MaintananceSchedule, ReponseMaintenanceSchedule>()
+            CreateMap<MaintananceSchedule, ResponseMaintenanceSchedule>()
                 .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId))
                 .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
                 .ForMember(p => p.Description, act => act.MapFrom(src => src.Description))
@@ -264,15 +270,105 @@ namespace Infrastructure.Common.Mapper
             CreateMap<RequestBooking, Booking>()
                 .ForMember(p => p.VehicleId, act => act.MapFrom(src => src.VehicleId))
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
-                .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId))
+                //.ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId))
                 .ReverseMap();
 
             CreateMap<Booking, ResponseBooking>()
                 //.ForMember(p => p.CreateDate, act => act.MapFrom(src => src.CreateDate))
                 .ReverseMap();
 
+            #region Maintanance Plan
+            CreateMap<CreateMaintanancePlan, MaintenancePlan>()
+                .ForMember(p => p.MaintenancePlanName, act => act.MapFrom(src => src.MaintenancePlanName))
+                .ForMember(p => p.MaintenancePlanDescription, act => act.MapFrom(src => src.MaintenancePlanDescription))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId));
 
+            CreateMap<MaintenancePlan, ResponseMaintenancePlan>()
+                .ForMember(p => p.MaintenancePlanId, act => act.MapFrom(src => src.MaintenancePlanId))
+                .ForMember(p => p.MaintenancePlanName, act => act.MapFrom(src => src.MaintenancePlanName))
+                .ForMember(p => p.MaintenancePlanDescription, act => act.MapFrom(src => src.MaintenancePlanDescription))
+                .ForMember(p => p.CreateDate, act => act.MapFrom(src => src.CreateDate))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId));
+            #endregion
 
+            #region Spare Part
+            CreateMap<CreateSpareParts, SpareParts>()
+                .ForMember(p => p.SparePartName, act => act.MapFrom(src => src.SparePartName))
+                .ForMember(p => p.SparePartDescription, act => act.MapFrom(src => src.SparePartDescription))
+                .ForMember(p => p.SparePartType, act => act.MapFrom(src => src.SparePartType))
+                .ForMember(p => p.OriginalPrice, act => act.MapFrom(src => src.OriginalPrice))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.MaintenancePlanId, act => act.MapFrom(src => src.MaintenancePlanId));
+            CreateMap<SpareParts, ResponseSparePart>()
+                .ForMember(p => p.SparePartId, act => act.MapFrom(src => src.SparePartId))
+                .ForMember(p => p.SparePartName, act => act.MapFrom(src => src.SparePartName))
+                .ForMember(p => p.SparePartDescription, act => act.MapFrom(src => src.SparePartDescription))
+                .ForMember(p => p.SparePartType, act => act.MapFrom(src => src.SparePartType))
+                .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
+                .ForMember(p => p.OriginalPrice, act => act.MapFrom(src => src.OriginalPrice))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.MaintenancePlanId, act => act.MapFrom(src => src.MaintenancePlanId))
+                .ForMember(p => p.MaintenancePlanName, act => act.MapFrom(src => src.MaintenancePlan.MaintenancePlanName));
+            #endregion
+
+            #region Sparepart Item
+            CreateMap<CreateSparePartsItem, SparePartsItem>()
+                .ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.SparePartsId, act => act.MapFrom(src => src.SparePartsId))
+                .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId));
+            CreateMap<SparePartsItem, ResponseSparePartsItem>()
+                .ForMember(p => p.SparePartsItemtId, act => act.MapFrom(src => src.SparePartsItemtId))
+                .ForMember(p => p.SparepartName, act => act.MapFrom(src => src.SpareParts.SparePartName))
+                .ForMember(p => p.OriginalCost, act => act.MapFrom(src => src.SpareParts.OriginalPrice))
+                .ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
+                .ForMember(p => p.SparePartsId, act => act.MapFrom(src => src.SparePartsId))
+                .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
+                .ForMember(p => p.MaintenanceCenterName, act => act.MapFrom(src => src.MaintenanceCenter.MaintenanceCenterName));
+            #endregion
+
+            #region Services Care
+            CreateMap<CreateServicesCare, ServiceCare>()
+                .ForMember(p => p.ServiceCareName, act => act.MapFrom(src => src.ServiceCareName))
+                .ForMember(p => p.ServiceCareDescription, act => act.MapFrom(src => src.ServiceCareDescription))
+                .ForMember(p => p.ServiceCareType, act => act.MapFrom(src => src.ServiceCareType))
+                .ForMember(p => p.OriginalPrice, act => act.MapFrom(src => src.OriginalPrice))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.MaintenancePlanId, act => act.MapFrom(src => src.MaintenancePlanId));
+            CreateMap<ServiceCare, ResponseServicesCare>()
+                .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
+                .ForMember(p => p.ServiceCareName, act => act.MapFrom(src => src.ServiceCareName))
+                .ForMember(p => p.ServiceCareDescription, act => act.MapFrom(src => src.ServiceCareDescription))
+                .ForMember(p => p.ServiceCareType, act => act.MapFrom(src => src.ServiceCareType))
+                .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
+                .ForMember(p => p.OriginalPrice, act => act.MapFrom(src => src.OriginalPrice))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.MaintenancePlanId, act => act.MapFrom(src => src.MaintenancePlanId))
+                .ForMember(p => p.MaintenancePlanName, act => act.MapFrom(src => src.MaintenancePlan.MaintenancePlanName));
+            #endregion
+
+            #region Maintanance Service
+            CreateMap<CreateMaintananceServices, MaintenanceService>()
+                .ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceId))
+                .ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
+                .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId));
+            CreateMap<MaintenanceService, ResponseMaintananceServices>()
+                .ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceId))
+                .ForMember(p => p.ServicesCareName, act => act.MapFrom(src => src.ServiceCare.ServiceCareName))
+                .ForMember(p => p.OriginalCost, act => act.MapFrom(src => src.ServiceCare.OriginalPrice))
+                .ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
+                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
+                .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
+                .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
+                .ForMember(p => p.MaintenanceCenterName, act => act.MapFrom(src => src.MaintenanceCenter.MaintenanceCenterName));
+            #endregion
         }
     }
 }

@@ -10,8 +10,8 @@ namespace Infrastructure.IService
 {
     public interface IMaintenanceScheduleService
     {
-        Task<List<ReponseMaintenanceSchedule>> GetAll();
-        Task<ReponseMaintenanceSchedule> GetById(Guid id);
-        Task<ReponseMaintenanceSchedule> Create(CreateMaintenanceSchedule create);
+        Task<List<ResponseMaintenanceSchedule>> GetAll();
+        Task<ResponseMaintenanceSchedule> GetById(Guid id);
+        Task<ResponseMaintenanceSchedule> Create(CreateMaintenanceSchedule create);
     }
 }
