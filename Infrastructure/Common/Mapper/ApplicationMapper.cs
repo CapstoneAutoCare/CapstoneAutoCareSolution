@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.ModelSecurity;
+using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Request.VehicleRequest;
 using Infrastructure.Common.Response;
+using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseCenter;
@@ -223,15 +225,7 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.Image, act => act.MapFrom(src => src.Image))
                 .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
                 .ForMember(p => p.Status, act => act.MapFrom(src => src.Status));
-
-            // Create Vehicle
-            CreateMap<CreateVehicle, Vehicles>()
-               .ForMember(p => p.Color, act => act.MapFrom(src => src.Color))
-               .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
-               .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo))
-               .ForMember(p => p.Odo, act => act.MapFrom(src => src.Odo));
-
-
+            //
         }
     }
 }

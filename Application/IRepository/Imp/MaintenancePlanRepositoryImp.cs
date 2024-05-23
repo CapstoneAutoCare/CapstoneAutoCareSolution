@@ -13,5 +13,15 @@ namespace Application.IRepository.Imp
         public MaintenancePlanRepositoryImp(AppDBContext context) : base(context)
         {
         }
+
+        public Task<List<MaintenancePlan>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MaintenancePlan> GetByID(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
