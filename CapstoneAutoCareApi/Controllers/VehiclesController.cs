@@ -14,30 +14,19 @@ namespace CapstoneAutoCareApi.Controllers
     [ApiController]
     public class VehiclesController : ControllerBase
     {
-        private readonly AppDBContext _context;
-
-        public VehiclesController(AppDBContext context)
-        {
-            _context = context;
-        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehicles>>> GetVehicles()
         {
-            return await _context.Vehicles.ToListAsync();
+            return NotFound();
+
         }
 
         [HttpGet]
         public async Task<ActionResult<Vehicles>> GetVehicles(Guid id)
         {
-            var vehicles = await _context.Vehicles.FindAsync(id);
 
-            if (vehicles == null)
-            {
-                return NotFound();
-            }
-
-            return vehicles;
+            return NotFound();
         }
 
         [HttpPut]
@@ -48,12 +37,10 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Vehicles>> PostVehicles(Vehicles vehicles)
+        public async Task<ActionResult<Vehicles>> Post(Vehicles vehicles)
         {
-            _context.Vehicles.Add(vehicles);
-            await _context.SaveChangesAsync();
+            return NoContent();
 
-            return CreatedAtAction("GetVehicles", new { id = vehicles.VehiclesId }, vehicles);
         }
 
         [HttpDelete]
@@ -63,6 +50,6 @@ namespace CapstoneAutoCareApi.Controllers
             return NoContent();
         }
 
-        
+
     }
 }
