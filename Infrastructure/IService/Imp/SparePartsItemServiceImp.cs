@@ -21,7 +21,8 @@ namespace Infrastructure.IService.Imp
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public Task<ResponseSparePartsItem> Create(CreateSpareParts create)
+
+        public Task<ResponseSparePartsItem> Create(CreateSparePartsItem create)
         {
             throw new NotImplementedException();
         }

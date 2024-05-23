@@ -73,12 +73,12 @@ builder.Services.AddTransient<IMaintenancePlanRepository, MaintenancePlanReposit
 builder.Services.AddTransient<IMaintenancePlanService, MaintenancePlanServiceImp>();
 
 //SparePart
-builder.Services.AddTransient<ISparePartsItemRepository, SparePartsCostRepositoryImp>();
-builder.Services.AddTransient<ISparePartsItemService, SparePartsServiceImp>();
+builder.Services.AddTransient<ISparePartsRepository, SparePartsRepositoryImp>();
+builder.Services.AddTransient<ISparePartsService, SparePartsServiceImp>();
 
 //SparePartItem
 builder.Services.AddTransient<ISparePartsItemRepository, SparePartsCostRepositoryImp>();
-builder.Services.AddTransient<ISparePartsItemService, SparePartsServiceImp>();
+builder.Services.AddTransient<ISparePartsItemService, SparePartsItemServiceImp>();
 
 
 //Services Care
