@@ -3,6 +3,7 @@ using Domain.Entities;
 using Infrastructure.Common.ModelSecurity;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Request.VehicleRequest;
@@ -10,6 +11,7 @@ using Infrastructure.Common.Response;
 using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseAdmin;
+using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCenter;
 using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.Common.Response.ResponseCustomerCare;
@@ -255,6 +257,21 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.CreateDate, act => act.MapFrom(src => src.CreateDate))
                 .ForMember(p => p.VehicleModelId, act => act.MapFrom(src => src.VehicleModelId))
                 .ForMember(p => p.VihecleModelName, act => act.MapFrom(src => src.VehicleModel.VehicleModelName));
+
+
+            // Create Bookiing
+
+            CreateMap<RequestBooking, Booking>()
+                .ForMember(p => p.VehicleId, act => act.MapFrom(src => src.VehicleId))
+                .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
+                .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId))
+                .ReverseMap();
+
+            CreateMap<Booking, ResponseBooking>()
+                //.ForMember(p => p.CreateDate, act => act.MapFrom(src => src.CreateDate))
+                .ReverseMap();
+
+
 
         }
     }

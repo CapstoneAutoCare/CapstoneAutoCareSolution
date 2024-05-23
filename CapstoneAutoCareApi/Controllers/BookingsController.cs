@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Application;
 using Domain.Entities;
+using Infrastructure.IService;
+using Infrastructure.Common.Request.RequestBooking;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -14,40 +16,45 @@ namespace CapstoneAutoCareApi.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
+        private readonly IBookingService _bookingsService;
 
+        public BookingsController(IBookingService bookingsService)
+        {
+            _bookingsService = bookingsService;
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Booking>>> GetBookings()
         {
-            return NoContent();
+            return Ok(await _bookingsService.GetAll());
 
         }
 
         [HttpGet]
         public async Task<ActionResult<Booking>> GetBooking(Guid id)
         {
-            return NoContent();
+            return Ok(await _bookingsService.GetById(id));
 
         }
-        [HttpPut]
-        public async Task<IActionResult> PutBooking(Guid id, Booking booking)
-        {
+        //[HttpPut]
+        //public async Task<IActionResult> PutBooking(Guid id, Booking booking)
+        //{
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(Booking booking)
+        public async Task<ActionResult<Booking>> PostBooking(RequestBooking booking)
         {
-            return NoContent();
+            return Ok(await _bookingsService.Create(booking));
 
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteBooking(Guid id)
-        {
-            return NoContent();
-        }
+        //[HttpDelete]
+        //public async Task<IActionResult> DeleteBooking(Guid id)
+        //{
+        //    return NoContent();
+        //}
 
 
     }

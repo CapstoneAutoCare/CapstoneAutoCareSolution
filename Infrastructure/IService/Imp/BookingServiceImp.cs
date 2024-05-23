@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Entities;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.ISecurity;
@@ -24,19 +25,35 @@ namespace Infrastructure.IService.Imp
             _tokensHandler = tokensHandler;
         }
 
-        public Task<ResponseBooking> Create(RequestBooking create)
+        public async Task<ResponseBooking> Create(RequestBooking create)
         {
-            throw new NotImplementedException();
+
+            var booking = _mapper.Map<Booking>(create);
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            await _unitOfWork.Client.GetById(account.Client.ClientId);
+            booking.ClientId = account.Client.ClientId;
+
+            await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+            await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
+            await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+
+            booking.Status = "WAITING";
+            booking.CreatedDate = DateTime.Now;
+
+            await _unitOfWork.Booking.Add(booking);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseBooking>(booking);
         }
 
-        public Task<List<ResponseBooking>> GetAll()
+        public async Task<List<ResponseBooking>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetAll());
         }
 
-        public Task<ResponseBooking> GetById(Guid id)
+        public async Task<ResponseBooking> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ResponseBooking>(await _unitOfWork.Booking.GetById(id));
         }
     }
 }

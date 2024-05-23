@@ -66,7 +66,7 @@ builder.Services.AddTransient<IVehiclesService, VehiclesServiceImp>();
 
 // Booking 
 builder.Services.AddTransient<IBookingRepository, BookingRepositoryImp>();
-//builder.Services.AddTransient<IMaintenanceScheduleService, MaintenanceScheduleServiceImp>();
+builder.Services.AddTransient<IBookingService, BookingServiceImp>();
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 

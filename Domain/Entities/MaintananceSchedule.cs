@@ -12,6 +12,7 @@ namespace Domain.Entities
         public MaintananceSchedule()
         {
             MaintenancePlans = new HashSet<MaintenancePlan>();
+            Bookings = new HashSet<Booking>();
         }
 
         [Key]
@@ -22,5 +23,6 @@ namespace Domain.Entities
         public Guid VehicleModelId { get; set; }
         public VehicleModel VehicleModel { get; set; }
         public ICollection<MaintenancePlan> MaintenancePlans { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
     }
 }
