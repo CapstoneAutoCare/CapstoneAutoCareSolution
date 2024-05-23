@@ -13,5 +13,15 @@ namespace Application.IRepository.Imp
         public ServiceCareCostRepositoryImp(AppDBContext context) : base(context)
         {
         }
+
+        public Task<List<MaintenanceService>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MaintenanceService> GetByID(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

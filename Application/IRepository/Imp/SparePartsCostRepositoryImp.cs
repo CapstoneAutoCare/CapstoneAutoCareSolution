@@ -13,5 +13,15 @@ namespace Application.IRepository.Imp
         public SparePartsCostRepositoryImp(AppDBContext context) : base(context)
         {
         }
+
+        public Task<List<SparePartsItem>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SparePartsItem> GetByID(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
