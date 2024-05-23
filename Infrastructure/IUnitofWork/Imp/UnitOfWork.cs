@@ -43,7 +43,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _context = context;
             _Account = new AccountRepositoryImp(_context);
             _Admin = new AdminRepositoryImp(_context);
-            //_Booking = new BookingRepositoryImp(_context);
+            _Booking = new BookingRepositoryImp(_context);
             _Client = new ClientRepositoryImp(_context);
             _CustomerCare = new CustomerCareRepositoryImp(_context);
             //_FeedBack = new FeedBackRepositoryImp(_context);
@@ -64,7 +64,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _VehicleModel = new VehicleModelRepositoryImp(_context);
             _VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
             //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
-            //_Vehicles = new VehiclesRepositoryImp(_context);
+            _Vehicles = new VehiclesRepositoryImp(_context);
         }
 
         public IAccountRepository Account => _Account;
