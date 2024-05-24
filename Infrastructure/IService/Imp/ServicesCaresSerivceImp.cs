@@ -21,9 +21,18 @@ namespace Infrastructure.IService.Imp
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public Task<ResponseServicesCare> Create(CreateServicesCare create)
+        public async Task<ResponseServicesCare> Create(CreateServicesCare create)
         {
-            throw new NotImplementedException();
+            var service = _mapper.Map<ServiceCare>(create);
+            await _unitOfWork.MaintenancePlan.GetByID(service.MaintenancePlanId);
+
+            service.CreatedDate = DateTime.Now;
+            service.Status = "ACTIVE";
+
+            await _unitOfWork.ServiceCare.Add(service);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseServicesCare>(service);
         }
 
         public async Task<List<ResponseServicesCare>> GetAll()

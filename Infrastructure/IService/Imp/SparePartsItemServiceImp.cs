@@ -22,9 +22,19 @@ namespace Infrastructure.IService.Imp
             _mapper = mapper;
         }
 
-        public Task<ResponseSparePartsItem> Create(CreateSparePartsItem create)
+        public async Task<ResponseSparePartsItem> Create(CreateSparePartsItem create)
         {
-            throw new NotImplementedException();
+            var sparepart = _mapper.Map<SparePartsItem>(create);
+            await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
+            await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
+
+            sparepart.CreatedDate = DateTime.Now;
+            sparepart.Status = "ACTIVE";
+
+            await _unitOfWork.SparePartsItem.Add(sparepart);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseSparePartsItem>(sparepart);
         }
 
         public async Task<List<ResponseSparePartsItem>> GetAll()

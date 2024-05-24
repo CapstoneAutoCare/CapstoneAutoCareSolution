@@ -12,7 +12,6 @@ namespace Infrastructure.Common.Request.MaintananceServices
         public string ServiceCareDescription { get; set; }
         public string ServiceCareType { get; set; }
         public double OriginalPrice { get; set; }
-        public string Status { get; set; }
         public Guid MaintenancePlanId { get; set; }
     }
 }

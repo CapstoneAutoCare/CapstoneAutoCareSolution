@@ -23,9 +23,18 @@ namespace Infrastructure.IService.Imp
         }
 
 
-        public Task<ResponseSparePart> Create(CreateSpareParts create)
+        public async Task<ResponseSparePart> Create(CreateSpareParts create)
         {
-            throw new NotImplementedException();
+            var sparepart = _mapper.Map<SpareParts>(create);
+            await _unitOfWork.MaintenancePlan.GetByID(sparepart.MaintenancePlanId);
+
+            sparepart.CreatedDate = DateTime.Now;
+            sparepart.Status = "ACTIVE";
+
+            await _unitOfWork.SparePartsRepository.Add(sparepart);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseSparePart>(sparepart);
         }
 
         public async Task<List<ResponseSparePart>> GetAll()
@@ -35,8 +44,8 @@ namespace Infrastructure.IService.Imp
 
         public async Task<ResponseSparePart> GetById(Guid id)
         {
-            var maintanance_plan = await _unitOfWork.SparePartsRepository.GetByID(id);
-            return _mapper.Map<ResponseSparePart>(maintanance_plan);
+            var sparepart = await _unitOfWork.SparePartsRepository.GetByID(id);
+            return _mapper.Map<ResponseSparePart>(sparepart);
         }
     }
 }

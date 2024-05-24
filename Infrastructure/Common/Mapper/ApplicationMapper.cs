@@ -299,7 +299,6 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.SparePartDescription, act => act.MapFrom(src => src.SparePartDescription))
                 .ForMember(p => p.SparePartType, act => act.MapFrom(src => src.SparePartType))
                 .ForMember(p => p.OriginalPrice, act => act.MapFrom(src => src.OriginalPrice))
-                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.MaintenancePlanId, act => act.MapFrom(src => src.MaintenancePlanId));
             CreateMap<SpareParts, ResponseSparePart>()
                 .ForMember(p => p.SparePartId, act => act.MapFrom(src => src.SparePartId))
@@ -316,7 +315,6 @@ namespace Infrastructure.Common.Mapper
             #region Sparepart Item
             CreateMap<CreateSparePartsItem, SparePartsItem>()
                 .ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
-                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.SparePartsId, act => act.MapFrom(src => src.SparePartsId))
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId));
             CreateMap<SparePartsItem, ResponseSparePartsItem>()
@@ -337,7 +335,6 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.ServiceCareDescription, act => act.MapFrom(src => src.ServiceCareDescription))
                 .ForMember(p => p.ServiceCareType, act => act.MapFrom(src => src.ServiceCareType))
                 .ForMember(p => p.OriginalPrice, act => act.MapFrom(src => src.OriginalPrice))
-                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.MaintenancePlanId, act => act.MapFrom(src => src.MaintenancePlanId));
             CreateMap<ServiceCare, ResponseServicesCare>()
                 .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
@@ -353,9 +350,7 @@ namespace Infrastructure.Common.Mapper
 
             #region Maintanance Service
             CreateMap<CreateMaintananceServices, MaintenanceService>()
-                .ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceId))
                 .ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
-                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId));
             CreateMap<MaintenanceService, ResponseMaintananceServices>()

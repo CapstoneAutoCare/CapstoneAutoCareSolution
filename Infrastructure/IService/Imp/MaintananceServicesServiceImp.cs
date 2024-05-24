@@ -24,7 +24,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintananceServices> Create(CreateMaintananceServices create)
         {
             var maintanance_services = _mapper.Map<MaintenanceService>(create);
-            await _unitOfWork.MaintenanceService.GetByID(maintanance_services.ServiceCareId);
+            await _unitOfWork.ServiceCare.GetByID(maintanance_services.ServiceCareId);
             await _unitOfWork.MaintenanceCenter.GetById(maintanance_services.MaintenanceCenterId);
 
 
@@ -32,7 +32,6 @@ namespace Infrastructure.IService.Imp
             maintanance_services.Status = "ACTIVE";
 
             await _unitOfWork.MaintenanceService.Add(maintanance_services);
-            // chưa vo unit mở nó lên
             await _unitOfWork.Commit();
 
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);

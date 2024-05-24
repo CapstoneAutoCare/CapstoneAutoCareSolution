@@ -29,7 +29,6 @@ namespace Infrastructure.IService.Imp
             maintanance_plan.CreateDate = DateTime.Now;
 
             await _unitOfWork.MaintenancePlan.Add(maintanance_plan);
-            // chưa vo unit mở nó lên
             await _unitOfWork.Commit();
 
             return _mapper.Map<ResponseMaintenancePlan>(maintanance_plan);

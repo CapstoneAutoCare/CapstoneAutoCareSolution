@@ -17,12 +17,17 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintenanceService>> GetAll()
         {
-            return await _context.Set<MaintenanceService>().Include(p => p.ServiceCare).ToListAsync();
+            return await _context.Set<MaintenanceService>()
+                .Include(c => c.MaintenanceCenter)
+                .Include(p => p.ServiceCare).ToListAsync();
         }
 
         public async Task<MaintenanceService> GetByID(Guid id)
         {
-            var ms = await _context.Set<MaintenanceService>().Include(p => p.ServiceCare).FirstOrDefaultAsync(x => x.MaintenanceServiceId.Equals(id));
+            var ms = await _context.Set<MaintenanceService>()
+                .Include(c => c.MaintenanceCenter)
+                .Include(p => p.ServiceCare)
+                .FirstOrDefaultAsync(x => x.MaintenanceServiceId.Equals(id));
             if (ms == null)
             {
                 throw new Exception("Not Found");
