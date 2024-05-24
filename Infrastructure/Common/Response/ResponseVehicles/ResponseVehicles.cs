@@ -16,7 +16,7 @@ namespace Infrastructure.Common.Response.ResponseVehicles
         public string VehicleModelName { get; set; }
         public string Color { get; set; }
         public string LicensePlate { get; set; }
-        public string Odo { get; set; }
+        public int Odo { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }

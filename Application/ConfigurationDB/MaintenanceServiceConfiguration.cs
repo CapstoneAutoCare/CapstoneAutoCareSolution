@@ -13,8 +13,8 @@ namespace Application.ConfigurationDB
     {
         public void Configure(EntityTypeBuilder<MaintenanceService> builder)
         {
-            builder.HasKey(c => c.MaintenanceCenterId);
-            builder.Property(e => e.MaintenanceCenterId)
+            builder.HasKey(c => c.MaintenanceServiceId);
+            builder.Property(e => e.MaintenanceServiceId)
                     .ValueGeneratedOnAdd();
 
             builder.Property(e => e.CreatedDate)

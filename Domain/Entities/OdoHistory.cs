@@ -13,7 +13,7 @@ namespace Domain.Entities
 
         public Guid OdoHistoryId { get; set; }
         public string OdoHistoryName { get; set; }
-        public string Odo { get; set; }
+        public int Odo { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
