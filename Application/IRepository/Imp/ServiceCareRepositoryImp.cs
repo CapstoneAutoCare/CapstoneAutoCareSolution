@@ -20,7 +20,7 @@ namespace Application.IRepository.Imp
             return await _context.Set<ServiceCare>().Include(p => p.MaintenancePlan).ToListAsync();
         }
 
-        public async Task<ServiceCare> GetByID(Guid id)
+        public async Task<ServiceCare> GetByID(Guid? id)
         {
             var service = await _context.Set<ServiceCare>().Include(p => p.MaintenancePlan).FirstOrDefaultAsync(x => x.ServiceCareId.Equals(id));
             if (service == null)

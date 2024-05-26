@@ -25,17 +25,32 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseSparePartsItem> Create(CreateSparePartsItem create)
         {
             var sparepart = _mapper.Map<SparePartsItem>(create);
-            await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
-            await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
+            if(sparepart.SparePartsId == null)
+            {
+                await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
 
-            sparepart.CreatedDate = DateTime.Now;
-            sparepart.Status = "ACTIVE";
+                sparepart.CreatedDate = DateTime.Now;
+                sparepart.Status = "ACTIVE";
 
-            await _unitOfWork.SparePartsItem.Add(sparepart);
-            await _unitOfWork.Commit();
+                await _unitOfWork.SparePartsItem.Add(sparepart);
+                await _unitOfWork.Commit();
+            }
+            else
+            {
+                await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
+                await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
+
+                sparepart.CreatedDate = DateTime.Now;
+                sparepart.Status = "ACTIVE";
+
+                await _unitOfWork.SparePartsItem.Add(sparepart);
+                await _unitOfWork.Commit();
+
+            }
 
             return _mapper.Map<ResponseSparePartsItem>(sparepart);
         }
+
 
         public async Task<List<ResponseSparePartsItem>> GetAll()
         {

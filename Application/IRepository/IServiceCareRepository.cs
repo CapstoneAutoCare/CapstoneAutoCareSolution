@@ -11,6 +11,6 @@ namespace Application.IRepository
     public interface IServiceCareRepository: IGenericRepository<ServiceCare>
     {
         Task<List<ServiceCare>> GetAll();
-        Task<ServiceCare> GetByID(Guid id);
+        Task<ServiceCare> GetByID(Guid? id);
     }
 }

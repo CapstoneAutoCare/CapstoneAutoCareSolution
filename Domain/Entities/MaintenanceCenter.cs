@@ -14,7 +14,7 @@ namespace Domain.Entities
             CustomerCares = new HashSet<CustomerCare>();
             StaffCares = new HashSet<StaffCare>();
             Bookings = new HashSet<Booking>();
-            SparePartsCosts = new HashSet<SparePartsItem>();
+            SparePartsItems = new HashSet<SparePartsItem>();
             MaintenanceServices = new HashSet<MaintenanceService>();
             FeedBacks = new HashSet<FeedBack>();
             VehiclesMaintenance = new HashSet<VehiclesMaintenance>();
@@ -37,7 +37,7 @@ namespace Domain.Entities
         public ICollection<StaffCare> StaffCares { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }
-        public ICollection<SparePartsItem> SparePartsCosts { get; set; }
+        public ICollection<SparePartsItem> SparePartsItems { get; set; }
         public ICollection<MaintenanceService> MaintenanceServices { get; set; }
         public ICollection<FeedBack> FeedBacks { get; set; }
         public ICollection<VehiclesMaintenance> VehiclesMaintenance { get; set; }

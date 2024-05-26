@@ -27,10 +27,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _sparePartsItemService.GetById(id));
         }
         [HttpPost]
-        public async Task<IActionResult> Post(CreateSparePartsItem create)
+        public async Task<IActionResult> Post([FromBody] CreateSparePartsItem create)
         {
             return Ok(await _sparePartsItemService.Create(create));
         }
+        
 
     }
 }

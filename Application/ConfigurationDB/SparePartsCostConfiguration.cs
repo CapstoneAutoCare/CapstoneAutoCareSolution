@@ -28,7 +28,7 @@ namespace Application.ConfigurationDB
                     .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.MaintenanceCenter)
-                    .WithMany(d => d.SparePartsCosts)
+                    .WithMany(d => d.SparePartsItems)
                     .HasForeignKey(d => d.MaintenanceCenterId)
                     .OnDelete(DeleteBehavior.Restrict);
         }

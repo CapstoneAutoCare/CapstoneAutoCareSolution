@@ -19,7 +19,7 @@ namespace Domain.Entities
         public double ActuralCost { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
-        public Guid ServiceCareId { get; set; }
+        public Guid? ServiceCareId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public ServiceCare ServiceCare { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }

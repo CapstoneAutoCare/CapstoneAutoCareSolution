@@ -317,6 +317,8 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
                 .ForMember(p => p.SparePartsId, act => act.MapFrom(src => src.SparePartsId))
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId));
+
+
             CreateMap<SparePartsItem, ResponseSparePartsItem>()
                 .ForMember(p => p.SparePartsItemtId, act => act.MapFrom(src => src.SparePartsItemtId))
                 .ForMember(p => p.SparepartName, act => act.MapFrom(src => src.SpareParts.SparePartName))
