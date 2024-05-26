@@ -20,7 +20,7 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintananceSchedule>().Include(c => c.VehicleModel).ToListAsync();
         }
 
-        public async Task<MaintananceSchedule> GetByID(Guid id)
+        public async Task<MaintananceSchedule> GetByID(Guid? id)
         {
             var maintanance_schedule = await _context.Set<MaintananceSchedule>().Include(a => a.VehicleModel)
                 .FirstOrDefaultAsync(c => c.MaintananceScheduleId == id);
