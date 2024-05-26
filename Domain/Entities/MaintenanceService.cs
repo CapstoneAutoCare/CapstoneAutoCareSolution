@@ -11,7 +11,7 @@ namespace Domain.Entities
     {
         public MaintenanceService()
         {
-            MaintenanceItems = new HashSet<MaintenanceItem>();
+            MaintenanceServiceInfos = new HashSet<MaintenanceServiceInfo>();
         }
 
         [Key]
@@ -23,7 +23,7 @@ namespace Domain.Entities
         public Guid MaintenanceCenterId { get; set; }
         public ServiceCare ServiceCare { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
-        public ICollection<MaintenanceItem> MaintenanceItems { get; set; }
+        public ICollection<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
 
     }
 }

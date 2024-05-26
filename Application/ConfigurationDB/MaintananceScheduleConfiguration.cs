@@ -16,8 +16,10 @@ namespace Application.ConfigurationDB
             builder.HasKey(c => c.MaintananceScheduleId);
             builder.Property(e => e.MaintananceScheduleId)
                     .ValueGeneratedOnAdd();
+
             builder.Property(e => e.CreateDate)
                .HasColumnType("datetime");
+
             builder.HasOne(d => d.VehicleModel)
                     .WithMany(d => d.MaintenanceSchedules)
                     .HasForeignKey(d => d.VehicleModelId)

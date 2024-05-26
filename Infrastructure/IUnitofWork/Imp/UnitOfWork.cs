@@ -23,7 +23,7 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly IMaintananceScheduleRepository _MaintenanceSchedule;
         private readonly IMaintenanceCenterRepository _MaintenanceCenter;
         private readonly IMaintenanceHistoryStatusesRepository _MaintenanceHistoryStatuses;
-        private readonly IMaintenanceItemRepository _MaintenanceItem;
+        private readonly IMaintenanceSparePartInfoRepository _MaintenanceSparePartInfo;
         private readonly IMaintenancePlanRepository _MaintenancePlan;
         private readonly IMaintenanceServiceRepository _MaintenanceService;
         private readonly IOdoHistoryRepository _OdoHistory;
@@ -37,7 +37,7 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly IVehiclesBrandRepository _VehiclesBrand;
         private readonly IVehiclesMaintenanceRepository _VehiclesMaintenance;
         private readonly IVehiclesRepository _Vehicles;
-
+        private readonly IMaintenanceServiceInfoRepository _MaintenanceServiceInfo;
         public UnitOfWork(AppDBContext context)
         {
             _context = context;
@@ -65,6 +65,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
             //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
             _Vehicles = new VehiclesRepositoryImp(_context);
+            //_MaintenanceServiceInfo = new MaintenanceServiceInfoRepositoryImp(_context);
         }
 
         public IAccountRepository Account => _Account;
@@ -87,7 +88,7 @@ namespace Infrastructure.IUnitofWork.Imp
 
         public IMaintenanceHistoryStatusesRepository MaintenanceHistoryStatuses => _MaintenanceHistoryStatuses;
 
-        public IMaintenanceItemRepository MaintenanceItem => _MaintenanceItem;
+        public IMaintenanceSparePartInfoRepository MaintenanceSparePartInfo => _MaintenanceSparePartInfo;
 
         public IMaintenancePlanRepository MaintenancePlan => _MaintenancePlan;
 
@@ -114,6 +115,9 @@ namespace Infrastructure.IUnitofWork.Imp
         public IVehiclesMaintenanceRepository VehiclesMaintenance => _VehiclesMaintenance;
 
         public IVehiclesRepository Vehicles => _Vehicles;
+
+
+        public IMaintenanceServiceInfoRepository MaintenanceServiceInfo => _MaintenanceServiceInfo;
 
         public async Task Commit() => await _context.SaveChangesAsync();
 

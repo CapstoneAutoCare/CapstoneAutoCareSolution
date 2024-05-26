@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository.Imp
 {
-    public class MaintenanceItemRepositoryImp : GenericRepositoryImp<MaintenanceItem>, IMaintenanceItemRepository
+    public class MaintenanceSparePartInfoRepositoryImp : GenericRepositoryImp<MaintenanceSparePartInfo>, IMaintenanceSparePartInfoRepository
     {
-        public MaintenanceItemRepositoryImp(AppDBContext context) : base(context)
+        public MaintenanceSparePartInfoRepositoryImp(AppDBContext context) : base(context)
         {
         }
     }

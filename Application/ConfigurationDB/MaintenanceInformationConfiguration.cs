@@ -27,6 +27,8 @@ namespace Application.ConfigurationDB
                     .WithMany(d => d.InformationMaintenances)
                     .HasForeignKey(d => d.CustomerCareId)
                     .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     }
 }

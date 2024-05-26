@@ -25,7 +25,9 @@ namespace Application
         public virtual DbSet<MaintananceSchedule> MaintananceSchedules { get; set; }
         public virtual DbSet<MaintenanceCenter> MaintenanceCenters { get; set; }
         public virtual DbSet<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
-        public virtual DbSet<MaintenanceItem> MaintenanceItems { get; set; }
+        public virtual DbSet<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
+        public virtual DbSet<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
+
         public virtual DbSet<MaintenancePlan> MaintenancePlans { get; set; }
         public virtual DbSet<MaintenanceService> MaintenanceServices { get; set; }
         public virtual DbSet<OdoHistory> OdoHistories { get; set; }
@@ -58,7 +60,7 @@ namespace Application
             modelBuilder.ApplyConfiguration(new MaintenanceInformationConfiguration());
             modelBuilder.ApplyConfiguration(new MaintananceScheduleConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceCenterConfiguration());
-            modelBuilder.ApplyConfiguration(new MaintenanceItemConfiguration());
+            modelBuilder.ApplyConfiguration(new MaintenanceSparePartInfoConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenancePlanConfiguration());
             modelBuilder.ApplyConfiguration(new OdoHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new ReceiptConfiguration());
@@ -74,7 +76,7 @@ namespace Application
             modelBuilder.ApplyConfiguration(new StaffCareConfiguration());
             modelBuilder.ApplyConfiguration(new VehiclesMaintenanceConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceHistoryStatusConfiguration());
-
+            modelBuilder.ApplyConfiguration(new MaintenanceServiceInfoConfiguration());
             OnModelCreatingPartial(modelBuilder);
 
         }

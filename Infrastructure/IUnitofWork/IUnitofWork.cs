@@ -19,7 +19,7 @@ namespace Infrastructure.IUnitofWork
         IMaintananceScheduleRepository MaintenanceSchedule { get; }
         IMaintenanceCenterRepository MaintenanceCenter { get; }
         IMaintenanceHistoryStatusesRepository MaintenanceHistoryStatuses { get; }
-        IMaintenanceItemRepository MaintenanceItem { get; }
+        IMaintenanceSparePartInfoRepository MaintenanceSparePartInfo { get; }
         IMaintenancePlanRepository MaintenancePlan { get; }
         IMaintenanceServiceRepository MaintenanceService { get; }
         IOdoHistoryRepository OdoHistory { get; }
@@ -33,6 +33,7 @@ namespace Infrastructure.IUnitofWork
         IVehiclesBrandRepository VehiclesBrand { get; }
         IVehiclesMaintenanceRepository VehiclesMaintenance { get; }
         IVehiclesRepository Vehicles { get; }
+        IMaintenanceServiceInfoRepository MaintenanceServiceInfo { get; }
         Task Commit();
 
     }
