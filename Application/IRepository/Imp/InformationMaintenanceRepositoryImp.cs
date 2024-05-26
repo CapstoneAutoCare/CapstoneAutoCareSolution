@@ -20,6 +20,7 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintenanceInformation>()
                 .Include(c => c.Booking)
                 .Include(c=>c.OdoHistory)
+                .Include(c=>c.CustomerCare)
                 .ToListAsync();
         }
 
@@ -28,7 +29,8 @@ namespace Application.IRepository.Imp
             var mainifor = await _context.Set<MaintenanceInformation>()
                 .Include(c => c.Booking)
                 .Include(c => c.OdoHistory)
-                .FirstOrDefaultAsync(c => c.BookingId == id);
+                .Include(c => c.CustomerCare)
+                .FirstOrDefaultAsync(c => c.InformationMaintenanceId == id);
             if (mainifor == null)
             {
                 throw new Exception("Not Found");

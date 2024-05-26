@@ -44,7 +44,7 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(RequestBooking booking)
+        public async Task<ActionResult<Booking>> PostBooking([FromBody]RequestBooking booking)
         {
             return Ok(await _bookingsService.Create(booking));
 

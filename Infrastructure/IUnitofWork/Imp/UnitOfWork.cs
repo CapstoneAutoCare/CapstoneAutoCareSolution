@@ -47,11 +47,11 @@ namespace Infrastructure.IUnitofWork.Imp
             _Client = new ClientRepositoryImp(_context);
             _CustomerCare = new CustomerCareRepositoryImp(_context);
             //_FeedBack = new FeedBackRepositoryImp(_context);
-            //_InformationMaintenance = new InformationMaintenanceRepositoryImp(_context);
+            _InformationMaintenance = new InformationMaintenanceRepositoryImp(_context);
             _MaintenanceSchedule = new MaintananceScheduleRepositoryImp(_context);
             _MaintenanceCenter = new MaintenanceCenterRepositoryImp(_context);
             //_MaintenanceHistoryStatuses = new MaintenanceHistoryStatusesRepositoryImp(_context);
-            //_MaintenanceItem = new MaintenanceItemRepositoryImp(_context);
+            //_MaintenanceSparePartInfo = new MaintenanceSparePartInfoRepositoryImp(_context);
             _MaintenancePlan = new MaintenancePlanRepositoryImp(_context);
             _MaintenanceService = new ServiceCareCostRepositoryImp(_context);
             //_OdoHistory = new OdoHistoryRepositoryImp(_context);

@@ -20,7 +20,7 @@ namespace Application.IRepository.Imp
             return await _context.Set<Booking>().Include(c => c.Client).Include(c => c.Vehicles).ToListAsync();
         }
 
-        public async Task<Booking> GetById(Guid id)
+        public async Task<Booking> GetById(Guid? id)
         {
             var booking = await _context.Set<Booking>().Include(c => c.Client).FirstOrDefaultAsync(c => c.BookingId == id);
             if (booking == null)

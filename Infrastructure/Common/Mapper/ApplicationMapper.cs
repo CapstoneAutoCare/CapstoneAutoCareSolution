@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.ModelSecurity;
 using Infrastructure.Common.Request.MaintananceServices;
+using Infrastructure.Common.Request.MaintenanceInformation;
 using Infrastructure.Common.Request.MaintenancePlan;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestAccount;
@@ -21,6 +22,7 @@ using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCenter;
 using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.Common.Response.ResponseCustomerCare;
+using Infrastructure.Common.Response.ResponseMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseStaffCare;
 using Infrastructure.Common.Response.ResponseVehicles;
 using System;
@@ -366,6 +368,15 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ForMember(p => p.MaintenanceCenterName, act => act.MapFrom(src => src.MaintenanceCenter.MaintenanceCenterName));
             #endregion
+
+            #region MaintenanceInformation
+                CreateMap<CreateMaintenanceInformation, MaintenanceInformation>()
+                   .ReverseMap();
+
+                CreateMap<MaintenanceInformation, ResponseMaintenanceInformation>()
+               .ReverseMap();
+            #endregion
+
         }
     }
 }

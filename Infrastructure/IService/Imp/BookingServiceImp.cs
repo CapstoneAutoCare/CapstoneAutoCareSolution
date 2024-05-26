@@ -34,16 +34,33 @@ namespace Infrastructure.IService.Imp
             var client = await _unitOfWork.Client.GetById(account.Client.ClientId);
             booking.ClientId = client.ClientId;
 
-            await _unitOfWork.Vehicles.GetById(booking.VehicleId);
-            await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
-            await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+            if (booking.MaintananceScheduleId == null)
+            {
 
-            booking.Status = "WAITING";
-            booking.CreatedDate = DateTime.Now;
+                await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+                //await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
+                await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+                booking.Status = "WAITING";
+                booking.CreatedDate = DateTime.Now;
 
-            await _unitOfWork.Booking.Add(booking);
-            await _unitOfWork.Commit();
-            return _mapper.Map<ResponseBooking>(booking);
+                await _unitOfWork.Booking.Add(booking);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseBooking>(booking);
+            }
+            else
+            {
+                await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+                await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
+                await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+
+                booking.Status = "WAITING";
+                booking.CreatedDate = DateTime.Now;
+
+                await _unitOfWork.Booking.Add(booking);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseBooking>(booking);
+            }
+
         }
 
         public async Task<List<ResponseBooking>> GetAll()

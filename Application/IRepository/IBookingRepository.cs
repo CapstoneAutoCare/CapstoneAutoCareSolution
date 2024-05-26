@@ -10,7 +10,7 @@ namespace Application.IRepository
 {
     public interface IBookingRepository: IGenericRepository<Booking>
     {
-        Task<Booking> GetById(Guid id);
+        Task<Booking> GetById(Guid? id);
         Task<List<Booking>> GetAll();
     }
 }

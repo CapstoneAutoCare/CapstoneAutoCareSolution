@@ -32,7 +32,7 @@ namespace Application.IRepository.Imp
                 .Include(c=>c.Client)
                 .Include(c=>c.Admin)
                 .Include(c=>c.MaintenanceCenter)
-                .Include(c=>c.StaffCare)
+                .Include(c=>c.CustomerCare)
                 .FirstOrDefaultAsync(c => c.Email.ToLower().Equals(email.ToLower()));
             if (account == null)
             {
