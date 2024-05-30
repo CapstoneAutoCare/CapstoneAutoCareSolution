@@ -13,6 +13,7 @@ namespace Domain.Entities
         {
             Bookings = new HashSet<Booking>();
             OdoHistories = new HashSet<OdoHistory>();
+            ImageRepairReceipts = new HashSet<ImageRepairReceipt>();
         }
         [Key]
         public Guid VehiclesId { get; set; }
@@ -28,5 +29,6 @@ namespace Domain.Entities
         public Client Client { get; set; }
         public ICollection<Booking> Bookings { get; set; }
         public ICollection<OdoHistory> OdoHistories { get; set; }
+        public ICollection<ImageRepairReceipt> ImageRepairReceipts { get; set; }
     }
 }

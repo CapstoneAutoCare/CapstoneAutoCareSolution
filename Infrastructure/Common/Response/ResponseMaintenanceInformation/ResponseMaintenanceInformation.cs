@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.Common.Response.ResponseMaintenanceService;
+using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
 
 namespace Infrastructure.Common.Response.ResponseMaintenanceInformation
 {
@@ -15,5 +17,8 @@ namespace Infrastructure.Common.Response.ResponseMaintenanceInformation
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
         public Guid CustomerCareId { get; set; }
+        public List<ResponseMaintenanceServiceInfo> ResponseMaintenanceServiceInfos { get; set; }
+        public List<ResponseMaintenanceSparePartInfo> ResponseMaintenanceSparePartInfos { get; set; }
+
     }
 }

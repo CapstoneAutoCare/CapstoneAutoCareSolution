@@ -13,15 +13,14 @@ namespace Application.ConfigurationDB
     {
         public void Configure(EntityTypeBuilder<MaintenanceServiceInfo> builder)
         {
-            builder.HasKey(c => c.MaintenanceServiceId);
-            builder.Property(e => e.MaintenanceServiceId)
+            builder.HasKey(c => c. MaintenanceServiceInfoId);
+            builder.Property(e => e.MaintenanceServiceInfoId)
                     .ValueGeneratedOnAdd();
 
             builder.HasOne(d => d.MaintenanceService)
                     .WithMany(d => d.MaintenanceServiceInfos)
                     .HasForeignKey(d => d.MaintenanceServiceId)
                     .OnDelete(DeleteBehavior.Restrict);
-
             
 
             builder.HasOne(d => d.InformationMaintenance)

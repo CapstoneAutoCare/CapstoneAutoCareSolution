@@ -11,7 +11,7 @@ namespace Domain.Entities
     {
         public ServiceCare()
         {
-            MaintenanceServices =new HashSet<MaintenanceService>();
+            MaintenanceServices = new HashSet<MaintenanceService>();
         }
 
         [Key]

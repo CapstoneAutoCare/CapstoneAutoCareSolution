@@ -17,9 +17,9 @@ namespace Application.ConfigurationDB
             builder.Property(e => e.MaintenanceSparePartInfoId)
                     .ValueGeneratedOnAdd();
 
-            builder.HasOne(d => d.SparePartsCost)
+            builder.HasOne(d => d.SparePartsItem)
                     .WithMany(d => d.MaintenanceSparePartInfos)
-                    .HasForeignKey(d => d.SparePartsCostId)
+                    .HasForeignKey(d => d.SparePartsItemId)
                     .OnDelete(DeleteBehavior.Restrict);
 
             //builder.HasOne(d => d.ServiceCareCost)

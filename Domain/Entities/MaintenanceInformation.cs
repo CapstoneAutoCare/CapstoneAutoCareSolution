@@ -25,14 +25,17 @@ namespace Domain.Entities
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
         public Guid CustomerCareId { get; set; }
+        public Guid? ImageRepairReceiptId { get; set; }
         public Booking Booking { get; set; }
         public CustomerCare CustomerCare { get; set; }
         public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
         public ICollection<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
         public ICollection<Technician> Technicians { get; set; }
         public ICollection<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
+
         public Receipt Receipt { get; set; }
         public OdoHistory OdoHistory { get; set; }
+        public ImageRepairReceipt ImageRepairReceipt { get; set; }
 
     }
 }

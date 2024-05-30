@@ -51,7 +51,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _MaintenanceSchedule = new MaintananceScheduleRepositoryImp(_context);
             _MaintenanceCenter = new MaintenanceCenterRepositoryImp(_context);
             //_MaintenanceHistoryStatuses = new MaintenanceHistoryStatusesRepositoryImp(_context);
-            //_MaintenanceSparePartInfo = new MaintenanceSparePartInfoRepositoryImp(_context);
+            _MaintenanceSparePartInfo = new MaintenanceSparePartInfoRepositoryImp(_context);
             _MaintenancePlan = new MaintenancePlanRepositoryImp(_context);
             _MaintenanceService = new ServiceCareCostRepositoryImp(_context);
             //_OdoHistory = new OdoHistoryRepositoryImp(_context);
@@ -65,7 +65,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
             //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
             _Vehicles = new VehiclesRepositoryImp(_context);
-            //_MaintenanceServiceInfo = new MaintenanceServiceInfoRepositoryImp(_context);
+            _MaintenanceServiceInfo = new MaintenanceServiceInfoRepositoryImp(_context);
         }
 
         public IAccountRepository Account => _Account;

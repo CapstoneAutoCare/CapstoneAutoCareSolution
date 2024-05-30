@@ -41,7 +41,7 @@ namespace Application
         public virtual DbSet<Vehicles> Vehicles { get; set; }
         public virtual DbSet<VehiclesBrand> VehiclesBrand { get; set; }
         public virtual DbSet<VehiclesMaintenance> VehiclesMaintenances { get; set; }
-
+        public virtual DbSet<ImageRepairReceipt> ImageRepairReceipts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -77,6 +77,7 @@ namespace Application
             modelBuilder.ApplyConfiguration(new VehiclesMaintenanceConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceHistoryStatusConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceInfoConfiguration());
+            modelBuilder.ApplyConfiguration(new ImageRepairReceiptConfiguration());
             OnModelCreatingPartial(modelBuilder);
 
         }

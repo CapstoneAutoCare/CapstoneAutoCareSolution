@@ -10,6 +10,7 @@ using Domain.Entities;
 using Infrastructure.Common.Response.ResponseMaintenanceInformation;
 using Infrastructure.Common.Request.MaintenanceInformation;
 using Infrastructure.IService;
+using Infrastructure.Common.Request.RequestMaintenanceInformation;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -36,18 +37,18 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.GetById(id));
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> PutMaintenanceInformation(Guid id, MaintenanceInformation maintenanceInformation)
-        //{
-        //    return NoContent();
-        //}
+
 
         [HttpPost]
-        public async Task<ActionResult<MaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)
+        public async Task<ActionResult<ResponseMaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)
         {
             return Ok(await _maintenanceInformationService.Create(maintenanceInformation));
         }
-
+        [HttpPost]
+        public async Task<ActionResult<ResponseMaintenanceInformation>> PostHaveItems([FromBody] CreateMaintenanceInformationHaveItems maintenanceInformation)
+        {
+            return Ok(await _maintenanceInformationService.CreateHaveItems(maintenanceInformation));
+        }
 
     }
 }
