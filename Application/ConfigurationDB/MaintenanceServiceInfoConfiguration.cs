@@ -17,6 +17,9 @@ namespace Application.ConfigurationDB
             builder.Property(e => e.MaintenanceServiceInfoId)
                     .ValueGeneratedOnAdd();
 
+            builder.HasIndex(e => new { e.InformationMaintenanceId, e.MaintenanceServiceId })
+                .IsUnique();
+
             builder.HasOne(d => d.MaintenanceService)
                     .WithMany(d => d.MaintenanceServiceInfos)
                     .HasForeignKey(d => d.MaintenanceServiceId)

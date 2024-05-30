@@ -13,7 +13,6 @@ namespace Infrastructure.Common.Request.RequestMaintenanceSparePartInfor
         public string MaintenanceSparePartInfoName { get; set; }
         public int Quantity { get; set; }
         public double ActualCost { get; set; }
-        public double TotalCost { get; set; }
         public string Note { get; set; }
 
     }

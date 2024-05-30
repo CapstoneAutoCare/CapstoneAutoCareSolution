@@ -24,15 +24,23 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintananceServices> Create(CreateMaintananceServices create)
         {
             var maintanance_services = _mapper.Map<MaintenanceService>(create);
-            await _unitOfWork.ServiceCare.GetByID(maintanance_services.ServiceCareId);
-            await _unitOfWork.MaintenanceCenter.GetById(maintanance_services.MaintenanceCenterId);
-
 
             maintanance_services.CreatedDate = DateTime.Now;
             maintanance_services.Status = "ACTIVE";
+            await _unitOfWork.MaintenanceCenter.GetById(maintanance_services.MaintenanceCenterId);
 
-            await _unitOfWork.MaintenanceService.Add(maintanance_services);
-            await _unitOfWork.Commit();
+            if (maintanance_services.ServiceCareId == null)
+            {
+                await _unitOfWork.MaintenanceService.Add(maintanance_services);
+                await _unitOfWork.Commit();
+            }
+            else
+            {
+                await _unitOfWork.ServiceCare.GetByID(maintanance_services.ServiceCareId);
+                await _unitOfWork.MaintenanceService.Add(maintanance_services);
+                await _unitOfWork.Commit();
+            }
+
 
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
         }
@@ -43,7 +51,7 @@ namespace Infrastructure.IService.Imp
         }
 
         public async Task<ResponseMaintananceServices> GetById(Guid id)
-        {   
+        {
             var maintanance_services = await _unitOfWork.MaintenanceService.GetById(id);
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
         }

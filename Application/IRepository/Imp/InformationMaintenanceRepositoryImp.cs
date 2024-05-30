@@ -21,6 +21,9 @@ namespace Application.IRepository.Imp
                 .Include(c => c.Booking)
                 .Include(c=>c.OdoHistory)
                 .Include(c=>c.CustomerCare)
+                .Include(c=>c.MaintenanceSparePartInfos)
+                .Include(c=>c.MaintenanceHistoryStatuses)
+                .Include(c=>c.MaintenanceServiceInfos)
                 .ToListAsync();
         }
 
@@ -30,6 +33,9 @@ namespace Application.IRepository.Imp
                 .Include(c => c.Booking)
                 .Include(c => c.OdoHistory)
                 .Include(c => c.CustomerCare)
+                .Include(c => c.MaintenanceSparePartInfos)
+                .Include(c => c.MaintenanceHistoryStatuses)
+                .Include(c => c.MaintenanceServiceInfos)
                 .FirstOrDefaultAsync(c => c.InformationMaintenanceId == id);
             if (mainifor == null)
             {

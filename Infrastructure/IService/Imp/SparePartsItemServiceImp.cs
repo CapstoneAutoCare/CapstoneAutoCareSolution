@@ -25,29 +25,22 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseSparePartsItem> Create(CreateSparePartsItem create)
         {
             var sparepart = _mapper.Map<SparePartsItem>(create);
-            if(sparepart.SparePartsId == null)
+
+            sparepart.CreatedDate = DateTime.Now;
+            sparepart.Status = "ACTIVE";
+            await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
+
+            if (sparepart.SparePartsId == null)
             {
-                await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
-
-                sparepart.CreatedDate = DateTime.Now;
-                sparepart.Status = "ACTIVE";
-
                 await _unitOfWork.SparePartsItem.Add(sparepart);
                 await _unitOfWork.Commit();
             }
             else
             {
                 await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
-                await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
-
-                sparepart.CreatedDate = DateTime.Now;
-                sparepart.Status = "ACTIVE";
-
                 await _unitOfWork.SparePartsItem.Add(sparepart);
                 await _unitOfWork.Commit();
-
             }
-
             return _mapper.Map<ResponseSparePartsItem>(sparepart);
         }
 
@@ -59,7 +52,7 @@ namespace Infrastructure.IService.Imp
 
         public async Task<ResponseSparePartsItem> GetById(Guid id)
         {
-            var spi = await _unitOfWork.SparePartsItem.GetByID(id);
+            var spi = await _unitOfWork.SparePartsItem.GetById(id);
             return _mapper.Map<ResponseSparePartsItem>(spi);
         }
     }

@@ -57,6 +57,7 @@ namespace Infrastructure.IService.Imp
             var mi = _mapper.Map<MaintenanceInformation>(create);
             var email = _tokensHandler.ClaimsFromToken();
             mi.CreatedDate = DateTime.Now;
+            mi.TotalPrice = 0;
             var account = await _unitOfWork.Account.Profile(email);
             var customercare = await _unitOfWork.CustomerCare.GetById(account.CustomerCare.CustomerCareId);
             mi.CustomerCareId = customercare.CustomerCareId;
@@ -65,10 +66,16 @@ namespace Infrastructure.IService.Imp
                 foreach (var i in mi.MaintenanceSparePartInfos)
                 {
                     var sp = _mapper.Map<MaintenanceSparePartInfo>(i);
+                    if (sp.SparePartsItemId == null)
+                    {
+                        throw new Exception("Require add Product in Center");
+                    }
                     sp.Status = "INACTIVE";
                     sp.CreatedDate = DateTime.Now;
                     sp.Discount = 10;
+                    sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100);
                     sp.InformationMaintenanceId = mi.InformationMaintenanceId;
+                    await _unitOfWork.SparePartsItem.GetById(sp.SparePartsItemId);
                     await _unitOfWork.MaintenanceSparePartInfo.Add(sp);
                 }
             }
@@ -76,31 +83,44 @@ namespace Infrastructure.IService.Imp
             {
                 foreach (var i in mi.MaintenanceServiceInfos)
                 {
-                    var ms = _mapper.Map<MaintenanceServiceInfo>(i);
-                    ms.Status = "INACTIVE";
-                    ms.CreatedDate = DateTime.Now;
-                    ms.Discount = 10;
-                    ms.InformationMaintenanceId = mi.InformationMaintenanceId;
-
-                    await _unitOfWork.MaintenanceServiceInfo.Add(ms);
+                    var msi = _mapper.Map<MaintenanceServiceInfo>(i);
+                    if (msi.MaintenanceServiceId == null)
+                    {
+                        throw new Exception("Require add Product in Center");
+                    }
+                    msi.Status = "INACTIVE";
+                    msi.CreatedDate = DateTime.Now;
+                    msi.Discount = 10;
+                    msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
+                    msi.InformationMaintenanceId = mi.InformationMaintenanceId;
+                    await _unitOfWork.MaintenanceService.GetById(msi.MaintenanceServiceId);
+                    await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }
             }
-            
+
             if (mi.BookingId == null)
             {
                 await _unitOfWork.InformationMaintenance.Add(mi);
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseMaintenanceInformation>(mi);
             }
-            else
+            var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
+            booking.Status = "ACCEPT";
+
+            await _unitOfWork.InformationMaintenance.Add(mi);
+            MaintenanceHistoryStatus historyStatus = new MaintenanceHistoryStatus
             {
-                var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
-                booking.Status = "ACCEPT";
-                await _unitOfWork.InformationMaintenance.Add(mi);
-                await _unitOfWork.Booking.Update(booking);
-                await _unitOfWork.Commit();
-                return _mapper.Map<ResponseMaintenanceInformation>(mi);
-            }
+                MaintenanceHistoryStatusId = new Guid(),
+                Status = "CREATE BY CUSTOMER CARE",
+                DateTime = DateTime.Now,
+                MaintenanceInformationId = mi.InformationMaintenanceId,  
+                Note = mi.Note,
+            };
+            await _unitOfWork.MaintenanceHistoryStatuses.Add(historyStatus);
+
+            await _unitOfWork.Booking.Update(booking);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseMaintenanceInformation>(mi);
         }
 
         public async Task<List<ResponseMaintenanceInformation>> GetAll()

@@ -22,6 +22,7 @@ namespace Domain.Entities
         public string InformationMaintenanceName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime FinishedDate { get; set; }
+        public double TotalPrice { get; set; }
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
         public Guid CustomerCareId { get; set; }

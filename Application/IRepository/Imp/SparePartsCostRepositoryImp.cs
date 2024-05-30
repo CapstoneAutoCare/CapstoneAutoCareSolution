@@ -22,7 +22,7 @@ namespace Application.IRepository.Imp
                 .Include(p => p.SpareParts).ToListAsync();
         }
 
-        public async Task<SparePartsItem> GetByID(Guid id)
+        public async Task<SparePartsItem> GetById(Guid? id)
         {
             var spi = await _context.Set<SparePartsItem>()
                 .Include(p => p.SpareParts)

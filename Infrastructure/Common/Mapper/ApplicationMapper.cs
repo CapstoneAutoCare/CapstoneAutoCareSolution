@@ -7,6 +7,7 @@ using Infrastructure.Common.Request.MaintenancePlan;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Request.RequestBooking;
+using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Request.RequestMaintenanceServiceInfo;
 using Infrastructure.Common.Request.RequestMaintenanceSparePartInfor;
@@ -25,6 +26,7 @@ using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCenter;
 using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.Common.Response.ResponseCustomerCare;
+using Infrastructure.Common.Response.ResponseHistoryStatus;
 using Infrastructure.Common.Response.ResponseMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
 using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
@@ -380,6 +382,7 @@ namespace Infrastructure.Common.Mapper
             CreateMap<MaintenanceInformation, ResponseMaintenanceInformation>()
             .ForMember(p => p.ResponseMaintenanceServiceInfos, act => act.MapFrom(src => src.MaintenanceServiceInfos))
             .ForMember(p => p.ResponseMaintenanceSparePartInfos, act => act.MapFrom(src => src.MaintenanceSparePartInfos))
+            .ForMember(p => p.ResponseMaintenanceHistoryStatuses, act => act.MapFrom(src => src.MaintenanceHistoryStatuses))
             .ReverseMap();
 
 
@@ -418,6 +421,17 @@ namespace Infrastructure.Common.Mapper
             CreateMap<MaintenanceServiceInfo, ResponseMaintenanceServiceInfo>()
                    .ReverseMap();
             #endregion
+
+
+            #region MaintenanceHistoryStatus
+            CreateMap<CreateMaintenanceHistoryStatus, MaintenanceHistoryStatus>()
+                   .ReverseMap();
+
+            CreateMap<MaintenanceHistoryStatus, ResponseMaintenanceHistoryStatus>()
+                   .ReverseMap();
+            #endregion
+
+
         }
     }
 }

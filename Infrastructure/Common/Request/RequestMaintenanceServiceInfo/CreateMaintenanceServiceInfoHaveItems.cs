@@ -12,7 +12,6 @@ namespace Infrastructure.Common.Request.RequestMaintenanceServiceInfo
         public string MaintenanceServiceInfoName { get; set; }
         public int Quantity { get; set; }
         public double ActualCost { get; set; }
-        public double TotalCost { get; set; }
         public string Note { get; set; }
     }
 }

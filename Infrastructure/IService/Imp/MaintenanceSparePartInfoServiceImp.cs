@@ -29,6 +29,7 @@ namespace Infrastructure.IService.Imp
             spi.Status = "INACTIVE";
             spi.CreatedDate = DateTime.Now;
             spi.Discount = 10;
+            spi.TotalCost = (spi.ActualCost * spi.Quantity) * (1 - (spi.Discount) / 100);
             await _unitOfWork.InformationMaintenance.GetById(spi.InformationMaintenanceId);
             if (spi.SparePartsItemId == null)
             {

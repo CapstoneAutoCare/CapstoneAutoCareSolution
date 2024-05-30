@@ -17,15 +17,15 @@ namespace Application.ConfigurationDB
             builder.Property(e => e.MaintenanceSparePartInfoId)
                     .ValueGeneratedOnAdd();
 
+
+            builder.HasIndex(e => new { e.InformationMaintenanceId, e.SparePartsItemId })
+                .IsUnique();
+
+
             builder.HasOne(d => d.SparePartsItem)
                     .WithMany(d => d.MaintenanceSparePartInfos)
                     .HasForeignKey(d => d.SparePartsItemId)
                     .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.HasOne(d => d.ServiceCareCost)
-            //        .WithMany(d => d.MaintenanceItems)
-            //        .HasForeignKey(d => d.ServiceCareCostId)
-            //        .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.InformationMaintenance)
                     .WithMany(d => d.MaintenanceSparePartInfos)

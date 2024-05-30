@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,23 @@ namespace Application.IRepository.Imp
     {
         public MaintenanceHistoryStatusesRepositoryImp(AppDBContext context) : base(context)
         {
+        }
+
+        public Task<List<MaintenanceHistoryStatus>> GetAll()
+        {
+            return _context.Set<MaintenanceHistoryStatus>().Include(c => c.MaintenanceInformation).ToListAsync();
+        }
+
+        public async Task<MaintenanceHistoryStatus> GetById(Guid id)
+        {
+            var mhs = await _context.Set<MaintenanceHistoryStatus>()
+                .Include(c => c.MaintenanceInformation)
+                .FirstOrDefaultAsync(c => c.MaintenanceHistoryStatusId == id);
+            if (mhs == null)
+            {
+                throw new Exception("not found");
+            }
+            return mhs;
         }
     }
 }

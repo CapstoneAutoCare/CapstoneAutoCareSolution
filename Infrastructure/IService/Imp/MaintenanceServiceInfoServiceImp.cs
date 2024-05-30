@@ -28,6 +28,8 @@ namespace Infrastructure.IService.Imp
             msi.Status = "INACTIVE";
             msi.CreatedDate = DateTime.Now;
             msi.Discount = 10;
+            msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
+
             await _unitOfWork.InformationMaintenance.GetById(msi.InformationMaintenanceId);
             if (msi.MaintenanceServiceId == null)
             {

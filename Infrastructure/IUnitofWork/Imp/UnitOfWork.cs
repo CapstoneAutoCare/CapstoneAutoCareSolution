@@ -50,7 +50,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _InformationMaintenance = new InformationMaintenanceRepositoryImp(_context);
             _MaintenanceSchedule = new MaintananceScheduleRepositoryImp(_context);
             _MaintenanceCenter = new MaintenanceCenterRepositoryImp(_context);
-            //_MaintenanceHistoryStatuses = new MaintenanceHistoryStatusesRepositoryImp(_context);
+            _MaintenanceHistoryStatuses = new MaintenanceHistoryStatusesRepositoryImp(_context);
             _MaintenanceSparePartInfo = new MaintenanceSparePartInfoRepositoryImp(_context);
             _MaintenancePlan = new MaintenancePlanRepositoryImp(_context);
             _MaintenanceService = new ServiceCareCostRepositoryImp(_context);
