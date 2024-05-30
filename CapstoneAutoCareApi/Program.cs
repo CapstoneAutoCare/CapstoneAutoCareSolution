@@ -93,9 +93,15 @@ builder.Services.AddTransient<IMaintananceServicesService, MaintananceServicesSe
 builder.Services.AddTransient<IMaintenanceInformationService, MaintenanceInformationServiceImp>();
 builder.Services.AddTransient<IInformationMaintenanceRepository, InformationMaintenanceRepositoryImp>();
 
-//Maintanance Information SP
+//Maintanance Information MSI
 builder.Services.AddTransient<IMaintenanceServiceInfoRepository, MaintenanceServiceInfoRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceServiceInfoService, MaintenanceServiceInfoServiceImp>();
+
+
+//Maintanance Information MSPI
 builder.Services.AddTransient<IMaintenanceSparePartInfoRepository, MaintenanceSparePartInfoRepositoryImp>();
+
+builder.Services.AddTransient<IMaintenanceSparePartInfoService, MaintenanceSparePartInfoServiceImp>();
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 

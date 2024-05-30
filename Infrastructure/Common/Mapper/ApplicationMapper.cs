@@ -392,8 +392,12 @@ namespace Infrastructure.Common.Mapper
 
 
             #region MaintenanceSparePartInfo
-            CreateMap<CreateMaintenanceSparePartInfo, MaintenanceSparePartInfo>()
+            CreateMap<CreateMaintenanceSparePartInfoHaveItems, MaintenanceSparePartInfo>()
                 .ForMember(p => p.SparePartsItemId, act => act.MapFrom(src => src.SparePartsItemtId))
+                .ReverseMap();
+
+            CreateMap<CreateMaintenanceSparePartInfo, MaintenanceSparePartInfo>()
+                .ForMember(p => p.InformationMaintenanceId, act => act.MapFrom(src => src.MaintenanceInformationId))
                 .ReverseMap();
 
             CreateMap<MaintenanceSparePartInfo, ResponseMaintenanceSparePartInfo>()
@@ -403,11 +407,14 @@ namespace Infrastructure.Common.Mapper
 
             #region MaintenanceServiceInfo
 
-            CreateMap<CreateMaintenanceServiceInfo, MaintenanceServiceInfo>()
+            CreateMap<CreateMaintenanceServiceInfoHaveItems, MaintenanceServiceInfo>()
                    //.ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceId))
                    //.ForMember(p => p.MaintenanceServiceInfoName, act => act.MapFrom(src => src.MaintenanceServiceInfoName))
                    .ReverseMap();
 
+            CreateMap<CreateMaintenanceServiceInfo, MaintenanceServiceInfo>()
+                   .ForMember(p => p.InformationMaintenanceId, act => act.MapFrom(src => src.MaintenanceInformationId))
+                   .ReverseMap();
             CreateMap<MaintenanceServiceInfo, ResponseMaintenanceServiceInfo>()
                    .ReverseMap();
             #endregion

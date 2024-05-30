@@ -22,7 +22,7 @@ namespace Application.IRepository.Imp
                 .Include(p => p.ServiceCare).ToListAsync();
         }
 
-        public async Task<MaintenanceService> GetByID(Guid id)
+        public async Task<MaintenanceService> GetById(Guid? id)
         {
             var ms = await _context.Set<MaintenanceService>()
                 .Include(c => c.MaintenanceCenter)

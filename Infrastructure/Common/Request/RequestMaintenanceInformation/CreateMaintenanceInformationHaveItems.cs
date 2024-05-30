@@ -14,8 +14,8 @@ namespace Infrastructure.Common.Request.RequestMaintenanceInformation
         public DateTime FinishedDate { get; set; }
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
-        public List<CreateMaintenanceSparePartInfo>? CreateMaintenanceSparePartInfos { get; set; }
-        public List<CreateMaintenanceServiceInfo>? CreateMaintenanceServiceInfos { get; set; }
+        public List<CreateMaintenanceSparePartInfoHaveItems>? CreateMaintenanceSparePartInfos { get; set; }
+        public List<CreateMaintenanceServiceInfoHaveItems>? CreateMaintenanceServiceInfos { get; set; }
 
     }
 }

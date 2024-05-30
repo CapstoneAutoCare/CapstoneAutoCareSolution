@@ -43,8 +43,8 @@ namespace Infrastructure.IService.Imp
         }
 
         public async Task<ResponseMaintananceServices> GetById(Guid id)
-        {
-            var maintanance_services = await _unitOfWork.MaintenanceService.GetByID(id);
+        {   
+            var maintanance_services = await _unitOfWork.MaintenanceService.GetById(id);
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
         }
     }

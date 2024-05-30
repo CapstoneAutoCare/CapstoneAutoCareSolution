@@ -10,5 +10,7 @@ namespace Application.IRepository
 {
     public interface IMaintenanceSparePartInfoRepository: IGenericRepository<MaintenanceSparePartInfo>
     {
+        Task<List<MaintenanceSparePartInfo>> GetAll();
+        Task<MaintenanceSparePartInfo> GetById(Guid id);
     }
 }
