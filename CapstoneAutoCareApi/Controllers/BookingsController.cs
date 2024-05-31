@@ -9,6 +9,7 @@ using Application;
 using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestBooking;
+using Infrastructure.Common.Response.ResponseBooking;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -24,14 +25,14 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetBookings()
+        public async Task<ActionResult<IEnumerable<ResponseBooking>>> GetBookings()
         {
             return Ok(await _bookingsService.GetAll());
 
         }
 
         [HttpGet]
-        public async Task<ActionResult<Booking>> GetBooking(Guid id)
+        public async Task<ActionResult<ResponseBooking>> GetBooking(Guid id)
         {
             return Ok(await _bookingsService.GetById(id));
 
@@ -44,12 +45,17 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking([FromBody]RequestBooking booking)
+        public async Task<ActionResult<ResponseBooking>> PostBooking([FromBody] RequestBooking booking)
         {
             return Ok(await _bookingsService.Create(booking));
 
         }
+        [HttpPost]
+        public async Task<ActionResult<ResponseBooking>> PostBookingHaveItems([FromBody] RequestBookingHaveItems booking)
+        {
+            return Ok(await _bookingsService.CreateHaveItemsByClient(booking));
 
+        }
         //[HttpDelete]
         //public async Task<IActionResult> DeleteBooking(Guid id)
         //{

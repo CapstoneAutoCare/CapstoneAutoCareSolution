@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Common.Request.RequestMaintenanceInformation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Infrastructure.Common.Request.RequestBooking
         public Guid? MaintananceScheduleId { get; set; }
         public string Note { get; set; }
         public DateTime BookingDate { get; set; }
+        public CreateMaintenanceInformationHaveItemsByClient CreateMaintenanceInformationHaveItemsByClient { get; set; }
     }
 }

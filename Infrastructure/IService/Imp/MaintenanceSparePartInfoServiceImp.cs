@@ -37,7 +37,7 @@ namespace Infrastructure.IService.Imp
             }
             else
             {
-                await _unitOfWork.MaintenanceService.GetById(spi.SparePartsItemId);
+                await _unitOfWork.SparePartsItem.GetById(spi.SparePartsItemId);
                 await _unitOfWork.MaintenanceSparePartInfo.Add(spi);
             }
             await _unitOfWork.Commit();
