@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
-using Infrastructure.Common.Response.ResponseMaintenanceInformation;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;

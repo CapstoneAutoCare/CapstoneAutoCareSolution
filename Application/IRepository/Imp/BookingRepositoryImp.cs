@@ -17,12 +17,28 @@ namespace Application.IRepository.Imp
 
         public async Task<List<Booking>> GetAll()
         {
-            return await _context.Set<Booking>().Include(c => c.Client).Include(c => c.Vehicles).ToListAsync();
+            return await _context.Set<Booking>()
+                .Include(c => c.Client)
+                .Include(c => c.Vehicles)
+                .Include(c => c.MaintenanceCenter)
+                .Include(c => c.MaintenanceInformation)
+                .ThenInclude(c => c.MaintenanceSparePartInfos)
+                .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
+                .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                .ToListAsync();
         }
 
         public async Task<Booking> GetById(Guid? id)
         {
-            var booking = await _context.Set<Booking>().Include(c => c.Client).FirstOrDefaultAsync(c => c.BookingId == id);
+            var booking = await _context.Set<Booking>()
+                .Include(c => c.Client)
+                .Include(c => c.Vehicles)
+                .Include(c => c.MaintenanceCenter)
+                .Include(c => c.MaintenanceInformation)
+                .ThenInclude(c=>c.MaintenanceSparePartInfos)
+                .Include(c=>c.MaintenanceInformation.MaintenanceServiceInfos)
+                .Include(c=>c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                .FirstOrDefaultAsync(c => c.BookingId == id);
             if (booking == null)
             {
                 throw new Exception("Not Found");

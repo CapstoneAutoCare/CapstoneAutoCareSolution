@@ -17,7 +17,7 @@ namespace Domain.Entities
 
         [Key]
         public Guid MaintananceScheduleId { get; set; }
-        public string Odo { get; set; }
+        public int Odo { get; set; }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
         public Guid VehicleModelId { get; set; }

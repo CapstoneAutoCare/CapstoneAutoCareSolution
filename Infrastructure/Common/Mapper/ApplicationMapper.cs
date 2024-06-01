@@ -27,7 +27,7 @@ using Infrastructure.Common.Response.ResponseCenter;
 using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
-using Infrastructure.Common.Response.ResponseMaintenanceInformation;
+using Infrastructure.Common.Response.ResponseMainInformation;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
 using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
 using Infrastructure.Common.Response.ResponseStaffCare;
@@ -286,7 +286,7 @@ namespace Infrastructure.Common.Mapper
                 //.ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId))
                 .ReverseMap();
             CreateMap<Booking, ResponseBooking>()
-                //.ForMember(p => p.CreateDate, act => act.MapFrom(src => src.CreateDate))
+                .ForMember(p => p.ResponseMaintenanceInformation, act => act.MapFrom(src => src.MaintenanceInformation))
                 .ReverseMap();
             #endregion
 

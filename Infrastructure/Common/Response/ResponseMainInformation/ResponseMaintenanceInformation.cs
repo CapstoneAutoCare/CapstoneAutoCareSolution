@@ -7,7 +7,7 @@ using Infrastructure.Common.Response.ResponseHistoryStatus;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
 using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
 
-namespace Infrastructure.Common.Response.ResponseMaintenanceInformation
+namespace Infrastructure.Common.Response.ResponseMainInformation
 {
     public class ResponseMaintenanceInformation
     {

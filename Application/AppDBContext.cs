@@ -1,4 +1,5 @@
 ﻿using Application.ConfigurationDB;
+using Application.SeedingData;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,7 +28,6 @@ namespace Application
         public virtual DbSet<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
         public virtual DbSet<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
         public virtual DbSet<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
-
         public virtual DbSet<MaintenancePlan> MaintenancePlans { get; set; }
         public virtual DbSet<MaintenanceService> MaintenanceServices { get; set; }
         public virtual DbSet<OdoHistory> OdoHistories { get; set; }
@@ -78,6 +78,41 @@ namespace Application
             modelBuilder.ApplyConfiguration(new MaintenanceHistoryStatusConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceInfoConfiguration());
             modelBuilder.ApplyConfiguration(new ImageRepairReceiptConfiguration());
+
+
+            var vehicleBrands = SeedingDataVehiclesBrand.Get();
+            modelBuilder.Entity<VehiclesBrand>().HasData(vehicleBrands);
+
+            foreach (var brand in vehicleBrands)
+            {
+                var vehicleModels = new List<VehicleModel>();
+                switch (brand.VehiclesBrandName)
+                {
+                    case "BMW":
+                        vehicleModels = SeedingDataVehicleModel.GetBMW(brand);
+                        break;
+                    case "MEC":
+                        vehicleModels = SeedingDataVehicleModel.GetMEC(brand);
+                        break;
+                    case "AUDI":
+                        vehicleModels = SeedingDataVehicleModel.GetAUDI(brand);
+                        break;
+                    case "TOYOTA":
+                        vehicleModels = SeedingDataVehicleModel.GetTOYOTA(brand);
+                        break;
+                    case "HONDA":
+                        vehicleModels = SeedingDataVehicleModel.GetHONDA(brand);
+                        break;
+                }
+
+                foreach (var vehicleModel in vehicleModels)
+                {
+                    modelBuilder.Entity<VehicleModel>().HasData(vehicleModel);
+                    modelBuilder.Entity<MaintananceSchedule>().HasData(SeedingDataMaintananceSchedule.Get(vehicleModel));
+                }
+            }
+
+
             OnModelCreatingPartial(modelBuilder);
 
         }

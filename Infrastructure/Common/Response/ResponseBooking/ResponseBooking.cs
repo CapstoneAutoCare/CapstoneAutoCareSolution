@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Common.Response.ResponseMainInformation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,6 @@ namespace Infrastructure.Common.Response.ResponseBooking
         public Guid ClientId { get; set; }
         public Guid VehicleId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
+        public ResponseMaintenanceInformation ResponseMaintenanceInformation { get; set; }
     }
 }
