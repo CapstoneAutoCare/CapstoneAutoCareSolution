@@ -108,7 +108,16 @@ namespace Application
                 foreach (var vehicleModel in vehicleModels)
                 {
                     modelBuilder.Entity<VehicleModel>().HasData(vehicleModel);
-                    modelBuilder.Entity<MaintananceSchedule>().HasData(SeedingDataMaintananceSchedule.Get(vehicleModel));
+                    var schedule = SeedingDataMaintananceSchedule.Get(vehicleModel);
+                    //modelBuilder.Entity<MaintananceSchedule>().HasData(SeedingDataMaintananceSchedule.Get(vehicleModel));
+
+                    foreach (var scheduleModel in schedule)
+                    {
+                        modelBuilder.Entity<MaintananceSchedule>().HasData(scheduleModel);
+                        modelBuilder.Entity<MaintenancePlan>().HasData(SeedingDataMaintenancePlan.Get(scheduleModel));
+
+                    }
+
                 }
             }
 

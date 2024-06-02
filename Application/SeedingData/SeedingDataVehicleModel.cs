@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 namespace Application.SeedingData
 {
     public partial class SeedingDataVehicleModel
-    {
+    {            // 6 xe
         public static List<VehicleModel> GetBMW(VehiclesBrand brand)
         {
             return new List<VehicleModel>
             {
+                // 6 xe
                 new VehicleModel {
                     VehicleModelId = Guid.NewGuid(), 
                     Status=EnumStatus.ACTIVE.ToString(),

@@ -12,6 +12,7 @@ namespace Application.SeedingData
     {
         public static List<MaintananceSchedule> Get(VehicleModel vehicle)
         {
+            // 9 schedule
             return new List<MaintananceSchedule>
             {
                 new MaintananceSchedule {
