@@ -36,7 +36,7 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceScheduleService.Update(id, update));
         }
-        [HttpPut]
+        //[HttpPut]
         //public async Task<IActionResult> UpdateStatus(Guid id, string status)
         //{
         //    return Ok(await _maintenanceScheduleService.UpdateStatus(id, status));
