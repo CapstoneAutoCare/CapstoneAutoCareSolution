@@ -35,7 +35,7 @@ namespace Infrastructure.IService.Imp
         }
 
         public async Task<List<ResponseMaintenanceSchedule>> GetAll()
-        {          
+        {
             return _mapper.Map<List<ResponseMaintenanceSchedule>>(await _unitOfWork.MaintenanceSchedule.GetAll());
         }
 
@@ -50,9 +50,13 @@ namespace Infrastructure.IService.Imp
             throw new NotImplementedException();
         }
 
-        public Task<ResponseMaintenanceSchedule> UpdateStatus(Guid id, string status)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<ResponseMaintenanceSchedule> UpdateStatus(Guid id, string status)
+        //{
+        //    var item = await _unitOfWork.MaintenanceSchedule.GetByID(id);
+        //    item. = status;
+        //    await _unitOfWork.MaintenanceSchedule.Update(item);
+        //    await _unitOfWork.Commit();
+        //    return _mapper.Map<ResponseMaintenanceSchedule>(item);
+        //}
     }
 }

@@ -16,6 +16,6 @@ namespace Infrastructure.IService
         Task<ResponseMaintenanceSchedule> GetById(Guid id);
         Task<ResponseMaintenanceSchedule> Create(CreateMaintenanceSchedule create);
         Task<ResponseMaintenanceSchedule> Update(Guid id, UpdateMaintananceSchedule update);
-        Task<ResponseMaintenanceSchedule> UpdateStatus(Guid id, string status);
+       // Task<ResponseMaintenanceSchedule> UpdateStatus(Guid id, string status);
     }
 }

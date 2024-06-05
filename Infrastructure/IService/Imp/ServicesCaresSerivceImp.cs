@@ -3,6 +3,7 @@ using Domain.Entities;
 using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Response.ReponseMaintenancePlan;
 using Infrastructure.Common.Response.ReponseServicesCare;
+using Infrastructure.Common.Response.ReponseSparePart;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -51,9 +52,13 @@ namespace Infrastructure.IService.Imp
             throw new NotImplementedException();
         }
 
-        public Task<ResponseServicesCare> UpdateStatus(Guid id, string status)
+        public async Task<ResponseServicesCare> UpdateStatus(Guid id, string status)
         {
-            throw new NotImplementedException();
+            var item = await _unitOfWork.ServiceCare.GetByID(id);
+            item.Status = status;
+            await _unitOfWork.ServiceCare.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseServicesCare>(item);
         }
     }
 }

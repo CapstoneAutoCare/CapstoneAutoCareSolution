@@ -53,9 +53,13 @@ namespace Infrastructure.IService.Imp
             throw new NotImplementedException();
         }
 
-        public Task<ResponseSparePart> UpdateStatus(Guid id, string status)
+        public async Task<ResponseSparePart> UpdateStatus(Guid id, string status)
         {
-            throw new NotImplementedException();
+            var item = await _unitOfWork.SparePartsRepository.GetByID(id);
+            item.Status = status;
+            await _unitOfWork.SparePartsRepository.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseSparePart>(item);
         }
     }
 }
