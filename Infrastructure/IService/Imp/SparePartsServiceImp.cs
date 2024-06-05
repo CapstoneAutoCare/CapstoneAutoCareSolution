@@ -48,9 +48,17 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseSparePart>(sparepart);
         }
 
-        public Task<ResponseSparePart> Update(Guid id, UpdateSparePart update)
+        public async Task<ResponseSparePart> Update(Guid id, UpdateSparePart update)
         {
-            throw new NotImplementedException();
+            var item = await _unitOfWork.SparePartsRepository.GetByID(id);
+            item.SparePartName = update.SparePartName;
+            item.SparePartDescription = update.SparePartDescription;
+            item.SparePartType = update.SparePartType;
+            item.OriginalPrice = update.OriginalPrice;
+            item.MaintenancePlanId = update.MaintenancePlanId;
+            await _unitOfWork.SparePartsRepository.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseSparePart>(item);
         }
 
         public async Task<ResponseSparePart> UpdateStatus(Guid id, string status)

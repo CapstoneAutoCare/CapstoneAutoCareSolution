@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
+using Infrastructure.Common.Response.ReponseServicesCare;
 using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.IUnitofWork;
 using System;
@@ -45,9 +46,15 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintenanceSchedule>(maintanance_schedule);
         }
 
-        public Task<ResponseMaintenanceSchedule> Update(Guid id, UpdateMaintananceSchedule update)
+        public async Task<ResponseMaintenanceSchedule> Update(Guid id, UpdateMaintananceSchedule update)
         {
-            throw new NotImplementedException();
+            var item = await _unitOfWork.MaintenanceSchedule.GetByID(id);
+            item.Description = update.Description;
+            item.Odo = update.Odo;
+            item.VehicleModelId = update.VehicleModelId;
+            await _unitOfWork.MaintenanceSchedule.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseMaintenanceSchedule>(item);
         }
 
         //public async Task<ResponseMaintenanceSchedule> UpdateStatus(Guid id, string status)

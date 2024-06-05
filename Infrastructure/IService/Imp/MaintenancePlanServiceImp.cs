@@ -3,6 +3,7 @@ using Domain.Entities;
 using Infrastructure.Common.Request.MaintenancePlan;
 using Infrastructure.Common.Response.ReponseMaintenancePlan;
 using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
+using Infrastructure.Common.Response.ReponseServicesCare;
 using Infrastructure.Common.Response.ReponseSparePart;
 using Infrastructure.IUnitofWork;
 using System;
@@ -26,7 +27,7 @@ namespace Infrastructure.IService.Imp
         {
             var maintanance_plan = _mapper.Map<MaintenancePlan>(create);
             await _unitOfWork.MaintenanceSchedule.GetByID(maintanance_plan.MaintananceScheduleId);
-
+            maintanance_plan.Status = "ACTIVE";
             maintanance_plan.CreateDate = DateTime.Now;
 
             await _unitOfWork.MaintenancePlan.Add(maintanance_plan);
@@ -46,9 +47,15 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintenancePlan>(maintanance_plan);
         }
 
-        public Task<ResponseMaintenancePlan> Update(Guid id, UpdateMaintanancePlan update)
+        public async Task<ResponseMaintenancePlan> Update(Guid id, UpdateMaintanancePlan update)
         {
-            throw new NotImplementedException();
+            var item = await _unitOfWork.MaintenancePlan.GetByID(id);
+            item.MaintenancePlanName = update.MaintenancePlanName;
+            item.MaintenancePlanDescription = update.MaintenancePlanDescription;
+            item.MaintananceScheduleId = update.MaintananceScheduleId;
+            await _unitOfWork.MaintenancePlan.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseMaintenancePlan>(item);
         }
 
         public async Task<ResponseMaintenancePlan> UpdateStatus(Guid id, string status)

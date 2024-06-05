@@ -294,7 +294,6 @@ namespace Infrastructure.Common.Mapper
             CreateMap<CreateMaintanancePlan, MaintenancePlan>()
                 .ForMember(p => p.MaintenancePlanName, act => act.MapFrom(src => src.MaintenancePlanName))
                 .ForMember(p => p.MaintenancePlanDescription, act => act.MapFrom(src => src.MaintenancePlanDescription))
-                .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId));
 
             CreateMap<MaintenancePlan, ResponseMaintenancePlan>()

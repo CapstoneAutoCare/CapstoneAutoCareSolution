@@ -57,9 +57,15 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
         }
 
-        public Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update)
+        public async Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update)
         {
-            throw new NotImplementedException();
+            var item = await _unitOfWork.MaintenanceService.GetById(id);
+            item.ServiceCareId = update.ServiceCareId;
+            item.ActuralCost = update.ActuralCost;
+            item.MaintenanceCenterId = update.MaintenanceCenterId;
+            await _unitOfWork.MaintenanceService.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseMaintananceServices>(item);
         }
 
         public async Task<ResponseMaintananceServices> UpdateStatus(Guid id, string status)
