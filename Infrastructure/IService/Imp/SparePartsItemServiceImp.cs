@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.IService.Imp
 {
@@ -54,6 +55,27 @@ namespace Infrastructure.IService.Imp
         {
             var spi = await _unitOfWork.SparePartsItem.GetById(id);
             return _mapper.Map<ResponseSparePartsItem>(spi);
+        }
+
+        public async Task<ResponseSparePartsItem> Update(Guid id, UpdateSparePartItem update)
+        {
+            var item = await _unitOfWork.SparePartsItem.GetById(id);
+            item.ActuralCost = update.ActuralCost;
+            item.SparePartsId = update.SparePartsId;
+            item.MaintenanceCenterId = update.MaintenanceCenterId;
+            await _unitOfWork.SparePartsItem.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseSparePartsItem>(item);
+
+        }
+
+        public async Task<ResponseSparePartsItem> UpdateStatus(Guid id, string status)
+        {
+            var item = await _unitOfWork.SparePartsItem.GetById(id);
+            item.Status = status;
+            await _unitOfWork.SparePartsItem.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseSparePartsItem>(item);
         }
     }
 }

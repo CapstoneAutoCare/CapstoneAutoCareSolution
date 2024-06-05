@@ -44,5 +44,15 @@ namespace Infrastructure.IService.Imp
             var maintanance_schedule = await _unitOfWork.MaintenanceSchedule.GetByID(id);
             return _mapper.Map<ResponseMaintenanceSchedule>(maintanance_schedule);
         }
+
+        public Task<ResponseMaintenanceSchedule> Update(Guid id, UpdateMaintananceSchedule update)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResponseMaintenanceSchedule> UpdateStatus(Guid id, string status)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

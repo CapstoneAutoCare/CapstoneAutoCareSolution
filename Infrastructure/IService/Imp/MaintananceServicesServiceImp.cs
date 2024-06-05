@@ -55,5 +55,15 @@ namespace Infrastructure.IService.Imp
             var maintanance_services = await _unitOfWork.MaintenanceService.GetById(id);
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
         }
+
+        public Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResponseMaintananceServices> UpdateStatus(Guid id, string status)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

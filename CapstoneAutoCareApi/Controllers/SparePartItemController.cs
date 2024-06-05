@@ -31,7 +31,15 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _sparePartsItemService.Create(create));
         }
-        
-
+        [HttpPut]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateSparePartItem update)
+        {
+            return Ok(await _sparePartsItemService.Update(id, update));
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateStatus(Guid id, string status)
+        {
+            return Ok(await _sparePartsItemService.UpdateStatus(id, status));
+        }
     }
 }

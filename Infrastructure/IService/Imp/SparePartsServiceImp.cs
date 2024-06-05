@@ -47,5 +47,15 @@ namespace Infrastructure.IService.Imp
             var sparepart = await _unitOfWork.SparePartsRepository.GetByID(id);
             return _mapper.Map<ResponseSparePart>(sparepart);
         }
+
+        public Task<ResponseSparePart> Update(Guid id, UpdateSparePart update)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ResponseSparePart> UpdateStatus(Guid id, string status)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

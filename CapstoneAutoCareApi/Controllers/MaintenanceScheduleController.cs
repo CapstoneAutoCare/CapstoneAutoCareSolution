@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.IService;
@@ -29,6 +30,16 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<IActionResult> Post(CreateMaintenanceSchedule createMS)
         {
             return Ok(await _maintenanceScheduleService.Create(createMS));
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateMaintananceSchedule update)
+        {
+            return Ok(await _maintenanceScheduleService.Update(id, update));
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateStatus(Guid id, string status)
+        {
+            return Ok(await _maintenanceScheduleService.UpdateStatus(id, status));
         }
     }
 }
