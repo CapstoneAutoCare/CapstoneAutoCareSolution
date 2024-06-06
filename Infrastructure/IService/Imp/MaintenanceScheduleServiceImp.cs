@@ -5,6 +5,7 @@ using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
 using Infrastructure.Common.Response.ReponseServicesCare;
 using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.IUnitofWork;
+using Infrastructure.IUnitofWork.Imp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceSchedule> Update(Guid id, UpdateMaintananceSchedule update)
         {
             var item = await _unitOfWork.MaintenanceSchedule.GetByID(id);
+            await _unitOfWork.VehicleModel.GetById(item.VehicleModelId);
             item.Description = update.Description;
             item.Odo = update.Odo;
             item.VehicleModelId = update.VehicleModelId;
