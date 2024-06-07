@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
 using Infrastructure.Common.Response.ReponseServicesCare;
 using Infrastructure.Common.Response.ReponseSparePart;
@@ -16,5 +17,7 @@ namespace Infrastructure.IService
         Task<List<ResponseServicesCare>> GetAll();
         Task<ResponseServicesCare> GetById(Guid id);
         Task<ResponseServicesCare> Create(CreateServicesCare create);
+        Task<ResponseServicesCare> Update(Guid id, UpdateServies update);
+        Task<ResponseServicesCare> UpdateStatus(Guid id, string status);
     }
 }

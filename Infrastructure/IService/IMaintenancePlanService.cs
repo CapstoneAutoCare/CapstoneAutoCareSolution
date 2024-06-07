@@ -16,5 +16,7 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenancePlan>> GetAll();
         Task<ResponseMaintenancePlan> GetById(Guid id);
         Task<ResponseMaintenancePlan> Create(CreateMaintanancePlan create);
+        Task<ResponseMaintenancePlan> Update(Guid id, UpdateMaintanancePlan update);
+        Task<ResponseMaintenancePlan> UpdateStatus(Guid id, string status);
     }
 }

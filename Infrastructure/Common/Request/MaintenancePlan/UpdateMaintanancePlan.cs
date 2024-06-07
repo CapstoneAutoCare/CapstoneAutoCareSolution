@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Common.Request.MaintenancePlan
 {
-    public class CreateMaintanancePlan
+    public class UpdateMaintanancePlan
     {
-        public int MaintenancePlanName { get; set; }
+        public string MaintenancePlanName { get; set; }
         public string MaintenancePlanDescription { get; set; }
         public Guid MaintananceScheduleId { get; set; }
     }

@@ -3,6 +3,7 @@ using Domain.Entities;
 using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Response.ReponseMaintenancePlan;
 using Infrastructure.Common.Response.ReponseServicesCare;
+using Infrastructure.Common.Response.ReponseSparePart;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,29 @@ namespace Infrastructure.IService.Imp
         {
             var maintanance_plan = await _unitOfWork.ServiceCare.GetByID(id);
             return _mapper.Map<ResponseServicesCare>(maintanance_plan);
+        }
+
+        public async Task<ResponseServicesCare> Update(Guid id, UpdateServies update)
+        {
+            var item = await _unitOfWork.ServiceCare.GetByID(id);
+            item.ServiceCareName = update.ServiceCareName;
+            item.ServiceCareDescription = update.ServiceCareDescription;
+            item.ServiceCareType = update.ServiceCareType;
+            item.OriginalPrice = update.OriginalPrice;
+            item.MaintenancePlanId = update.MaintenancePlanId;
+            await _unitOfWork.ServiceCare.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseServicesCare>(item);
+
+        }
+
+        public async Task<ResponseServicesCare> UpdateStatus(Guid id, string status)
+        {
+            var item = await _unitOfWork.ServiceCare.GetByID(id);
+            item.Status = status;
+            await _unitOfWork.ServiceCare.Update(item);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseServicesCare>(item);
         }
     }
 }
