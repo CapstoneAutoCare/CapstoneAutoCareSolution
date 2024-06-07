@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.MaintananceServices;
-using Infrastructure.Common.Response.ReponseMaintenancePlan;
-using Infrastructure.Common.Response.ReponseServicesCare;
-using Infrastructure.Common.Response.ReponseSparePart;
+using Infrastructure.Common.Response.ResponseServicesCare;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -61,7 +59,7 @@ namespace Infrastructure.IService.Imp
         {
             var item = await _unitOfWork.MaintenanceService.GetById(id);
             item.ServiceCareId = update.ServiceCareId;
-            item.ActuralCost = update.ActuralCost;
+            //item.ActuralCost = update.ActuralCost;
             item.MaintenanceCenterId = update.MaintenanceCenterId;
             await _unitOfWork.MaintenanceService.Update(item);
             await _unitOfWork.Commit();

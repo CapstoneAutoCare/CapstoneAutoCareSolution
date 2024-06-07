@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.Sparepart;
-using Infrastructure.Common.Response.ReponseMaintenancePlan;
-using Infrastructure.Common.Response.ReponseSparePart;
+using Infrastructure.Common.Response.ResponseSparePart;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -60,7 +59,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseSparePartsItem> Update(Guid id, UpdateSparePartItem update)
         {
             var item = await _unitOfWork.SparePartsItem.GetById(id);
-            item.ActuralCost = update.ActuralCost;
+            //item.ActuralCost = update.ActuralCost;
             item.SparePartsId = update.SparePartsId;
             item.MaintenanceCenterId = update.MaintenanceCenterId;
             await _unitOfWork.SparePartsItem.Update(item);

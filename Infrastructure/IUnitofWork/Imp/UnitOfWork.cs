@@ -24,7 +24,6 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly IMaintenanceCenterRepository _MaintenanceCenter;
         private readonly IMaintenanceHistoryStatusesRepository _MaintenanceHistoryStatuses;
         private readonly IMaintenanceSparePartInfoRepository _MaintenanceSparePartInfo;
-        private readonly IMaintenancePlanRepository _MaintenancePlan;
         private readonly IMaintenanceServiceRepository _MaintenanceService;
         private readonly IOdoHistoryRepository _OdoHistory;
         private readonly IReceiptRepository _ReceiptRepository;
@@ -38,6 +37,8 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly IVehiclesMaintenanceRepository _VehiclesMaintenance;
         private readonly IVehiclesRepository _Vehicles;
         private readonly IMaintenanceServiceInfoRepository _MaintenanceServiceInfo;
+        private readonly IMaintenanceServiceCostRepository _MaintenanceServiceCost;
+        private ISparePartsItemCostRepository _SparePartsItemCost;
         public UnitOfWork(AppDBContext context)
         {
             _context = context;
@@ -52,7 +53,6 @@ namespace Infrastructure.IUnitofWork.Imp
             _MaintenanceCenter = new MaintenanceCenterRepositoryImp(_context);
             _MaintenanceHistoryStatuses = new MaintenanceHistoryStatusesRepositoryImp(_context);
             _MaintenanceSparePartInfo = new MaintenanceSparePartInfoRepositoryImp(_context);
-            _MaintenancePlan = new MaintenancePlanRepositoryImp(_context);
             _MaintenanceService = new ServiceCareCostRepositoryImp(_context);
             //_OdoHistory = new OdoHistoryRepositoryImp(_context);
             //_ReceiptRepository = new ReceiptRepositoryImp(_context);
@@ -66,6 +66,8 @@ namespace Infrastructure.IUnitofWork.Imp
             //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
             _Vehicles = new VehiclesRepositoryImp(_context);
             _MaintenanceServiceInfo = new MaintenanceServiceInfoRepositoryImp(_context);
+            _SparePartsItemCost = new SparePartsItemCostRepositoryImp(_context);
+            _MaintenanceServiceCost = new MaintenanceServiceCostRepositoryImp(_context);
         }
 
         public IAccountRepository Account => _Account;
@@ -90,7 +92,6 @@ namespace Infrastructure.IUnitofWork.Imp
 
         public IMaintenanceSparePartInfoRepository MaintenanceSparePartInfo => _MaintenanceSparePartInfo;
 
-        public IMaintenancePlanRepository MaintenancePlan => _MaintenancePlan;
 
         public IMaintenanceServiceRepository MaintenanceService => _MaintenanceService;
 
@@ -118,6 +119,9 @@ namespace Infrastructure.IUnitofWork.Imp
 
 
         public IMaintenanceServiceInfoRepository MaintenanceServiceInfo => _MaintenanceServiceInfo;
+
+        public IMaintenanceServiceCostRepository MaintenanceServiceCost => _MaintenanceServiceCost;
+        public ISparePartsItemCostRepository SparePartsItemCost => _SparePartsItemCost;
 
         public async Task Commit() => await _context.SaveChangesAsync();
 

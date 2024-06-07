@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
-using Infrastructure.Common.Request.VehicleRequest;
+using Infrastructure.Common.Request.VehicleBrandRequest;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;

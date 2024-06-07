@@ -12,6 +12,6 @@ namespace Infrastructure.Common.Request.Sparepart
         public string SparePartDescription { get; set; }
         public string SparePartType { get; set; }
         public double OriginalPrice { get; set; }
-        public Guid MaintenancePlanId { get; set; }
+        public Guid MaintananceScheduleId { get; set; }
     }
 }

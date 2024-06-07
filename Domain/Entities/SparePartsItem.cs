@@ -11,13 +11,13 @@ namespace Domain.Entities
     {
         public SparePartsItem()
         {
-            MaintenanceSparePartInfos = new HashSet<MaintenanceSparePartInfo>();   
+            MaintenanceSparePartInfos = new HashSet<MaintenanceSparePartInfo>();
+            SparePartsItemCost = new HashSet<SparePartsItemCost>();
         }
 
         [Key]
 
         public Guid SparePartsItemtId { get; set; }
-        public double ActuralCost { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid? SparePartsId { get; set; }
@@ -25,5 +25,6 @@ namespace Domain.Entities
         public SpareParts SpareParts { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
+        public ICollection<SparePartsItemCost> SparePartsItemCost { get; set; }
     }
 }

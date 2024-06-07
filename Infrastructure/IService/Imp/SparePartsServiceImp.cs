@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.Sparepart;
-using Infrastructure.Common.Response.ReponseMaintenancePlan;
-using Infrastructure.Common.Response.ReponseSparePart;
+using Infrastructure.Common.Response.ResponseSparePart;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -26,7 +25,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseSparePart> Create(CreateSpareParts create)
         {
             var sparepart = _mapper.Map<SpareParts>(create);
-            await _unitOfWork.MaintenancePlan.GetByID(sparepart.MaintenancePlanId);
+            await _unitOfWork.MaintenanceSchedule.GetByID(sparepart.MaintananceScheduleId);
 
             sparepart.CreatedDate = DateTime.Now;
             sparepart.Status = "ACTIVE";
@@ -55,7 +54,7 @@ namespace Infrastructure.IService.Imp
             item.SparePartDescription = update.SparePartDescription;
             item.SparePartType = update.SparePartType;
             item.OriginalPrice = update.OriginalPrice;
-            item.MaintenancePlanId = update.MaintenancePlanId;
+            item.MaintananceScheduleId = update.MaintananceScheduleId;
             await _unitOfWork.SparePartsRepository.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseSparePart>(item);

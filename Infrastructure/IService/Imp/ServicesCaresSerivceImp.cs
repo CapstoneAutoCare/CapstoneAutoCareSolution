@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.MaintananceServices;
-using Infrastructure.Common.Response.ReponseMaintenancePlan;
-using Infrastructure.Common.Response.ReponseServicesCare;
-using Infrastructure.Common.Response.ReponseSparePart;
+using Infrastructure.Common.Response.ResponseServicesCare;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -25,7 +23,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseServicesCare> Create(CreateServicesCare create)
         {
             var service = _mapper.Map<ServiceCare>(create);
-            await _unitOfWork.MaintenancePlan.GetByID(service.MaintenancePlanId);
+            await _unitOfWork.MaintenanceSchedule.GetByID(service.MaintananceScheduleId);
 
             service.CreatedDate = DateTime.Now;
             service.Status = "ACTIVE";
@@ -54,7 +52,7 @@ namespace Infrastructure.IService.Imp
             item.ServiceCareDescription = update.ServiceCareDescription;
             item.ServiceCareType = update.ServiceCareType;
             item.OriginalPrice = update.OriginalPrice;
-            item.MaintenancePlanId = update.MaintenancePlanId;
+            item.MaintananceScheduleId = update.MaintananceScheduleId;
             await _unitOfWork.ServiceCare.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseServicesCare>(item);

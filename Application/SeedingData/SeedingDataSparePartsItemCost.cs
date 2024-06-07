@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Request.VehicleBrandRequest
+namespace Application.SeedingData
 {
-    public class VehicleBrandUpdate
+    internal class SeedingDataSparePartsItemCost
     {
-        public string? BrandName;
     }
 }

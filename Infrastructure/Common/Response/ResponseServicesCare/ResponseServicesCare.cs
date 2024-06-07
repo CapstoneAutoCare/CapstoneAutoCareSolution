@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Response.ReponseServicesCare
+namespace Infrastructure.Common.Response.ResponseServicesCare
 {
     public class ResponseServicesCare
     {
@@ -16,7 +16,7 @@ namespace Infrastructure.Common.Response.ReponseServicesCare
 
         public double OriginalPrice { get; set; }
         public string Status { get; set; }
-        public Guid MaintenancePlanId { get; set; }
-        public string MaintenancePlanName { get; set; }
+        public Guid MaintananceScheduleId { get; set; }
+        public string MaintananceScheduleName { get; set; }
     }
 }

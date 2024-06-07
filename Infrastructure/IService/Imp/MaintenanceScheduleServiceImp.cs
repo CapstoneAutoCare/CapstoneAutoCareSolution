@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.MaintenanceSchedule;
-using Infrastructure.Common.Response.ReponseMaintenanceSchedule;
-using Infrastructure.Common.Response.ReponseServicesCare;
-using Infrastructure.Common.Response.ResponseClient;
+using Infrastructure.Common.Response.ResponseMaintenanceSchedule;
 using Infrastructure.IUnitofWork;
 using Infrastructure.IUnitofWork.Imp;
 using System;
@@ -52,7 +50,7 @@ namespace Infrastructure.IService.Imp
             var item = await _unitOfWork.MaintenanceSchedule.GetByID(id);
             await _unitOfWork.VehicleModel.GetById(item.VehicleModelId);
             item.Description = update.Description;
-            item.Odo = update.Odo;
+            item.MaintananceScheduleName = update.Odo;
             item.VehicleModelId = update.VehicleModelId;
             await _unitOfWork.MaintenanceSchedule.Update(item);
             await _unitOfWork.Commit();

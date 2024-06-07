@@ -26,7 +26,6 @@ namespace Domain.Entities
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
         public Guid CustomerCareId { get; set; }
-        public Guid? ImageRepairReceiptId { get; set; }
         public Booking Booking { get; set; }
         public CustomerCare CustomerCare { get; set; }
         public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
@@ -36,7 +35,6 @@ namespace Domain.Entities
 
         public Receipt Receipt { get; set; }
         public OdoHistory OdoHistory { get; set; }
-        public ImageRepairReceipt ImageRepairReceipt { get; set; }
 
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository
 {
-    public interface IMaintenancePlanRepository: IGenericRepository<MaintenancePlan>
+    public interface IMaintenanceServiceCostRepository : IGenericRepository<MaintenanceServiceCost>
     {
-        Task<List<MaintenancePlan>> GetAll();
-        Task<MaintenancePlan> GetByID(Guid id);
+        Task<List<MaintenanceServiceCost>> GetAll();
+        Task<MaintenanceServiceCost> GetById(Guid id);
     }
 }

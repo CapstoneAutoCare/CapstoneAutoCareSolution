@@ -1,8 +1,5 @@
 ﻿using Infrastructure.Common.Request.MaintananceServices;
-using Infrastructure.Common.Request.Sparepart;
-using Infrastructure.Common.Response.ReponseServicesCare;
-using Infrastructure.Common.Response.ReponseSparePart;
-using Infrastructure.Common.Response.ResponseMaintenanceService;
+using Infrastructure.Common.Response.ResponseServicesCare;
 using System;
 using System.Collections.Generic;
 using System.Linq;

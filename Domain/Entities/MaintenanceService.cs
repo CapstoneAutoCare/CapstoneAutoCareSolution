@@ -12,11 +12,11 @@ namespace Domain.Entities
         public MaintenanceService()
         {
             MaintenanceServiceInfos = new HashSet<MaintenanceServiceInfo>();
+            MaintenanceServiceCosts = new HashSet<MaintenanceServiceCost>();
         }
 
         [Key]
         public Guid MaintenanceServiceId { get; set; }
-        public double ActuralCost { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid? ServiceCareId { get; set; }
@@ -24,6 +24,7 @@ namespace Domain.Entities
         public ServiceCare ServiceCare { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public ICollection<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
+        public ICollection<MaintenanceServiceCost> MaintenanceServiceCosts { get; set; }
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common.Request.MaintenanceInformation;
-using Infrastructure.Common.Request.RequestMaintenanceInformation;
+﻿using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseMainInformation;
 using System;
 using System.Collections.Generic;

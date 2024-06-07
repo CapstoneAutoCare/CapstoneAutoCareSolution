@@ -28,7 +28,6 @@ namespace Application
         public virtual DbSet<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
         public virtual DbSet<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
         public virtual DbSet<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
-        public virtual DbSet<MaintenancePlan> MaintenancePlans { get; set; }
         public virtual DbSet<MaintenanceService> MaintenanceServices { get; set; }
         public virtual DbSet<OdoHistory> OdoHistories { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
@@ -42,6 +41,8 @@ namespace Application
         public virtual DbSet<VehiclesBrand> VehiclesBrand { get; set; }
         public virtual DbSet<VehiclesMaintenance> VehiclesMaintenances { get; set; }
         public virtual DbSet<ImageRepairReceipt> ImageRepairReceipts { get; set; }
+        public virtual DbSet<SparePartsItemCost> SparePartsItemCosts { get; set; }
+        public virtual DbSet<MaintenanceServiceCost> MaintenanceServiceCosts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -61,7 +62,6 @@ namespace Application
             modelBuilder.ApplyConfiguration(new MaintananceScheduleConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceCenterConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceSparePartInfoConfiguration());
-            modelBuilder.ApplyConfiguration(new MaintenancePlanConfiguration());
             modelBuilder.ApplyConfiguration(new OdoHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new ReceiptConfiguration());
             modelBuilder.ApplyConfiguration(new ServiceCareConfiguration());
@@ -78,11 +78,15 @@ namespace Application
             modelBuilder.ApplyConfiguration(new MaintenanceHistoryStatusConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceInfoConfiguration());
             modelBuilder.ApplyConfiguration(new ImageRepairReceiptConfiguration());
+            modelBuilder.ApplyConfiguration(new MaintenanceServiceCostConfiguration());
+            modelBuilder.ApplyConfiguration(new SparePartsCostConfiguration());
 
 
             var vehicleBrands = SeedingDataVehiclesBrand.Get();
-            modelBuilder.Entity<VehiclesBrand>().HasData(vehicleBrands);
 
+            modelBuilder.Entity<VehiclesBrand>().HasData(vehicleBrands);
+            //modelBuilder.Entity<MaintenanceCenter>().HasData(SeedingDataCenter.Get());
+            //modelBuilder.Entity<Account>().HasData(SeedingDataCenter.Get());
             foreach (var brand in vehicleBrands)
             {
                 var vehicleModels = new List<VehicleModel>();
@@ -104,36 +108,8 @@ namespace Application
                         vehicleModels = SeedingDataVehicleModel.GetHONDA(brand);
                         break;
                 }
+                modelBuilder.Entity<VehicleModel>().HasData(vehicleModels);
 
-                foreach (var vehicleModel in vehicleModels)
-                {
-                    modelBuilder.Entity<VehicleModel>().HasData(vehicleModel);
-                    var schedule = SeedingDataMaintananceSchedule.Get(vehicleModel);
-                    //modelBuilder.Entity<MaintananceSchedule>().HasData(SeedingDataMaintananceSchedule.Get(vehicleModel));
-
-                    foreach (var scheduleModel in schedule)
-                    {
-                        modelBuilder.Entity<MaintananceSchedule>().HasData(scheduleModel);
-                        //var plan = SeedingDataMaintenancePlan.Get(scheduleModel);
-                        var plan = new List<MaintenancePlan>();
-                        for (var i = 0; i < plan.Count; i++)
-                        {
-                            if (scheduleModel.Odo < 1000)
-                            {
-                                plan = SeedingDataMaintenancePlan.Get(schedule[i]);
-                            }
-                            if (scheduleModel.Odo < 5000)
-                            {
-                                plan = SeedingDataMaintenancePlan.Get(schedule[i]);
-                            }
-                            i++;
-                        }
-                        //modelBuilder.Entity<MaintenancePlan>().HasData(plan);
-
-                        modelBuilder.Entity<MaintenancePlan>().HasData(SeedingDataMaintenancePlan.Get(scheduleModel));
-                    }
-
-                }
             }
 
 

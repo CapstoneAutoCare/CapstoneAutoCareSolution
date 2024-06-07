@@ -20,8 +20,9 @@ namespace Infrastructure.IUnitofWork
         IMaintenanceCenterRepository MaintenanceCenter { get; }
         IMaintenanceHistoryStatusesRepository MaintenanceHistoryStatuses { get; }
         IMaintenanceSparePartInfoRepository MaintenanceSparePartInfo { get; }
-        IMaintenancePlanRepository MaintenancePlan { get; }
         IMaintenanceServiceRepository MaintenanceService { get; }
+        IMaintenanceServiceCostRepository MaintenanceServiceCost { get; }
+        ISparePartsItemCostRepository SparePartsItemCost { get; }
         IOdoHistoryRepository OdoHistory { get; }
         IReceiptRepository ReceiptRepository { get; }
         IServiceCareRepository ServiceCare { get; }

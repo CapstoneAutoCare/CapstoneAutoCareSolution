@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Response.ReponseSparePart
+namespace Infrastructure.Common.Response.ResponseSparePart
 {
     public class ResponseSparePart
     {
@@ -15,8 +15,8 @@ namespace Infrastructure.Common.Response.ReponseSparePart
         public DateTime CreatedDate { get; set; }
         public double OriginalPrice { get; set; }
         public string Status { get; set; }
-        public Guid MaintenancePlanId { get; set; }
-        public string MaintenancePlanName { get; set;}
+        public Guid MaintananceScheduleId { get; set; }
+        public string MaintananceScheduleName { get; set; }
 
     }
 }

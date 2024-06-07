@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Request.MaintenanceInformation
+namespace Infrastructure.Common.Request.RequestMaintenanceInformation
 {
     public class CreateMaintenanceInformation
     {

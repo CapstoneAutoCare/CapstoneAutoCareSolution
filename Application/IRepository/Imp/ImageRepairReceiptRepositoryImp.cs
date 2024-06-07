@@ -19,7 +19,6 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<ImageRepairReceipt>()
                  .Include(c => c.MaintenanceCenter)
-                 .Include(c => c.MaintenanceInformation)
                  .Include(c => c.Vehicle).ToListAsync();
         }
 
@@ -27,7 +26,6 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<ImageRepairReceipt>()
                              .Include(c => c.MaintenanceCenter)
-                             .Include(c => c.MaintenanceInformation)
                              .Include(c => c.Vehicle)
                              .FirstOrDefaultAsync(c => c.ImageRepairReceiptId == id);
         }

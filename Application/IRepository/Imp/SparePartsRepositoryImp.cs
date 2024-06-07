@@ -17,12 +17,12 @@ namespace Application.IRepository.Imp
 
         public async Task<List<SpareParts>> GetAll()
         {
-            return await _context.Set<SpareParts>().Include(p => p.MaintenancePlan).ToListAsync();
+            return await _context.Set<SpareParts>().Include(p => p.MaintananceSchedule).ToListAsync();
         }
 
         public async Task<SpareParts> GetByID(Guid? id)
         {
-            var sp = await _context.Set<SpareParts>().Include(p => p.MaintenancePlan).FirstOrDefaultAsync(x => x.SparePartId.Equals(id));
+            var sp = await _context.Set<SpareParts>().Include(p => p.MaintananceSchedule).FirstOrDefaultAsync(x => x.SparePartId.Equals(id));
             if (sp == null)
             {
                 throw new Exception("Not Found");

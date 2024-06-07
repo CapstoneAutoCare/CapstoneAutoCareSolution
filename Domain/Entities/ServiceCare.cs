@@ -24,8 +24,8 @@ namespace Domain.Entities
 
         public double OriginalPrice { get; set; }
         public string Status { get; set; }
-        public Guid MaintenancePlanId { get; set; }
-        public MaintenancePlan MaintenancePlan { get; set; }
+        public Guid MaintananceScheduleId { get; set; }
+        public MaintananceSchedule MaintananceSchedule { get; set; }
         public ICollection<MaintenanceService> MaintenanceServices { get; set; }
     }
 }

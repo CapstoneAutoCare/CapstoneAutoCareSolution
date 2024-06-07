@@ -1,6 +1,4 @@
 ﻿using Domain.Entities;
-using Infrastructure.Common.ModelSecurity;
-using Infrastructure.Common;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,6 +9,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Infrastructure.Common;
+using Infrastructure.Common.ModelSecurity;
 
 namespace Infrastructure.ISecurity.Imp
 {

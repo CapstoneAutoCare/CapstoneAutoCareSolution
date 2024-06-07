@@ -21,6 +21,5 @@ namespace Domain.Entities
         public Guid? MaintenanceCenterId { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public Vehicles Vehicle { get; set; }
-        public MaintenanceInformation MaintenanceInformation { get; set; }
     }
 }

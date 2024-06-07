@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.Sparepart;
-using Infrastructure.Common.Response.ReponseSparePart;
 using Infrastructure.Common.Response.ReponseVehicleModel;
+using Infrastructure.Common.Response.ResponseSparePart;
 using Infrastructure.IService;
 using Microsoft.AspNetCore.Mvc;
 

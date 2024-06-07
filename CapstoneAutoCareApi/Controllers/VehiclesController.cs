@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Application;
 using Domain.Entities;
 using Infrastructure.IService;
-using Infrastructure.Common.Response.ResponseVehicles;
 using Infrastructure.Common.Request.RequestVehicles;
+using Infrastructure.Common.Response.ResponseVehicles;
 
 namespace CapstoneAutoCareApi.Controllers
 {

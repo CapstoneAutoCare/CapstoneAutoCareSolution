@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Domain.Entities;
-using Infrastructure.Common.Request.MaintenanceInformation;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseMainInformation;
 using Infrastructure.ISecurity;

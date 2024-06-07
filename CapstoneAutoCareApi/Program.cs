@@ -7,11 +7,11 @@ using Domain.Entities;
 using Application.IRepository;
 using Application.IRepository.Imp;
 using Application;
-using Infrastructure.Common.Mapper;
 using CapstoneAutoCareApi.Middlewares;
 using Infrastructure.ISecurity;
 using Infrastructure.ISecurity.Imp;
 using CapstoneAutoCareApi.Configuration;
+using Infrastructure.Common.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,9 +68,6 @@ builder.Services.AddTransient<IVehiclesService, VehiclesServiceImp>();
 builder.Services.AddTransient<IBookingRepository, BookingRepositoryImp>();
 builder.Services.AddTransient<IBookingService, BookingServiceImp>();
 
-//Maintenance Plan
-builder.Services.AddTransient<IMaintenancePlanRepository, MaintenancePlanRepositoryImp>();
-builder.Services.AddTransient<IMaintenancePlanService, MaintenancePlanServiceImp>();
 
 //SparePart
 builder.Services.AddTransient<ISparePartsRepository, SparePartsRepositoryImp>();
@@ -97,6 +94,8 @@ builder.Services.AddTransient<IInformationMaintenanceRepository, InformationMain
 builder.Services.AddTransient<IMaintenanceServiceInfoRepository, MaintenanceServiceInfoRepositoryImp>();
 builder.Services.AddTransient<IMaintenanceServiceInfoService, MaintenanceServiceInfoServiceImp>();
 
+builder.Services.AddTransient<ISparePartsItemCostRepository, SparePartsItemCostRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceServiceCostRepository, MaintenanceServiceCostRepositoryImp>();
 
 //Maintanance Information MSPI
 builder.Services.AddTransient<IMaintenanceSparePartInfoRepository, MaintenanceSparePartInfoRepositoryImp>();
