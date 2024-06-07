@@ -9,7 +9,7 @@ namespace Infrastructure.Common.Response.ReponseMaintenancePlan
     public class ResponseMaintenancePlan
     {
         public Guid MaintenancePlanId { get; set; }
-        public string MaintenancePlanName { get; set; }
+        public int MaintenancePlanName { get; set; }
         public string MaintenancePlanDescription { get; set; }
         public DateTime CreateDate { get; set; }
         public string Status { get; set; }

@@ -8,5 +8,6 @@ namespace Domain.Enum
 {
     public enum EnumOdo
     {
+        
     }
 }

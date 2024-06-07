@@ -114,8 +114,23 @@ namespace Application
                     foreach (var scheduleModel in schedule)
                     {
                         modelBuilder.Entity<MaintananceSchedule>().HasData(scheduleModel);
-                        modelBuilder.Entity<MaintenancePlan>().HasData(SeedingDataMaintenancePlan.Get(scheduleModel));
+                        //var plan = SeedingDataMaintenancePlan.Get(scheduleModel);
+                        var plan = new List<MaintenancePlan>();
+                        for (var i = 0; i < plan.Count; i++)
+                        {
+                            if (scheduleModel.Odo < 1000)
+                            {
+                                plan = SeedingDataMaintenancePlan.Get(schedule[i]);
+                            }
+                            if (scheduleModel.Odo < 5000)
+                            {
+                                plan = SeedingDataMaintenancePlan.Get(schedule[i]);
+                            }
+                            i++;
+                        }
+                        //modelBuilder.Entity<MaintenancePlan>().HasData(plan);
 
+                        modelBuilder.Entity<MaintenancePlan>().HasData(SeedingDataMaintenancePlan.Get(scheduleModel));
                     }
 
                 }

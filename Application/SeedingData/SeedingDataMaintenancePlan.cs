@@ -18,7 +18,16 @@ namespace Application.SeedingData
                 {
                     CreateDate = DateTime.Now,
                     MaintenancePlanId=Guid.NewGuid(),
-                    MaintenancePlanName="1000",
+                    MaintenancePlanName=1000,
+                    MaintenancePlanDescription="Km",
+                    Status=EnumStatus.ACTIVE.ToString(),
+                    MaintananceScheduleId=schedule.MaintananceScheduleId,
+                },
+                new MaintenancePlan
+                {
+                    CreateDate = DateTime.Now,
+                    MaintenancePlanId=Guid.NewGuid(),
+                    MaintenancePlanName=5000,
                     MaintenancePlanDescription="Km",
                     Status=EnumStatus.ACTIVE.ToString(),
                     MaintananceScheduleId=schedule.MaintananceScheduleId,
@@ -28,17 +37,7 @@ namespace Application.SeedingData
                 {
                     CreateDate = DateTime.Now,
                     MaintenancePlanId=Guid.NewGuid(),
-                    MaintenancePlanName="5000",
-                    MaintenancePlanDescription="Km",
-                    Status=EnumStatus.ACTIVE.ToString(),
-                    MaintananceScheduleId=schedule.MaintananceScheduleId,
-                    
-                },
-                new MaintenancePlan
-                {
-                    CreateDate = DateTime.Now,
-                    MaintenancePlanId=Guid.NewGuid(),
-                    MaintenancePlanName="10000",
+                    MaintenancePlanName=10000,
                     MaintenancePlanDescription="Km",
                     Status=EnumStatus.ACTIVE.ToString(),
                     MaintananceScheduleId=schedule.MaintananceScheduleId,
@@ -47,7 +46,7 @@ namespace Application.SeedingData
                 {
                     CreateDate = DateTime.Now,
                     MaintenancePlanId=Guid.NewGuid(),
-                    MaintenancePlanName="20000",
+                    MaintenancePlanName=20000,
                     MaintenancePlanDescription="Km",
                     Status=EnumStatus.ACTIVE.ToString(),
                     MaintananceScheduleId=schedule.MaintananceScheduleId,
@@ -56,7 +55,7 @@ namespace Application.SeedingData
                 {
                     CreateDate = DateTime.Now,
                     MaintenancePlanId=Guid.NewGuid(),
-                    MaintenancePlanName="40000",
+                    MaintenancePlanName=40000,
                     MaintenancePlanDescription="Km",
                     Status=EnumStatus.ACTIVE.ToString(),
                     MaintananceScheduleId=schedule.MaintananceScheduleId,
@@ -65,7 +64,7 @@ namespace Application.SeedingData
                 {
                     CreateDate = DateTime.Now,
                     MaintenancePlanId=Guid.NewGuid(),
-                    MaintenancePlanName="80000",
+                    MaintenancePlanName=80000,
                     MaintenancePlanDescription="Km",
                     Status=EnumStatus.ACTIVE.ToString(),
                     MaintananceScheduleId=schedule.MaintananceScheduleId,
