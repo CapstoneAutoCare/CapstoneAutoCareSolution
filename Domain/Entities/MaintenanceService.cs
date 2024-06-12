@@ -17,8 +17,11 @@ namespace Domain.Entities
 
         [Key]
         public Guid MaintenanceServiceId { get; set; }
+        public string MaintenanceServiceName { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string? Image { get; set; }
+
         public Guid? ServiceCareId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public ServiceCare ServiceCare { get; set; }

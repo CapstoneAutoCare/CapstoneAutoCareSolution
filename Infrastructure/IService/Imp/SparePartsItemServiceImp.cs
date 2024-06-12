@@ -28,6 +28,7 @@ namespace Infrastructure.IService.Imp
 
             sparepart.CreatedDate = DateTime.Now;
             sparepart.Status = "ACTIVE";
+            sparepart.Image = null;
             await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
 
             if (sparepart.SparePartsId == null)

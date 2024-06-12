@@ -26,6 +26,7 @@ namespace Infrastructure.IService.Imp
 
             maintanance_services.CreatedDate = DateTime.Now;
             maintanance_services.Status = "ACTIVE";
+            maintanance_services.Image = null;
             await _unitOfWork.MaintenanceCenter.GetById(maintanance_services.MaintenanceCenterId);
 
             if (maintanance_services.ServiceCareId == null)

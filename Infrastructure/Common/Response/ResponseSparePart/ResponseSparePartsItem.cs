@@ -9,7 +9,7 @@ namespace Infrastructure.Common.Response.ResponseSparePart
     public class ResponseSparePartsItem
     {
         public Guid SparePartsItemId { get; set; }
-        public string SparepartName { get; set; }
+        public string SparePartsItemName { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid SparePartsId { get; set; }
