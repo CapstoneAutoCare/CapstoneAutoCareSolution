@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,14 @@ namespace Application.IRepository.Imp
         {
         }
 
-        public Task<List<SparePartsItemCost>> GetAll()
+        public async Task<List<SparePartsItemCost>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.Set<SparePartsItemCost>().ToListAsync();
         }
 
-        public Task<SparePartsItemCost> GetById(Guid id)
+        public async Task<SparePartsItemCost> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<SparePartsItemCost>().FirstOrDefaultAsync(c => c.SparePartsItemCostId == id);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,15 @@ using System.Threading.Tasks;
 namespace Application.SeedingData
 {
     public partial class SeedingDataVehicleModel
-    {            // 6 xe
-        public static List<VehicleModel> GetBMW(VehiclesBrand brand)
+    {
+
+        private static List<VehicleModel> GetBMW(VehiclesBrand brand)
         {
             return new List<VehicleModel>
             {
                 // 6 xe
                 new VehicleModel {
-                    VehicleModelId = Guid.NewGuid(), 
+                    VehicleModelId = Guid.NewGuid(),
                     Status=EnumStatus.ACTIVE.ToString(),
                     CreatedDate=DateTime.Now,
                     VehicleModelName="320i",
@@ -70,7 +72,7 @@ namespace Application.SeedingData
                 },
             };
         }
-        public static List<VehicleModel> GetMEC(VehiclesBrand brand)
+        private static List<VehicleModel> GetMEC(VehiclesBrand brand)
         {
             return new List<VehicleModel>
             {
@@ -129,7 +131,7 @@ namespace Application.SeedingData
                 },
             };
         }
-        public static List<VehicleModel> GetAUDI(VehiclesBrand brand)
+        private static List<VehicleModel> GetAUDI(VehiclesBrand brand)
         {
             return new List<VehicleModel>
             {
@@ -188,7 +190,7 @@ namespace Application.SeedingData
                 }
             };
         }
-        public static List<VehicleModel> GetTOYOTA(VehiclesBrand brand)
+        private static List<VehicleModel> GetTOYOTA(VehiclesBrand brand)
         {
             return new List<VehicleModel>
             {
@@ -247,7 +249,7 @@ namespace Application.SeedingData
                 }
             };
         }
-        public static List<VehicleModel> GetHONDA(VehiclesBrand brand)
+        private static List<VehicleModel> GetHONDA(VehiclesBrand brand)
         {
             return new List<VehicleModel>
             {
@@ -305,6 +307,34 @@ namespace Application.SeedingData
                     VehiclesBrandId=brand.VehiclesBrandId,
                 }
             };
+        }
+
+        public static List<VehicleModel> ServiceSeedingDataVehicleModel(ModelBuilder modelBuilder, List<VehiclesBrand> vehicleBrands)
+        {
+            var vehicleModels = new List<VehicleModel>();
+            foreach (var brand in vehicleBrands)
+            {
+                switch (brand.VehiclesBrandName)
+                {
+                    case "BMW":
+                        vehicleModels = GetBMW(brand);
+                        break;
+                    case "MEC":
+                        vehicleModels = GetMEC(brand);
+                        break;
+                    case "AUDI":
+                        vehicleModels = GetAUDI(brand);
+                        break;
+                    case "TOYOTA":
+                        vehicleModels = GetTOYOTA(brand);
+                        break;
+                    case "HONDA":
+                        vehicleModels = GetHONDA(brand);
+                        break;
+                }
+                modelBuilder.Entity<VehicleModel>().HasData(vehicleModels);
+            }
+            return vehicleModels;
         }
 
     }

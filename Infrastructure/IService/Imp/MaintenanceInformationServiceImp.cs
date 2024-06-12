@@ -96,7 +96,9 @@ namespace Infrastructure.IService.Imp
                     sp.Discount = 10;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount / 100));
                     sp.InformationMaintenanceId = maintenanceId;
-                    await _unitOfWork.SparePartsItem.GetById(sp.SparePartsItemId);
+                    //await _unitOfWork.SparePartsItem.GetById(sp.SparePartsItemId);
+                    await _unitOfWork.SparePartsItem.GetByStatusAndCostActive(sp.SparePartsItemId);
+
                     await _unitOfWork.MaintenanceSparePartInfo.Add(sp);
                 }
             }

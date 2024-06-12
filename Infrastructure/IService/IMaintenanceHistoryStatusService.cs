@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
+using Infrastructure.Common.Response.ResponseCost;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceHistoryStatus>> GetAll();
         Task<ResponseMaintenanceHistoryStatus> GetById(Guid id);
         Task<ResponseMaintenanceHistoryStatus> Create(CreateMaintenanceHistoryStatus create);
+
     }
 }

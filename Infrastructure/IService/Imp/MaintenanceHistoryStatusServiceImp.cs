@@ -3,11 +3,7 @@ using Domain.Entities;
 using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
 using Infrastructure.IUnitofWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Infrastructure.IService.Imp
 {
@@ -24,9 +20,12 @@ namespace Infrastructure.IService.Imp
 
         public async Task<ResponseMaintenanceHistoryStatus> Create(CreateMaintenanceHistoryStatus create)
         {
+            create.Status.ToUpper();
             var mhs = _mapper.Map<MaintenanceHistoryStatus>(create);
             mhs.DateTime = DateTime.Now;
             await _unitOfWork.InformationMaintenance.GetById(mhs.MaintenanceInformationId);
+            await _unitOfWork.MaintenanceHistoryStatuses.Add(mhs);
+            await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceHistoryStatus>(mhs);
         }
 
@@ -39,5 +38,7 @@ namespace Infrastructure.IService.Imp
         {
             return _mapper.Map<ResponseMaintenanceHistoryStatus>(await _unitOfWork.MaintenanceHistoryStatuses.GetById(id));
         }
+
+        
     }
 }

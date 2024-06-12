@@ -28,6 +28,8 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseClient> CreateCustomer(CreateClient create)
         {
             var client = _mapper.Map<Client>(create);
+            await _unitOfWork.Account.CheckExistEmail(client.Account.Email);
+
             client.Account.Status = "ACTIVE";
             client.Account.Role = "CUSTOMER";
             client.Account.CreatedDate = DateTime.Now;

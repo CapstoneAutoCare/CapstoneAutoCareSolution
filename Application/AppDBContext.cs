@@ -51,8 +51,9 @@ namespace Application
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region AddConfiguration
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
@@ -80,45 +81,20 @@ namespace Application
             modelBuilder.ApplyConfiguration(new ImageRepairReceiptConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceCostConfiguration());
             modelBuilder.ApplyConfiguration(new SparePartsCostConfiguration());
-
+            #endregion
 
             var vehicleBrands = SeedingDataVehiclesBrand.Get();
-
             modelBuilder.Entity<VehiclesBrand>().HasData(vehicleBrands);
-            //modelBuilder.Entity<MaintenanceCenter>().HasData(SeedingDataCenter.Get());
-            //modelBuilder.Entity<Account>().HasData(SeedingDataCenter.Get());
-            foreach (var brand in vehicleBrands)
-            {
-                var vehicleModels = new List<VehicleModel>();
-                switch (brand.VehiclesBrandName)
-                {
-                    case "BMW":
-                        vehicleModels = SeedingDataVehicleModel.GetBMW(brand);
-                        break;
-                    case "MEC":
-                        vehicleModels = SeedingDataVehicleModel.GetMEC(brand);
-                        break;
-                    case "AUDI":
-                        vehicleModels = SeedingDataVehicleModel.GetAUDI(brand);
-                        break;
-                    case "TOYOTA":
-                        vehicleModels = SeedingDataVehicleModel.GetTOYOTA(brand);
-                        break;
-                    case "HONDA":
-                        vehicleModels = SeedingDataVehicleModel.GetHONDA(brand);
-                        break;
-                }
-                modelBuilder.Entity<VehicleModel>().HasData(vehicleModels);
-
-            }
-
+            var centre = SeedingDataCenter.ServiceSeedingDataCenter(modelBuilder);
+            var clients = SeedingDataClient.ServiceSeedingDataClient(modelBuilder);
+            var vehicelsModels = SeedingDataVehicleModel.ServiceSeedingDataVehicleModel(modelBuilder, vehicleBrands);
+            //var vehicles = SeedingDataVehicles.ServiceSeedingDataVeHicles(modelBuilder, clients, vehicelsModels);
 
             OnModelCreatingPartial(modelBuilder);
 
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
     }
 
 }

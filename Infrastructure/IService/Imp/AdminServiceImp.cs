@@ -41,6 +41,7 @@ namespace Infrastructure.IService.Imp
             admin.Account.CreatedDate = DateTime.Now;
             admin.Account.Status = "ACTIVE";
             admin.Account.Role = "ADMIN";
+            await _unitofWork.Account.CheckExistEmail(admin.Account.Email);
             await _unitofWork.Admin.Add(admin);
             await _unitofWork.Account.Add(admin.Account);
             await _unitofWork.Commit();

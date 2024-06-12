@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository.Imp
 {
-    public class SparePartsCostRepositoryImp : GenericRepositoryImp<SparePartsItem>, ISparePartsItemRepository
+    public class SparePartsItemRepositoryImp : GenericRepositoryImp<SparePartsItem>, ISparePartsItemRepository
     {
-        public SparePartsCostRepositoryImp(AppDBContext context) : base(context)
+        public SparePartsItemRepositoryImp(AppDBContext context) : base(context)
         {
         }
 
@@ -28,6 +29,23 @@ namespace Application.IRepository.Imp
                 .Include(p => p.SpareParts)
                 .Include(c => c.MaintenanceCenter)
                 .FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id));
+            if (spi == null)
+            {
+                throw new Exception("Not Found");
+
+            }
+            return spi;
+        }
+
+        public async Task<SparePartsItem> GetByStatusAndCostActive(Guid? id)
+        {
+            var spi = await _context.Set<SparePartsItem>()
+                            .Include(p => p.SpareParts)
+                            .Include(c => c.MaintenanceCenter)
+                            .Include(c => c.SparePartsItemCost)
+                            .FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id)
+                            && x.Status.Equals(EnumStatus.ACTIVE.ToString())
+                            && x.SparePartsItemCost.Select(c => c.Status.Equals(EnumStatus.ACTIVE.ToString())).LastOrDefault());
             if (spi == null)
             {
                 throw new Exception("Not Found");

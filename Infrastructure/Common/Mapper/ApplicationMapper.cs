@@ -7,8 +7,11 @@ using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
+using Infrastructure.Common.Request.RequestMaintenanceServiceCost;
 using Infrastructure.Common.Request.RequestMaintenanceServiceInfo;
 using Infrastructure.Common.Request.RequestMaintenanceSparePartInfor;
+using Infrastructure.Common.Request.RequestMaintenanceTechinican;
+using Infrastructure.Common.Request.RequestSparePartsItemCost;
 using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Request.VehicleBrandRequest;
@@ -19,6 +22,7 @@ using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCenter;
 using Infrastructure.Common.Response.ResponseClient;
+using Infrastructure.Common.Response.ResponseCost;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
 using Infrastructure.Common.Response.ResponseMainInformation;
@@ -28,6 +32,7 @@ using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
 using Infrastructure.Common.Response.ResponseServicesCare;
 using Infrastructure.Common.Response.ResponseSparePart;
 using Infrastructure.Common.Response.ResponseStaffCare;
+using Infrastructure.Common.Response.ResponseTechnicanMain;
 using Infrastructure.Common.Response.ResponseVehicles;
 using System;
 using System.Collections.Generic;
@@ -320,7 +325,6 @@ namespace Infrastructure.Common.Mapper
             CreateMap<SparePartsItem, ResponseSparePartsItem>()
                 .ForMember(p => p.SparePartsItemId, act => act.MapFrom(src => src.SparePartsItemtId))
                 .ForMember(p => p.SparepartName, act => act.MapFrom(src => src.SpareParts.SparePartName))
-                .ForMember(p => p.OriginalCost, act => act.MapFrom(src => src.SpareParts.OriginalPrice))
                 //.ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
                 .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
@@ -356,7 +360,6 @@ namespace Infrastructure.Common.Mapper
             CreateMap<MaintenanceService, ResponseMaintananceServices>()
                 .ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceId))
                 .ForMember(p => p.ServicesCareName, act => act.MapFrom(src => src.ServiceCare.ServiceCareName))
-                .ForMember(p => p.OriginalCost, act => act.MapFrom(src => src.ServiceCare.OriginalPrice))
                 //.ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
                 .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
@@ -426,6 +429,30 @@ namespace Infrastructure.Common.Mapper
                    .ReverseMap();
             #endregion
 
+
+            #region MaintenanceTechinican
+            CreateMap<CreateMaintenanceTechinican, Technician>()
+                   .ReverseMap();
+
+            CreateMap<Technician, ResponseMaintenanceTechinican>()
+                   .ReverseMap();
+            #endregion
+
+            #region Cost
+            CreateMap<CreateMaintenanceServiceCost, MaintenanceServiceCost>()
+                   .ReverseMap();
+
+            CreateMap<MaintenanceServiceCost, ResponseMaintenanceServiceCost>()
+                   .ForMember(c => c.ResponseMaintenanceService, act => act.MapFrom(c => c.MaintenanceService))
+                   .ReverseMap();
+
+            CreateMap<CreateSparePartsItemCost, SparePartsItemCost>()
+                   .ReverseMap();
+
+            CreateMap<SparePartsItemCost, ResponseSparePartsItemCost>()
+                   .ForMember(c => c.ResponseSparePartsItem, act => act.MapFrom(c => c.SparePartsItem))
+                   .ReverseMap();
+            #endregion
 
         }
     }

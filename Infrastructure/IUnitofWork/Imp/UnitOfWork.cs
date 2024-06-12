@@ -57,10 +57,10 @@ namespace Infrastructure.IUnitofWork.Imp
             //_OdoHistory = new OdoHistoryRepositoryImp(_context);
             //_ReceiptRepository = new ReceiptRepositoryImp(_context);
             _ServiceCare = new ServiceCareRepositoryImp(_context);
-            _SparePartsItem = new SparePartsCostRepositoryImp(_context);
+            _SparePartsItem = new SparePartsItemRepositoryImp(_context);
             _SparePartsRepository = new SparePartsRepositoryImp(_context);
             _StaffCare = new StaffCareRepositoryImp(_context);
-            //_Technician = new TechnicianCostRepositoryImp(_context);
+            _Technician = new TechnicianMnRepositoryImp(_context);
             _VehicleModel = new VehicleModelRepositoryImp(_context);
             _VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
             //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);

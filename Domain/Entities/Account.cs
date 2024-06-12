@@ -11,6 +11,7 @@ namespace Domain.Entities
     {
         public Account()
         {
+            Notifications = new List<Notification>();
         }
 
         [Key]
@@ -29,5 +30,6 @@ namespace Domain.Entities
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public CustomerCare CustomerCare { get; set; }
         public StaffCare StaffCare { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

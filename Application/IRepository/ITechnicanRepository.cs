@@ -10,5 +10,7 @@ namespace Application.IRepository
 {
     public interface ITechnicianRepository : IGenericRepository<Technician>
     {
+        Task<Technician> GetById(Guid id);
+        Task<List<Technician>> GetAll();
     }
 }

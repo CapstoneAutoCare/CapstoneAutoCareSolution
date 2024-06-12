@@ -15,6 +15,17 @@ namespace Application.IRepository.Imp
         {
         }
 
+        public async Task<Account> CheckExistEmail(string email)
+        {
+            var check = await _context.Set<Account>()
+                .FirstOrDefaultAsync(c => c.Email.ToLower().Equals(email.ToLower()));
+            if (check != null)
+            {
+                throw new Exception("Exist Email Here");
+            }
+            return check;
+        }
+
         public async Task<Account> Login(string email, string password)
         {
             var check = await _context.Set<Account>().FirstOrDefaultAsync(c => c.Email.ToLower().Equals(email) && c.Password.ToLower().Equals(password));
@@ -29,10 +40,10 @@ namespace Application.IRepository.Imp
         {
             var account = await _context.Set<Account>()
                 .Include(c => c.StaffCare)
-                .Include(c=>c.Client)
-                .Include(c=>c.Admin)
-                .Include(c=>c.MaintenanceCenter)
-                .Include(c=>c.CustomerCare)
+                .Include(c => c.Client)
+                .Include(c => c.Admin)
+                .Include(c => c.MaintenanceCenter)
+                .Include(c => c.CustomerCare)
                 .FirstOrDefaultAsync(c => c.Email.ToLower().Equals(email.ToLower()));
             if (account == null)
             {

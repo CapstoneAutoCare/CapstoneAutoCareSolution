@@ -74,7 +74,7 @@ builder.Services.AddTransient<ISparePartsRepository, SparePartsRepositoryImp>();
 builder.Services.AddTransient<ISparePartsService, SparePartsServiceImp>();
 
 //SparePartItem
-builder.Services.AddTransient<ISparePartsItemRepository, SparePartsCostRepositoryImp>();
+builder.Services.AddTransient<ISparePartsItemRepository, SparePartsItemRepositoryImp>();
 builder.Services.AddTransient<ISparePartsItemService, SparePartsItemServiceImp>();
 
 
@@ -99,8 +99,20 @@ builder.Services.AddTransient<IMaintenanceServiceCostRepository, MaintenanceServ
 
 //Maintanance Information MSPI
 builder.Services.AddTransient<IMaintenanceSparePartInfoRepository, MaintenanceSparePartInfoRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceHistoryStatusService, MaintenanceHistoryStatusServiceImp>();
 
 builder.Services.AddTransient<IMaintenanceSparePartInfoService, MaintenanceSparePartInfoServiceImp>();
+
+//Maintanance Technican  
+builder.Services.AddTransient<ITechnicianRepository, TechnicianMnRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceTechinicanService, MaintenanceTechinicanServiceImp>();
+
+builder.Services.AddTransient<ISparePartsItemCostRepository, SparePartsItemCostRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceServiceCostRepository, MaintenanceServiceCostRepositoryImp>();
+
+builder.Services.AddTransient<ISparePartsItemCostService, SparePartsItemCostServiceImp>();
+builder.Services.AddTransient<IMaintananceServicesCostService, MaintananceServicesCostServiceImp>();
+
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 

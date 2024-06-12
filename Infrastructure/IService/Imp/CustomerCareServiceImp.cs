@@ -31,6 +31,7 @@ namespace Infrastructure.IService.Imp
             var email = _tokensHandler.ClaimsFromToken();
             var care = _mapper.Map<CustomerCare>(create);
             var account = await _unitOfWork.Account.Profile(email);
+            await _unitOfWork.Account.CheckExistEmail(care.Account.Email);
             care.CenterId = account.MaintenanceCenter.MaintenanceCenterId;
             care.Account.CreatedDate = DateTime.Now;
             care.Account.Status = "ACTIVE";

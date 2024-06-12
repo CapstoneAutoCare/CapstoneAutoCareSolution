@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.SeedingData
 {
-    internal class SeedingDataSparePartsItem
+    public class SeedingDataSparePartsItem
     {
     }
 }

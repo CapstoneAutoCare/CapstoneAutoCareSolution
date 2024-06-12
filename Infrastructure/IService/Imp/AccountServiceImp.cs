@@ -2,6 +2,8 @@
 using Infrastructure.Common.Response;
 using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseClient;
+using Infrastructure.Common.Response.ResponseCustomerCare;
+using Infrastructure.Common.Response.ResponseStaffCare;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
@@ -52,7 +54,15 @@ namespace Infrastructure.IService.Imp
                 var responseClient = _mapper.Map<ResponseClient>(account.Client);
                 resultNode = ConvertToJsonNode(responseClient);
             }
-
+            else if(account.Role.Equals("CUSTOMERCARE")){
+                var responseClient = _mapper.Map<ResponseCustomerCare>(account.CustomerCare);
+                resultNode = ConvertToJsonNode(responseClient);
+            }
+            else if (account.Role.Equals("TECHNICAN"))
+            {
+                var responseClient = _mapper.Map<ResponseStaffCare>(account.StaffCare);
+                resultNode = ConvertToJsonNode(responseClient);
+            }
             return resultNode;
         }
 

@@ -10,9 +10,6 @@ namespace Infrastructure.Common.Response.ResponseSparePart
     {
         public Guid SparePartsItemId { get; set; }
         public string SparepartName { get; set; }
-
-        public double OriginalCost { get; set; }
-        public double ActuralCost { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid SparePartsId { get; set; }

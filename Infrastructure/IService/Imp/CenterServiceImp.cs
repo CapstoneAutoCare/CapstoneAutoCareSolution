@@ -30,6 +30,7 @@ namespace Infrastructure.IService.Imp
             centre.Account.Status = "INACTIVE";
             centre.Account.Role = "CENTER";
             centre.Rating = 5;
+            await _unitOfWork.Account.CheckExistEmail(centre.Account.Email);
             await _unitOfWork.MaintenanceCenter.Add(centre);
             await _unitOfWork.Account.Add(centre.Account);
             await _unitOfWork.Commit();
