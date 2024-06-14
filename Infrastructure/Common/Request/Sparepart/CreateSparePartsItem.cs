@@ -10,6 +10,5 @@ namespace Infrastructure.Common.Request.Sparepart
     {
         public string SparePartsItemName { get; set; }
         public Guid? SparePartsId { get; set; }
-        public Guid MaintenanceCenterId { get; set; }
     }
 }

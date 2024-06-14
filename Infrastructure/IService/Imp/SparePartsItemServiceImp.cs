@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ResponseSparePart;
+using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -16,16 +17,21 @@ namespace Infrastructure.IService.Imp
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public SparePartsItemServiceImp(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ITokensHandler _tokensHandler;
+
+        public SparePartsItemServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _tokensHandler = tokensHandler;
         }
 
         public async Task<ResponseSparePartsItem> Create(CreateSparePartsItem create)
         {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
             var sparepart = _mapper.Map<SparePartsItem>(create);
-
+            sparepart.MaintenanceCenterId = account.MaintenanceCenter.MaintenanceCenterId;
             sparepart.CreatedDate = DateTime.Now;
             sparepart.Status = "ACTIVE";
             sparepart.Image = null;

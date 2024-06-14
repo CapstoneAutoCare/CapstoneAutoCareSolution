@@ -10,6 +10,5 @@ namespace Infrastructure.Common.Request.MaintananceServices
     {
         public string MaintenanceServiceName { get; set; }
         public Guid? ServiceCareId { get; set; }
-        public Guid MaintenanceCenterId { get; set; }
     }
 }

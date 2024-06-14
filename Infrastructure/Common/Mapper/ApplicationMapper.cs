@@ -320,7 +320,7 @@ namespace Infrastructure.Common.Mapper
                 //.ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
                 .ForMember(p => p.SparePartsId, act => act.MapFrom(src => src.SparePartsId))
                 
-                .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
+                //.ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ReverseMap();
 
 
@@ -360,7 +360,7 @@ namespace Infrastructure.Common.Mapper
                 //.ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
                 //.ForMember(p => p.MaintenanceServiceName, act => act.MapFrom(src => src.MaintenanceServiceName))
                 .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
-                .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
+                //.ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ReverseMap();
             CreateMap<MaintenanceService, ResponseMaintananceServices>()
                 .ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceId))
