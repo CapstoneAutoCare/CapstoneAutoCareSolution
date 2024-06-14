@@ -10,6 +10,7 @@ using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -25,17 +26,22 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseBooking>>> GetBookings()
+        public async Task<ActionResult<IEnumerable<ResponseBooking>>> GetAll()
         {
             return Ok(await _bookingsService.GetAll());
 
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResponseBooking>> GetBooking(Guid id)
+        public async Task<ActionResult<ResponseBooking>> GetById(Guid id)
         {
             return Ok(await _bookingsService.GetById(id));
-
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseBooking>>> GetListByClient()
+        {
+            return Ok(await _bookingsService.GetListByClient());
         }
         //[HttpPut]
         //public async Task<IActionResult> PutBooking(Guid id, Booking booking)
@@ -45,13 +51,13 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<ResponseBooking>> PostBooking([FromBody] RequestBooking booking)
+        public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
         {
             return Ok(await _bookingsService.Create(booking));
 
         }
         [HttpPost]
-        public async Task<ActionResult<ResponseBooking>> PostBookingHaveItems([FromBody] RequestBookingHaveItems booking)
+        public async Task<ActionResult<ResponseBooking>> PostHaveItems([FromBody] RequestBookingHaveItems booking)
         {
             return Ok(await _bookingsService.CreateHaveItemsByClient(booking));
 

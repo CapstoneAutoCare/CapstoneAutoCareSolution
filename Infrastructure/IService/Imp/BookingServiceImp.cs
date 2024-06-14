@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
+using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
@@ -136,6 +137,14 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseBooking> GetById(Guid id)
         {
             return _mapper.Map<ResponseBooking>(await _unitOfWork.Booking.GetById(id));
+        }
+
+        public async Task<List<ResponseBooking>> GetListByClient()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByClient(account.Client.ClientId));
+
         }
 
         private async Task<Booking> IsBookingHaveSchedule(Booking booking)

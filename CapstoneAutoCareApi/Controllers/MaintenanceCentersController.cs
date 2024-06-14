@@ -43,7 +43,7 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<MaintenanceCenter>> PostCenter(CreateCenter create)
+        public async Task<ActionResult<MaintenanceCenter>> Post(CreateCenter create)
         {
             return Ok(await _centerService.Create(create));
         }

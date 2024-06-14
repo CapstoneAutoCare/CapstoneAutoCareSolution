@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.Sparepart;
+using Infrastructure.Common.Response.ResponseServicesCare;
 using Infrastructure.Common.Response.ResponseSparePart;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
@@ -57,6 +58,13 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseSparePartsItem>>(await _unitOfWork.SparePartsItem.GetAll());
         }
 
+        public async Task<List<ResponseSparePartsItem>> GetListByCenter()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            var list = await _unitOfWork.SparePartsItem.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId);
+            return _mapper.Map<List<ResponseSparePartsItem>>(list);
+        }
         public async Task<ResponseSparePartsItem> GetById(Guid id)
         {
             var spi = await _unitOfWork.SparePartsItem.GetById(id);

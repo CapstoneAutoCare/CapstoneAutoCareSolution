@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestVehicles;
+using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.ResponseVehicles;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
@@ -47,6 +48,14 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseVehicles> GetById(Guid id)
         {
             return _mapper.Map<ResponseVehicles>(await _unitOfWork.Vehicles.GetById(id));
+        }
+
+        public async Task<List<ResponseVehicles>> GetListByClient()
+        {
+            var email = _tokenHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseVehicles>>(
+                await _unitOfWork.Vehicles.GetListByClient(account.Client.ClientId));
         }
     }
 }

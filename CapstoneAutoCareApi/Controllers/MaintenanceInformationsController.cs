@@ -10,6 +10,8 @@ using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseMainInformation;
+using Infrastructure.Common.Response.ResponseBooking;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -35,7 +37,12 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceInformationService.GetById(id));
         }
-
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByClient()
+        {
+            return Ok(await _maintenanceInformationService.GetListByClient());
+        }
 
 
         [HttpPost]

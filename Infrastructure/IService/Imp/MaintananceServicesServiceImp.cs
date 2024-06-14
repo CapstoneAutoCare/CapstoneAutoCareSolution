@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Response.ResponseServicesCare;
+using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,15 @@ namespace Infrastructure.IService.Imp
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public MaintananceServicesServiceImp(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ITokensHandler _tokensHandler;
+
+        public MaintananceServicesServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _tokensHandler = tokensHandler;
         }
+
         public async Task<ResponseMaintananceServices> Create(CreateMaintananceServices create)
         {
             var maintanance_services = _mapper.Map<MaintenanceService>(create);
@@ -54,6 +59,14 @@ namespace Infrastructure.IService.Imp
         {
             var maintanance_services = await _unitOfWork.MaintenanceService.GetById(id);
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
+        }
+
+        public async Task<List<ResponseMaintananceServices>> GetListByCenter()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            var list = await _unitOfWork.MaintenanceService.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId);
+            return _mapper.Map<List<ResponseMaintananceServices>>(list);
         }
 
         public async Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update)

@@ -43,7 +43,7 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<Client>> PostClient(CreateClient client)
+        public async Task<ActionResult<Client>> Post(CreateClient client)
         {
             return Ok(await _customerService.CreateCustomer(client));
         }

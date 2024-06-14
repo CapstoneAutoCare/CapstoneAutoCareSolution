@@ -44,7 +44,7 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<StaffCare>> PostStaffCare(CreateStaffCare staffCare)
+        public async Task<ActionResult<StaffCare>> Post(CreateStaffCare staffCare)
         {
             return Ok(await _staffCareService.Create(staffCare));
         }

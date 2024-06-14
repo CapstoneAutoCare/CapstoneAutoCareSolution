@@ -35,5 +35,13 @@ namespace Application.IRepository.Imp
             }
             return ms;
         }
+
+        public async Task<List<MaintenanceService>> GetListByCenter(Guid center)
+        {
+            return await _context.Set<MaintenanceService>()
+                            .Include(c => c.MaintenanceCenter)
+                            .Include(p => p.ServiceCare).Where(c => c.MaintenanceCenterId == center)
+                            .ToListAsync();
+        }
     }
 }

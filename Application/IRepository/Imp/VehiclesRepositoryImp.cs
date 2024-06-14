@@ -17,7 +17,7 @@ namespace Application.IRepository.Imp
 
         public async Task<List<Vehicles>> GetAll()
         {
-            return await _context.Set<Vehicles>().Include(c => c.Client).Include(c=>c.VehicleModel).ThenInclude(c=>c.VehiclesBrand).ToListAsync();
+            return await _context.Set<Vehicles>().Include(c => c.Client).Include(c => c.VehicleModel).ThenInclude(c => c.VehiclesBrand).ToListAsync();
         }
 
         public async Task<Vehicles> GetById(Guid id)
@@ -28,6 +28,15 @@ namespace Application.IRepository.Imp
                 throw new Exception("Not Found");
             }
             return vehicle;
+        }
+
+        public async Task<List<Vehicles>> GetListByClient(Guid id)
+        {
+            return await _context.Set<Vehicles>()
+                .Include(c => c.Client)
+                .Include(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand).Where(c => c.ClientId == id)
+                .ToListAsync();
         }
     }
 }

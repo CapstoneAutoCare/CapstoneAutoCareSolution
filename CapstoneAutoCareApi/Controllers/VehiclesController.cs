@@ -10,6 +10,8 @@ using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Response.ResponseVehicles;
+using Infrastructure.Common.Response.ResponseBooking;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -38,7 +40,12 @@ namespace CapstoneAutoCareApi.Controllers
 
             return Ok(await _vehiclesService.GetById(id));
         }
-
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseVehicles>>> GetListByClient()
+        {
+            return Ok(await _vehiclesService.GetListByClient());
+        }
         //[HttpPut]
         //public async Task<IActionResult> PutVehicles(Guid id, Vehicles vehicles)
         //{

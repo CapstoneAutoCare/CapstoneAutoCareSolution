@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.RequestMaintenanceInformation;
+using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseMainInformation;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,10 @@ namespace Infrastructure.IService
     public interface IMaintenanceInformationService
     {
         Task<ResponseMaintenanceInformation> GetById(Guid id);
+        Task<List<ResponseMaintenanceInformation>> GetListByClient();
         Task<ResponseMaintenanceInformation> Create(CreateMaintenanceInformation create);
         Task<ResponseMaintenanceInformation> CreateHaveItems(CreateMaintenanceInformationHaveItems create);
         Task<List<ResponseMaintenanceInformation>> GetAll();
+
     }
 }

@@ -20,6 +20,14 @@ namespace Application.IRepository.Imp
             return await _context.Set<CustomerCare>().Include(c => c.Account).Include(c => c.MaintenanceCenter).ToListAsync();
         }
 
+        public async Task<List<CustomerCare>> GetListByCenter(Guid id)
+        {
+            return await _context.Set<CustomerCare>()
+                .Include(c => c.Account)
+                .Include(c => c.MaintenanceCenter)
+                .Where(c => c.CenterId == id).ToListAsync();
+        }
+
         public async Task<CustomerCare> GetById(Guid id)
         {
             var customercare = await _context.Set<CustomerCare>()

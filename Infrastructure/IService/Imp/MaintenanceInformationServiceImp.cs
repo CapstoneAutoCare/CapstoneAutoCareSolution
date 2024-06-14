@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
+using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseMainInformation;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
@@ -159,6 +160,15 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Booking.Update(booking);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceInformation>(mi);
+        }
+
+        public async Task<List<ResponseMaintenanceInformation>> GetListByClient()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseMaintenanceInformation>>(
+                await _unitOfWork.InformationMaintenance.GetListByClient(account.Client.ClientId));
+
         }
     }
 }

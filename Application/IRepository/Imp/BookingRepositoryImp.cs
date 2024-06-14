@@ -35,15 +35,29 @@ namespace Application.IRepository.Imp
                 .Include(c => c.Vehicles)
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.MaintenanceInformation)
-                .ThenInclude(c=>c.MaintenanceSparePartInfos)
-                .Include(c=>c.MaintenanceInformation.MaintenanceServiceInfos)
-                .Include(c=>c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                .ThenInclude(c => c.MaintenanceSparePartInfos)
+                .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
+                .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
                 .FirstOrDefaultAsync(c => c.BookingId == id);
             if (booking == null)
             {
                 throw new Exception("Not Found");
             }
             return booking;
+        }
+
+        public async Task<List<Booking>> GetListByClient(Guid id)
+        {
+            return await _context.Set<Booking>()
+                            .Include(c => c.Client)
+                            .Include(c => c.Vehicles)
+                            .Include(c => c.MaintenanceCenter)
+                            .Include(c => c.MaintenanceInformation)
+                            .ThenInclude(c => c.MaintenanceSparePartInfos)
+                            .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
+                            .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                            .Where(c => c.ClientId == id)
+                            .ToListAsync();
         }
     }
 }

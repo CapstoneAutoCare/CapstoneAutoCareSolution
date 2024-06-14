@@ -49,12 +49,7 @@ namespace CapstoneAutoCareApi.Controllers
         [HttpPost]
         public async Task<ActionResult<AuthenResponseMessToken>> Login(string email, string password)
         {
-            return Ok(new
-            {
-                Success = HttpStatusCode.OK,
-                Message = "Success",
-                Data = await _accountService.Login(email, password)
-            });
+            return Ok(await _accountService.Login(email, password));
         }
 
         //[HttpDelete]

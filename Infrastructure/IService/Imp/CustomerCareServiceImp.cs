@@ -49,6 +49,13 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseCustomerCare>>(await _unitOfWork.CustomerCare.GetAll());
         }
 
+        public async Task<List<ResponseCustomerCare>> GetListByCenter()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseCustomerCare>>(await _unitOfWork.CustomerCare.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId));
+        }
+
         public async Task<ResponseCustomerCare> GetCustomerCareById(Guid id)
         {
             return _mapper.Map<ResponseCustomerCare>(await _unitOfWork.CustomerCare.GetById(id));

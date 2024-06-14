@@ -3,7 +3,9 @@ using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseServicesCare;
+using Infrastructure.Common.Response.ResponseSparePart;
 using Infrastructure.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CapstoneAutoCareApi.Controllers
@@ -27,11 +29,18 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _service.GetById(id));
         }
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseSparePartsItem>>> GetListByCenter()
+        {
+            return Ok(await _service.GetListByCenter());
+        }
         [HttpPost]
         public async Task<IActionResult> Post(CreateMaintananceServices create)
         {
             return Ok(await _service.Create(create));
         }
+        
         [HttpPut]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateMaintananceServices update)
         {

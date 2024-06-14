@@ -9,6 +9,7 @@ using Application;
 using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestAccount;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -24,15 +25,21 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerCare>>> GetCustomerCares()
+        public async Task<ActionResult<IEnumerable<CustomerCare>>> GetAll()
         {
             return Ok(await _customerCareService.GetAll());
         }
 
         [HttpGet]
-        public async Task<ActionResult<CustomerCare>> GetCustomerCare(Guid id)
+        public async Task<ActionResult<CustomerCare>> GetById(Guid id)
         {
             return Ok(await _customerCareService.GetCustomerCareById(id));
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<CustomerCare>>> GetListByCenter()
+        {
+            return Ok(await _customerCareService.GetListByCenter());
         }
 
         //[HttpPut]
@@ -43,7 +50,7 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<CustomerCare>> PostCustomerCare(CreateCustomerCare customerCare)
+        public async Task<ActionResult<CustomerCare>> Post(CreateCustomerCare customerCare)
         {
             return Ok(await _customerCareService.CreateCustomerCare(customerCare));
         }

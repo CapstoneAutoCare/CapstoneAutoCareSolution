@@ -12,5 +12,6 @@ namespace Application.IRepository
     {
         Task<Booking> GetById(Guid? id);
         Task<List<Booking>> GetAll();
+        Task<List<Booking>> GetListByClient(Guid id);
     }
 }

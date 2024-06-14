@@ -13,6 +13,7 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintananceServices>> GetAll();
         Task<ResponseMaintananceServices> GetById(Guid id);
         Task<ResponseMaintananceServices> Create(CreateMaintananceServices create);
+        Task<List<ResponseMaintananceServices>> GetListByCenter();
         Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update);
         Task<ResponseMaintananceServices> UpdateStatus(Guid id, string status);
     }

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.Sparepart;
+using Infrastructure.Common.Response.ResponseServicesCare;
 using Infrastructure.Common.Response.ResponseSparePart;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace Infrastructure.IService
     public interface ISparePartsItemService
     {
         Task<List<ResponseSparePartsItem>> GetAll();
+        Task<List<ResponseSparePartsItem>> GetListByCenter();
+
         Task<ResponseSparePartsItem> GetById(Guid id);
         Task<ResponseSparePartsItem> Create(CreateSparePartsItem create);
         Task<ResponseSparePartsItem> Update(Guid id, UpdateSparePartItem update);

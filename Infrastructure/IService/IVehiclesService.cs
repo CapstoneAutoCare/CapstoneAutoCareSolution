@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.RequestVehicles;
+using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseVehicles;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace Infrastructure.IService
         Task<List<ResponseVehicles>> GetAll();
         Task<ResponseVehicles> Create(CreateVehicle create);
         Task<ResponseVehicles> GetById(Guid id);
+        Task<List<ResponseVehicles>> GetListByClient();
+
     }
 }

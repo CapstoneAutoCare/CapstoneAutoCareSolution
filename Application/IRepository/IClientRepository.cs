@@ -12,6 +12,5 @@ namespace Application.IRepository
     {
         Task<Client> GetById(Guid id);
         Task<List<Client>> GetAll();
-
     }
 }

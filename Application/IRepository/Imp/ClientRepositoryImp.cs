@@ -22,8 +22,9 @@ namespace Application.IRepository.Imp
 
         public async Task<Client> GetByEmail(string email)
         {
-            var client = await _context.Set<Client>().Include(c => c.Account)
-                           .FirstOrDefaultAsync(c => c.Account.Email.ToLower().Equals(email.ToLower()));
+            var client = await _context.Set<Client>()
+                    .Include(c => c.Account)
+                    .FirstOrDefaultAsync(c => c.Account.Email.ToLower().Equals(email.ToLower()));
             if (client == null)
             {
                 throw new Exception("Not Found");
@@ -42,5 +43,7 @@ namespace Application.IRepository.Imp
             }
             return client;
         }
+
+
     }
 }

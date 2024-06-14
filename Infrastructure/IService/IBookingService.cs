@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
+using Infrastructure.Common.Response.ResponseCustomerCare;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Infrastructure.IService
         Task<ResponseBooking> CreateHaveItemsByClient(RequestBookingHaveItems create);
 
         Task<ResponseBooking> GetById (Guid id);
+        Task<List<ResponseBooking>> GetListByClient();
+
     }
 }

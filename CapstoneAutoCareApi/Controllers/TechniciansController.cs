@@ -32,7 +32,7 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResponseMaintenanceTechinican>> GetTechnician(Guid id)
+        public async Task<ActionResult<ResponseMaintenanceTechinican>> GetById(Guid id)
         {
             return Ok(await _maintenanceTechinicanService.GetById(id));
         }
