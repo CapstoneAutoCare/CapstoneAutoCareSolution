@@ -69,8 +69,8 @@ namespace Application.Migrations
                     b.HasData(
                         new
                         {
-                            AccountID = new Guid("c2290782-da92-4eb2-9dac-f58af6ffb3b4"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7006),
+                            AccountID = new Guid("810cbf15-4a31-408f-8368-f12f4baed223"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4389),
                             Email = "center1",
                             Gender = "1",
                             Logo = "1",
@@ -81,8 +81,8 @@ namespace Application.Migrations
                         },
                         new
                         {
-                            AccountID = new Guid("66140116-49c5-4ca5-988e-a9735bf9527f"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7019),
+                            AccountID = new Guid("80bfdfee-9024-4594-aa9b-53388bbfa376"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4400),
                             Email = "center2",
                             Gender = "1",
                             Logo = "1",
@@ -93,8 +93,8 @@ namespace Application.Migrations
                         },
                         new
                         {
-                            AccountID = new Guid("76aed2bd-0f45-4825-abdd-beb4b1159490"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7156),
+                            AccountID = new Guid("484c7277-f5f2-40ef-89cb-52cc9083eca7"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4561),
                             Email = "c1",
                             Gender = "1",
                             Logo = "1",
@@ -105,8 +105,8 @@ namespace Application.Migrations
                         },
                         new
                         {
-                            AccountID = new Guid("1bb62188-ae64-45d5-a87f-c9e219da77ff"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7164),
+                            AccountID = new Guid("4c5daf71-fcd8-4ac0-9f6b-ec6e64977dbe"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4574),
                             Email = "c2",
                             Gender = "1",
                             Logo = "1",
@@ -213,19 +213,19 @@ namespace Application.Migrations
                     b.HasData(
                         new
                         {
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            AccountId = new Guid("76aed2bd-0f45-4825-abdd-beb4b1159490"),
+                            ClientId = new Guid("0f0b7d77-5d99-4504-bcb1-c6739fa5b425"),
+                            AccountId = new Guid("484c7277-f5f2-40ef-89cb-52cc9083eca7"),
                             Address = "98C Đ. Hồ Bá Phấn, Phước Long A, Thủ Đức, Thành phố Hồ Chí Minh",
-                            Birthday = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7152),
+                            Birthday = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4557),
                             FirstName = "P",
                             LastName = "D"
                         },
                         new
                         {
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            AccountId = new Guid("1bb62188-ae64-45d5-a87f-c9e219da77ff"),
+                            ClientId = new Guid("1f1d2fc7-c131-4d02-8a29-6c5b23536595"),
+                            AccountId = new Guid("4c5daf71-fcd8-4ac0-9f6b-ec6e64977dbe"),
                             Address = "98C Đ. Hồ Bá Phấn, Phước Long A, Thủ Đức, Thành phố Hồ Chí Minh",
-                            Birthday = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7161),
+                            Birthday = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4567),
                             FirstName = "F",
                             LastName = "L"
                         });
@@ -412,12 +412,12 @@ namespace Application.Migrations
                     b.HasData(
                         new
                         {
-                            MaintenanceCenterId = new Guid("f308446e-c60c-4c29-b911-c3db272a4e83"),
-                            AccountId = new Guid("c2290782-da92-4eb2-9dac-f58af6ffb3b4"),
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            AccountId = new Guid("810cbf15-4a31-408f-8368-f12f4baed223"),
                             Address = "98C Đ. Hồ Bá Phấn, Phước Long A, Thủ Đức, Thành phố Hồ Chí Minh",
                             City = "Thành phố Hồ Chí Minh",
                             Country = "VN",
-                            CreateDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(6995),
+                            CreateDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4380),
                             District = "Quận 9",
                             MaintenanceCenterDescription = "Gara Phi Long Ô Tô BK",
                             MaintenanceCenterName = "Gara Phi Long Ô Tô BK",
@@ -425,12 +425,12 @@ namespace Application.Migrations
                         },
                         new
                         {
-                            MaintenanceCenterId = new Guid("c1d12eaf-1d29-48e9-aa20-5efef61b7154"),
-                            AccountId = new Guid("66140116-49c5-4ca5-988e-a9735bf9527f"),
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            AccountId = new Guid("80bfdfee-9024-4594-aa9b-53388bbfa376"),
                             Address = "98C Đ. Hồ Bá Phấn, Phước Long A, Thủ Đức, Thành phố Hồ Chí Minh",
                             City = "Thành phố Hồ Chí Minh",
                             Country = "VN",
-                            CreateDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7012),
+                            CreateDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4396),
                             District = "Quận 9",
                             MaintenanceCenterDescription = "Gara Phi Long Ô Tô BK",
                             MaintenanceCenterName = "Gara Phi Long Ô Tô BK",
@@ -514,8 +514,15 @@ namespace Application.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("MaintenanceCenterId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MaintenanceServiceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ServiceCareId")
                         .HasColumnType("uniqueidentifier");
@@ -531,6 +538,134 @@ namespace Application.Migrations
                     b.HasIndex("ServiceCareId");
 
                     b.ToTable("MaintenanceServices");
+
+                    b.HasData(
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("b8fab786-afc3-4428-8f9f-04af559e149c"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5141),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            MaintenanceServiceName = "Chăm sóc nội thất bằng máy nước nóng",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("fae2d617-548a-43ff-92d4-b7ef5972d273"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5149),
+                            Image = "https://hanoicomputercdn.com/media/product/72039_camera_hanh_trinh_xiaomi_70mai_m500_64gb__2_.jpg",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            MaintenanceServiceName = "Chăm sóc khoang máy",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("e59a227e-3926-4396-b6f5-2b657fac18b9"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5153),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            MaintenanceServiceName = "Chăm sóc khoang máy",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("ac847bb9-9eb8-4f4a-9e9d-ad0b08f4eb0e"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5157),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            MaintenanceServiceName = "Phủ Ceramic bảo vệ sơn",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("9cf735ab-79b0-4be4-aecd-c8a9c78fa6c3"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5164),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            MaintenanceServiceName = "Làm sạch bề mặt sơn",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("df6032a7-d4a4-4cd5-b5f0-fd4881bf7f15"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5168),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            MaintenanceServiceName = "Tẩy bụi sơn công nghiệp",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("51c817e0-0118-4380-bc85-142fffebfbc8"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5172),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            MaintenanceServiceName = "Chăm sóc kính",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("27495860-a1af-456c-8c01-5ca128007269"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5211),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            MaintenanceServiceName = "Chăm sóc nội thất bằng máy nước nóng",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("ce58285a-dd85-4f4a-b678-a4aa2f8b3fcb"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5214),
+                            Image = "https://hanoicomputercdn.com/media/product/72039_camera_hanh_trinh_xiaomi_70mai_m500_64gb__2_.jpg",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            MaintenanceServiceName = "Chăm sóc khoang máy",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("94123be8-418e-4c1b-aaa0-045f4456e538"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5217),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            MaintenanceServiceName = "Chăm sóc khoang máy",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("727be42e-fedf-4ba8-bcc2-e5a5aa90316b"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5220),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            MaintenanceServiceName = "Phủ Ceramic bảo vệ sơn",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("aa578a9b-2d7a-485f-b2eb-859c051561c5"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5222),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            MaintenanceServiceName = "Làm sạch bề mặt sơn",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("f1fd99e9-7aae-4e4a-b38a-47de5b8c7731"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5232),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            MaintenanceServiceName = "Tẩy bụi sơn công nghiệp",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            MaintenanceServiceId = new Guid("9eca9300-5cea-425d-a5bc-6d35d8618287"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5235),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            MaintenanceServiceName = "Chăm sóc kính",
+                            Status = "ACTIVE"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.MaintenanceServiceCost", b =>
@@ -847,11 +982,18 @@ namespace Application.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("MaintenanceCenterId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("SparePartsId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SparePartsItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -864,6 +1006,134 @@ namespace Application.Migrations
                     b.HasIndex("SparePartsId");
 
                     b.ToTable("SparePartsItem");
+
+                    b.HasData(
+                        new
+                        {
+                            SparePartsItemtId = new Guid("65b297eb-c6a5-4bcf-98da-6250a1aa711e"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5006),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            SparePartsItemName = "Cảm biến lùi xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("1e3041f8-8a06-41b3-8ae0-66f1085d2505"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5014),
+                            Image = "https://hanoicomputercdn.com/media/product/72039_camera_hanh_trinh_xiaomi_70mai_m500_64gb__2_.jpg",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            SparePartsItemName = "Camera hành trình",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("258728a6-7317-407a-9f05-39204c707e85"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5022),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            SparePartsItemName = "Lọc gió xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("750bf945-ee83-495a-9c46-64cd6e124b64"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5030),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            SparePartsItemName = "Màn hình xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("f120a03d-cd1a-434e-abc3-5c3bae5ff119"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5034),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            SparePartsItemName = "Giá màn hình xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("156c5de4-3eb7-4fbb-a24e-47c05a97fe72"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5039),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            SparePartsItemName = "Gạt mưa ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("23d196fb-e465-4afd-abeb-312c6e654393"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5043),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("c583fa44-0380-42b2-9c4d-c39b8907236e"),
+                            SparePartsItemName = "Rèm che nắng",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("f6bfccac-f929-4150-b142-fac4ab87eaba"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5083),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            SparePartsItemName = "Cảm biến lùi xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("90c798f0-9f11-448b-9b24-2290c613a222"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5087),
+                            Image = "https://hanoicomputercdn.com/media/product/72039_camera_hanh_trinh_xiaomi_70mai_m500_64gb__2_.jpg",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            SparePartsItemName = "Camera hành trình",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("5ff7d406-55a5-4805-b40d-e87c4d4196fc"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5089),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            SparePartsItemName = "Lọc gió xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("d87d867d-5fdb-43f7-abe6-dca8e68b9687"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5094),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            SparePartsItemName = "Màn hình xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("da33c959-30ef-437f-805a-8aa5198b8f91"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5096),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            SparePartsItemName = "Giá màn hình xe ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("6f0ba2c2-4af1-45cd-b92e-ee0d1df14798"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5100),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            SparePartsItemName = "Gạt mưa ô tô",
+                            Status = "ACTIVE"
+                        },
+                        new
+                        {
+                            SparePartsItemtId = new Guid("62c586ec-a024-4d7e-bb0f-8267ff24a51f"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(5103),
+                            Image = "https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
+                            MaintenanceCenterId = new Guid("6ee55d86-639d-4b20-9d08-88572c4fcfff"),
+                            SparePartsItemName = "Rèm che nắng",
+                            Status = "ACTIVE"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.SparePartsItemCost", b =>
@@ -1004,273 +1274,273 @@ namespace Application.Migrations
                     b.HasData(
                         new
                         {
-                            VehicleModelId = new Guid("9f394d47-1b85-48c1-9ac9-c2cd55ca067a"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7273),
+                            VehicleModelId = new Guid("c647a508-dfff-4ae4-9e65-373d38aa49d0"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4673),
                             Image = "320i",
                             Status = "ACTIVE",
                             VehicleModelName = "320i",
-                            VehiclesBrandId = new Guid("6858fac1-cc7a-48ad-b932-c87ce8007e41")
+                            VehiclesBrandId = new Guid("7c03d318-821e-4030-8d98-5a6fea612827")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("1d84739a-2708-4b78-aa99-f9b032cc3ccd"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7279),
+                            VehicleModelId = new Guid("9cce192d-a55c-49d2-9aa3-a68bde159fb9"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4678),
                             Image = "328i",
                             Status = "ACTIVE",
                             VehicleModelName = "328i",
-                            VehiclesBrandId = new Guid("6858fac1-cc7a-48ad-b932-c87ce8007e41")
+                            VehiclesBrandId = new Guid("7c03d318-821e-4030-8d98-5a6fea612827")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("c1962bf0-f2af-4aa3-a65a-2435e1533827"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7282),
+                            VehicleModelId = new Guid("0920501e-878b-456d-ae1b-0612960e38fb"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4682),
                             Image = "330i",
                             Status = "ACTIVE",
                             VehicleModelName = "330i",
-                            VehiclesBrandId = new Guid("6858fac1-cc7a-48ad-b932-c87ce8007e41")
+                            VehiclesBrandId = new Guid("7c03d318-821e-4030-8d98-5a6fea612827")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("14a3b3e5-49d3-4c15-8296-df58a1d82d11"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7288),
+                            VehicleModelId = new Guid("1f184c1b-75b1-418f-aece-b483c8e313f3"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4685),
                             Image = "i7",
                             Status = "ACTIVE",
                             VehicleModelName = "i7",
-                            VehiclesBrandId = new Guid("6858fac1-cc7a-48ad-b932-c87ce8007e41")
+                            VehiclesBrandId = new Guid("7c03d318-821e-4030-8d98-5a6fea612827")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("191a8325-014f-49c5-a15f-ef8d222c53e8"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7292),
+                            VehicleModelId = new Guid("58627b84-38ff-486b-8931-6a4deecd4294"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4688),
                             Image = "740Li",
                             Status = "ACTIVE",
                             VehicleModelName = "740Li",
-                            VehiclesBrandId = new Guid("6858fac1-cc7a-48ad-b932-c87ce8007e41")
+                            VehiclesBrandId = new Guid("7c03d318-821e-4030-8d98-5a6fea612827")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("d2b94e36-0de2-4ba7-9326-6f8a9a9b11c2"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7297),
+                            VehicleModelId = new Guid("69b37f56-8810-48e9-baa3-57cb984fedb3"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4693),
                             Image = "M6",
                             Status = "ACTIVE",
                             VehicleModelName = "M6",
-                            VehiclesBrandId = new Guid("6858fac1-cc7a-48ad-b932-c87ce8007e41")
+                            VehiclesBrandId = new Guid("7c03d318-821e-4030-8d98-5a6fea612827")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("acf67e48-869a-4f7f-a40f-798dc8904f79"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7339),
+                            VehicleModelId = new Guid("8f8e2ddf-2e84-48ba-bd00-32722ec46836"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4736),
                             Image = "E180",
                             Status = "ACTIVE",
                             VehicleModelName = "E180",
-                            VehiclesBrandId = new Guid("0e7251f1-315f-4e5b-aaff-5362d4f89abe")
+                            VehiclesBrandId = new Guid("5e255fdd-6cd5-4aa4-af3e-5c57056a685f")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("ba740480-3786-4231-bbf5-75cce3be44eb"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7343),
+                            VehicleModelId = new Guid("0791e9ab-0f4f-405b-b912-6acd8ba14234"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4743),
                             Image = "S450",
                             Status = "ACTIVE",
                             VehicleModelName = "S450",
-                            VehiclesBrandId = new Guid("0e7251f1-315f-4e5b-aaff-5362d4f89abe")
+                            VehiclesBrandId = new Guid("5e255fdd-6cd5-4aa4-af3e-5c57056a685f")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("4659bbc7-ef66-44e9-bd15-12c643dae850"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7346),
+                            VehicleModelId = new Guid("ba115ba4-2be7-4085-9ae7-eb9979afa612"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4746),
                             Image = "C300",
                             Status = "ACTIVE",
                             VehicleModelName = "C300",
-                            VehiclesBrandId = new Guid("0e7251f1-315f-4e5b-aaff-5362d4f89abe")
+                            VehiclesBrandId = new Guid("5e255fdd-6cd5-4aa4-af3e-5c57056a685f")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("c9cfaf8f-1170-40ac-899f-38b160bb8a2c"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7349),
+                            VehicleModelId = new Guid("8d584dce-dcb8-4a68-9d22-bc767e68b272"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4755),
                             Image = "C250",
                             Status = "ACTIVE",
                             VehicleModelName = "C250",
-                            VehiclesBrandId = new Guid("0e7251f1-315f-4e5b-aaff-5362d4f89abe")
+                            VehiclesBrandId = new Guid("5e255fdd-6cd5-4aa4-af3e-5c57056a685f")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("64c918c6-3df2-4a60-bc44-62ee983de65b"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7352),
+                            VehicleModelId = new Guid("c69f3d5a-2f26-410b-9ebf-2a76a2687ca6"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4759),
                             Image = "C200",
                             Status = "ACTIVE",
                             VehicleModelName = "C200",
-                            VehiclesBrandId = new Guid("0e7251f1-315f-4e5b-aaff-5362d4f89abe")
+                            VehiclesBrandId = new Guid("5e255fdd-6cd5-4aa4-af3e-5c57056a685f")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("80964d7e-3e9f-4f00-af93-94854933520d"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7359),
+                            VehicleModelId = new Guid("38d6cec4-87a6-4c41-970f-28bf420ce7a4"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4763),
                             Image = "GLC 300",
                             Status = "ACTIVE",
                             VehicleModelName = "GLC 300",
-                            VehiclesBrandId = new Guid("0e7251f1-315f-4e5b-aaff-5362d4f89abe")
+                            VehiclesBrandId = new Guid("5e255fdd-6cd5-4aa4-af3e-5c57056a685f")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("2776370a-a95c-4c34-8213-3d2f9c3fe5bf"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7389),
+                            VehicleModelId = new Guid("9117e4d2-cd4b-457f-8be1-8267cd300a59"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4796),
                             Image = "A1",
                             Status = "ACTIVE",
                             VehicleModelName = "A1",
-                            VehiclesBrandId = new Guid("550b8d4f-ce2b-4c11-8c34-9847ad34bb3e")
+                            VehiclesBrandId = new Guid("1805ade1-1dd8-4bc7-9384-d2f7e7c5f694")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("e6cc0e27-172f-4412-b206-e4b1bc7e1e38"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7393),
+                            VehicleModelId = new Guid("dcbda972-7736-4d1e-8520-63a53e109591"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4800),
                             Image = "A3",
                             Status = "ACTIVE",
                             VehicleModelName = "A3",
-                            VehiclesBrandId = new Guid("550b8d4f-ce2b-4c11-8c34-9847ad34bb3e")
+                            VehiclesBrandId = new Guid("1805ade1-1dd8-4bc7-9384-d2f7e7c5f694")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("d49b07fa-425f-4bca-8e41-1af469cf972c"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7397),
+                            VehicleModelId = new Guid("88ef915a-2a5e-449e-b523-04a7b8471c85"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4803),
                             Image = "Q7",
                             Status = "ACTIVE",
                             VehicleModelName = "Q7",
-                            VehiclesBrandId = new Guid("550b8d4f-ce2b-4c11-8c34-9847ad34bb3e")
+                            VehiclesBrandId = new Guid("1805ade1-1dd8-4bc7-9384-d2f7e7c5f694")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("a2f265e0-dfd4-4a09-b814-57cbab5c76af"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7400),
+                            VehicleModelId = new Guid("485735d2-2fe3-45b4-9144-ed925174c17b"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4813),
                             Image = "A5",
                             Status = "ACTIVE",
                             VehicleModelName = "A5",
-                            VehiclesBrandId = new Guid("550b8d4f-ce2b-4c11-8c34-9847ad34bb3e")
+                            VehiclesBrandId = new Guid("1805ade1-1dd8-4bc7-9384-d2f7e7c5f694")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("cbb0713f-edf0-4ceb-b1bd-d74f60dd2929"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7403),
+                            VehicleModelId = new Guid("f5714569-e829-4a2a-bf25-b56737def027"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4827),
                             Image = "A6",
                             Status = "ACTIVE",
                             VehicleModelName = "A6",
-                            VehiclesBrandId = new Guid("550b8d4f-ce2b-4c11-8c34-9847ad34bb3e")
+                            VehiclesBrandId = new Guid("1805ade1-1dd8-4bc7-9384-d2f7e7c5f694")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("4db9a332-b2db-4ec2-bacc-f4e0a94ad4cf"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7407),
+                            VehicleModelId = new Guid("bcee38b3-9d21-478d-9cd0-0fe433ccd581"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4842),
                             Image = "A4",
                             Status = "ACTIVE",
                             VehicleModelName = "A4",
-                            VehiclesBrandId = new Guid("550b8d4f-ce2b-4c11-8c34-9847ad34bb3e")
+                            VehiclesBrandId = new Guid("1805ade1-1dd8-4bc7-9384-d2f7e7c5f694")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("d6b25e0c-22ee-4a5a-9e92-efe8fc24c8cc"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7435),
+                            VehicleModelId = new Guid("f0276efb-d9e7-42ad-8b84-928e8622d595"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4875),
                             Image = "Vios",
                             Status = "ACTIVE",
                             VehicleModelName = "Vios",
-                            VehiclesBrandId = new Guid("273fb064-92ae-4987-8714-769a3577f0b6")
+                            VehiclesBrandId = new Guid("5cb06d2e-a8f8-4a76-a021-865c14b0940b")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("ec49bb97-5e3c-4cff-93cb-47160cef17dc"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7442),
+                            VehicleModelId = new Guid("a1c74dab-6fbb-4b05-8003-3bca50dbf644"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4879),
                             Image = "Yaris",
                             Status = "ACTIVE",
                             VehicleModelName = "Yaris",
-                            VehiclesBrandId = new Guid("273fb064-92ae-4987-8714-769a3577f0b6")
+                            VehiclesBrandId = new Guid("5cb06d2e-a8f8-4a76-a021-865c14b0940b")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("ba7caa05-ec8d-4b09-a379-f1298bd22afd"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7445),
+                            VehicleModelId = new Guid("48cafd10-d216-44c1-ad6f-7c2d12375b8f"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4882),
                             Image = "Camry",
                             Status = "ACTIVE",
                             VehicleModelName = "Camry",
-                            VehiclesBrandId = new Guid("273fb064-92ae-4987-8714-769a3577f0b6")
+                            VehiclesBrandId = new Guid("5cb06d2e-a8f8-4a76-a021-865c14b0940b")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("25581285-c34f-4068-85ad-b7718b6dc17e"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7454),
+                            VehicleModelId = new Guid("041a5079-a4f6-4e9a-9b92-99d7ef014fcb"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4886),
                             Image = "Fortuner",
                             Status = "ACTIVE",
                             VehicleModelName = "Fortuner",
-                            VehiclesBrandId = new Guid("273fb064-92ae-4987-8714-769a3577f0b6")
+                            VehiclesBrandId = new Guid("5cb06d2e-a8f8-4a76-a021-865c14b0940b")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("7a2c7ab4-63a7-4dda-bb6d-c6f6d788774b"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7457),
+                            VehicleModelId = new Guid("0e9a7535-ca80-4a84-829d-81bced580908"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4890),
                             Image = "Alphard",
                             Status = "ACTIVE",
                             VehicleModelName = "Alphard",
-                            VehiclesBrandId = new Guid("273fb064-92ae-4987-8714-769a3577f0b6")
+                            VehiclesBrandId = new Guid("5cb06d2e-a8f8-4a76-a021-865c14b0940b")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("2f1c6283-a81f-4b45-9fc4-9c52c825ef53"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7462),
+                            VehicleModelId = new Guid("2120d9c6-c231-40ac-af9d-f34930068382"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4897),
                             Image = "Harrier",
                             Status = "ACTIVE",
                             VehicleModelName = "Harrier",
-                            VehiclesBrandId = new Guid("273fb064-92ae-4987-8714-769a3577f0b6")
+                            VehiclesBrandId = new Guid("5cb06d2e-a8f8-4a76-a021-865c14b0940b")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("331130ee-2a50-432b-ad72-d2504226b6bb"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7488),
+                            VehicleModelId = new Guid("e7e45f2c-e2ba-4126-b534-1d737ce5f667"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4927),
                             Image = "Civic",
                             Status = "ACTIVE",
                             VehicleModelName = "Civic",
-                            VehiclesBrandId = new Guid("68928060-a94e-4ca5-b8d3-a1a51f7c0209")
+                            VehiclesBrandId = new Guid("ae70dd02-fe0c-4f64-ba6f-b5795fa2b3aa")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("aeb6ec81-d254-44f9-b3e8-d2cfdc7a02ba"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7493),
+                            VehicleModelId = new Guid("a131d150-9d21-46ad-b66b-075cb1234a44"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4931),
                             Image = "City",
                             Status = "ACTIVE",
                             VehicleModelName = "City",
-                            VehiclesBrandId = new Guid("68928060-a94e-4ca5-b8d3-a1a51f7c0209")
+                            VehiclesBrandId = new Guid("ae70dd02-fe0c-4f64-ba6f-b5795fa2b3aa")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("e13550a1-802c-4171-ad48-01fb7199c88d"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7496),
+                            VehicleModelId = new Guid("9195593e-d74e-4df5-bb31-5b55931ed451"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4934),
                             Image = "Brio",
                             Status = "ACTIVE",
                             VehicleModelName = "Brio",
-                            VehiclesBrandId = new Guid("68928060-a94e-4ca5-b8d3-a1a51f7c0209")
+                            VehiclesBrandId = new Guid("ae70dd02-fe0c-4f64-ba6f-b5795fa2b3aa")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("28b5d468-3d1d-4e4b-87e8-20e558df3866"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7502),
+                            VehicleModelId = new Guid("f4210696-3570-45bb-aa9e-f01457aeb1bc"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4937),
                             Image = "Jazz",
                             Status = "ACTIVE",
                             VehicleModelName = "Jazz",
-                            VehiclesBrandId = new Guid("68928060-a94e-4ca5-b8d3-a1a51f7c0209")
+                            VehiclesBrandId = new Guid("ae70dd02-fe0c-4f64-ba6f-b5795fa2b3aa")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("ffd61408-5d75-496c-a766-165b5192086f"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7505),
+                            VehicleModelId = new Guid("fe849207-1ca1-4268-894d-f7a6e90c34a3"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4941),
                             Image = "BR-V",
                             Status = "ACTIVE",
                             VehicleModelName = "BR-V",
-                            VehiclesBrandId = new Guid("68928060-a94e-4ca5-b8d3-a1a51f7c0209")
+                            VehiclesBrandId = new Guid("ae70dd02-fe0c-4f64-ba6f-b5795fa2b3aa")
                         },
                         new
                         {
-                            VehicleModelId = new Guid("479ed113-6b70-48b3-b836-e956c98ef00d"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7509),
+                            VehicleModelId = new Guid("d2417149-301f-4a3d-85ce-d149c99682fe"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4945),
                             Image = "Ridgeline",
                             Status = "ACTIVE",
                             VehicleModelName = "Ridgeline",
-                            VehiclesBrandId = new Guid("68928060-a94e-4ca5-b8d3-a1a51f7c0209")
+                            VehiclesBrandId = new Guid("ae70dd02-fe0c-4f64-ba6f-b5795fa2b3aa")
                         });
                 });
 
@@ -1315,296 +1585,6 @@ namespace Application.Migrations
                     b.HasIndex("VehicleModelId");
 
                     b.ToTable("Vehicles");
-
-                    b.HasData(
-                        new
-                        {
-                            VehiclesId = new Guid("b2b732fb-6faa-4907-87c7-95bb65a8ad3e"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7544),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("331130ee-2a50-432b-ad72-d2504226b6bb")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("40aea3e7-867b-4d49-877e-52a1566efaf3"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7550),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("331130ee-2a50-432b-ad72-d2504226b6bb")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("59a4c87a-38ee-4f99-bfba-d4084bc1506e"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7613),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("aeb6ec81-d254-44f9-b3e8-d2cfdc7a02ba")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("46d11c73-7db1-44ea-9449-82f7251e12d4"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7616),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("aeb6ec81-d254-44f9-b3e8-d2cfdc7a02ba")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("e0069d95-8c46-41e9-8323-587197adeb17"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7638),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("e13550a1-802c-4171-ad48-01fb7199c88d")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("80ba7c60-ec95-4589-87e3-76485559edda"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7644),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("e13550a1-802c-4171-ad48-01fb7199c88d")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("d673cec0-62da-4f48-8c3d-e247925c5d91"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7665),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("28b5d468-3d1d-4e4b-87e8-20e558df3866")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("e19c3f95-606e-439c-abeb-a0754b69cdd3"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7669),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("28b5d468-3d1d-4e4b-87e8-20e558df3866")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("dc57e7fa-5f32-4c2a-8921-f8067fea3fe8"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7689),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("ffd61408-5d75-496c-a766-165b5192086f")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("8c16cff7-d39c-45f9-b013-e1a74dc2a2b2"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7692),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("ffd61408-5d75-496c-a766-165b5192086f")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("6b8176b5-5840-4680-824f-6a0d3b3966da"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7719),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("479ed113-6b70-48b3-b836-e956c98ef00d")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("091ac76b-6665-4ef4-b140-a5f56e7fba1d"),
-                            ClientId = new Guid("ea669325-74a5-435a-bebb-846c134ac6e7"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7722),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("479ed113-6b70-48b3-b836-e956c98ef00d")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("b99ead2b-0296-4e7e-9fa4-07f1308930c7"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7743),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("331130ee-2a50-432b-ad72-d2504226b6bb")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("dd428279-261d-494e-b929-bae9da499911"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7749),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("331130ee-2a50-432b-ad72-d2504226b6bb")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("69985689-3c8d-43e4-96d5-86f13cdd6806"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7768),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("aeb6ec81-d254-44f9-b3e8-d2cfdc7a02ba")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("8280fc69-c494-4a7e-964b-3f2ce1e51b96"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7771),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("aeb6ec81-d254-44f9-b3e8-d2cfdc7a02ba")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("fa0d12a7-f252-40ce-a065-74dfe5ff8f3d"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7790),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("e13550a1-802c-4171-ad48-01fb7199c88d")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("db2fa383-9d77-4521-b130-61cbfaef34c2"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7794),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("e13550a1-802c-4171-ad48-01fb7199c88d")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("b755ff48-1d79-4b0e-8948-1fb07de1d56a"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7814),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("28b5d468-3d1d-4e4b-87e8-20e558df3866")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("0ff1995e-324c-4ba5-aa10-2b8d2ab6c185"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7817),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("28b5d468-3d1d-4e4b-87e8-20e558df3866")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("1f9f7199-365c-472f-8a43-338b5a9ee3c8"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7836),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("ffd61408-5d75-496c-a766-165b5192086f")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("58eea64a-72d5-46b4-b611-ca39eef441b0"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7842),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("ffd61408-5d75-496c-a766-165b5192086f")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("03e482cc-7014-4391-903d-387639d52c35"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "RED",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7860),
-                            Description = "Vehicle",
-                            LicensePlate = "1111",
-                            Odo = 1000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("479ed113-6b70-48b3-b836-e956c98ef00d")
-                        },
-                        new
-                        {
-                            VehiclesId = new Guid("613895a8-befd-4d3d-a820-b62d8b331d63"),
-                            ClientId = new Guid("e856c18d-a787-4931-b359-25fc22d007f6"),
-                            Color = "BLUE",
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(7863),
-                            Description = "Vehicle",
-                            LicensePlate = "1112",
-                            Odo = 10000,
-                            Status = "ACTIVE",
-                            VehicleModelId = new Guid("479ed113-6b70-48b3-b836-e956c98ef00d")
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.VehiclesBrand", b =>
@@ -1631,36 +1611,36 @@ namespace Application.Migrations
                     b.HasData(
                         new
                         {
-                            VehiclesBrandId = new Guid("6858fac1-cc7a-48ad-b932-c87ce8007e41"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(6537),
+                            VehiclesBrandId = new Guid("7c03d318-821e-4030-8d98-5a6fea612827"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(3958),
                             Status = "ACTIVE",
                             VehiclesBrandName = "BMW"
                         },
                         new
                         {
-                            VehiclesBrandId = new Guid("0e7251f1-315f-4e5b-aaff-5362d4f89abe"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(6846),
+                            VehiclesBrandId = new Guid("5e255fdd-6cd5-4aa4-af3e-5c57056a685f"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4220),
                             Status = "ACTIVE",
                             VehiclesBrandName = "MEC"
                         },
                         new
                         {
-                            VehiclesBrandId = new Guid("550b8d4f-ce2b-4c11-8c34-9847ad34bb3e"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(6855),
+                            VehiclesBrandId = new Guid("1805ade1-1dd8-4bc7-9384-d2f7e7c5f694"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4225),
                             Status = "ACTIVE",
                             VehiclesBrandName = "AUDI"
                         },
                         new
                         {
-                            VehiclesBrandId = new Guid("273fb064-92ae-4987-8714-769a3577f0b6"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(6859),
+                            VehiclesBrandId = new Guid("5cb06d2e-a8f8-4a76-a021-865c14b0940b"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4228),
                             Status = "ACTIVE",
                             VehiclesBrandName = "TOYOTA"
                         },
                         new
                         {
-                            VehiclesBrandId = new Guid("68928060-a94e-4ca5-b8d3-a1a51f7c0209"),
-                            CreatedDate = new DateTime(2024, 6, 12, 3, 18, 19, 837, DateTimeKind.Local).AddTicks(6863),
+                            VehiclesBrandId = new Guid("ae70dd02-fe0c-4f64-ba6f-b5795fa2b3aa"),
+                            CreatedDate = new DateTime(2024, 6, 14, 19, 54, 19, 437, DateTimeKind.Local).AddTicks(4232),
                             Status = "ACTIVE",
                             VehiclesBrandName = "HONDA"
                         });

@@ -89,7 +89,8 @@ namespace Application
             var clients = SeedingDataClient.ServiceSeedingDataClient(modelBuilder);
             var vehicelsModels = SeedingDataVehicleModel.ServiceSeedingDataVehicleModel(modelBuilder, vehicleBrands);
             //var vehicles = SeedingDataVehicles.ServiceSeedingDataVeHicles(modelBuilder, clients, vehicelsModels);
-
+            var spi = SeedingDataSparePartsItem.ServiceSeedingDataSparePartItems(modelBuilder, centre);
+            var ms = SeedingDataMaintenanceService.ServiceSeedingDataMaintenanceService(modelBuilder, centre);
             OnModelCreatingPartial(modelBuilder);
 
         }
