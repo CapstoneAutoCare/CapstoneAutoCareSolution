@@ -11,6 +11,7 @@ using Infrastructure.IService;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.Json.Nodes;
 using Infrastructure.Common.Response;
+using System.Net;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -46,9 +47,14 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<AuthenResponseMessToken>> Login(string username, string password)
+        public async Task<ActionResult<AuthenResponseMessToken>> Login(string email, string password)
         {
-            return Ok(await _accountService.Login(username, password));
+            return Ok(new
+            {
+                Success = HttpStatusCode.OK,
+                Message = "Success",
+                Data = await _accountService.Login(email, password)
+            });
         }
 
         //[HttpDelete]
