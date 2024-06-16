@@ -17,12 +17,24 @@ namespace Application.IRepository.Imp
 
         public async Task<List<SparePartsItemCost>> GetAll()
         {
-            return await _context.Set<SparePartsItemCost>().ToListAsync();
+            return await _context.Set<SparePartsItemCost>()
+                .Include(c => c.SparePartsItem)
+                .ToListAsync();
         }
 
         public async Task<SparePartsItemCost> GetById(Guid id)
         {
-            return await _context.Set<SparePartsItemCost>().FirstOrDefaultAsync(c => c.SparePartsItemCostId == id);
+            return await _context.Set<SparePartsItemCost>()
+                .Include(c => c.SparePartsItem)
+                .FirstOrDefaultAsync(c => c.SparePartsItemCostId == id);
+        }
+
+        public async Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost)
+        {
+            return await _context.Set<SparePartsItemCost>()
+                            .Include(c => c.SparePartsItem)
+                            .Where(c => c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status))
+                            .ToListAsync();
         }
     }
 }

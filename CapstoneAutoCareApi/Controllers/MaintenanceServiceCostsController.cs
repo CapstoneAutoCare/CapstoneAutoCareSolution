@@ -25,12 +25,17 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseMaintenanceServiceCost>>> Get()
+        public async Task<ActionResult<IEnumerable<ResponseMaintenanceServiceCost>>> GetAll()
         {
             return Ok(await _maintananceServicesCost.GetAll());
 
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseMaintenanceServiceCost>>> GetListByClient()
+        {
+            return Ok(await _maintananceServicesCost.GetListByVIEWClient());
 
+        }
         [HttpGet]
         public async Task<ActionResult<ResponseMaintenanceServiceCost>> GetById(Guid id)
         {

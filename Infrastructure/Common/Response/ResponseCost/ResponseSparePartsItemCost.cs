@@ -15,6 +15,8 @@ namespace Infrastructure.Common.Response.ResponseCost
         public string? Note { get; set; }
         public string Status { get; set; }
         public Guid SparePartsItemId { get; set; }
-        public ResponseSparePartsItem ResponseSparePartsItem { get; set; }
+        public string SparePartsItemName { get; set; }
+
+
     }
 }

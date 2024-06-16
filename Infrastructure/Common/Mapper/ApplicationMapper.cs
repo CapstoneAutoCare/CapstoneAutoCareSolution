@@ -322,7 +322,7 @@ namespace Infrastructure.Common.Mapper
             CreateMap<CreateSparePartsItem, SparePartsItem>()
                 //.ForMember(p => p.ActuralCost, act => act.MapFrom(src => src.ActuralCost))
                 .ForMember(p => p.SparePartsId, act => act.MapFrom(src => src.SparePartsId))
-                
+
                 //.ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ReverseMap();
 
@@ -333,6 +333,7 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
                 .ForMember(p => p.SparePartsId, act => act.MapFrom(src => src.SparePartsId))
+                .ForMember(p => p.ResponseSparePartsItemCosts, act => act.MapFrom(src => src.SparePartsItemCost))
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ForMember(p => p.MaintenanceCenterName, act => act.MapFrom(src => src.MaintenanceCenter.MaintenanceCenterName))
                 .ReverseMap();
@@ -372,6 +373,7 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.Status, act => act.MapFrom(src => src.Status))
                 .ForMember(p => p.CreatedDate, act => act.MapFrom(src => src.CreatedDate))
                 .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
+                .ForMember(p => p.ResponseMaintenanceServiceCosts, act => act.MapFrom(src => src.MaintenanceServiceCosts))
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ForMember(p => p.MaintenanceCenterName, act => act.MapFrom(src => src.MaintenanceCenter.MaintenanceCenterName))
                 .ReverseMap();
@@ -452,14 +454,14 @@ namespace Infrastructure.Common.Mapper
                    .ReverseMap();
 
             CreateMap<MaintenanceServiceCost, ResponseMaintenanceServiceCost>()
-                   .ForMember(c => c.ResponseMaintenanceService, act => act.MapFrom(c => c.MaintenanceService))
+                   .ForMember(c => c.MaintenanceServiceName, act => act.MapFrom(c => c.MaintenanceService.MaintenanceServiceName))
                    .ReverseMap();
 
             CreateMap<CreateSparePartsItemCost, SparePartsItemCost>()
                    .ReverseMap();
 
             CreateMap<SparePartsItemCost, ResponseSparePartsItemCost>()
-                   .ForMember(c => c.ResponseSparePartsItem, act => act.MapFrom(c => c.SparePartsItem))
+                   .ForMember(c => c.SparePartsItemName, act => act.MapFrom(c => c.SparePartsItem.SparePartsItemName))
                    .ReverseMap();
             #endregion
 

@@ -12,5 +12,6 @@ namespace Application.IRepository
     {
         Task<List<MaintenanceServiceCost>> GetAll();
         Task<MaintenanceServiceCost> GetById(Guid id);
+        Task<List<MaintenanceServiceCost>> GetListByStatusAndStatusCost(string status,string coststatus);
     }
 }

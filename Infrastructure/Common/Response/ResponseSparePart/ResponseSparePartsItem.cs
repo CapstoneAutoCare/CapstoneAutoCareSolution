@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Common.Response.ResponseCost;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,6 @@ namespace Infrastructure.Common.Response.ResponseSparePart
         public Guid SparePartsId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public string MaintenanceCenterName { get; set; }
+        public List<ResponseSparePartsItemCost> ResponseSparePartsItemCosts { get; set; }
     }
 }

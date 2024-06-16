@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,26 @@ namespace Application.IRepository.Imp
         {
         }
 
-        public Task<List<MaintenanceServiceCost>> GetAll()
+        public async Task<List<MaintenanceServiceCost>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.Set<MaintenanceServiceCost>()
+                .Include(c => c.MaintenanceService)
+                .ToListAsync();
         }
 
-        public Task<MaintenanceServiceCost> GetById(Guid id)
+        public async Task<MaintenanceServiceCost> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<MaintenanceServiceCost>()
+                .Include(c => c.MaintenanceService)
+                .FirstOrDefaultAsync(c => c.MaintenanceServiceCostId == id);
+        }
+
+        public async Task<List<MaintenanceServiceCost>> GetListByStatusAndStatusCost(string status, string coststatus)
+        {
+            return await _context.Set<MaintenanceServiceCost>()
+                            .Include(c => c.MaintenanceService)
+                            .Where(c => c.Status.Equals(coststatus) && c.MaintenanceService.Status.Equals(status))
+                            .ToListAsync();
         }
     }
 }

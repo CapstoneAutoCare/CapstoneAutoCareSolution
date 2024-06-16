@@ -19,6 +19,7 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceService>()
                 .Include(c => c.MaintenanceCenter)
+                .Include(c=>c.MaintenanceServiceCosts)
                 .Include(p => p.ServiceCare).ToListAsync();
         }
 
@@ -26,6 +27,7 @@ namespace Application.IRepository.Imp
         {
             var ms = await _context.Set<MaintenanceService>()
                 .Include(c => c.MaintenanceCenter)
+                .Include(c => c.MaintenanceServiceCosts)
                 .Include(p => p.ServiceCare)
                 .FirstOrDefaultAsync(x => x.MaintenanceServiceId.Equals(id));
             if (ms == null)
@@ -40,6 +42,7 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceService>()
                             .Include(c => c.MaintenanceCenter)
+                            .Include(c => c.MaintenanceServiceCosts)
                             .Include(p => p.ServiceCare).Where(c => c.MaintenanceCenterId == center)
                             .ToListAsync();
         }

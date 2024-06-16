@@ -31,6 +31,12 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseSparePartsItemCost>>> GetListByClient()
+        {
+            return Ok(await _sparePartsItemCostService.GetListByVIEWClient());
+
+        }
+        [HttpGet]
         public async Task<ActionResult<ResponseSparePartsItemCost>> GetById(Guid id)
         {
             return Ok(await _sparePartsItemCostService.GetById(id));
@@ -43,7 +49,7 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ResponseSparePartsItemCost>> PostSparePartsItemCost(CreateSparePartsItemCost sparePartsItemCost)
+        public async Task<ActionResult<ResponseSparePartsItemCost>> Post(CreateSparePartsItemCost sparePartsItemCost)
         {
             return Ok(await _sparePartsItemCostService.Create(sparePartsItemCost));
         }

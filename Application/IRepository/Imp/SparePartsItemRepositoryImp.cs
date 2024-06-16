@@ -20,6 +20,7 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<SparePartsItem>()
                 .Include(c => c.MaintenanceCenter)
+                .Include(c=>c.SparePartsItemCost)
                 .Include(p => p.SpareParts).ToListAsync();
         }
 
@@ -27,6 +28,7 @@ namespace Application.IRepository.Imp
         {
             var spi = await _context.Set<SparePartsItem>()
                 .Include(p => p.SpareParts)
+                .Include(c => c.SparePartsItemCost)
                 .Include(c => c.MaintenanceCenter)
                 .FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id));
             if (spi == null)

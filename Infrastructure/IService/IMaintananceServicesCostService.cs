@@ -13,6 +13,8 @@ namespace Infrastructure.IService
     public interface IMaintananceServicesCostService
     {
         Task<List<ResponseMaintenanceServiceCost>> GetAll();
+        Task<List<ResponseMaintenanceServiceCost>> GetListByVIEWClient();
+
         Task<ResponseMaintenanceServiceCost> GetById(Guid id);
         Task<ResponseMaintenanceServiceCost> Create(CreateMaintenanceServiceCost create);
         Task<ResponseMaintenanceServiceCost> UpdateStatus(Guid id, string status);

@@ -45,11 +45,18 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseSparePartsItemCost>(await _unitOfWork.SparePartsItemCost.GetById(id));
         }
 
+        public async Task<List<ResponseSparePartsItemCost>> GetListByVIEWClient()
+        {
+            return _mapper.Map<List<ResponseSparePartsItemCost>>(
+                await _unitOfWork.SparePartsItemCost.GetListByStatusAndCostStatus(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString()));
+        }
+
         public async Task<ResponseSparePartsItemCost> UpdateStatus(Guid id, string status)
         {
             var cost = await _unitOfWork.SparePartsItemCost.GetById(id);
             cost.Status = status;
             await _unitOfWork.SparePartsItemCost.Update(cost);
+            await _unitOfWork.Commit();
             return _mapper.Map<ResponseSparePartsItemCost>(cost);
         }
     }

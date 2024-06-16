@@ -15,6 +15,7 @@ namespace Infrastructure.Common.Response.ResponseCost
         public string? Note { get; set; }
         public string Status { get; set; }
         public Guid MaintenanceServiceId { get; set; }
-        public ResponseMaintananceServices ResponseMaintenanceService { get; set; }
+        public string MaintenanceServiceName { get; set; }
+
     }
 }
