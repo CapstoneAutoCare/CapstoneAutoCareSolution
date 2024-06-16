@@ -14,6 +14,7 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceHistoryStatus>> GetAll();
         Task<ResponseMaintenanceHistoryStatus> GetById(Guid id);
         Task<ResponseMaintenanceHistoryStatus> Create(CreateMaintenanceHistoryStatus create);
+        Task<ResponseMaintenanceHistoryStatus> Update(Guid id, CreateMaintenanceHistoryStatus update);
 
     }
 }

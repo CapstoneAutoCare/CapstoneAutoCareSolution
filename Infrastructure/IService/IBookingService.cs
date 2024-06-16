@@ -17,6 +17,7 @@ namespace Infrastructure.IService
 
         Task<ResponseBooking> GetById (Guid id);
         Task<List<ResponseBooking>> GetListByClient();
-
+        Task<List<ResponseBooking>> GetListByCenterAndClient(Guid centerid, Guid clientId);
+        Task<ResponseBooking> UpdateStatus(Guid bookingId,string status);
     }
 }

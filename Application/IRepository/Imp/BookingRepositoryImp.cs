@@ -46,6 +46,20 @@ namespace Application.IRepository.Imp
             return booking;
         }
 
+        public async Task<List<Booking>> GetListByCenterAndClient(Guid centerid, Guid clientId)
+        {
+            return await _context.Set<Booking>()
+                            .Include(c => c.Client)
+                            .Include(c => c.Vehicles)
+                            .Include(c => c.MaintenanceCenter)
+                            .Include(c => c.MaintenanceInformation)
+                            .ThenInclude(c => c.MaintenanceSparePartInfos)
+                            .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
+                            .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                            .Where(c => c.ClientId == clientId && c.MaintenanceCenterId == centerid)
+                            .ToListAsync();
+        }
+
         public async Task<List<Booking>> GetListByClient(Guid id)
         {
             return await _context.Set<Booking>()

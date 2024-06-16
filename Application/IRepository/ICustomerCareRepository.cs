@@ -1,4 +1,4 @@
-﻿using Application.IGenericRepository;
+﻿    using Application.IGenericRepository;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;

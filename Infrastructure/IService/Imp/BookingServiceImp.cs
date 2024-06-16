@@ -139,12 +139,26 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseBooking>(await _unitOfWork.Booking.GetById(id));
         }
 
+        public async Task<List<ResponseBooking>> GetListByCenterAndClient(Guid centerid, Guid clientId)
+        {
+            return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByCenterAndClient(centerid, clientId));
+        }
+
         public async Task<List<ResponseBooking>> GetListByClient()
         {
             var email = _tokensHandler.ClaimsFromToken();
             var account = await _unitOfWork.Account.Profile(email);
             return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByClient(account.Client.ClientId));
 
+        }
+
+        public async Task<ResponseBooking> UpdateStatus(Guid bookingId, string status)
+        {
+            var booking = await _unitOfWork.Booking.GetById(bookingId);
+            booking.Status = status;
+            await _unitOfWork.Booking.Update(booking);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseBooking>(booking);
         }
 
         private async Task<Booking> IsBookingHaveSchedule(Booking booking)

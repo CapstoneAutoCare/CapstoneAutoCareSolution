@@ -43,6 +43,12 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _bookingsService.GetListByClient());
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseBooking>>> GetListByCenterAndClient(Guid centerId, Guid clientId)
+        {
+            return Ok(await _bookingsService.GetListByCenterAndClient(centerId, clientId));
+        }
         //[HttpPut]
         //public async Task<IActionResult> PutBooking(Guid id, Booking booking)
         //{
@@ -60,6 +66,12 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<ResponseBooking>> PostHaveItems([FromBody] RequestBookingHaveItems booking)
         {
             return Ok(await _bookingsService.CreateHaveItemsByClient(booking));
+
+        }
+        [HttpPatch]
+        public async Task<ActionResult<ResponseBooking>> UpdateStatus(Guid bookingId, string status)
+        {
+            return Ok(await _bookingsService.UpdateStatus(bookingId, status));
 
         }
         //[HttpDelete]
