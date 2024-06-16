@@ -10,6 +10,5 @@ namespace Infrastructure.Common.Request.MaintenancePlan
     {
         public int MaintenancePlanName { get; set; }
         public string MaintenancePlanDescription { get; set; }
-        public Guid MaintananceScheduleId { get; set; }
     }
 }

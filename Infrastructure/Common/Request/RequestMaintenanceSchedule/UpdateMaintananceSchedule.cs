@@ -10,6 +10,5 @@ namespace Infrastructure.Common.Request.MaintenanceSchedule
     {
         public string Odo { get; set; }
         public string Description { get; set; }
-        public Guid VehicleModelId { get; set; }
     }
 }

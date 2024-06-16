@@ -10,6 +10,5 @@ namespace Infrastructure.Common.Request.Sparepart
     {
         public double ActuralCost { get; set; }
         public Guid? SparePartsId { get; set; }
-        public Guid MaintenanceCenterId { get; set; }
     }
 }

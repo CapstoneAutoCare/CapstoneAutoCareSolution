@@ -57,7 +57,6 @@ namespace Infrastructure.IService.Imp
             item.SparePartDescription = update.SparePartDescription;
             item.SparePartType = update.SparePartType;
             item.OriginalPrice = update.OriginalPrice;
-            item.MaintananceScheduleId = update.MaintananceScheduleId;
             await _unitOfWork.SparePartsRepository.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseSparePart>(item);

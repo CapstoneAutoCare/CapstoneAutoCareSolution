@@ -52,7 +52,6 @@ namespace Infrastructure.IService.Imp
             item.ServiceCareDescription = update.ServiceCareDescription;
             item.ServiceCareType = update.ServiceCareType;
             item.OriginalPrice = update.OriginalPrice;
-            item.MaintananceScheduleId = update.MaintananceScheduleId;
             await _unitOfWork.ServiceCare.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseServicesCare>(item);
