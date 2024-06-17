@@ -51,7 +51,6 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.VehicleModel.GetById(item.VehicleModelId);
             item.Description = update.Description;
             item.MaintananceScheduleName = update.Odo;
-            item.VehicleModelId = update.VehicleModelId;
             await _unitOfWork.MaintenanceSchedule.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceSchedule>(item);

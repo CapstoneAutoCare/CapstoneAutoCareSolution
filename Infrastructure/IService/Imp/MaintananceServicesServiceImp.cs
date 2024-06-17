@@ -74,7 +74,6 @@ namespace Infrastructure.IService.Imp
             var item = await _unitOfWork.MaintenanceService.GetById(id);
             item.ServiceCareId = update.ServiceCareId;
             //item.ActuralCost = update.ActuralCost;
-            item.MaintenanceCenterId = update.MaintenanceCenterId;
             await _unitOfWork.MaintenanceService.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintananceServices>(item);
