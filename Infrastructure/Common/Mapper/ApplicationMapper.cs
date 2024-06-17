@@ -208,6 +208,7 @@ namespace Infrastructure.Common.Mapper
             .ForMember(c => c.Address, act => act.MapFrom(src => src.Address))
             .ForMember(c => c.FirstName, act => act.MapFrom(src => src.FirstName))
             .ForMember(c => c.LastName, act => act.MapFrom(src => src.LastName))
+            .ForMember(c => c.CentreId, act => act.MapFrom(src => src.CenterId))
             .ForMember(c => c.CustomerCareDescription, act => act.MapFrom(src => src.CustomerCareDescription))
             .ForMember(c => c.Birthday, act => act.MapFrom(src => src.Birthday));
 

@@ -10,6 +10,7 @@ namespace Infrastructure.Common.Response.ResponseCustomerCare
     {
         public Guid AccountId { get; set; }
         public Guid CustomerCareId { get; set; }
+        public Guid CentreId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
@@ -23,6 +24,7 @@ namespace Infrastructure.Common.Response.ResponseCustomerCare
         public DateTime Birthday { get; set; }
         public string CustomerCareDescription { get; set; }
         public string Status { get; set; }
+
 
     }
 }

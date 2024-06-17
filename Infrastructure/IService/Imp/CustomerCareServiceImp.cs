@@ -49,11 +49,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseCustomerCare>>(await _unitOfWork.CustomerCare.GetAll());
         }
 
-        public async Task<List<ResponseCustomerCare>> GetListByCenter()
+        public async Task<List<ResponseCustomerCare>> GetListByCenter(Guid centerId)
         {
-            var email = _tokensHandler.ClaimsFromToken();
-            var account = await _unitOfWork.Account.Profile(email);
-            return _mapper.Map<List<ResponseCustomerCare>>(await _unitOfWork.CustomerCare.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId));
+            //var email = _tokensHandler.ClaimsFromToken();
+            //var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseCustomerCare>>(await _unitOfWork.CustomerCare.GetListByCenter(centerId));
         }
 
         public async Task<ResponseCustomerCare> GetCustomerCareById(Guid id)

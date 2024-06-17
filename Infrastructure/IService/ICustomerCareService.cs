@@ -13,6 +13,6 @@ namespace Infrastructure.IService
         Task<ResponseCustomerCare> CreateCustomerCare(CreateCustomerCare create);
         Task<List<ResponseCustomerCare>> GetAll();
         Task<ResponseCustomerCare> GetCustomerCareById(Guid id);
-        Task<List<ResponseCustomerCare>> GetListByCenter();
+        Task<List<ResponseCustomerCare>> GetListByCenter(Guid id);
     }
 }

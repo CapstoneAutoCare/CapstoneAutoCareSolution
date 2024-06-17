@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace Application.IRepository.Imp
                 .FirstOrDefaultAsync(c => c.SparePartsItemCostId == id);
         }
 
+
         public async Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost)
         {
             return await _context.Set<SparePartsItemCost>()
@@ -36,5 +38,22 @@ namespace Application.IRepository.Imp
                             .Where(c => c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status))
                             .ToListAsync();
         }
+        
+        public async Task<List<SparePartsItemCost>> GetListByClientActivea(Guid centerId)
+        {
+            var spi = await _context.Set<SparePartsItem>()
+                            .Include(p => p.SpareParts)
+                            .Include(c => c.MaintenanceCenter)
+                            .Include(c => c.SparePartsItemCost)
+                            .Where(c => c.MaintenanceCenterId == centerId)
+                            .Select(c => c.SparePartsItemCost
+                                         .Where(cost => cost.Status.Equals(EnumStatus.ACTIVE.ToString()))
+                                         .OrderByDescending(cost => cost.DateTime) // replace SomeProperty with the property to order by
+                                         .LastOrDefault())
+                            .ToListAsync();
+
+            return spi;
+        }
+
     }
 }

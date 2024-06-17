@@ -41,7 +41,7 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _sparePartsItemCostService.GetById(id));
         }
-
+        
         [HttpPatch]
         public async Task<ActionResult<ResponseSparePartsItemCost>> PatchStatus(Guid id, string status)
         {
