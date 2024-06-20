@@ -57,6 +57,7 @@ namespace Infrastructure.IService.Imp
             var cost = await _unitOfWork.MaintenanceServiceCost.GetById(id);
             cost.Status = status;
             await _unitOfWork.MaintenanceServiceCost.Update(cost);
+            await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceServiceCost>(cost);
         }
     }

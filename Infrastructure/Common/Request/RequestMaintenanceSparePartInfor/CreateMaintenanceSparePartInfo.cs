@@ -9,7 +9,7 @@ namespace Infrastructure.Common.Request.RequestMaintenanceSparePartInfor
     public class CreateMaintenanceSparePartInfo
     {
         public Guid MaintenanceInformationId { get; set; }
-        public Guid? SparePartsItemtId { get; set; }
+        public Guid? SparePartsItemCostId { get; set; }
         public string MaintenanceSparePartInfoName { get; set; }
         public int Quantity { get; set; }
         public double ActualCost { get; set; }

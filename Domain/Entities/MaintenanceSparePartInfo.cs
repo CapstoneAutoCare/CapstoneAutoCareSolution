@@ -19,9 +19,9 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-        public Guid? SparePartsItemId { get; set; }
+        public Guid? SparePartsItemCostId { get; set; }
         public Guid InformationMaintenanceId { get; set; }
-        public SparePartsItem SparePartsItem { get; set; }
+        public SparePartsItemCost SparePartsItemCost { get; set; }
         public MaintenanceInformation InformationMaintenance { get; set; }
 
     }

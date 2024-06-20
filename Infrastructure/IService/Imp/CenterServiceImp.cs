@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
-using Infrastructure.Common.Response.ResponseCenter;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.IUnitofWork;
 using Infrastructure.IUnitofWork.Imp;
 using System;

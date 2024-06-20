@@ -9,9 +9,9 @@ using Application;
 using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestVehicles;
-using Infrastructure.Common.Response.ResponseVehicles;
 using Infrastructure.Common.Response.ResponseBooking;
 using Microsoft.AspNetCore.Authorization;
+using Infrastructure.Common.Response.VehiclesResponse;
 
 namespace CapstoneAutoCareApi.Controllers
 {

@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.Request.RequestAccount;
-using Infrastructure.Common.Response.ResponseCenter;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseStaffCare;
 using System;
 using System.Collections.Generic;

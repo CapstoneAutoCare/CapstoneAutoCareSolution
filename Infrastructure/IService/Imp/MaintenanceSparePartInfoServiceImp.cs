@@ -31,13 +31,13 @@ namespace Infrastructure.IService.Imp
             spi.Discount = 10;
             spi.TotalCost = (spi.ActualCost * spi.Quantity) * (1 - (spi.Discount) / 100);
             await _unitOfWork.InformationMaintenance.GetById(spi.InformationMaintenanceId);
-            if (spi.SparePartsItemId == null)
+            if (spi.SparePartsItemCostId == null)
             {
                 await _unitOfWork.MaintenanceSparePartInfo.Add(spi);
             }
             else
             {
-                await _unitOfWork.SparePartsItem.GetById(spi.SparePartsItemId);
+                await _unitOfWork.SparePartsItemCost.GetById(spi.SparePartsItemCostId);
                 await _unitOfWork.MaintenanceSparePartInfo.Add(spi);
             }
             await _unitOfWork.Commit();

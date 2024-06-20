@@ -37,6 +37,7 @@ namespace Infrastructure.IService.Imp
             sparepart.CreatedDate = DateTime.Now;
             sparepart.Status = "ACTIVE";
             sparepart.Image = null;
+            sparepart.Capacity = 50;
             await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
 
             if (sparepart.SparePartsId == null)
@@ -91,6 +92,6 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseSparePartsItem>(item);
         }
-       
+
     }
 }

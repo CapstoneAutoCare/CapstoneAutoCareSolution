@@ -14,5 +14,6 @@ namespace Application.IRepository
         Task<List<Booking>> GetAll();
         Task<List<Booking>> GetListByClient(Guid id);
         Task<List<Booking>> GetListByCenterAndClient (Guid centerid, Guid clientId);
+        Task<List<Booking>> GetListByCenter(Guid id);
     }
 }

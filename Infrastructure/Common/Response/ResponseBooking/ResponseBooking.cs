@@ -1,4 +1,7 @@
-﻿using Infrastructure.Common.Response.ResponseMainInformation;
+﻿using Infrastructure.Common.Response.ClientResponse;
+using Infrastructure.Common.Response.ReponseVehicleModel;
+using Infrastructure.Common.Response.ResponseMainInformation;
+using Infrastructure.Common.Response.VehiclesResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +21,9 @@ namespace Infrastructure.Common.Response.ResponseBooking
         public Guid VehicleId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public ResponseMaintenanceInformation ResponseMaintenanceInformation { get; set; }
+        public ResponseVehicles ResponseVehicles {  get; set; }
+        public ResponseCenter ResponseCenter { get; set; }
+        public ResponseClient ResponseClient { get; set; }
+
     }
 }

@@ -22,19 +22,29 @@ namespace Application.IRepository.Imp
                 .ToListAsync();
         }
 
-        public async Task<MaintenanceServiceCost> GetById(Guid id)
+        public async Task<MaintenanceServiceCost> GetById(Guid? id)
         {
             return await _context.Set<MaintenanceServiceCost>()
                 .Include(c => c.MaintenanceService)
+                .Include(c=>c.MaintenanceServiceInfos)
                 .FirstOrDefaultAsync(c => c.MaintenanceServiceCostId == id);
         }
 
         public async Task<List<MaintenanceServiceCost>> GetListByStatusAndStatusCost(string status, string coststatus)
         {
-            return await _context.Set<MaintenanceServiceCost>()
-                            .Include(c => c.MaintenanceService)
-                            .Where(c => c.Status.Equals(coststatus) && c.MaintenanceService.Status.Equals(status))
-                            .ToListAsync();
+            var query = _context.Set<MaintenanceServiceCost>()
+                                .Include(c => c.MaintenanceService)
+                                .Include(c => c.MaintenanceServiceInfos)
+                                .Where(c => c.Status.Equals(coststatus) && c.MaintenanceService.Status.Equals(status));
+
+            var groupedResult = await query
+                                      .GroupBy(c => c.MaintenanceServiceId)
+                                      .Select(g => g.OrderByDescending(c => c.DateTime) 
+                                                    .FirstOrDefault())
+                                      .ToListAsync();
+
+            return groupedResult;
         }
+
     }
 }

@@ -11,7 +11,6 @@ namespace Domain.Entities
     {
         public SparePartsItem()
         {
-            MaintenanceSparePartInfos = new HashSet<MaintenanceSparePartInfo>();
             SparePartsItemCost = new HashSet<SparePartsItemCost>();
         }
 
@@ -21,12 +20,12 @@ namespace Domain.Entities
         public string Status { get; set; }
         public string SparePartsItemName { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string? Image {  get; set; }
+        public string? Image { get; set; }
+        public int Capacity { get; set; }
         public Guid? SparePartsId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public SpareParts SpareParts { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
-        public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
         public ICollection<SparePartsItemCost> SparePartsItemCost { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Infrastructure.Common.Response;
+using Infrastructure.Common.Response.ClientResponse;
 using Infrastructure.Common.Response.ResponseAdmin;
-using Infrastructure.Common.Response.ResponseClient;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.ResponseStaffCare;
 using Infrastructure.ISecurity;

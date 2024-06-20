@@ -9,7 +9,7 @@ namespace Infrastructure.Common.Request.RequestMaintenanceServiceInfo
     public class CreateMaintenanceServiceInfo
     {
         public Guid MaintenanceInformationId { get; set; }
-        public Guid? MaintenanceServiceId { get; set; }
+        public Guid? MaintenanceServiceCostId { get; set; }
         public string MaintenanceServiceInfoName { get; set; }
         public int Quantity { get; set; }
         public double ActualCost { get; set; }

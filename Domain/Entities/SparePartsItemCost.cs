@@ -11,6 +11,8 @@ namespace Domain.Entities
     {
         public SparePartsItemCost()
         {
+            MaintenanceSparePartInfos = new HashSet<MaintenanceSparePartInfo>();
+
         }
 
         [Key]
@@ -21,5 +23,7 @@ namespace Domain.Entities
         public string Status { get; set; }
         public Guid SparePartsItemId { get; set; }
         public SparePartsItem SparePartsItem { get; set; }
+        public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
+
     }
 }

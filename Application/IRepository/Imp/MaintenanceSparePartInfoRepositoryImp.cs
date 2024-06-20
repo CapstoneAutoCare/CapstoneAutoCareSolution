@@ -19,14 +19,15 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceSparePartInfo>()
                 .Include(c => c.InformationMaintenance)
-                .Include(c => c.SparePartsItem)
+                .Include(c => c.SparePartsItemCost)
+
                  .ToListAsync();
         }
 
         public async Task<MaintenanceSparePartInfo> GetById(Guid id)
         {
             var spi = await _context.Set<MaintenanceSparePartInfo>()
-                            .Include(c => c.SparePartsItem)
+                            .Include(c => c.SparePartsItemCost)
                             .Include(c => c.InformationMaintenance)
                             .FirstOrDefaultAsync(c => c.MaintenanceSparePartInfoId == id);
             if (spi == null)

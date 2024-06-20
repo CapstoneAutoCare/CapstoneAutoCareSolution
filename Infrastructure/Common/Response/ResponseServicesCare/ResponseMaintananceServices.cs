@@ -13,6 +13,8 @@ namespace Infrastructure.Common.Response.ResponseServicesCare
         public string MaintenanceServiceName { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string? Image { get; set; }
+
         public Guid ServiceCareId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public string MaintenanceCenterName { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
-using Infrastructure.Common.Response.ResponseClient;
+using Infrastructure.Common.Response.ClientResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Response.ResponseCustomerCare;
-using Infrastructure.Common.Response.ResponseVehicles;
+using Infrastructure.Common.Response.VehiclesResponse;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;

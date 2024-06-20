@@ -47,8 +47,8 @@ namespace Application
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db5685.public.databaseasp.net; Database=db5685; User Id=db5685; Password=A+b58mH-h=2G; Encrypt=False; MultipleActiveResultSets=True;");
-                //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=db5685; User Id=sa; Password=12345; MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer("Server=db5756.public.databaseasp.net; Database=db5756; User Id=db5756; Password=7Za_+2CztN#8; Encrypt=False; MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }

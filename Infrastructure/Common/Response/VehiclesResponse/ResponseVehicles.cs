@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Response.ResponseVehicles
+namespace Infrastructure.Common.Response.VehiclesResponse
 {
     public class ResponseVehicles
     {

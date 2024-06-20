@@ -9,6 +9,7 @@ namespace Domain.Entities
 {
     public class MaintenanceServiceInfo
     {
+
         [Key]
         public Guid MaintenanceServiceInfoId { get; set; }
         public string MaintenanceServiceInfoName { get; set; }
@@ -19,10 +20,10 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-        public Guid? MaintenanceServiceId { get; set; }
+        public Guid? MaintenanceServiceCostId { get; set; }
         public Guid InformationMaintenanceId { get; set; }
 
-        public MaintenanceService MaintenanceService { get; set; }
+        public MaintenanceServiceCost MaintenanceServiceCost { get; set; }
         public MaintenanceInformation InformationMaintenance { get; set; }
 
     }

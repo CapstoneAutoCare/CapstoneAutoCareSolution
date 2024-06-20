@@ -31,13 +31,13 @@ namespace Infrastructure.IService.Imp
             msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
 
             await _unitOfWork.InformationMaintenance.GetById(msi.InformationMaintenanceId);
-            if (msi.MaintenanceServiceId == null)
+            if (msi.MaintenanceServiceCostId == null)
             {
                 await _unitOfWork.MaintenanceServiceInfo.Add(msi);
             }
             else
             {
-                await _unitOfWork.MaintenanceService.GetById(msi.MaintenanceServiceId);
+                await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
                 await _unitOfWork.MaintenanceServiceInfo.Add(msi);
             }
             await _unitOfWork.Commit();

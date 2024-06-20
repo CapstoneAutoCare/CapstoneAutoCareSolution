@@ -17,23 +17,29 @@ namespace Application.IRepository.Imp
 
         public async Task<List<Booking>> GetAll()
         {
-            return await _context.Set<Booking>()
-                .Include(c => c.Client)
-                .Include(c => c.Vehicles)
-                .Include(c => c.MaintenanceCenter)
-                .Include(c => c.MaintenanceInformation)
-                .ThenInclude(c => c.MaintenanceSparePartInfos)
-                .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
-                .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+            var bookings = await _context.Set<Booking>()
+                .Include(c => c.Client.Account)
+                .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                .Include(c => c.MaintenanceCenter.Account)
+                //.Include(c => c.MaintenanceCenter.SparePartsItems)
+                //.Include(c => c.MaintenanceCenter.MaintenanceServices)
+                //.Include(c => c.MaintenanceInformation.MaintenanceSparePartInfos)
+                //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
+                //.Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
                 .ToListAsync();
+
+
+            return bookings;
         }
+
+
 
         public async Task<Booking> GetById(Guid? id)
         {
             var booking = await _context.Set<Booking>()
-                .Include(c => c.Client)
-                .Include(c => c.Vehicles)
-                .Include(c => c.MaintenanceCenter)
+                .Include(c => c.Client.Account)
+                .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                .Include(c => c.MaintenanceCenter.Account)
                 .Include(c => c.MaintenanceInformation)
                 .ThenInclude(c => c.MaintenanceSparePartInfos)
                 .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
@@ -46,16 +52,25 @@ namespace Application.IRepository.Imp
             return booking;
         }
 
+        public async Task<List<Booking>> GetListByCenter(Guid id)
+        {
+            return await _context.Set<Booking>()
+                            .Include(c => c.Client.Account)
+                            .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                            .Include(c => c.MaintenanceCenter.Account)
+                            .Where(c => c.MaintenanceCenterId == id).ToListAsync();
+        }
+
         public async Task<List<Booking>> GetListByCenterAndClient(Guid centerid, Guid clientId)
         {
             return await _context.Set<Booking>()
-                            .Include(c => c.Client)
-                            .Include(c => c.Vehicles)
-                            .Include(c => c.MaintenanceCenter)
-                            .Include(c => c.MaintenanceInformation)
-                            .ThenInclude(c => c.MaintenanceSparePartInfos)
-                            .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
-                            .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                            .Include(c => c.Client.Account)
+                            .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                            .Include(c => c.MaintenanceCenter.Account)
+                            //.Include(c => c.MaintenanceInformation)
+                            //.ThenInclude(c => c.MaintenanceSparePartInfos)
+                            //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
+                            //.Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
                             .Where(c => c.ClientId == clientId && c.MaintenanceCenterId == centerid)
                             .ToListAsync();
         }
@@ -63,13 +78,13 @@ namespace Application.IRepository.Imp
         public async Task<List<Booking>> GetListByClient(Guid id)
         {
             return await _context.Set<Booking>()
-                            .Include(c => c.Client)
-                            .Include(c => c.Vehicles)
-                            .Include(c => c.MaintenanceCenter)
-                            .Include(c => c.MaintenanceInformation)
-                            .ThenInclude(c => c.MaintenanceSparePartInfos)
-                            .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
-                            .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                            .Include(c => c.Client.Account)
+                            .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                            .Include(c => c.MaintenanceCenter.Account)
+                            //.Include(c => c.MaintenanceInformation)
+                            //.ThenInclude(c => c.MaintenanceSparePartInfos)
+                            //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
+                            //.Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
                             .Where(c => c.ClientId == id)
                             .ToListAsync();
         }

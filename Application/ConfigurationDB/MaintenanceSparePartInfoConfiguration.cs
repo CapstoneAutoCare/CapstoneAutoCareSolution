@@ -18,13 +18,13 @@ namespace Application.ConfigurationDB
                     .ValueGeneratedOnAdd();
 
 
-            builder.HasIndex(e => new { e.InformationMaintenanceId, e.SparePartsItemId })
+            builder.HasIndex(e => new { e.InformationMaintenanceId, e.SparePartsItemCostId })
                 .IsUnique();
 
 
-            builder.HasOne(d => d.SparePartsItem)
+            builder.HasOne(d => d.SparePartsItemCost)
                     .WithMany(d => d.MaintenanceSparePartInfos)
-                    .HasForeignKey(d => d.SparePartsItemId)
+                    .HasForeignKey(d => d.SparePartsItemCostId)
                     .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.InformationMaintenance)

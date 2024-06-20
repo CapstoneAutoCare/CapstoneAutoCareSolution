@@ -91,16 +91,16 @@ namespace Infrastructure.IService.Imp
                 foreach (var i in mi.MaintenanceSparePartInfos)
                 {
                     var sp = _mapper.Map<MaintenanceSparePartInfo>(i);
-                    if (sp.SparePartsItemId == null)
+                    if (sp.SparePartsItemCostId == null)
                     {
-                        throw new Exception("Require add Product in Center");
+                        throw new Exception("Require add Product in Center Cost");
                     }
                     sp.Status = "INACTIVE";
                     sp.CreatedDate = DateTime.Now;
                     sp.Discount = 10;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100);
                     sp.InformationMaintenanceId = mi.InformationMaintenanceId;
-                    await _unitOfWork.SparePartsItem.GetById(sp.SparePartsItemId);
+                    await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
                     await _unitOfWork.MaintenanceSparePartInfo.Add(sp);
                 }
             }
@@ -109,16 +109,16 @@ namespace Infrastructure.IService.Imp
                 foreach (var i in mi.MaintenanceServiceInfos)
                 {
                     var msi = _mapper.Map<MaintenanceServiceInfo>(i);
-                    if (msi.MaintenanceServiceId == null)
+                    if (msi.MaintenanceServiceCostId == null)
                     {
-                        throw new Exception("Require add Product in Center");
+                        throw new Exception("Require add Product in Center Cost");
                     }
                     msi.Status = "INACTIVE";
                     msi.CreatedDate = DateTime.Now;
                     msi.Discount = 10;
                     msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
                     msi.InformationMaintenanceId = mi.InformationMaintenanceId;
-                    await _unitOfWork.MaintenanceService.GetById(msi.MaintenanceServiceId);
+                    await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }
             }
@@ -139,11 +139,20 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseBooking>(await _unitOfWork.Booking.GetById(id));
         }
 
+        public async Task<List<ResponseBooking>> GetListByCenter()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId));
+        }
+
+
         public async Task<List<ResponseBooking>> GetListByCenterAndClient(Guid centerid, Guid clientId)
         {
             return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByCenterAndClient(centerid, clientId));
         }
 
+        
         public async Task<List<ResponseBooking>> GetListByClient()
         {
             var email = _tokensHandler.ClaimsFromToken();

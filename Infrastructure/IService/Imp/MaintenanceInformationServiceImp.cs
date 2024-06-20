@@ -88,17 +88,17 @@ namespace Infrastructure.IService.Imp
                 foreach (var i in sparePartInfos)
                 {
                     var sp = _mapper.Map<MaintenanceSparePartInfo>(i);
-                    if (sp.SparePartsItemId == null)
+                    if (sp.SparePartsItemCostId == null)
                     {
-                        throw new Exception("Require add Product in Center");
+                        throw new Exception("Require add Product in Center Cost");
                     }
                     sp.Status = "INACTIVE";
                     sp.CreatedDate = DateTime.Now;
                     sp.Discount = 10;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount / 100));
                     sp.InformationMaintenanceId = maintenanceId;
-                    //await _unitOfWork.SparePartsItem.GetById(sp.SparePartsItemId);
-                    await _unitOfWork.SparePartsItem.GetByStatusAndCostActive(sp.SparePartsItemId);
+                    await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
+                    //await _unitOfWork.SparePartsItem.GetByStatusAndCostActive(sp.SparePartsItemId);
 
                     await _unitOfWork.MaintenanceSparePartInfo.Add(sp);
                 }
@@ -112,7 +112,7 @@ namespace Infrastructure.IService.Imp
                 foreach (var i in serviceInfos)
                 {
                     var msi = _mapper.Map<MaintenanceServiceInfo>(i);
-                    if (msi.MaintenanceServiceId == null)
+                    if (msi.MaintenanceServiceCostId == null)
                     {
                         throw new Exception("Require add Product in Center");
                     }
@@ -121,7 +121,7 @@ namespace Infrastructure.IService.Imp
                     msi.Discount = 10;
                     msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount / 100));
                     msi.InformationMaintenanceId = maintenanceId;
-                    await _unitOfWork.MaintenanceService.GetById(msi.MaintenanceServiceId);
+                    await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }
             }

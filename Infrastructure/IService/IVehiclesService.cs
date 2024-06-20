@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Response.ResponseBooking;
-using Infrastructure.Common.Response.ResponseVehicles;
+using Infrastructure.Common.Response.VehiclesResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
