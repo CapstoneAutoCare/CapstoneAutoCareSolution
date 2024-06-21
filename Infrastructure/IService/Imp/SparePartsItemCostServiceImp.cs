@@ -31,6 +31,7 @@ namespace Infrastructure.IService.Imp
             cost.Status = EnumStatus.INACTIVE.ToString();
             cost.DateTime = DateTime.UtcNow;
             await _unitOfWork.SparePartsItemCost.Add(cost);
+            await _unitOfWork.SparePartsItem.GetById(cost.SparePartsItemId);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseSparePartsItemCost>(cost);
         }
@@ -45,12 +46,12 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseSparePartsItemCost>(await _unitOfWork.SparePartsItemCost.GetById(id));
         }
 
-        
+
 
         public async Task<List<ResponseSparePartsItemCost>> GetListByVIEWClient(Guid centerId)
         {
             return _mapper.Map<List<ResponseSparePartsItemCost>>(
-                await _unitOfWork.SparePartsItemCost.GetListByStatusAndCostStatus(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(),centerId));
+                await _unitOfWork.SparePartsItemCost.GetListByStatusAndCostStatus(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), centerId));
         }
 
         public async Task<ResponseSparePartsItemCost> UpdateStatus(Guid id, string status)

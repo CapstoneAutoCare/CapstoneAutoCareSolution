@@ -28,12 +28,15 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintananceServices> Create(CreateMaintananceServices create)
         {
             var maintanance_services = _mapper.Map<MaintenanceService>(create);
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
 
             maintanance_services.CreatedDate = DateTime.Now;
             maintanance_services.Status = "ACTIVE";
             maintanance_services.Image = null;
             maintanance_services.Capacity = 50;
-            await _unitOfWork.MaintenanceCenter.GetById(maintanance_services.MaintenanceCenterId);
+            await _unitOfWork.MaintenanceCenter.GetById(account.MaintenanceCenter.MaintenanceCenterId);
+            maintanance_services.MaintenanceCenterId = account.MaintenanceCenter.MaintenanceCenterId;
 
             if (maintanance_services.ServiceCareId == null)
             {

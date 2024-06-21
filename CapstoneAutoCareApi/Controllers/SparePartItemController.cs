@@ -31,7 +31,7 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateSparePartsItem create)
+        public async Task<ActionResult<ResponseSparePartsItem>> Post([FromBody] CreateSparePartsItem create)
         {
             return Ok(await _sparePartsItemService.Create(create));
         }

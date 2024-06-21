@@ -39,7 +39,6 @@ namespace Infrastructure.IService.Imp
             sparepart.Image = null;
             sparepart.Capacity = 50;
             await _unitOfWork.MaintenanceCenter.GetById(sparepart.MaintenanceCenterId);
-
             if (sparepart.SparePartsId == null)
             {
                 await _unitOfWork.SparePartsItem.Add(sparepart);

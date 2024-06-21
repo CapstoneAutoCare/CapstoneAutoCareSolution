@@ -31,6 +31,7 @@ namespace Infrastructure.IService.Imp
             var cost = _mapper.Map<MaintenanceServiceCost>(create);
             cost.Status = EnumStatus.INACTIVE.ToString();
             cost.DateTime = DateTime.UtcNow;
+            await _unitOfWork.MaintenanceService.GetById(cost.MaintenanceServiceId);
             await _unitOfWork.MaintenanceServiceCost.Add(cost);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceServiceCost>(cost);
