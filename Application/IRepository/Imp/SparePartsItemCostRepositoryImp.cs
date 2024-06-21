@@ -32,12 +32,12 @@ namespace Application.IRepository.Imp
         }
 
 
-        public async Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost)
+        public async Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost,Guid id)
         {
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
                                 .Include(c => c.MaintenanceSparePartInfos)
-                                .Where(c => c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
+                                .Where(c=>c.SparePartsItem.MaintenanceCenterId==id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
 
             var groupedResult = await query
                                       .GroupBy(c => c.SparePartsItemId)

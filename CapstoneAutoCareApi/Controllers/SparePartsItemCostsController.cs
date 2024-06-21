@@ -31,9 +31,9 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseSparePartsItemCost>>> GetListByClient()
+        public async Task<ActionResult<IEnumerable<ResponseSparePartsItemCost>>> GetListByClient(Guid centerId)
         {
-            return Ok(await _sparePartsItemCostService.GetListByVIEWClient());
+            return Ok(await _sparePartsItemCostService.GetListByVIEWClient(centerId));
 
         }
         [HttpGet]

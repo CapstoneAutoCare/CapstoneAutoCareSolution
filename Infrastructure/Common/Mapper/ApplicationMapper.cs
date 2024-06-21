@@ -11,6 +11,7 @@ using Infrastructure.Common.Request.RequestMaintenanceServiceCost;
 using Infrastructure.Common.Request.RequestMaintenanceServiceInfo;
 using Infrastructure.Common.Request.RequestMaintenanceSparePartInfor;
 using Infrastructure.Common.Request.RequestMaintenanceTechinican;
+using Infrastructure.Common.Request.RequestOdo;
 using Infrastructure.Common.Request.RequestSparePartsItemCost;
 using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Request.Sparepart;
@@ -18,6 +19,7 @@ using Infrastructure.Common.Request.VehicleBrandRequest;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Response;
 using Infrastructure.Common.Response.ClientResponse;
+using Infrastructure.Common.Response.OdoResponse;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseBooking;
@@ -474,6 +476,15 @@ namespace Infrastructure.Common.Mapper
                    .ReverseMap();
             #endregion
 
+
+            #region OdoHistory
+            CreateMap<CreateOdoHistory, OdoHistory>()
+                   .ReverseMap();
+            CreateMap<UpdateOdo, OdoHistory>()
+                  .ReverseMap();
+            CreateMap<OdoHistory, ResponseOdoHistory>()
+                   .ReverseMap();
+            #endregion
         }
     }
 }

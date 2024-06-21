@@ -13,7 +13,7 @@ namespace Infrastructure.IService
     public interface ISparePartsItemCostService
     {
         Task<List<ResponseSparePartsItemCost>> GetAll();
-        Task<List<ResponseSparePartsItemCost>> GetListByVIEWClient();
+        Task<List<ResponseSparePartsItemCost>> GetListByVIEWClient(Guid centerId);
         Task<ResponseSparePartsItemCost> GetById(Guid id);
         Task<ResponseSparePartsItemCost> Create(CreateSparePartsItemCost create);
         Task<ResponseSparePartsItemCost> UpdateStatus(Guid id, string status);

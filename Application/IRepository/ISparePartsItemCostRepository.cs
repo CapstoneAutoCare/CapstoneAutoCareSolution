@@ -12,7 +12,7 @@ namespace Application.IRepository
     {
         Task<List<SparePartsItemCost>> GetAll();
         Task<SparePartsItemCost> GetById(Guid? id);
-        Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost);
+        Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost,Guid id);
         //Task<List<SparePartsItemCost>> GetListByClientActive(Guid centerId);
 
     }

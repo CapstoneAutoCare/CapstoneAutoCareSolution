@@ -114,6 +114,10 @@ builder.Services.AddTransient<ISparePartsItemCostService, SparePartsItemCostServ
 builder.Services.AddTransient<IMaintananceServicesCostService, MaintananceServicesCostServiceImp>();
 
 
+builder.Services.AddTransient<IOdoHistoryRepository, OdoHistoryRepositoryImp>();
+builder.Services.AddTransient<IOdoHistoryService, OdoHistoryServiceImp>();
+
+
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 
 

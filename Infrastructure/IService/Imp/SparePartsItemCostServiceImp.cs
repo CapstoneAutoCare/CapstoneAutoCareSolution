@@ -47,10 +47,10 @@ namespace Infrastructure.IService.Imp
 
         
 
-        public async Task<List<ResponseSparePartsItemCost>> GetListByVIEWClient()
+        public async Task<List<ResponseSparePartsItemCost>> GetListByVIEWClient(Guid centerId)
         {
             return _mapper.Map<List<ResponseSparePartsItemCost>>(
-                await _unitOfWork.SparePartsItemCost.GetListByStatusAndCostStatus(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString()));
+                await _unitOfWork.SparePartsItemCost.GetListByStatusAndCostStatus(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(),centerId));
         }
 
         public async Task<ResponseSparePartsItemCost> UpdateStatus(Guid id, string status)

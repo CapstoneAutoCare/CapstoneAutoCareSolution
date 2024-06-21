@@ -10,5 +10,7 @@ namespace Application.IRepository
 {
     public interface IOdoHistoryRepository: IGenericRepository<OdoHistory>
     {
+        Task<List<OdoHistory>> GetAll();
+        Task<OdoHistory> GetById(Guid id);
     }
 }

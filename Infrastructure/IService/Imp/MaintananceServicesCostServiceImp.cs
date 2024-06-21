@@ -46,10 +46,10 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintenanceServiceCost>(await _unitOfWork.MaintenanceServiceCost.GetById(id));
         }
 
-        public async Task<List<ResponseMaintenanceServiceCost>> GetListByVIEWClient()
+        public async Task<List<ResponseMaintenanceServiceCost>> GetListByVIEWClient(Guid centerId)
         {
             return _mapper.Map<List<ResponseMaintenanceServiceCost>>(
-                           await _unitOfWork.MaintenanceServiceCost.GetListByStatusAndStatusCost(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString()));
+                           await _unitOfWork.MaintenanceServiceCost.GetListByStatusAndStatusCost(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(),centerId));
         }
 
         public async Task<ResponseMaintenanceServiceCost> UpdateStatus(Guid id, string status)
