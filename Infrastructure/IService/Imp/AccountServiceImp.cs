@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Infrastructure.Common.Response;
 using Infrastructure.Common.Response.ClientResponse;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.ResponseStaffCare;
@@ -62,6 +63,11 @@ namespace Infrastructure.IService.Imp
             {
                 var responseClient = _mapper.Map<ResponseStaffCare>(account.StaffCare);
                 resultNode = ConvertToJsonNode(responseClient);
+            }
+            else if (account.Role.Equals("CENTER"))
+            {
+                var responseCenter = _mapper.Map<ResponseCenter>(account.MaintenanceCenter);
+                resultNode = ConvertToJsonNode(responseCenter);
             }
             return resultNode;
         }

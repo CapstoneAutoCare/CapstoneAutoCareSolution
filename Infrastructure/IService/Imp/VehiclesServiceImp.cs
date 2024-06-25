@@ -57,5 +57,14 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseVehicles>>(
                 await _unitOfWork.Vehicles.GetListByClient(account.Client.ClientId));
         }
+
+        public async Task<ResponseVehicles> UpdateStatus(Guid id, string status)
+        {
+            var vehicle = await _unitOfWork.Vehicles.GetById(id);
+            vehicle.Status = status;
+            await _unitOfWork.Vehicles.Update(vehicle);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseVehicles>(vehicle);
+        }
     }
 }
