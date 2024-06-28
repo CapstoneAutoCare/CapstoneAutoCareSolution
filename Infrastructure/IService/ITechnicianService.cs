@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.IService
 {
-    public interface IStaffCareService
+    public interface ITechnicianService
     {
-        Task<ResponseStaffCare> Create(CreateStaffCare create);
-        Task<List<ResponseStaffCare>> GetAll();
-        Task<ResponseStaffCare> GetById(Guid id);
+        Task<ResponseTechnician> Create(CreateTechnician create);
+        Task<List<ResponseTechnician>> GetAll();
+        Task<ResponseTechnician> GetById(Guid id);
     }
 }

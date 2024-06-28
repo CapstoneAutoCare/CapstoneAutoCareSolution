@@ -20,11 +20,6 @@ namespace Application.ConfigurationDB
                     .WithMany(d => d.ImageRepairReceipts)
                     .HasForeignKey(d => d.VehicleId)
                     .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(d => d.MaintenanceCenter)
-                    .WithMany(d => d.ImageRepairReceipts)
-                    .HasForeignKey(d => d.MaintenanceCenterId)
-                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

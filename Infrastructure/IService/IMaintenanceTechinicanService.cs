@@ -12,8 +12,9 @@ namespace Infrastructure.IService
 {
     public interface IMaintenanceTechinicanService
     {
-        Task<List<ResponseMaintenanceTechinican>> GetAll();
-        Task<ResponseMaintenanceTechinican> GetById(Guid id);
-        Task<ResponseMaintenanceTechinican> Create(CreateMaintenanceTechinican create);
+        Task<List<ResponseMaintenanceTask>> GetAll();
+        Task<ResponseMaintenanceTask> GetById(Guid id);
+        Task<ResponseMaintenanceTask> Create(CreateMaintenanceTechinican create);
+        Task<ResponseMaintenanceTask> UpdateStatus(Guid id, string status);
     }
 }

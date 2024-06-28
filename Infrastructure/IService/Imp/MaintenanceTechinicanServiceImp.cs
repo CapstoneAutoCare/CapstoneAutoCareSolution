@@ -22,23 +22,33 @@ namespace Infrastructure.IService.Imp
             _mapper = mapper;
         }
 
-        public async Task<ResponseMaintenanceTechinican> Create(CreateMaintenanceTechinican create)
+        public async Task<ResponseMaintenanceTask> Create(CreateMaintenanceTechinican create)
         {
-            var tech = _mapper.Map<Technician>(create);
+            var tech = _mapper.Map<MaintenanceTask>(create);
             tech.CreatedDate = DateTime.Now;
-            await _unitOfWork.Technician.Add(tech);
+            await _unitOfWork.MaintenanceTask.Add(tech);
             await _unitOfWork.Commit();
-            return _mapper.Map<ResponseMaintenanceTechinican>(tech);
+            return _mapper.Map<ResponseMaintenanceTask>(tech);
         }
 
-        public async Task<List<ResponseMaintenanceTechinican>> GetAll()
+        public async Task<List<ResponseMaintenanceTask>> GetAll()
         {
-            return _mapper.Map<List<ResponseMaintenanceTechinican>>(await _unitOfWork.Technician.GetAll());
+            return _mapper.Map<List<ResponseMaintenanceTask>>(await _unitOfWork.MaintenanceTask.GetAll());
         }
 
-        public async Task<ResponseMaintenanceTechinican> GetById(Guid id)
+        public async Task<ResponseMaintenanceTask> GetById(Guid id)
         {
-            return _mapper.Map<ResponseMaintenanceTechinican>(await _unitOfWork.Technician.GetById(id));
+            return _mapper.Map<ResponseMaintenanceTask>(await _unitOfWork.MaintenanceTask.GetById(id));
+        }
+
+        public async Task<ResponseMaintenanceTask> UpdateStatus(Guid id, string status)
+        {
+            var t = await _unitOfWork.MaintenanceTask.GetById(id);
+            t.Status = status;
+            await _unitOfWork.MaintenanceTask.Update(t);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseMaintenanceTask>(t);
+
         }
     }
 }

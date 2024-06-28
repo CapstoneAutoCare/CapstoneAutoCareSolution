@@ -48,8 +48,8 @@ builder.Services.AddTransient<IVehicleBrandService, VehicleBrandImp>();
 builder.Services.AddTransient<ICenterService, CenterServiceImp>();
 builder.Services.AddTransient<IMaintenanceCenterRepository, MaintenanceCenterRepositoryImp>();
 
-builder.Services.AddTransient<IStaffCareRepository, StaffCareRepositoryImp>();
-builder.Services.AddTransient<IStaffCareService, StaffCareServiceImp>();
+builder.Services.AddTransient<ITechicianRepository, TechnicianRepositoryImp>();
+builder.Services.AddTransient<ITechnicianService, TechicianServiceImp>();
 
 builder.Services.AddTransient<ICustomerCareRepository, CustomerCareRepositoryImp>();
 builder.Services.AddTransient<ICustomerCareService, CustomerCareServiceImp>();
@@ -104,7 +104,7 @@ builder.Services.AddTransient<IMaintenanceHistoryStatusService, MaintenanceHisto
 builder.Services.AddTransient<IMaintenanceSparePartInfoService, MaintenanceSparePartInfoServiceImp>();
 
 //Maintanance Technican  
-builder.Services.AddTransient<ITechnicianRepository, TechnicianMnRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceTaskRepository, MaintenanceTaskRepositoryImp>();
 builder.Services.AddTransient<IMaintenanceTechinicanService, MaintenanceTechinicanServiceImp>();
 
 builder.Services.AddTransient<ISparePartsItemCostRepository, SparePartsItemCostRepositoryImp>();

@@ -93,7 +93,7 @@ namespace Infrastructure.Common.Mapper
 
 
             // CREATE STAFF CARE
-            CreateMap<CreateStaffCare, StaffCare>()
+            CreateMap<CreateTechnician, Technician>()
             .ForMember(c => c.Address, act => act.MapFrom(src => src.Address))
             .ForMember(c => c.FirstName, act => act.MapFrom(src => src.FirstName))
             .ForMember(c => c.LastName, act => act.MapFrom(src => src.LastName))
@@ -176,10 +176,10 @@ namespace Infrastructure.Common.Mapper
 
 
             // Resonse Staff Care
-            CreateMap<StaffCare, ResponseStaffCare>()
+            CreateMap<Technician, ResponseTechnician>()
             .ForMember(c => c.Email, act => act.MapFrom(src => src.Account.Email))
             .ForMember(c => c.AccountId, act => act.MapFrom(src => src.AccountId))
-            .ForMember(c => c.StaffCareId, act => act.MapFrom(src => src.StaffCareId))
+            .ForMember(c => c.TechnicianId, act => act.MapFrom(src => src.TechnicianId))
             .ForMember(c => c.Password, act => act.MapFrom(src => src.Account.Password))
             .ForMember(c => c.Logo, act => act.MapFrom(src => src.Account.Logo))
             .ForMember(c => c.Status, act => act.MapFrom(src => src.Account.Status))
@@ -190,7 +190,7 @@ namespace Infrastructure.Common.Mapper
             .ForMember(c => c.Address, act => act.MapFrom(src => src.Address))
             .ForMember(c => c.FirstName, act => act.MapFrom(src => src.FirstName))
             .ForMember(c => c.LastName, act => act.MapFrom(src => src.LastName))
-            .ForMember(c => c.StaffCareDescription, act => act.MapFrom(src => src.StaffCareDescription))
+            .ForMember(c => c.TechnicianDescription, act => act.MapFrom(src => src.TechnicianDescription))
             .ForMember(c => c.Birthday, act => act.MapFrom(src => src.Birthday));
 
             // Response Customer Care
@@ -451,10 +451,10 @@ namespace Infrastructure.Common.Mapper
 
 
             #region MaintenanceTechinican
-            CreateMap<CreateMaintenanceTechinican, Technician>()
+            CreateMap<CreateMaintenanceTechinican, MaintenanceTask>()
                    .ReverseMap();
 
-            CreateMap<Technician, ResponseMaintenanceTechinican>()
+            CreateMap<MaintenanceTask, ResponseMaintenanceTask>()
                    .ReverseMap();
             #endregion
 

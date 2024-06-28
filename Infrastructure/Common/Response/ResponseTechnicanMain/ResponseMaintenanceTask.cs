@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Common.Response.ResponseTechnicanMain
 {
-    public class ResponseMaintenanceTechinican
+    public class ResponseMaintenanceTask
     {
-        public Guid TechnicianId { get; set; }
-        public string TechnicialName { get; set; }
+        public Guid MaintenanceTaskId { get; set; }
+        public string MaintenanceTaskName { get; set; }
         public double UnitCost { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public Guid InformationMaintenanceId { get; set; }
-        public Guid StaffCareId { get; set; }
+        public Guid TechnicianId { get; set; }
     }
 }

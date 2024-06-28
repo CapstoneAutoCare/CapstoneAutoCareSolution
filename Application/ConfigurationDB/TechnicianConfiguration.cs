@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,21 +17,17 @@ namespace Application.ConfigurationDB
             builder.Property(e => e.TechnicianId)
                     .ValueGeneratedOnAdd();
 
-            builder.Property(e => e.CreatedDate)
+            builder.Property(e => e.Birthday)
                 .HasColumnType("datetime");
+            builder.HasIndex(e => e.AccountId).IsUnique();
 
+       
 
-            builder.HasOne(d => d.InformationMaintenance)
+            builder.HasOne(d => d.MaintenanceCenter)
                     .WithMany(d => d.Technicians)
-                    .HasForeignKey(d => d.InformationMaintenanceId)
+                    .HasForeignKey(d => d.CenterId)
                     .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(d => d.StaffCare)
-                   .WithMany(d => d.Technicians)
-                   .HasForeignKey(d => d.StaffCareId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
-
+           
         }
     }
 }

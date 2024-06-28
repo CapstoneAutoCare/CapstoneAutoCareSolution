@@ -18,8 +18,6 @@ namespace Domain.Entities
         public string Note { get; set; }
         public string Status { get; set; }
         public Guid VehicleId { get; set; }
-        public Guid? MaintenanceCenterId { get; set; }
-        public MaintenanceCenter MaintenanceCenter { get; set; }
         public Vehicles Vehicle { get; set; }
     }
 }

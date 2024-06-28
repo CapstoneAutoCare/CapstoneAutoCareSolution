@@ -39,7 +39,7 @@ namespace Application.IRepository.Imp
         public async Task<Account> Profile(string email)
         {
             var account = await _context.Set<Account>()
-                .Include(c => c.StaffCare)
+                .Include(c => c.Technician)
                 .Include(c => c.Client)
                 .Include(c => c.Admin)
                 .Include(c => c.MaintenanceCenter)

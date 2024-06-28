@@ -12,13 +12,12 @@ namespace Domain.Entities
         public MaintenanceCenter()
         {
             CustomerCares = new HashSet<CustomerCare>();
-            StaffCares = new HashSet<StaffCare>();
+            Technicians = new HashSet<Technician>();
             Bookings = new HashSet<Booking>();
             SparePartsItems = new HashSet<SparePartsItem>();
             MaintenanceServices = new HashSet<MaintenanceService>();
             FeedBacks = new HashSet<FeedBack>();
             VehiclesMaintenance = new HashSet<VehiclesMaintenance>();
-            ImageRepairReceipts = new HashSet<ImageRepairReceipt>();
         }
 
         [Key]
@@ -35,15 +34,13 @@ namespace Domain.Entities
         public Guid AccountId { get; set; }
         public Account Account { get; set; }
         public ICollection<CustomerCare> CustomerCares { get; set; }
-        public ICollection<StaffCare> StaffCares { get; set; }
+        public ICollection<Technician> Technicians { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }
         public ICollection<SparePartsItem> SparePartsItems { get; set; }
         public ICollection<MaintenanceService> MaintenanceServices { get; set; }
         public ICollection<FeedBack> FeedBacks { get; set; }
         public ICollection<VehiclesMaintenance> VehiclesMaintenance { get; set; }
-        public ICollection<ImageRepairReceipt> ImageRepairReceipts { get; set; }
-
 
     }
 }

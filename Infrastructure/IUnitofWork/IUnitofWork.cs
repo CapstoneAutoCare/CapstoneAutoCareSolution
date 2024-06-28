@@ -28,8 +28,8 @@ namespace Infrastructure.IUnitofWork
         IServiceCareRepository ServiceCare { get; }
         ISparePartsItemRepository SparePartsItem { get; }
         ISparePartsRepository SparePartsRepository { get; }
-        IStaffCareRepository StaffCare { get; }
-        ITechnicianRepository Technician { get; }
+        ITechicianRepository Techician { get; }
+        IMaintenanceTaskRepository MaintenanceTask { get; }
         IVehicleModelRepository VehicleModel { get; }
         IVehiclesBrandRepository VehiclesBrand { get; }
         IVehiclesMaintenanceRepository VehiclesMaintenance { get; }

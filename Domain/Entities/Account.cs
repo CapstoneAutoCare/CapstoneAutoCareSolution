@@ -29,7 +29,7 @@ namespace Domain.Entities
         public Client Client { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public CustomerCare CustomerCare { get; set; }
-        public StaffCare StaffCare { get; set; }
+        public Technician Technician { get; set; }
         public ICollection<Notification> Notifications { get; set; }
     }
 }

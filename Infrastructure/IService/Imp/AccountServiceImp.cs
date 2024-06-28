@@ -50,7 +50,7 @@ namespace Infrastructure.IService.Imp
                 var responseAdmin = _mapper.Map<ResponseAdmin>(account.Admin);
                 resultNode = ConvertToJsonNode(responseAdmin);
             }
-            else if (account.Role.Equals("CUSTOMER"))
+            else if (account.Role.Equals("CLIENT"))
             {
                 var responseClient = _mapper.Map<ResponseClient>(account.Client);
                 resultNode = ConvertToJsonNode(responseClient);
@@ -59,9 +59,9 @@ namespace Infrastructure.IService.Imp
                 var responseClient = _mapper.Map<ResponseCustomerCare>(account.CustomerCare);
                 resultNode = ConvertToJsonNode(responseClient);
             }
-            else if (account.Role.Equals("TECHNICAN"))
+            else if (account.Role.Equals("TECHNICIAN"))
             {
-                var responseClient = _mapper.Map<ResponseStaffCare>(account.StaffCare);
+                var responseClient = _mapper.Map<ResponseTechnician>(account.Technician);
                 resultNode = ConvertToJsonNode(responseClient);
             }
             else if (account.Role.Equals("CENTER"))

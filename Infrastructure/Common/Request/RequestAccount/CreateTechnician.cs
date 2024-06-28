@@ -4,25 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Response.ResponseStaffCare
+namespace Infrastructure.Common.Request.RequestAccount
 {
-    public class ResponseStaffCare
+    public class CreateTechnician
     {
-        public Guid AccountId { get; set; }
-        public Guid StaffCareId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Role { get; set; }
         public string Gender { get; set; }
         public string Phone { get; set; }
-        public DateTime CreatedDate { get; set; }
         public string Logo { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
         public DateTime Birthday { get; set; }
-        public string StaffCareDescription { get; set; }
-        public string Status { get; set; }
-
     }
 }

@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Application;
 using Domain.Entities;
 using Infrastructure.IService;
-using Infrastructure.Common.Response.ResponseTechnicanMain;
-using Infrastructure.Common.Request.RequestMaintenanceTechinican;
+using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ResponseStaffCare;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -17,46 +17,44 @@ namespace CapstoneAutoCareApi.Controllers
     [ApiController]
     public class TechniciansController : ControllerBase
     {
+        private readonly ITechnicianService _technicianService;
 
-        private readonly IMaintenanceTechinicanService _maintenanceTechinicanService;
-
-        public TechniciansController(IMaintenanceTechinicanService maintenanceTechinicanService)
+        public TechniciansController(ITechnicianService staffCareService)
         {
-            _maintenanceTechinicanService = maintenanceTechinicanService;
+            _technicianService = staffCareService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseMaintenanceTechinican>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ResponseTechnician>>> GetAll()
         {
-            return Ok(await _maintenanceTechinicanService.GetAll());
+            return Ok(await _technicianService.GetAll());
         }
 
         [HttpGet]
-        public async Task<ActionResult<ResponseMaintenanceTechinican>> GetById(Guid id)
+        public async Task<ActionResult<ResponseTechnician>> GetById(Guid id)
         {
-            return Ok(await _maintenanceTechinicanService.GetById(id));
+            return Ok(await _technicianService.GetById(id));
+
         }
 
         //[HttpPut]
-        //public async Task<IActionResult> PutTechnician(Guid id, Technician technician)
+        //public async Task<IActionResult> PutStaffCare(Guid id, StaffCare staffCare)
         //{
 
         //    return NoContent();
         //}
-        [HttpPost]
-        public async Task<ActionResult<ResponseMaintenanceTechinican>> Post(CreateMaintenanceTechinican technician)
-        {
-            return Ok(await _maintenanceTechinicanService.Create(technician));
 
+        [HttpPost]
+        public async Task<ActionResult<ResponseTechnician>> Post(CreateTechnician staffCare)
+        {
+            return Ok(await _technicianService.Create(staffCare));
         }
 
         //[HttpDelete]
-        //public async Task<IActionResult> Delete(Guid id)
+        //public async Task<IActionResult> DeleteStaffCare(Guid id)
         //{
-
         //    return NoContent();
         //}
-
 
     }
 }

@@ -18,14 +18,12 @@ namespace Application.IRepository.Imp
         public async Task<List<ImageRepairReceipt>> GetAll()
         {
             return await _context.Set<ImageRepairReceipt>()
-                 .Include(c => c.MaintenanceCenter)
                  .Include(c => c.Vehicle).ToListAsync();
         }
 
         public async Task<ImageRepairReceipt> GetById(Guid id)
         {
             return await _context.Set<ImageRepairReceipt>()
-                             .Include(c => c.MaintenanceCenter)
                              .Include(c => c.Vehicle)
                              .FirstOrDefaultAsync(c => c.ImageRepairReceiptId == id);
         }

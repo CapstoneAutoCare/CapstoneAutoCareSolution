@@ -30,8 +30,8 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly IServiceCareRepository _ServiceCare;
         private readonly ISparePartsItemRepository _SparePartsItem;
         private readonly ISparePartsRepository _SparePartsRepository;
-        private readonly IStaffCareRepository _StaffCare;
-        private readonly ITechnicianRepository _Technician;
+        private readonly ITechicianRepository _Techician;
+        private readonly IMaintenanceTaskRepository _MaintenanceTask;
         private readonly IVehicleModelRepository _VehicleModel;
         private readonly IVehiclesBrandRepository _VehiclesBrand;
         private readonly IVehiclesMaintenanceRepository _VehiclesMaintenance;
@@ -59,8 +59,8 @@ namespace Infrastructure.IUnitofWork.Imp
             _ServiceCare = new ServiceCareRepositoryImp(_context);
             _SparePartsItem = new SparePartsItemRepositoryImp(_context);
             _SparePartsRepository = new SparePartsRepositoryImp(_context);
-            _StaffCare = new StaffCareRepositoryImp(_context);
-            _Technician = new TechnicianMnRepositoryImp(_context);
+            _Techician = new TechnicianRepositoryImp(_context);
+            _MaintenanceTask = new MaintenanceTaskRepositoryImp(_context);
             _VehicleModel = new VehicleModelRepositoryImp(_context);
             _VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
             //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
@@ -105,9 +105,9 @@ namespace Infrastructure.IUnitofWork.Imp
 
         public ISparePartsRepository SparePartsRepository => _SparePartsRepository;
 
-        public IStaffCareRepository StaffCare => _StaffCare;
+        public ITechicianRepository Techician => _Techician;
 
-        public ITechnicianRepository Technician => _Technician;
+        public IMaintenanceTaskRepository MaintenanceTask => _MaintenanceTask;
 
         public IVehicleModelRepository VehicleModel => _VehicleModel;
 
