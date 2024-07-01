@@ -77,7 +77,7 @@ namespace Application.SeedingData
                 },
                 new SparePartsItem
                 {
-                   CreatedDate=DateTime.Now,
+                   CreatedDate=DateTime.UtcNow.Date,
                    Image="https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
                    MaintenanceCenterId=center.MaintenanceCenterId,
                    SparePartsId=null,

@@ -333,6 +333,8 @@ namespace Infrastructure.Common.Mapper
                 //.ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ReverseMap();
 
+            CreateMap<UpdateSparePartItem, SparePartsItem>()
+                .ReverseMap();
 
             CreateMap<SparePartsItem, ResponseSparePartsItem>()
                 .ForMember(p => p.SparePartsItemId, act => act.MapFrom(src => src.SparePartsItemtId))

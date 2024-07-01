@@ -20,6 +20,7 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
+                .OrderByDescending(c => c.DateTime)
                 .ToListAsync();
         }
 
@@ -28,6 +29,7 @@ namespace Application.IRepository.Imp
             return await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
                 .Include(c=>c.MaintenanceSparePartInfos)
+                .OrderByDescending(c => c.DateTime)
                 .FirstOrDefaultAsync(c => c.SparePartsItemCostId == id);
         }
 
@@ -37,6 +39,7 @@ namespace Application.IRepository.Imp
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
                                 .Include(c => c.MaintenanceSparePartInfos)
+                                .OrderByDescending(c => c.DateTime)
                                 .Where(c=>c.SparePartsItem.MaintenanceCenterId==id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
 
             var groupedResult = await query

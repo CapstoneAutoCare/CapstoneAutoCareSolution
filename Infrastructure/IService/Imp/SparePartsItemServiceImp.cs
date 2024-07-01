@@ -59,11 +59,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseSparePartsItem>>(await _unitOfWork.SparePartsItem.GetAll());
         }
 
-        public async Task<List<ResponseSparePartsItem>> GetListByCenter(Guid centerId)
+        public async Task<List<ResponseSparePartsItem>> GetListByCenter()
         {
-            //var email = _tokensHandler.ClaimsFromToken();
-            //var account = await _unitOfWork.Account.Profile(email);
-            var list = await _unitOfWork.SparePartsItem.GetListByCenter(centerId);
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            var list = await _unitOfWork.SparePartsItem.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId);
             return _mapper.Map<List<ResponseSparePartsItem>>(list);
         }
         public async Task<ResponseSparePartsItem> GetById(Guid id)
@@ -75,9 +75,9 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseSparePartsItem> Update(Guid id, UpdateSparePartItem update)
         {
             var item = await _unitOfWork.SparePartsItem.GetById(id);
-            //item.ActuralCost = update.ActuralCost;
-            item.SparePartsId = update.SparePartsId;
-            await _unitOfWork.SparePartsItem.Update(item);
+
+            var varcheck = _mapper.Map(update, item);
+            await _unitOfWork.SparePartsItem.Update(varcheck);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseSparePartsItem>(item);
 

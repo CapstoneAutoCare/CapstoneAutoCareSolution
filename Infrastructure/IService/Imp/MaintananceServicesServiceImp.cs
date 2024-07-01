@@ -65,11 +65,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
         }
 
-        public async Task<List<ResponseMaintananceServices>> GetListByCenter(Guid centerId)
+        public async Task<List<ResponseMaintananceServices>> GetListByCenter()
         {
-            //var email = _tokensHandler.ClaimsFromToken();
-            //var account = await _unitOfWork.Account.Profile(email);
-            var list = await _unitOfWork.MaintenanceService.GetListByCenter(centerId);
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            var list = await _unitOfWork.MaintenanceService.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId);
             return _mapper.Map<List<ResponseMaintananceServices>>(list);
         }
 

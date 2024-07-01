@@ -14,7 +14,7 @@ namespace Infrastructure.IService
     public interface ISparePartsItemService
     {
         Task<List<ResponseSparePartsItem>> GetAll();
-        Task<List<ResponseSparePartsItem>> GetListByCenter(Guid centerId);
+        Task<List<ResponseSparePartsItem>> GetListByCenter();
 
         Task<ResponseSparePartsItem> GetById(Guid id);
         Task<ResponseSparePartsItem> Create(CreateSparePartsItem create);

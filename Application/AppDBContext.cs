@@ -47,9 +47,9 @@ namespace Application
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=db6048.public.databaseasp.net; Database=db6048; User Id=db6048; Password=3h#Tm?N2A6=x; Encrypt=False; MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer("Server=db6048.public.databaseasp.net; Database=db6048; User Id=db6048; Password=pM=4F3q_bT+7; Encrypt=False; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true"); 
-                optionsBuilder.UseSqlServer("Server=mssql-176775-0.cloudclusters.net,19765; Database=AutoCare; User Id=db6048;Password=3h#Tm?N2A6=x;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlServer("Server=mssql-176775-0.cloudclusters.net,19765; Database=AutoCare; User Id=db6048;Password=3h#Tm?N2A6=x;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
