@@ -17,7 +17,7 @@ namespace Infrastructure.Common.Response.ResponseMaintenanceSparePart
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-        public Guid? SparePartsItemId { get; set; }
+        public Guid? SparePartsItemCostId { get; set; }
         public Guid InformationMaintenanceId { get; set; }
     }
 }
