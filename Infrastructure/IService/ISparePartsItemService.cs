@@ -20,6 +20,6 @@ namespace Infrastructure.IService
         Task<ResponseSparePartsItem> Create(CreateSparePartsItem create);
         Task<ResponseSparePartsItem> Update(Guid id, UpdateSparePartItem update);
         Task<ResponseSparePartsItem> UpdateStatus(Guid id, string status);
-
+        Task Remove (Guid id);
     }
 }

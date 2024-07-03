@@ -25,8 +25,8 @@ namespace Application.IGenericRepository.Imp
             return add.Entity;
         }
 
-        public void Remove(T entity)
-              => _context.Remove(entity);
+        public async Task Remove(T entity)
+              => _context.Set<T>().Remove(entity);
 
         public async Task<T> Update(T entity)
         {

@@ -8,7 +8,9 @@ namespace Infrastructure.Common.Request.MaintananceServices
 {
     public class UpdateMaintananceServices
     {
-        public double ActuralCost { get; set; }
-        public Guid? ServiceCareId { get; set; }
+        public string MaintenanceServiceName { get; set; }
+        public string Status { get; set; }
+        public string? Image { get; set; }
+        public int Capacity { get; set; }
     }
 }

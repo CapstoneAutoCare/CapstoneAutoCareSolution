@@ -73,14 +73,19 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintananceServices>>(list);
         }
 
+        public async Task Remove(Guid id)
+        {
+            var u = await _unitOfWork.MaintenanceService.GetById(id);
+            await _unitOfWork.MaintenanceService.Remove(u);
+        }
+
         public async Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update)
         {
             var item = await _unitOfWork.MaintenanceService.GetById(id);
-            item.ServiceCareId = update.ServiceCareId;
-            //item.ActuralCost = update.ActuralCost;
-            await _unitOfWork.MaintenanceService.Update(item);
+            var u = _mapper.Map(update, item);
+            await _unitOfWork.MaintenanceService.Update(u);
             await _unitOfWork.Commit();
-            return _mapper.Map<ResponseMaintananceServices>(item);
+            return _mapper.Map<ResponseMaintananceServices>(u);
         }
 
         public async Task<ResponseMaintananceServices> UpdateStatus(Guid id, string status)

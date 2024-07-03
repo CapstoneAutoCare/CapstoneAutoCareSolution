@@ -60,8 +60,10 @@ namespace Infrastructure.IService.Imp
             var customercare = await _unitOfWork.CustomerCare.GetById(account.CustomerCare.CustomerCareId);
             mi.CustomerCareId = customercare.CustomerCareId;
 
-            await ProcessSparePartInfos(mi.MaintenanceSparePartInfos, mi.InformationMaintenanceId);
-            await ProcessServiceInfos(mi.MaintenanceServiceInfos, mi.InformationMaintenanceId);
+            var doublePrice = await ProcessSparePartInfos(mi.MaintenanceSparePartInfos, mi.InformationMaintenanceId, mi.TotalPrice);
+            mi.TotalPrice = doublePrice;
+
+            await ProcessServiceInfos(mi.MaintenanceServiceInfos, mi.InformationMaintenanceId, mi.TotalPrice);
 
             if (mi.BookingId == null)
             {
@@ -81,7 +83,7 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintenanceInformation>(await _unitOfWork.InformationMaintenance.GetById(id));
         }
 
-        private async Task ProcessSparePartInfos(IEnumerable<MaintenanceSparePartInfo> sparePartInfos, Guid maintenanceId)
+        private async Task<double> ProcessSparePartInfos(IEnumerable<MaintenanceSparePartInfo> sparePartInfos, Guid maintenanceId, double price)
         {
             if (sparePartInfos.Any())
             {
@@ -99,13 +101,15 @@ namespace Infrastructure.IService.Imp
                     sp.InformationMaintenanceId = maintenanceId;
                     await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
                     //await _unitOfWork.SparePartsItem.GetByStatusAndCostActive(sp.SparePartsItemId);
+                    price = sp.TotalCost + i.TotalCost;
 
                     await _unitOfWork.MaintenanceSparePartInfo.Add(sp);
                 }
             }
+            return price;
         }
 
-        private async Task ProcessServiceInfos(IEnumerable<MaintenanceServiceInfo> serviceInfos, Guid maintenanceId)
+        private async Task<double> ProcessServiceInfos(IEnumerable<MaintenanceServiceInfo> serviceInfos, Guid maintenanceId, double price)
         {
             if (serviceInfos.Any())
             {
@@ -125,6 +129,7 @@ namespace Infrastructure.IService.Imp
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }
             }
+            return price;
         }
         private MaintenanceInformation MapAndInitializeMaintenanceInformation(CreateMaintenanceInformationHaveItems create)
         {
@@ -169,6 +174,20 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintenanceInformation>>(
                 await _unitOfWork.InformationMaintenance.GetListByClient(account.Client.ClientId));
 
+        }
+
+        public async Task<List<ResponseMaintenanceInformation>> GetListByCenter()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseMaintenanceInformation>>(
+                await _unitOfWork.InformationMaintenance.GetListByCenter(account.Client.ClientId));
+        }
+
+        public async Task Remove(Guid id)
+        {
+            var re = await _unitOfWork.InformationMaintenance.GetById(id);
+            await _unitOfWork.InformationMaintenance.Remove(re);
         }
     }
 }

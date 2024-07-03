@@ -51,5 +51,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _service.UpdateStatus(id, status));
         }
+        [HttpDelete]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            await _service.Remove(id);
+            return Ok("Sucess");
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _sparePartsItemService.Create(create));
         }
-        
+
         //[HttpGet]
         //public async Task<ActionResult<ResponseSparePartsItemCost>> GetListByClientActive(Guid centerId)
         //{
@@ -55,6 +55,12 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<IActionResult> UpdateStatus(Guid id, string status)
         {
             return Ok(await _sparePartsItemService.UpdateStatus(id, status));
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            await _sparePartsItemService.Remove(id);
+            return Ok("Sucess");
         }
     }
 }

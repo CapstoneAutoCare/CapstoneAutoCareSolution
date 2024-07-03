@@ -92,5 +92,10 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseSparePartsItem>(item);
         }
 
+        public async Task Remove(Guid id)
+        {
+            var i = await _unitOfWork.SparePartsItem.GetById(id);
+            await _unitOfWork.SparePartsItem.Remove(i);
+        }
     }
 }

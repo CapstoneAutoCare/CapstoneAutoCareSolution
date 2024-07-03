@@ -24,6 +24,7 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceSparePartInfos)
                 .Include(c => c.MaintenanceHistoryStatuses)
                 .Include(c => c.MaintenanceServiceInfos)
+                .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
         }
 
@@ -44,6 +45,20 @@ namespace Application.IRepository.Imp
             return mainifor;
         }
 
+        public async Task<List<MaintenanceInformation>> GetListByCenter(Guid id)
+        {
+            return await _context.Set<MaintenanceInformation>()
+                            .Include(c => c.Booking)
+                            .Include(c => c.OdoHistory)
+                            .Include(c => c.CustomerCare)
+                            .Include(c => c.MaintenanceSparePartInfos)
+                            .Include(c => c.MaintenanceHistoryStatuses)
+                            .Include(c => c.MaintenanceServiceInfos)
+                            .Where(c => c.Booking.MaintenanceCenterId==id)
+                            .OrderByDescending(c=>c.CreatedDate)
+                            .ToListAsync();
+        }
+
         public async Task<List<MaintenanceInformation>> GetListByClient(Guid id)
         {
             return await _context.Set<MaintenanceInformation>()
@@ -54,6 +69,7 @@ namespace Application.IRepository.Imp
                             .Include(c => c.MaintenanceHistoryStatuses)
                             .Include(c => c.MaintenanceServiceInfos)
                             .Where(c => c.Booking.ClientId == id)
+                            .OrderByDescending(c => c.CreatedDate)
                             .ToListAsync();
         }
     }

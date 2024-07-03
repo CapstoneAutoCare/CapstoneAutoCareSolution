@@ -43,7 +43,12 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceInformationService.GetListByClient());
         }
-
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByCenter()
+        {
+            return Ok(await _maintenanceInformationService.GetListByCenter());
+        }
 
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)
@@ -56,5 +61,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.CreateHaveItems(maintenanceInformation));
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            await _maintenanceInformationService.Remove(id);
+            return Ok("Success");
+        }
     }
 }

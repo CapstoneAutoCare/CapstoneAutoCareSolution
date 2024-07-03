@@ -13,9 +13,10 @@ namespace Infrastructure.IService
     {
         Task<ResponseMaintenanceInformation> GetById(Guid id);
         Task<List<ResponseMaintenanceInformation>> GetListByClient();
+        Task<List<ResponseMaintenanceInformation>> GetListByCenter();
         Task<ResponseMaintenanceInformation> Create(CreateMaintenanceInformation create);
         Task<ResponseMaintenanceInformation> CreateHaveItems(CreateMaintenanceInformationHaveItems create);
         Task<List<ResponseMaintenanceInformation>> GetAll();
-
+        Task Remove (Guid id);
     }
 }

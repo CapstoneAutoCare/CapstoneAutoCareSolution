@@ -16,5 +16,6 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintananceServices>> GetListByCenter();
         Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update);
         Task<ResponseMaintananceServices> UpdateStatus(Guid id, string status);
+        Task Remove(Guid id);
     }
 }

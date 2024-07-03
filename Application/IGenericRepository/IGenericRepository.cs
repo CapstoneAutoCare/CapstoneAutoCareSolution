@@ -10,6 +10,6 @@ namespace Application.IGenericRepository
     {
         Task<T> Add(T entity);
         Task<T> Update(T entity);
-        void Remove(T entity);
+        Task Remove(T entity);
     }
 }

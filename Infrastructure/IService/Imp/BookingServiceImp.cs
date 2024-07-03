@@ -100,6 +100,7 @@ namespace Infrastructure.IService.Imp
                     sp.Discount = 10;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100);
                     sp.InformationMaintenanceId = mi.InformationMaintenanceId;
+                    mi.TotalPrice += sp.TotalCost;
                     await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
                     await _unitOfWork.MaintenanceSparePartInfo.Add(sp);
                 }
@@ -118,6 +119,8 @@ namespace Infrastructure.IService.Imp
                     msi.Discount = 10;
                     msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
                     msi.InformationMaintenanceId = mi.InformationMaintenanceId;
+                    mi.TotalPrice += msi.TotalCost;
+
                     await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }

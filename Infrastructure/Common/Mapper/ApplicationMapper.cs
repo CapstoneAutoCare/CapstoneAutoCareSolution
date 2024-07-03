@@ -375,6 +375,8 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
                 //.ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 .ReverseMap();
+            CreateMap<UpdateMaintananceServices, MaintenanceService>()
+                .ReverseMap();
             CreateMap<MaintenanceService, ResponseMaintananceServices>()
                 .ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceId))
                 //.ForMember(p => p.ServicesCareName, act => act.MapFrom(src => src.ServiceCare.ServiceCareName))
