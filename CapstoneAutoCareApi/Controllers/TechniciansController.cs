@@ -36,7 +36,12 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _technicianService.GetById(id));
 
         }
+        [HttpGet]
+        public async Task<ActionResult<ResponseTechnician>> GetListByCenter(Guid centerId)
+        {
+            return Ok(await _technicianService.GetListByCenter(centerId));
 
+        }
         //[HttpPut]
         //public async Task<IActionResult> PutStaffCare(Guid id, StaffCare staffCare)
         //{

@@ -12,6 +12,7 @@ namespace Infrastructure.IService
     {
         Task<ResponseTechnician> Create(CreateTechnician create);
         Task<List<ResponseTechnician>> GetAll();
+        Task<List<ResponseTechnician>> GetListByCenter(Guid id);
         Task<ResponseTechnician> GetById(Guid id);
     }
 }
