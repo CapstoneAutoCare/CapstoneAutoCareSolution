@@ -17,6 +17,7 @@ namespace Infrastructure.IService
         Task<ResponseMaintenanceInformation> Create(CreateMaintenanceInformation create);
         Task<ResponseMaintenanceInformation> CreateHaveItems(CreateMaintenanceInformationHaveItems create);
         Task<List<ResponseMaintenanceInformation>> GetAll();
+        
         Task Remove (Guid id);
     }
 }

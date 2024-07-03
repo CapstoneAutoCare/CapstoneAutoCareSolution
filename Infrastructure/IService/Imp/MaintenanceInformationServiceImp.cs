@@ -181,7 +181,7 @@ namespace Infrastructure.IService.Imp
             var email = _tokensHandler.ClaimsFromToken();
             var account = await _unitOfWork.Account.Profile(email);
             return _mapper.Map<List<ResponseMaintenanceInformation>>(
-                await _unitOfWork.InformationMaintenance.GetListByCenter(account.Client.ClientId));
+                await _unitOfWork.InformationMaintenance.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId));
         }
 
         public async Task Remove(Guid id)
