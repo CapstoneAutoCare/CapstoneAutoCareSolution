@@ -22,8 +22,10 @@ namespace Application.IRepository.Imp
                 .Include(c => c.OdoHistory)
                 .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)
+                .ThenInclude(c=>c.SparePartsItemCost.SparePartsItem)
                 .Include(c => c.MaintenanceHistoryStatuses)
                 .Include(c => c.MaintenanceServiceInfos)
+                .ThenInclude(c=>c.MaintenanceServiceCost.MaintenanceService)
                 .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
         }
@@ -35,8 +37,10 @@ namespace Application.IRepository.Imp
                 .Include(c => c.OdoHistory)
                 .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)
+                .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
                 .Include(c => c.MaintenanceHistoryStatuses)
                 .Include(c => c.MaintenanceServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
                 .FirstOrDefaultAsync(c => c.InformationMaintenanceId == id);
             if (mainifor == null)
             {
@@ -51,9 +55,11 @@ namespace Application.IRepository.Imp
                             .Include(c => c.Booking)
                             .Include(c => c.OdoHistory)
                             .Include(c => c.CustomerCare)
-                            .Include(c => c.MaintenanceSparePartInfos)
-                            .Include(c => c.MaintenanceHistoryStatuses)
-                            .Include(c => c.MaintenanceServiceInfos)
+                .Include(c => c.MaintenanceSparePartInfos)
+                .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                .Include(c => c.MaintenanceHistoryStatuses)
+                .Include(c => c.MaintenanceServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
                             .Where(c => c.Booking.MaintenanceCenterId==id)
                             .OrderByDescending(c=>c.CreatedDate)
                             .ToListAsync();
@@ -65,9 +71,11 @@ namespace Application.IRepository.Imp
                             .Include(c => c.Booking)
                             .Include(c => c.OdoHistory)
                             .Include(c => c.CustomerCare)
-                            .Include(c => c.MaintenanceSparePartInfos)
-                            .Include(c => c.MaintenanceHistoryStatuses)
-                            .Include(c => c.MaintenanceServiceInfos)
+                .Include(c => c.MaintenanceSparePartInfos)
+                .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                .Include(c => c.MaintenanceHistoryStatuses)
+                .Include(c => c.MaintenanceServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
                             .Where(c => c.Booking.ClientId == id)
                             .OrderByDescending(c => c.CreatedDate)
                             .ToListAsync();
