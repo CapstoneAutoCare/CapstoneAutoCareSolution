@@ -77,6 +77,7 @@ namespace Infrastructure.IService.Imp
         {
             var u = await _unitOfWork.MaintenanceService.GetById(id);
             await _unitOfWork.MaintenanceService.Remove(u);
+            await _unitOfWork.Commit();
         }
 
         public async Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update)

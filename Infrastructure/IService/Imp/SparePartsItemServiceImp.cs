@@ -96,6 +96,7 @@ namespace Infrastructure.IService.Imp
         {
             var i = await _unitOfWork.SparePartsItem.GetById(id);
             await _unitOfWork.SparePartsItem.Remove(i);
+            await _unitOfWork.Commit();
         }
     }
 }
