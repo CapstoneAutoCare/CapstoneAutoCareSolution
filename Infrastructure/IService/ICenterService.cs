@@ -14,5 +14,6 @@ namespace Infrastructure.IService
         Task<ResponseCenter> Create(CreateCenter create);
         Task<List<ResponseCenter>> GetAll();
         Task<ResponseCenter> GetById(Guid id);
+        Task<ResponseCenter> Update(Guid id, UpdateCenter center);
     }
 }

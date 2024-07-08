@@ -8,8 +8,8 @@ namespace Infrastructure.Common.Response.ResponseCustomerCare
 {
     public class ResponseCustomerCare
     {
-        public Guid AccountId { get; set; }
         public Guid CustomerCareId { get; set; }
+        public Guid AccountId { get; set; }
         public Guid CentreId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

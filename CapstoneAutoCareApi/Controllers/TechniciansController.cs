@@ -10,6 +10,7 @@ using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Response.ResponseStaffCare;
+using Infrastructure.Common.Response.ResponseCustomerCare;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -55,11 +56,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _technicianService.Create(staffCare));
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteStaffCare(Guid id)
-        //{
-        //    return NoContent();
-        //}
+        [HttpPut]
+        public async Task<ActionResult<ResponseTechnician>> Update(Guid techId, UpdateTechi techi)
+        {
+            return Ok(await _technicianService.Update(techId, techi));
+        }
 
     }
 }

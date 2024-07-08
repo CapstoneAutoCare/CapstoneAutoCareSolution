@@ -8,8 +8,9 @@ namespace Infrastructure.Common.Response.ResponseAdmin
 {
     public class ResponseAdmin
     {
-        public Guid AccountId { get; set; }
         public Guid AdminId { get; set; }
+
+        public Guid AccountId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }

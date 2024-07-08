@@ -9,6 +9,7 @@ using Application;
 using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestAccount;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -48,11 +49,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _centerService.Create(create));
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteMaintenanceCenter(Guid id)
-        //{
-        //    return NoContent();
-        //}
+        [HttpPut]
+        public async Task<ActionResult<MaintenanceCenter>> Update(Guid centerId, UpdateCenter center)
+        {
+            return Ok(await _centerService.Update(centerId, center));
+        }
 
 
     }

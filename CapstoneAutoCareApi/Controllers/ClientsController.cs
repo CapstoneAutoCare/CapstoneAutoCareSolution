@@ -9,6 +9,7 @@ using Application;
 using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ClientResponse;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -25,13 +26,13 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ResponseClient>>> GetAll()
         {
             return Ok(await _customerService.GetAll());
         }
 
         [HttpGet]
-        public async Task<ActionResult<Client>> GetById(Guid id)
+        public async Task<ActionResult<ResponseClient>> GetById(Guid id)
         {
             return Ok(await _customerService.GetById(id));
         }
@@ -43,15 +44,15 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<Client>> Post(CreateClient client)
+        public async Task<ActionResult<ResponseClient>> Post(CreateClient client)
         {
             return Ok(await _customerService.CreateCustomer(client));
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteClient(Guid id)
-        //{
-        //    return NoContent();
-        //}
+        [HttpPut]
+        public async Task<ActionResult<ResponseClient>> Update(Guid clientId, UpdateClient client)
+        {
+            return Ok(await _customerService.Update(clientId, client));
+        }
     }
 }

@@ -8,8 +8,9 @@ namespace Infrastructure.Common.Response.ResponseStaffCare
 {
     public class ResponseTechnician
     {
-        public Guid AccountId { get; set; }
         public Guid TechnicianId { get; set; }
+
+        public Guid AccountId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }

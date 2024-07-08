@@ -10,5 +10,8 @@ namespace Application.IRepository
 {
     public interface IReceiptRepository : IGenericRepository<Receipt>
     {
+        Task<List<Receipt>> GetAll();
+        Task<Receipt> GetById(Guid id);
+        Task<List<Receipt>> GetListByCenter(Guid id);
     }
 }

@@ -55,7 +55,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _MaintenanceSparePartInfo = new MaintenanceSparePartInfoRepositoryImp(_context);
             _MaintenanceService = new ServiceCareCostRepositoryImp(_context);
             _OdoHistory = new OdoHistoryRepositoryImp(_context);
-            //_ReceiptRepository = new ReceiptRepositoryImp(_context);
+            _ReceiptRepository = new ReceiptRepositoryImp(_context);
             _ServiceCare = new ServiceCareRepositoryImp(_context);
             _SparePartsItem = new SparePartsItemRepositoryImp(_context);
             _SparePartsRepository = new SparePartsRepositoryImp(_context);

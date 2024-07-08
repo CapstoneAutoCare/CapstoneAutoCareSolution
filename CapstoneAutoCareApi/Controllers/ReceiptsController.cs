@@ -7,102 +7,51 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Application;
 using Domain.Entities;
+using Infrastructure.Common.Response.ReceiptResponse;
+using Infrastructure.Common.Request.ReceiptRequest;
+using Infrastructure.IService;
 
 namespace CapstoneAutoCareApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ReceiptsController : ControllerBase
     {
-        private readonly AppDBContext _context;
+        private readonly IReceiptsService _receiptsService;
 
-        public ReceiptsController(AppDBContext context)
+        public ReceiptsController(IReceiptsService receiptsService)
         {
-            _context = context; 
+            _receiptsService = receiptsService;
         }
 
-        // GET: api/Receipts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Receipt>>> GetReceipts()
+        public async Task<ActionResult<IEnumerable<ResponseReceipts>>> GetAll()
         {
-            return await _context.Receipts.ToListAsync();
+            return Ok(await _receiptsService.GetAll());
         }
 
-        // GET: api/Receipts/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Receipt>> GetReceipt(Guid id)
+        [HttpGet]
+        public async Task<ActionResult<ResponseReceipts>> GetById(Guid id)
         {
-            var receipt = await _context.Receipts.FindAsync(id);
+            return Ok(await _receiptsService.GetById(id));
 
-            if (receipt == null)
-            {
-                return NotFound();
-            }
-
-            return receipt;
         }
 
-        // PUT: api/Receipts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutReceipt(Guid id, Receipt receipt)
-        {
-            if (id != receipt.ReceiptId)
-            {
-                return BadRequest();
-            }
+        //[HttpPut]
+        //public async Task<ActionResult<ResponseReceipts>> Put(Guid id, Receipt receipt)
+        //{
+        //}
 
-            _context.Entry(receipt).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReceiptExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Receipts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Receipt>> PostReceipt(Receipt receipt)
+        public async Task<ActionResult<ResponseReceipts>> Post(CreateReceipt receipt)
         {
-            _context.Receipts.Add(receipt);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetReceipt", new { id = receipt.ReceiptId }, receipt);
+            return Ok(await _receiptsService.Create(receipt));
         }
 
-        // DELETE: api/Receipts/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteReceipt(Guid id)
-        {
-            var receipt = await _context.Receipts.FindAsync(id);
-            if (receipt == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete]
+        //public async Task<IActionResult> Remove(Guid id)
+        //{
+        //}
 
-            _context.Receipts.Remove(receipt);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ReceiptExists(Guid id)
-        {
-            return _context.Receipts.Any(e => e.ReceiptId == id);
-        }
     }
 }

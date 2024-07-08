@@ -46,5 +46,16 @@ namespace Infrastructure.IService.Imp
         {
             return _mapper.Map<ResponseCenter>(await _unitOfWork.MaintenanceCenter.GetById(id));
         }
+
+        public async Task<ResponseCenter> Update(Guid id, UpdateCenter center)
+        {
+            var center1 = await _unitOfWork.MaintenanceCenter.GetById(id);
+            var update = _mapper.Map(center, center1);
+            await _unitOfWork.MaintenanceCenter.Update(update);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseCenter>(update);
+
+        }
     }
 }

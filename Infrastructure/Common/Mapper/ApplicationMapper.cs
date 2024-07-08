@@ -3,6 +3,7 @@ using Domain.Entities;
 using Infrastructure.Common.ModelSecurity;
 using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.ReceiptRequest;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
@@ -20,6 +21,7 @@ using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Response;
 using Infrastructure.Common.Response.ClientResponse;
 using Infrastructure.Common.Response.OdoResponse;
+using Infrastructure.Common.Response.ReceiptResponse;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseBooking;
@@ -285,7 +287,7 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.VehicleId, act => act.MapFrom(src => src.VehicleId))
                 .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.MaintenanceCenterId))
                 //.ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId))
-               
+
 
                 .ReverseMap();
 
@@ -488,6 +490,31 @@ namespace Infrastructure.Common.Mapper
                   .ReverseMap();
             CreateMap<OdoHistory, ResponseOdoHistory>()
                    .ReverseMap();
+            #endregion
+
+
+            #region UpdateAccount
+            CreateMap<UpdateClient, Client>()
+                   .ReverseMap();
+            CreateMap<UpdateCustomerCare, CustomerCare>()
+                  .ReverseMap();
+            CreateMap<UpdateTechi, Technician>()
+                   .ReverseMap();
+            CreateMap<UpdateCenter, MaintenanceCenter>()
+                   .ReverseMap();
+            #endregion
+
+
+            #region Receipt
+            CreateMap<CreateReceipt, Receipt>()
+                   .ReverseMap();
+            CreateMap<Receipt, ResponseReceipts>()
+                  .ForMember(p => p.ResponseMaintenanceInformation, act => act.MapFrom(src => src.InformationMaintenance))
+                  .ReverseMap();
+            //CreateMap<UpdateTechi, Technician>()
+            //       .ReverseMap();
+            //CreateMap<UpdateCenter, MaintenanceCenter>()
+            //       .ReverseMap();
             #endregion
         }
     }

@@ -117,6 +117,8 @@ builder.Services.AddTransient<IMaintananceServicesCostService, MaintananceServic
 builder.Services.AddTransient<IOdoHistoryRepository, OdoHistoryRepositoryImp>();
 builder.Services.AddTransient<IOdoHistoryService, OdoHistoryServiceImp>();
 
+builder.Services.AddTransient<IReceiptRepository, ReceiptRepositoryImp>();
+builder.Services.AddTransient<IReceiptsService, ReceiptsServiceImp>();
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 

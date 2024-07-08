@@ -14,5 +14,7 @@ namespace Infrastructure.IService
         Task<ResponseClient> CreateCustomer(CreateClient client);
         Task<ResponseClient> GetById(Guid id);
         Task<List<ResponseClient>> GetAll();
+        Task<ResponseClient> Update(Guid id,UpdateClient updateClient);
+
     }
 }

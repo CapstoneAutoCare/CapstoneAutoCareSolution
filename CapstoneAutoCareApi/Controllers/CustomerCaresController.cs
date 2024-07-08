@@ -11,6 +11,7 @@ using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestAccount;
 using Microsoft.AspNetCore.Authorization;
 using Infrastructure.Common.Response.ResponseCustomerCare;
+using Infrastructure.Common.Response.ClientResponse;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -56,13 +57,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _customerCareService.CreateCustomerCare(customerCare));
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteCustomerCare(Guid id)
-        //{
-
-
-        //    return NoContent();
-        //}
+        [HttpPut]
+        public async Task<ActionResult<ResponseCustomerCare>> Update(Guid customercareId, UpdateCustomerCare customerCare)
+        {
+            return Ok(await _customerCareService.Update(customercareId, customerCare));
+        }
 
 
     }

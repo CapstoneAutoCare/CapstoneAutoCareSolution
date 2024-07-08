@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace Infrastructure.IService
         Task<List<ResponseCustomerCare>> GetAll();
         Task<ResponseCustomerCare> GetCustomerCareById(Guid id);
         Task<List<ResponseCustomerCare>> GetListByCenter(Guid id);
+        Task<ResponseCustomerCare> Update(Guid id, UpdateCustomerCare center);
+
     }
 }

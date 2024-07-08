@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Response.ClientResponse;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
@@ -68,6 +69,16 @@ namespace Infrastructure.IService.Imp
         {
             var client = await _unitOfWork.Client.GetById(id);
             return _mapper.Map<ResponseClient>(client);
+        }
+
+        public async Task<ResponseClient> Update(Guid id, UpdateClient updateClient)
+        {
+            var center1 = await _unitOfWork.Client.GetById(id);
+            var update = _mapper.Map(updateClient, center1);
+            await _unitOfWork.Client.Update(update);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseClient>(update); 
         }
     }
 }

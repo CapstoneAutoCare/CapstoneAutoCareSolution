@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.ClientResponse;
 using Infrastructure.Common.Response.ResponseStaffCare;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
@@ -55,6 +56,16 @@ namespace Infrastructure.IService.Imp
         public async Task<List<ResponseTechnician>> GetListByCenter(Guid id)
         {
             return _mapper.Map<List<ResponseTechnician>>(await _unitOfWork.Techician.GetListByCenter(id));
+        }
+
+        public async Task<ResponseTechnician> Update(Guid id, UpdateTechi center)
+        {
+            var center1 = await _unitOfWork.Techician.GetById(id);
+            var update = _mapper.Map(center, center1);
+            await _unitOfWork.Techician.Update(update);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseTechnician>(update);
         }
     }
 }
