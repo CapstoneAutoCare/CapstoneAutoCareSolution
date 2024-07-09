@@ -12,6 +12,6 @@ namespace Application.IRepository
     {
         Task<List<MaintenanceHistoryStatus>> GetAll();
         Task<MaintenanceHistoryStatus> GetById(Guid id);
-        
+        Task<MaintenanceHistoryStatus> CheckExistNameByNameAndIdInfor(Guid id,string status);
     }
 }

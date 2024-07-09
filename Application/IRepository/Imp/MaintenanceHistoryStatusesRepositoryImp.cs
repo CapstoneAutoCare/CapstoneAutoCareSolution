@@ -15,6 +15,19 @@ namespace Application.IRepository.Imp
         {
         }
 
+        public async Task<MaintenanceHistoryStatus> CheckExistNameByNameAndIdInfor(Guid id, string status)
+        {
+            var mhs = await _context.Set<MaintenanceHistoryStatus>()
+                            .Include(c => c.MaintenanceInformation)
+                            .FirstOrDefaultAsync(c => c.MaintenanceInformationId == id
+                            && c.Status.ToUpper().Contains(status.ToUpper()));
+            if (mhs != null)
+            {
+                throw new Exception("EXISTED");
+            }
+            return mhs;
+        }
+
         public Task<List<MaintenanceHistoryStatus>> GetAll()
         {
             return _context.Set<MaintenanceHistoryStatus>().Include(c => c.MaintenanceInformation).ToListAsync();

@@ -155,7 +155,7 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByCenterAndClient(centerid, clientId));
         }
 
-        
+
         public async Task<List<ResponseBooking>> GetListByClient()
         {
             var email = _tokensHandler.ClaimsFromToken();
@@ -169,6 +169,26 @@ namespace Infrastructure.IService.Imp
             var booking = await _unitOfWork.Booking.GetById(bookingId);
             booking.Status = status;
             await _unitOfWork.Booking.Update(booking);
+            var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
+            if (checkInfor != null)
+            {
+                if (status.Equals("ACCEPTED"))
+                {
+                    MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                    maintenanceHistoryStatus.Status = "WAITING BY CAR";
+                    maintenanceHistoryStatus.DateTime = DateTime.Now;
+                    maintenanceHistoryStatus.Note = "WAITING BY CAR";
+                    maintenanceHistoryStatus.MaintenanceInformationId = checkInfor.InformationMaintenanceId;
+                    var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                          .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                    if (checkStatus == null)
+                    {
+                        await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+
+                    }
+                }
+            }
+
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseBooking>(booking);
         }

@@ -47,10 +47,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceHistoryStatusService.Create(maintenanceHistoryStatus));
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> Delete(Guid id)
-        //{
-        //    return NoContent();
-        //}
+        [HttpDelete]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            await _maintenanceHistoryStatusService.Delete(id);
+            return Ok("Sucess");
+        }
     }
 }

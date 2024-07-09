@@ -22,12 +22,31 @@ namespace Application.IRepository.Imp
                 .Include(c => c.OdoHistory)
                 .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)
-                .ThenInclude(c=>c.SparePartsItemCost.SparePartsItem)
+                .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
                 .Include(c => c.MaintenanceHistoryStatuses)
                 .Include(c => c.MaintenanceServiceInfos)
-                .ThenInclude(c=>c.MaintenanceServiceCost.MaintenanceService)
+                .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
                 .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
+        }
+
+        public async Task<MaintenanceInformation> GetByBookingId(Guid id)
+        {
+            var check = await _context.Set<MaintenanceInformation>()
+                             .Include(c => c.Booking)
+                             .Include(c => c.OdoHistory)
+                             .Include(c => c.CustomerCare)
+                             .Include(c => c.MaintenanceSparePartInfos)
+                             .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                             .Include(c => c.MaintenanceHistoryStatuses)
+                             .Include(c => c.MaintenanceServiceInfos)
+                             .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
+                             .FirstOrDefaultAsync(c => c.BookingId == id);
+            if (check == null)
+            {
+                throw new Exception("CUSTOMERCARE should provide products");
+            }
+            return check;
         }
 
         public async Task<MaintenanceInformation> GetById(Guid id)
@@ -60,8 +79,8 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceHistoryStatuses)
                 .Include(c => c.MaintenanceServiceInfos)
                 .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
-                            .Where(c => c.Booking.MaintenanceCenterId==id)
-                            .OrderByDescending(c=>c.CreatedDate)
+                            .Where(c => c.Booking.MaintenanceCenterId == id)
+                            .OrderByDescending(c => c.CreatedDate)
                             .ToListAsync();
         }
 

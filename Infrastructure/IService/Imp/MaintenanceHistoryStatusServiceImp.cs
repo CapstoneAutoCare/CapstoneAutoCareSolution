@@ -29,6 +29,13 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintenanceHistoryStatus>(mhs);
         }
 
+        public async Task Delete(Guid id)
+        {
+            var mhs = await _unitOfWork.MaintenanceHistoryStatuses.GetById(id);
+            await _unitOfWork.MaintenanceHistoryStatuses.Remove(mhs);
+            await _unitOfWork.Commit();
+        }
+
         public async Task<List<ResponseMaintenanceHistoryStatus>> GetAll()
         {
             return _mapper.Map<List<ResponseMaintenanceHistoryStatus>>(await _unitOfWork.MaintenanceHistoryStatuses.GetAll());
