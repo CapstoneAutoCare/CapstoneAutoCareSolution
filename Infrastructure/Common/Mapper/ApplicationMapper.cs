@@ -427,6 +427,7 @@ namespace Infrastructure.Common.Mapper
 
             CreateMap<MaintenanceSparePartInfo, ResponseMaintenanceSparePartInfo>()
                 .ForMember(p => p.Image, act => act.MapFrom(src => src.SparePartsItemCost.SparePartsItem.Image))
+                .ForMember(p => p.SparePartsItemId, act => act.MapFrom(src => src.SparePartsItemCost.SparePartsItem.SparePartsItemtId))
                 .ReverseMap();
 
             #endregion
@@ -443,6 +444,7 @@ namespace Infrastructure.Common.Mapper
                    .ReverseMap();
             CreateMap<MaintenanceServiceInfo, ResponseMaintenanceServiceInfo>()
                    .ForMember(p => p.Image, act => act.MapFrom(src => src.MaintenanceServiceCost.MaintenanceService.Image))
+                   .ForMember(p => p.MaintenanceServiceId, act => act.MapFrom(src => src.MaintenanceServiceCost.MaintenanceService.MaintenanceServiceId))
                    .ReverseMap();
             #endregion
 
@@ -471,6 +473,7 @@ namespace Infrastructure.Common.Mapper
             CreateMap<MaintenanceServiceCost, ResponseMaintenanceServiceCost>()
                    .ForMember(c => c.MaintenanceServiceName, act => act.MapFrom(c => c.MaintenanceService.MaintenanceServiceName))
                    .ForMember(c => c.MaintenanceServiceId, act => act.MapFrom(c => c.MaintenanceServiceId))
+                   .ForMember(c => c.Image, act => act.MapFrom(c => c.MaintenanceService.Image))
                    .ReverseMap();
 
             CreateMap<CreateSparePartsItemCost, SparePartsItemCost>()
@@ -479,6 +482,7 @@ namespace Infrastructure.Common.Mapper
             CreateMap<SparePartsItemCost, ResponseSparePartsItemCost>()
                    .ForMember(c => c.SparePartsItemName, act => act.MapFrom(c => c.SparePartsItem.SparePartsItemName))
                    .ForMember(c => c.SparePartsItemId, act => act.MapFrom(c => c.SparePartsItemId))
+                   .ForMember(c => c.Image, act => act.MapFrom(c => c.SparePartsItem.Image))
                    .ReverseMap();
             #endregion
 

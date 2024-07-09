@@ -14,6 +14,8 @@ namespace Infrastructure.Common.Response.ResponseCost
         public DateTime DateTime { get; set; }
         public string? Note { get; set; }
         public string Status { get; set; }
+        public string Image { get; set; }
+
         public Guid MaintenanceServiceId { get; set; }
         public string MaintenanceServiceName { get; set; }
 

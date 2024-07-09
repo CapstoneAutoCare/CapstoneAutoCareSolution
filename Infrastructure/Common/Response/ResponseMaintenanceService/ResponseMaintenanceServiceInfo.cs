@@ -18,6 +18,8 @@ namespace Infrastructure.Common.Response.ResponseMaintenanceService
         public string Status { get; set; }
         public string Note { get; set; }
         public string Image {  get; set; }
+        public Guid? MaintenanceServiceId { get; set; }
+
         public Guid? MaintenanceServiceCostId { get; set; }
         public Guid InformationMaintenanceId { get; set; }
     }

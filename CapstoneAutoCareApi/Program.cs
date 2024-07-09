@@ -127,11 +127,11 @@ builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
 builder.Services.AddHttpContextAccessor();
 
 
-//builder.Services.AddCors(c => c
-//            .AddDefaultPolicy(b => b
-//            .AllowAnyHeader()
-//            .AllowAnyMethod()
-//            .AllowAnyOrigin()));
+builder.Services.AddCors(c => c
+            .AddDefaultPolicy(b => b
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin()));
 builder.Services.AddHttpClient();
 var app = builder.Build();
 

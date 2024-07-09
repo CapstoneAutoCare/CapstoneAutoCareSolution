@@ -52,6 +52,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _accountService.Login(email, password));
         }
 
+        [HttpPost]
+        public async Task<ActionResult<AuthenResponseMessToken>> Authen(Login login)
+        {
+            return Ok(await _accountService.Login(login.Email, login.Password));
+        }
         //[HttpDelete]
         //public async Task<IActionResult> DeleteAccount(Guid id)
         //{
@@ -59,4 +64,9 @@ namespace CapstoneAutoCareApi.Controllers
         //}
 
     }
+}
+public class Login
+{
+    public string Email { get; set; }
+    public string Password { get; set; }
 }

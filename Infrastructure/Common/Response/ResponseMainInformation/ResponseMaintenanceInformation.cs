@@ -22,6 +22,6 @@ namespace Infrastructure.Common.Response.ResponseMainInformation
         public List<ResponseMaintenanceServiceInfo> ResponseMaintenanceServiceInfos { get; set; }
         public List<ResponseMaintenanceSparePartInfo> ResponseMaintenanceSparePartInfos { get; set; }
         public List<ResponseMaintenanceHistoryStatus> ResponseMaintenanceHistoryStatuses { get; set; }
-
+        
     }
 }
