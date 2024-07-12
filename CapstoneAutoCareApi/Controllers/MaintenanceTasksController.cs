@@ -33,7 +33,21 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceTechinicanService.GetById(id));
         }
-
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseMaintenanceTask>>> GetListByCenter()
+        {
+            return Ok(await _maintenanceTechinicanService.GetListByCenter());
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseMaintenanceTask>>> GetListByCustomerCare()
+        {
+            return Ok(await _maintenanceTechinicanService.GetListByCustomerCare());
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseMaintenanceTask>>> GetListByTech()
+        {
+            return Ok(await _maintenanceTechinicanService.GetListByTechnician());
+        }
 
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceTask>> Post(CreateMaintenanceTechinican technician)

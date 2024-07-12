@@ -43,13 +43,15 @@ namespace Application
         public virtual DbSet<ImageRepairReceipt> ImageRepairReceipts { get; set; }
         public virtual DbSet<SparePartsItemCost> SparePartsItemCosts { get; set; }
         public virtual DbSet<MaintenanceServiceCost> MaintenanceServiceCosts { get; set; }
+        public virtual DbSet<MaintenanceTaskServiceInfo> MaintenanceTaskServiceInfos { get; set; }
+        public virtual DbSet<MaintenanceTaskSparePartInfo> MaintenanceTaskSparePartInfos { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db6048.public.databaseasp.net; Database=db6048; User Id=db6048; Password=pM=4F3q_bT+7; Encrypt=False; MultipleActiveResultSets=True;");
-                //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true"); 
-                //optionsBuilder.UseSqlServer("Server=mssql-176775-0.cloudclusters.net,19765; Database=AutoCare; User Id=db6048;Password=3h#Tm?N2A6=x;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlServer("Server=db6501.public.databaseasp.net; Database=db6501; User Id=db6501; Password=E_f3-2Dhp=5Y; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssql-178379-0.cloudclusters.net,10009; Database=AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
@@ -83,6 +85,8 @@ namespace Application
             modelBuilder.ApplyConfiguration(new ImageRepairReceiptConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceCostConfiguration());
             modelBuilder.ApplyConfiguration(new SparePartsCostConfiguration());
+            modelBuilder.ApplyConfiguration(new MaintenanceTaskServiceInfosConfiguration());
+            modelBuilder.ApplyConfiguration(new MaintenanceTaskSparePartInfosConfiguration());
             #endregion
 
             var vehicleBrands = SeedingDataVehiclesBrand.Get();

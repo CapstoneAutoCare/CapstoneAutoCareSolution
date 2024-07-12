@@ -20,7 +20,7 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintenanceServiceInfo>()
                             .Include(c => c.InformationMaintenance)
                             .Include(c => c.MaintenanceServiceCost)
-                            .ThenInclude(c=>c.MaintenanceService)
+                            .ThenInclude(c => c.MaintenanceService)
                             .ToListAsync();
         }
 
@@ -36,6 +36,16 @@ namespace Application.IRepository.Imp
                 throw new Exception("not found");
             }
             return msi;
+        }
+
+        public async Task<List<MaintenanceServiceInfo>> GetListByMainInfor(Guid id)
+        {
+            return await _context.Set<MaintenanceServiceInfo>()
+                           .Include(c => c.InformationMaintenance)
+                           .Include(c => c.MaintenanceServiceCost)
+                           .ThenInclude(c => c.MaintenanceService)
+                           .Where(c => c.InformationMaintenanceId == id)
+                           .ToListAsync();
         }
     }
 }

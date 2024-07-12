@@ -23,6 +23,6 @@ namespace Domain.Entities
         public Guid InformationMaintenanceId { get; set; }
         public SparePartsItemCost SparePartsItemCost { get; set; }
         public MaintenanceInformation InformationMaintenance { get; set; }
-
+        public MaintenanceTaskSparePartInfo MaintenanceTaskSparePartInfo { get; set; }
     }
 }

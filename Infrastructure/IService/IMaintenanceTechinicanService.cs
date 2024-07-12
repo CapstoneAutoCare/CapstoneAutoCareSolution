@@ -16,5 +16,8 @@ namespace Infrastructure.IService
         Task<ResponseMaintenanceTask> GetById(Guid id);
         Task<ResponseMaintenanceTask> Create(CreateMaintenanceTechinican create);
         Task<ResponseMaintenanceTask> UpdateStatus(Guid id, string status);
+        Task<List<ResponseMaintenanceTask>> GetListByCenter();
+        Task<List<ResponseMaintenanceTask>> GetListByCustomerCare();
+        Task<List<ResponseMaintenanceTask>> GetListByTechnician();
     }
 }

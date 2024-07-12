@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Response;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace Infrastructure.IService
     {
         Task<AuthenResponseMessToken> Login(string email, string password);
         Task<JsonNode> Profile();
+        Task<JsonNode> ChangePassword(ChangePasswordAccount changePasswordAccount);
     }
 }

@@ -36,5 +36,14 @@ namespace Application.IRepository.Imp
             }
             return spi;
         }
+
+        public async Task<List<MaintenanceSparePartInfo>> GetListByMainInfor(Guid id)
+        {
+            return await _context.Set<MaintenanceSparePartInfo>()
+                .Include(c => c.InformationMaintenance)
+                .Include(c => c.SparePartsItemCost)
+                .Where(c => c.InformationMaintenanceId == id)
+                .ToListAsync();
+        }
     }
 }

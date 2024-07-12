@@ -21,10 +21,7 @@ namespace Application.ConfigurationDB
                 .HasColumnType("datetime");
 
 
-            builder.HasOne(d => d.InformationMaintenance)
-                    .WithMany(d => d.MaintenanceTasks)
-                    .HasForeignKey(d => d.InformationMaintenanceId)
-                    .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.HasOne(d => d.Technician)
                    .WithMany(d => d.MaintenanceTasks)

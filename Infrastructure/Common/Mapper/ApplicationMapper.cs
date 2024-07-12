@@ -357,7 +357,7 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(p => p.ServiceCareDescription, act => act.MapFrom(src => src.ServiceCareDescription))
                 .ForMember(p => p.ServiceCareType, act => act.MapFrom(src => src.ServiceCareType))
                 .ForMember(p => p.OriginalPrice, act => act.MapFrom(src => src.OriginalPrice))
-                .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintenancePlanId));
+                .ForMember(p => p.MaintananceScheduleId, act => act.MapFrom(src => src.MaintananceScheduleId));
             CreateMap<ServiceCare, ResponseServicesCare>()
                 //.ForMember(p => p.ServiceCareId, act => act.MapFrom(src => src.ServiceCareId))
                 //.ForMember(p => p.ServiceCareName, act => act.MapFrom(src => src.ServiceCareName))
@@ -463,6 +463,8 @@ namespace Infrastructure.Common.Mapper
                    .ReverseMap();
 
             CreateMap<MaintenanceTask, ResponseMaintenanceTask>()
+                   .ForMember(c => c.ResponseMainTaskSpareParts, act => act.MapFrom(c => c.MaintenanceTaskSparePartInfos))
+                   .ForMember(c => c.ResponseMainTaskServices, act => act.MapFrom(c => c.MaintenanceTaskServiceInfos))
                    .ReverseMap();
             #endregion
 
@@ -515,11 +517,20 @@ namespace Infrastructure.Common.Mapper
             CreateMap<Receipt, ResponseReceipts>()
                   .ForMember(p => p.ResponseMaintenanceInformation, act => act.MapFrom(src => src.InformationMaintenance))
                   .ReverseMap();
+
+
             //CreateMap<UpdateTechi, Technician>()
             //       .ReverseMap();
             //CreateMap<UpdateCenter, MaintenanceCenter>()
             //       .ReverseMap();
             #endregion
+            #region MainTaskItems
+            CreateMap<MaintenanceTaskServiceInfo, ResponseMainTaskService>()
+                 .ReverseMap();
+            CreateMap<MaintenanceTaskSparePartInfo, ResponseMainTaskSparePart>()
+                  .ReverseMap();
+            #endregion
+
         }
     }
 }

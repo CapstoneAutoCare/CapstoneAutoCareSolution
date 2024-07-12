@@ -13,7 +13,6 @@ namespace Domain.Entities
         {
             MaintenanceHistoryStatuses = new HashSet<MaintenanceHistoryStatus>();
             MaintenanceSparePartInfos = new HashSet<MaintenanceSparePartInfo>();
-            MaintenanceTasks = new HashSet<MaintenanceTask>();
             MaintenanceServiceInfos = new HashSet<MaintenanceServiceInfo>();
         }
 
@@ -30,7 +29,7 @@ namespace Domain.Entities
         public CustomerCare CustomerCare { get; set; }
         public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
         public ICollection<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
-        public ICollection<MaintenanceTask> MaintenanceTasks { get; set; }
+        public MaintenanceTask MaintenanceTask { get; set; }
         public ICollection<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
 
         public Receipt Receipt { get; set; }

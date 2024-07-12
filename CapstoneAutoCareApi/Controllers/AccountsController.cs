@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Text.Json.Nodes;
 using Infrastructure.Common.Response;
 using System.Net;
+using Infrastructure.Common.Request.RequestAccount;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -57,11 +58,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _accountService.Login(login.Email, login.Password));
         }
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteAccount(Guid id)
-        //{
-        //    return NoContent();
-        //}
+        [HttpPatch]
+        public async Task<ActionResult<JsonArray>> ChangePassword(ChangePasswordAccount account)
+        {
+            return Ok(await _accountService.ChangePassword(account));
+        }
 
     }
 }

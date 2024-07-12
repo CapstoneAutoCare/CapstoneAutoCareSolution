@@ -12,5 +12,8 @@ namespace Application.IRepository
     {
         Task<MaintenanceTask> GetById(Guid id);
         Task<List<MaintenanceTask>> GetAll();
+        Task<List<MaintenanceTask>> GetListByCenter(Guid id);
+        Task<List<MaintenanceTask>> GetListByCustomerCare(Guid id);
+        Task<List<MaintenanceTask>> GetListByTech(Guid id);
     }
 }

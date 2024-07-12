@@ -20,7 +20,9 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintenanceService>()
                 .Include(c => c.MaintenanceCenter)
                 .Include(c=>c.MaintenanceServiceCosts)
-                .Include(p => p.ServiceCare).ToListAsync();
+                .Include(p => p.ServiceCare)
+                .OrderByDescending(p=>p.CreatedDate)
+                .ToListAsync();
         }
 
         public async Task<MaintenanceService> GetById(Guid? id)
@@ -29,6 +31,7 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.MaintenanceServiceCosts)
                 .Include(p => p.ServiceCare)
+                .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefaultAsync(x => x.MaintenanceServiceId.Equals(id));
             if (ms == null)
             {
@@ -43,6 +46,7 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintenanceService>()
                             .Include(c => c.MaintenanceCenter)
                             .Include(c => c.MaintenanceServiceCosts)
+                            .OrderByDescending(p => p.CreatedDate)
                             .Include(p => p.ServiceCare).Where(c => c.MaintenanceCenterId == center)
                             .ToListAsync();
         }

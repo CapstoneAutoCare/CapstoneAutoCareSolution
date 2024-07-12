@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Response;
 using Infrastructure.Common.Response.ClientResponse;
 using Infrastructure.Common.Response.ReponseVehicleModel;
@@ -30,6 +31,50 @@ namespace Infrastructure.IService.Imp
             _tokensHandler = tokensHandler;
         }
 
+        public async Task<JsonNode> ChangePassword(ChangePasswordAccount changePasswordAccount)
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            if (account.Password != changePasswordAccount.OldPassword)
+            {
+                throw new Exception("Error Password");
+            }
+            account.Password = changePasswordAccount.NewPassword;
+            if (changePasswordAccount.NewPassword != changePasswordAccount.ConfirmPassword)
+            {
+                throw new Exception("Error Duplicate Password");
+            }
+            await _unitOfWork.Account.Update(account);
+            JsonNode resultNode = null;
+            await _unitOfWork.Commit();
+            if (account.Role.Equals("ADMIN"))
+            {
+                var responseAdmin = _mapper.Map<ResponseAdmin>(account.Admin);
+                resultNode = ConvertToJsonNode(responseAdmin);
+            }
+            else if (account.Role.Equals("CUSTOMER"))
+            {
+                var responseClient = _mapper.Map<ResponseClient>(account.Client);
+                resultNode = ConvertToJsonNode(responseClient);
+            }
+            else if (account.Role.Equals("CUSTOMERCARE"))
+            {
+                var responseClient = _mapper.Map<ResponseCustomerCare>(account.CustomerCare);
+                resultNode = ConvertToJsonNode(responseClient);
+            }
+            else if (account.Role.Equals("TECHNICIAN"))
+            {
+                var responseClient = _mapper.Map<ResponseTechnician>(account.Technician);
+                resultNode = ConvertToJsonNode(responseClient);
+            }
+            else if (account.Role.Equals("CENTER"))
+            {
+                var responseCenter = _mapper.Map<ResponseCenter>(account.MaintenanceCenter);
+                resultNode = ConvertToJsonNode(responseCenter);
+            }
+            return resultNode;
+        }
+
         public async Task<AuthenResponseMessToken> Login(string email, string password)
         {
             var account = await _unitOfWork.Account.Login(email, password);
@@ -50,12 +95,13 @@ namespace Infrastructure.IService.Imp
                 var responseAdmin = _mapper.Map<ResponseAdmin>(account.Admin);
                 resultNode = ConvertToJsonNode(responseAdmin);
             }
-            else if (account.Role.Equals("CLIENT"))
+            else if (account.Role.Equals("CUSTOMER"))
             {
                 var responseClient = _mapper.Map<ResponseClient>(account.Client);
                 resultNode = ConvertToJsonNode(responseClient);
             }
-            else if(account.Role.Equals("CUSTOMERCARE")){
+            else if (account.Role.Equals("CUSTOMERCARE"))
+            {
                 var responseClient = _mapper.Map<ResponseCustomerCare>(account.CustomerCare);
                 resultNode = ConvertToJsonNode(responseClient);
             }

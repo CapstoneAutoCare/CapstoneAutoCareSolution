@@ -12,6 +12,7 @@ namespace Application.IRepository
     public interface IMaintenanceServiceInfoRepository : IGenericRepository<MaintenanceServiceInfo>
     {
         Task<List<MaintenanceServiceInfo>> GetAll();
+        Task<List<MaintenanceServiceInfo>> GetListByMainInfor(Guid id);
         Task<MaintenanceServiceInfo> GetById(Guid id);
     }
 }

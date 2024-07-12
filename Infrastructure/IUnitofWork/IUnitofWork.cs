@@ -35,6 +35,8 @@ namespace Infrastructure.IUnitofWork
         IVehiclesMaintenanceRepository VehiclesMaintenance { get; }
         IVehiclesRepository Vehicles { get; }
         IMaintenanceServiceInfoRepository MaintenanceServiceInfo { get; }
+        IMaintenanceTaskServiceInfoRepository MaintenanceTaskServiceInfo { get; }
+        IMaintenanceTaskSparePartInfoRepository MaintenanceTaskSparePartInfo { get; }
         Task Commit();
 
     }

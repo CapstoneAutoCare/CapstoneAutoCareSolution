@@ -19,8 +19,6 @@ namespace Domain.Entities
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Image { get; set; }
-        public int Capacity { get; set; }
-
         public Guid? ServiceCareId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public ServiceCare ServiceCare { get; set; }

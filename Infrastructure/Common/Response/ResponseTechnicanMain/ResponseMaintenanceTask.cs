@@ -10,10 +10,11 @@ namespace Infrastructure.Common.Response.ResponseTechnicanMain
     {
         public Guid MaintenanceTaskId { get; set; }
         public string MaintenanceTaskName { get; set; }
-        public double UnitCost { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public Guid InformationMaintenanceId { get; set; }
         public Guid TechnicianId { get; set; }
+        public List<ResponseMainTaskService> ResponseMainTaskServices { get; set; }
+        public List<ResponseMainTaskSparePart> ResponseMainTaskSpareParts { get; set; }
     }
 }

@@ -25,6 +25,6 @@ namespace Domain.Entities
 
         public MaintenanceServiceCost MaintenanceServiceCost { get; set; }
         public MaintenanceInformation InformationMaintenance { get; set; }
-
+        public MaintenanceTaskServiceInfo MaintenanceTaskServiceInfo { get; set; }
     }
 }

@@ -17,12 +17,19 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintenanceTask>> GetAll()
         {
-            return await _context.Set<MaintenanceTask>().ToListAsync();
+            return await _context.Set<MaintenanceTask>()
+                .Include(c=>c.MaintenanceTaskSparePartInfos)
+                .Include(c=>c.MaintenanceTaskServiceInfos)
+                .Include(c=>c.Technician)
+                .Include(c=>c.InformationMaintenance)
+                                .OrderByDescending(c => c.CreatedDate).ToListAsync();
         }
 
         public Task<MaintenanceTask> GetById(Guid id)
         {
             var model = _context.Set<MaintenanceTask>()
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .Include(c => c.MaintenanceTaskServiceInfos)
                 .Include(c => c.Technician)
                 .Include(c => c.InformationMaintenance)
                 .FirstOrDefaultAsync(c => c.MaintenanceTaskId.Equals(id));
@@ -31,6 +38,42 @@ namespace Application.IRepository.Imp
                 throw new Exception("Not Found");
             }
             return model;
+        }
+
+        public async Task<List<MaintenanceTask>> GetListByCenter(Guid id)
+        {
+            return await _context.Set<MaintenanceTask>()
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .Include(c => c.MaintenanceTaskServiceInfos)
+                .Include(c => c.Technician)
+                .Include(c => c.InformationMaintenance)
+                .Where(c => c.Technician.CenterId == id)
+                .OrderByDescending(c => c.CreatedDate)
+                .ToListAsync();
+        }
+
+        public async Task<List<MaintenanceTask>> GetListByCustomerCare(Guid id)
+        {
+            return await _context.Set<MaintenanceTask>()
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .Include(c => c.MaintenanceTaskServiceInfos)
+                .Include(c => c.Technician)
+                .Include(c => c.InformationMaintenance)
+                .Where(c => c.InformationMaintenance.CustomerCareId == id)
+                .OrderByDescending(c => c.CreatedDate)
+                .ToListAsync();
+        }
+
+        public async Task<List<MaintenanceTask>> GetListByTech(Guid id)
+        {
+            return await _context.Set<MaintenanceTask>()
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .Include(c => c.MaintenanceTaskServiceInfos)
+                .Include(c => c.Technician)
+                .Include(c => c.InformationMaintenance)
+                .Where(c => c.TechnicianId == id)
+                .OrderByDescending(c => c.CreatedDate)
+                .ToListAsync();
         }
     }
 }

@@ -74,7 +74,9 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseClient> Update(Guid id, UpdateClient updateClient)
         {
             var center1 = await _unitOfWork.Client.GetById(id);
+
             var update = _mapper.Map(updateClient, center1);
+            update.Account.Logo = updateClient.Logo;
             await _unitOfWork.Client.Update(update);
             await _unitOfWork.Commit();
 

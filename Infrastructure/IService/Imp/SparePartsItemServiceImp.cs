@@ -46,7 +46,7 @@ namespace Infrastructure.IService.Imp
             }
             else
             {
-                await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
+               var item= await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
                 await _unitOfWork.SparePartsItem.Add(sparepart);
                 await _unitOfWork.Commit();
             }

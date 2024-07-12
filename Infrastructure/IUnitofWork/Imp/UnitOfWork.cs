@@ -1,6 +1,7 @@
 ﻿using Application;
 using Application.IRepository;
 using Application.IRepository.Imp;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,9 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly IVehiclesRepository _Vehicles;
         private readonly IMaintenanceServiceInfoRepository _MaintenanceServiceInfo;
         private readonly IMaintenanceServiceCostRepository _MaintenanceServiceCost;
-        private ISparePartsItemCostRepository _SparePartsItemCost;
+        private readonly ISparePartsItemCostRepository _SparePartsItemCost;
+        private readonly IMaintenanceTaskServiceInfoRepository _maintenanceTaskServiceInfoRepository;
+        private readonly IMaintenanceTaskSparePartInfoRepository _maintenanceTaskSparePartInfoRepository;
         public UnitOfWork(AppDBContext context)
         {
             _context = context;
@@ -63,11 +66,12 @@ namespace Infrastructure.IUnitofWork.Imp
             _MaintenanceTask = new MaintenanceTaskRepositoryImp(_context);
             _VehicleModel = new VehicleModelRepositoryImp(_context);
             _VehiclesBrand = new VehiclesBrandRepositoryImp(_context);
-            //_VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
             _Vehicles = new VehiclesRepositoryImp(_context);
             _MaintenanceServiceInfo = new MaintenanceServiceInfoRepositoryImp(_context);
             _SparePartsItemCost = new SparePartsItemCostRepositoryImp(_context);
             _MaintenanceServiceCost = new MaintenanceServiceCostRepositoryImp(_context);
+            _maintenanceTaskServiceInfoRepository = new MaintenanceTaskServiceInfoRepositoryImp(_context);
+            _maintenanceTaskSparePartInfoRepository = new MaintenanceTaskSparePartInfoRepositoryImp(_context);
         }
 
         public IAccountRepository Account => _Account;
@@ -122,6 +126,10 @@ namespace Infrastructure.IUnitofWork.Imp
 
         public IMaintenanceServiceCostRepository MaintenanceServiceCost => _MaintenanceServiceCost;
         public ISparePartsItemCostRepository SparePartsItemCost => _SparePartsItemCost;
+
+        public IMaintenanceTaskServiceInfoRepository MaintenanceTaskServiceInfo => _maintenanceTaskServiceInfoRepository;
+
+        public IMaintenanceTaskSparePartInfoRepository MaintenanceTaskSparePartInfo => _maintenanceTaskSparePartInfoRepository;
 
         public async Task Commit() => await _context.SaveChangesAsync();
 

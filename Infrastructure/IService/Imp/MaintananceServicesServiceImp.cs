@@ -34,7 +34,6 @@ namespace Infrastructure.IService.Imp
             maintanance_services.CreatedDate = DateTime.Now;
             maintanance_services.Status = "ACTIVE";
             maintanance_services.Image = null;
-            maintanance_services.Capacity = 50;
             await _unitOfWork.MaintenanceCenter.GetById(account.MaintenanceCenter.MaintenanceCenterId);
             maintanance_services.MaintenanceCenterId = account.MaintenanceCenter.MaintenanceCenterId;
 
@@ -45,7 +44,7 @@ namespace Infrastructure.IService.Imp
             }
             else
             {
-                await _unitOfWork.ServiceCare.GetByID(maintanance_services.ServiceCareId);
+                var item = await _unitOfWork.ServiceCare.GetByID(maintanance_services.ServiceCareId);
                 await _unitOfWork.MaintenanceService.Add(maintanance_services);
                 await _unitOfWork.Commit();
             }

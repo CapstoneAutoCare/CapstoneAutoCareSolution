@@ -120,6 +120,12 @@ builder.Services.AddTransient<IOdoHistoryService, OdoHistoryServiceImp>();
 builder.Services.AddTransient<IReceiptRepository, ReceiptRepositoryImp>();
 builder.Services.AddTransient<IReceiptsService, ReceiptsServiceImp>();
 
+builder.Services.AddTransient<IMaintenanceTaskServiceInfoRepository, MaintenanceTaskServiceInfoRepositoryImp>();
+builder.Services.AddTransient<IMaintenanceTaskSparePartInfoRepository, MaintenanceTaskSparePartInfoRepositoryImp>();
+
+//builder.Services.AddTransient<IReceiptRepository, ReceiptRepositoryImp>();
+//builder.Services.AddTransient<IReceiptsService, ReceiptsServiceImp>();
+
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 
 
