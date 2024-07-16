@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Domain.Entities
             MaintenanceHistoryStatuses = new HashSet<MaintenanceHistoryStatus>();
             MaintenanceSparePartInfos = new HashSet<MaintenanceSparePartInfo>();
             MaintenanceServiceInfos = new HashSet<MaintenanceServiceInfo>();
+            MaintenanceTasks = new HashSet<MaintenanceTask>();
         }
 
         [Key]
@@ -23,13 +25,14 @@ namespace Domain.Entities
         public DateTime FinishedDate { get; set; }
         public double TotalPrice { get; set; }
         public string Note { get; set; }
+        public string Status { get; set; }
         public Guid? BookingId { get; set; }
         public Guid CustomerCareId { get; set; }
         public Booking Booking { get; set; }
         public CustomerCare CustomerCare { get; set; }
         public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
         public ICollection<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
-        public MaintenanceTask MaintenanceTask { get; set; }
+        public ICollection<MaintenanceTask> MaintenanceTasks { get; set; }
         public ICollection<MaintenanceHistoryStatus> MaintenanceHistoryStatuses { get; set; }
 
         public Receipt Receipt { get; set; }

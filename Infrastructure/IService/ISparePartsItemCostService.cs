@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
+﻿using Domain.Entities;
+using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
 using Infrastructure.Common.Request.RequestSparePartsItemCost;
 using Infrastructure.Common.Response.ResponseCost;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
@@ -17,5 +18,7 @@ namespace Infrastructure.IService
         Task<ResponseSparePartsItemCost> GetById(Guid id);
         Task<ResponseSparePartsItemCost> Create(CreateSparePartsItemCost create);
         Task<ResponseSparePartsItemCost> UpdateStatus(Guid id, string status);
+        Task<ResponseSparePartsItemCost> GetByIdSparePartActive(Guid id);
+
     }
 }

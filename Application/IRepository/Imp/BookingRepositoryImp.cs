@@ -26,6 +26,7 @@ namespace Application.IRepository.Imp
                 //.Include(c => c.MaintenanceInformation.MaintenanceSparePartInfos)
                 //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
                 //.Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
 
 
@@ -44,6 +45,7 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceSparePartInfos)
                 .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
                 .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                .OrderByDescending(c=>c.CreatedDate)
                 .FirstOrDefaultAsync(c => c.BookingId == id);
             if (booking == null)
             {
@@ -58,6 +60,7 @@ namespace Application.IRepository.Imp
                             .Include(c => c.Client.Account)
                             .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
                             .Include(c => c.MaintenanceCenter.Account)
+                            .OrderByDescending(c => c.CreatedDate)
                             .Where(c => c.MaintenanceCenterId == id).ToListAsync();
         }
 
@@ -71,6 +74,7 @@ namespace Application.IRepository.Imp
                             //.ThenInclude(c => c.MaintenanceSparePartInfos)
                             //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
                             //.Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                            .OrderByDescending(c => c.CreatedDate)
                             .Where(c => c.ClientId == clientId && c.MaintenanceCenterId == centerid)
                             .ToListAsync();
         }
@@ -85,6 +89,7 @@ namespace Application.IRepository.Imp
                             //.ThenInclude(c => c.MaintenanceSparePartInfos)
                             //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
                             //.Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                            .OrderByDescending(c => c.CreatedDate)
                             .Where(c => c.ClientId == id)
                             .ToListAsync();
         }

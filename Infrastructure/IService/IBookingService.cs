@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Request.RequestBooking;
+﻿using Domain.Enum;
+using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using System;
@@ -19,6 +20,7 @@ namespace Infrastructure.IService
         Task<List<ResponseBooking>> GetListByClient();
         Task<List<ResponseBooking>> GetListByCenterAndClient(Guid centerid, Guid clientId);
         Task<ResponseBooking> UpdateStatus(Guid bookingId,string status);
+
         Task<List<ResponseBooking>> GetListByCenter();
 
     }

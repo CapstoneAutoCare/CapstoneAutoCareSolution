@@ -11,6 +11,11 @@ namespace Domain.Enum
         INACTIVE,
         ACTIVE,
         ACCEPT,
-        DONE
+        DONE,
+        CREATEDBYClIENT,
+        CREATEDBYCUSTOMERCARE,
+        WAITINGBYCAR,
+        CHECKIN,
+        REPAIRING,
     }
 }

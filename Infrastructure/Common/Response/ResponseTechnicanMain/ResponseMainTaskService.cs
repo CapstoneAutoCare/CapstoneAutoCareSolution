@@ -11,6 +11,8 @@ namespace Infrastructure.Common.Response.ResponseTechnicanMain
         public Guid MaintenanceTaskServiceInfoId { get; set; }
         public Guid MaintenanceTaskId { get; set; }
         public Guid MaintenanceServiceInfoId { get; set; }
+        public string Name { get; set; }
+        public string Image {  get; set; }
         public DateTime? CreatedDate { get; set; }
         public string Status { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestMaintenanceTechinican;
 using Infrastructure.Common.Response.ResponseMainInformation;
 using Infrastructure.Common.Response.ResponseTechnicanMain;
@@ -24,8 +25,9 @@ namespace Infrastructure.IService.Imp
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokensHandler = tokensHandler;
+
         }
-            
+
         public async Task<ResponseMaintenanceTask> Create(CreateMaintenanceTechinican create)
         {
             var tech = _mapper.Map<MaintenanceTask>(create);
@@ -33,33 +35,53 @@ namespace Infrastructure.IService.Imp
             tech.Status = "ACTIVE";
             tech.MaintenanceTaskName = "Text";
             var mi = await _unitOfWork.InformationMaintenance.GetById(tech.InformationMaintenanceId);
-            var mspi = await _unitOfWork.MaintenanceSparePartInfo.GetListByMainInfor(mi.InformationMaintenanceId);
-            await _unitOfWork.MaintenanceTask.Add(tech);
-            foreach (var item in mspi)
+            await _unitOfWork.MaintenanceTask.CheckExistByTechAndInfor(tech.TechnicianId, tech.InformationMaintenanceId);
+            if (mi.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()))
             {
-                MaintenanceTaskSparePartInfo partInfo = new MaintenanceTaskSparePartInfo
+                var mspi = await _unitOfWork.MaintenanceSparePartInfo.GetListByMainInfor(mi.InformationMaintenanceId);
+                await _unitOfWork.MaintenanceTask.Add(tech);
+                foreach (var item in mspi)
                 {
-                    MaintenanceTaskSparePartInfoId = Guid.NewGuid(),
-                    CreatedDate = DateTime.Now,
-                    Status = "ACTIVE",
-                    MaintenanceTaskId = tech.MaintenanceTaskId,
-                    MaintenanceSparePartInfoId = item.MaintenanceSparePartInfoId,
-                };
-                await _unitOfWork.MaintenanceTaskSparePartInfo.Add(partInfo);
-            }
-            var msi = await _unitOfWork.MaintenanceServiceInfo.GetListByMainInfor(mi.InformationMaintenanceId);
-            foreach (var item in msi)
-            {
-                MaintenanceTaskServiceInfo partInfo = new MaintenanceTaskServiceInfo
+                    MaintenanceTaskSparePartInfo partInfo = new MaintenanceTaskSparePartInfo
+                    {
+                        MaintenanceTaskSparePartInfoId = Guid.NewGuid(),
+                        CreatedDate = DateTime.Now,
+                        Status = "ACTIVE",
+                        MaintenanceTaskId = tech.MaintenanceTaskId,
+                        MaintenanceSparePartInfoId = item.MaintenanceSparePartInfoId,
+                    };
+                    await _unitOfWork.MaintenanceTaskSparePartInfo.Add(partInfo);
+                }
+                var msi = await _unitOfWork.MaintenanceServiceInfo.GetListByMainInfor(mi.InformationMaintenanceId);
+                foreach (var item in msi)
                 {
-                    MaintenanceTaskServiceInfoId = Guid.NewGuid(),
-                    CreatedDate = DateTime.Now,
-                    Status = "ACTIVE",
-                    MaintenanceTaskId = tech.MaintenanceTaskId,
-                    MaintenanceServiceInfoId = item.MaintenanceServiceInfoId,
-                };
-                await _unitOfWork.MaintenanceTaskServiceInfo.Add(partInfo);
+                    MaintenanceTaskServiceInfo partInfo = new MaintenanceTaskServiceInfo
+                    {
+                        MaintenanceTaskServiceInfoId = Guid.NewGuid(),
+                        CreatedDate = DateTime.Now,
+                        Status = "ACTIVE",
+                        MaintenanceTaskId = tech.MaintenanceTaskId,
+                        MaintenanceServiceInfoId = item.MaintenanceServiceInfoId,
+                    };
+                    await _unitOfWork.MaintenanceTaskServiceInfo.Add(partInfo);
+                }
+                //MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                //maintenanceHistoryStatus.Status = EnumStatus.REPAIRING.ToString();
+                //maintenanceHistoryStatus.DateTime = DateTime.Now;
+                //maintenanceHistoryStatus.Note = EnumStatus.REPAIRING.ToString();
+                //maintenanceHistoryStatus.MaintenanceInformationId = mi.InformationMaintenanceId;
+                //var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                //      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                //if (checkStatus == null)
+                //{
+                //    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+
+                //}
+                //mi.Status = STATUSENUM.STATUSMI.REPAIRING.ToString();
+                //await _unitOfWork.InformationMaintenance.Update(mi);
+
             }
+
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceTask>(tech);
         }
@@ -99,10 +121,52 @@ namespace Infrastructure.IService.Imp
                 await _unitOfWork.MaintenanceTask.GetListByTech(account.Technician.TechnicianId));
         }
 
+        public async Task Remove(Guid id)
+        {
+            var t = await _unitOfWork.MaintenanceTask.GetById(id);
+            await _unitOfWork.MaintenanceTask.Remove(t);
+            await _unitOfWork.Commit();
+        }
+
         public async Task<ResponseMaintenanceTask> UpdateStatus(Guid id, string status)
         {
             var t = await _unitOfWork.MaintenanceTask.GetById(id);
-            t.Status = status;
+            if (t.Status.Equals(EnumStatus.ACTIVE.ToString()) && status.Equals(STATUSENUM.STATUSBOOKING.ACCEPT.ToString()))
+            {
+                t.Status = status;
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.REPAIRING.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.REPAIRING.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = t.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
+                {
+                    var mi = await _unitOfWork.InformationMaintenance.GetById(t.InformationMaintenanceId);
+                    mi.Status = EnumStatus.REPAIRING.ToString();
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                    await _unitOfWork.InformationMaintenance.Update(mi);
+                }
+            }
+            if (t.Status.Equals(EnumStatus.ACTIVE.ToString())
+                && status.Equals(STATUSENUM.STATUSBOOKING.CANCEL.ToString()))
+            {
+                t.Status = STATUSENUM.STATUSBOOKING.CANCEL.ToString();
+                var mtsi = await _unitOfWork.MaintenanceTaskServiceInfo.GetListByActiveAndTask(t.MaintenanceTaskId);
+                foreach (var i in mtsi)
+                {
+                    i.Status = EnumStatus.INACTIVE.ToString();
+                    await _unitOfWork.MaintenanceTaskServiceInfo.Update(i);
+
+                }
+                var mtspi = await _unitOfWork.MaintenanceTaskSparePartInfo.GetListByActiveAndTask(t.MaintenanceTaskId);
+                foreach (var i in mtspi)
+                {
+                    i.Status = EnumStatus.INACTIVE.ToString();
+                    await _unitOfWork.MaintenanceTaskSparePartInfo.Update(i);
+                }
+            }
             await _unitOfWork.MaintenanceTask.Update(t);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceTask>(t);

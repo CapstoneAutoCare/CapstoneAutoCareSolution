@@ -17,17 +17,21 @@ namespace Application.ConfigurationDB
             builder.Property(e => e.MaintenanceTaskId)
                     .ValueGeneratedOnAdd();
 
+            //builder.HasKey(tim => new { tim.TechnicianId, tim.InformationMaintenanceId });
+
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime");
-
-
 
 
             builder.HasOne(d => d.Technician)
                    .WithMany(d => d.MaintenanceTasks)
                    .HasForeignKey(d => d.TechnicianId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne(d => d.InformationMaintenance)
+                   .WithMany(d => d.MaintenanceTasks)
+                   .HasForeignKey(d => d.InformationMaintenanceId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

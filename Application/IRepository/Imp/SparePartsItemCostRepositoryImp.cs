@@ -28,23 +28,23 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
-                .Include(c=>c.MaintenanceSparePartInfos)
+                .Include(c => c.MaintenanceSparePartInfos)
                 .OrderByDescending(c => c.DateTime)
                 .FirstOrDefaultAsync(c => c.SparePartsItemCostId == id);
         }
 
 
-        public async Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost,Guid id)
+        public async Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost, Guid id)
         {
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
                                 .Include(c => c.MaintenanceSparePartInfos)
                                 .OrderByDescending(c => c.DateTime)
-                                .Where(c=>c.SparePartsItem.MaintenanceCenterId==id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
+                                .Where(c => c.SparePartsItem.MaintenanceCenterId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
 
             var groupedResult = await query
                                       .GroupBy(c => c.SparePartsItemId)
-                                      .Select(g => g.OrderByDescending(c => c.DateTime) 
+                                      .Select(g => g.OrderByDescending(c => c.DateTime)
                                                     .FirstOrDefault())
                                       .ToListAsync();
 
@@ -68,5 +68,15 @@ namespace Application.IRepository.Imp
             return spi;
         }
 
+        public async Task<SparePartsItemCost> GetByIdSparePartActive(string status, string cost, Guid id)
+        {
+            var spi = await _context.Set<SparePartsItemCost>()
+                        .Include(c => c.SparePartsItem)
+                        .Include(c => c.MaintenanceSparePartInfos)
+                        .Where(c => c.SparePartsItem.SparePartsItemtId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status))
+                        .OrderByDescending(c => c.DateTime)
+                        .FirstOrDefaultAsync();
+            return spi;
+        }
     }
 }

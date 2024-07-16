@@ -11,6 +11,7 @@ using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
 using Microsoft.AspNetCore.Authorization;
+using Domain.Enum;
 
 namespace CapstoneAutoCareApi.Controllers
 {

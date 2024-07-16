@@ -37,11 +37,17 @@ namespace CapstoneAutoCareApi.Controllers
 
         }
         [HttpGet]
+        public async Task<ActionResult<ResponseSparePartsItemCost>> GetByIdSparePartActive(Guid id)
+        {
+            return Ok(await _sparePartsItemCostService.GetByIdSparePartActive(id));
+
+        }
+        [HttpGet]
         public async Task<ActionResult<ResponseSparePartsItemCost>> GetById(Guid id)
         {
             return Ok(await _sparePartsItemCostService.GetById(id));
         }
-        
+
         [HttpPatch]
         public async Task<ActionResult<ResponseSparePartsItemCost>> PatchStatus(Guid id, string status)
         {

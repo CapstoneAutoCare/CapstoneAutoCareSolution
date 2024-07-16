@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCustomerCare;
@@ -74,11 +75,12 @@ namespace Infrastructure.IService.Imp
             mi.CreatedDate = DateTime.Now;
             mi.InformationMaintenanceName = "Client created Booking and Maintenance Infor";
             mi.Note = check.Note;
+            mi.Status =EnumStatus.CREATEDBYClIENT.ToString();
             await _unitOfWork.InformationMaintenance.Add(mi);
             MaintenanceHistoryStatus historyStatus = new MaintenanceHistoryStatus
             {
                 MaintenanceHistoryStatusId = new Guid(),
-                Status = "CREATED BY ClIENT",
+                Status = EnumStatus.CREATEDBYClIENT.ToString(),
                 DateTime = DateTime.Now,
                 MaintenanceInformationId = mi.InformationMaintenanceId,
                 Note = mi.Note,
@@ -95,7 +97,7 @@ namespace Infrastructure.IService.Imp
                     {
                         throw new Exception("Require add Product in Center Cost");
                     }
-                    sp.Status = "INACTIVE";
+                    sp.Status = EnumStatus.ACTIVE.ToString();
                     sp.CreatedDate = DateTime.Now;
                     sp.Discount = 10;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100);
@@ -114,7 +116,7 @@ namespace Infrastructure.IService.Imp
                     {
                         throw new Exception("Require add Product in Center Cost");
                     }
-                    msi.Status = "INACTIVE";
+                    msi.Status = EnumStatus.ACTIVE.ToString();
                     msi.CreatedDate = DateTime.Now;
                     msi.Discount = 10;
                     msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
@@ -167,17 +169,17 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseBooking> UpdateStatus(Guid bookingId, string status)
         {
             var booking = await _unitOfWork.Booking.GetById(bookingId);
-            booking.Status = status;
+            booking.Status = status.ToString();
             await _unitOfWork.Booking.Update(booking);
             var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
             if (checkInfor != null)
             {
-                if (status.Equals("ACCEPTED"))
+                if (booking.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPT.ToString()))
                 {
                     MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
-                    maintenanceHistoryStatus.Status = "WAITING BY CAR";
+                    maintenanceHistoryStatus.Status = EnumStatus.WAITINGBYCAR.ToString();
                     maintenanceHistoryStatus.DateTime = DateTime.Now;
-                    maintenanceHistoryStatus.Note = "WAITING BY CAR";
+                    maintenanceHistoryStatus.Note = EnumStatus.WAITINGBYCAR.ToString();
                     maintenanceHistoryStatus.MaintenanceInformationId = checkInfor.InformationMaintenanceId;
                     var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
                           .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
@@ -186,9 +188,22 @@ namespace Infrastructure.IService.Imp
                         await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
 
                     }
+                    checkInfor.Status = EnumStatus.WAITINGBYCAR.ToString();
+                    await _unitOfWork.InformationMaintenance.Update(checkInfor);
+
                 }
+                
             }
 
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseBooking>(booking);
+        }
+
+        public async Task<ResponseBooking> UpdateStatusBackup(Guid bookingId, string status)
+        {
+            var booking = await _unitOfWork.Booking.GetById(bookingId);
+            booking.Status = status.ToString();
+            await _unitOfWork.Booking.Update(booking);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseBooking>(booking);
         }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseMainInformation;
@@ -44,7 +45,7 @@ namespace Infrastructure.IService.Imp
             else
             {
                 var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
-                booking.Status = "ACCEPT";
+                booking.Status = EnumStatus.ACCEPT.ToString();
                 await _unitOfWork.InformationMaintenance.Add(mi);
                 await _unitOfWork.Booking.Update(booking);
                 await _unitOfWork.Commit();
@@ -94,7 +95,7 @@ namespace Infrastructure.IService.Imp
                     {
                         throw new Exception("Require add Product in Center Cost");
                     }
-                    sp.Status = "INACTIVE";
+                    sp.Status = EnumStatus.ACTIVE.ToString();
                     sp.CreatedDate = DateTime.Now;
                     sp.Discount = 10;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount / 100));
@@ -120,7 +121,7 @@ namespace Infrastructure.IService.Imp
                     {
                         throw new Exception("Require add Product in Center");
                     }
-                    msi.Status = "INACTIVE";
+                    msi.Status = EnumStatus.ACTIVE.ToString();
                     msi.CreatedDate = DateTime.Now;
                     msi.Discount = 10;
                     msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount / 100));
@@ -136,6 +137,7 @@ namespace Infrastructure.IService.Imp
             var mi = _mapper.Map<MaintenanceInformation>(create);
             mi.CreatedDate = DateTime.Now;
             mi.TotalPrice = 0;
+            mi.Status = EnumStatus.CREATEDBYClIENT.ToString();
             return mi;
         }
 
@@ -155,7 +157,7 @@ namespace Infrastructure.IService.Imp
             MaintenanceHistoryStatus historyStatus = new MaintenanceHistoryStatus
             {
                 MaintenanceHistoryStatusId = Guid.NewGuid(),
-                Status = "CREATE BY CUSTOMER CARE",
+                Status = EnumStatus.CREATEDBYCUSTOMERCARE.ToString(),
                 DateTime = DateTime.Now,
                 MaintenanceInformationId = mi.InformationMaintenanceId,
                 Note = mi.Note,
@@ -189,5 +191,64 @@ namespace Infrastructure.IService.Imp
             var re = await _unitOfWork.InformationMaintenance.GetById(id);
             await _unitOfWork.InformationMaintenance.Remove(re);
         }
+
+        public async Task<ResponseMaintenanceInformation> ChangeStatus(Guid id, string status)
+        {
+            var re = await _unitOfWork.InformationMaintenance.GetById(id);
+            //re.Status = status;
+            if (re.Status.Equals(STATUSENUM.STATUSMI.WAITINGBYCAR.ToString()) && status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()))
+            {
+
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.CHECKIN.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.CHECKIN.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = re.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
+                {
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                }
+                re.Status = status;
+            }
+            await _unitOfWork.InformationMaintenance.Update(re);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseMaintenanceInformation>(re);
+        }
+
+        public async Task<ResponseMaintenanceInformation> ChangeStatusBackUp(Guid id, string status)
+        {
+            var re = await _unitOfWork.InformationMaintenance.GetById(id);
+            re.Status = status;
+            await _unitOfWork.InformationMaintenance.Update(re);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseMaintenanceInformation>(re);
+
+        }
+
+        public async Task<List<ResponseMaintenanceInformation>> GetListByCenterAnd(string status)
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseMaintenanceInformation>>(
+                await _unitOfWork.InformationMaintenance.GetListByCenterAndStatus(account.MaintenanceCenter.MaintenanceCenterId, status));
+        }
+
+        public async Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive()
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            return _mapper.Map<List<ResponseMaintenanceInformation>>(
+                await _unitOfWork.InformationMaintenance.GetListByCenterAndStatusCheckinAndTaskInactive(account.MaintenanceCenter.MaintenanceCenterId));
+
+        }
+
+        //public Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckin(Guid id)
+        //{
+        //    return _mapper.Map<List<ResponseMaintenanceInformation>>(
+        //                   await _unitOfWork.InformationMaintenance.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId));
+        //}
     }
 }

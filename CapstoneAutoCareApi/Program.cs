@@ -12,6 +12,7 @@ using Infrastructure.ISecurity;
 using Infrastructure.ISecurity.Imp;
 using CapstoneAutoCareApi.Configuration;
 using Infrastructure.Common.Mapper;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ var configuration = new ConfigurationBuilder()
 builder.Services.DependencyInjection(configuration);
 
 builder.Services.AddControllers();
+           
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

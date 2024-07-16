@@ -12,6 +12,7 @@ using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseMainInformation;
 using Infrastructure.Common.Response.ResponseBooking;
 using Microsoft.AspNetCore.Authorization;
+using Domain.Enum;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -49,7 +50,18 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceInformationService.GetListByCenter());
         }
-
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByCenterAndStatus(string status)
+        {
+            return Ok(await _maintenanceInformationService.GetListByCenterAnd(status));
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByCenterAndStatusCheckinAndAnyTaskCancel()
+        {
+            return Ok(await _maintenanceInformationService.GetListByCenterAndStatusCheckinAndTaskInactive());
+        }
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)
         {
@@ -61,6 +73,16 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.CreateHaveItems(maintenanceInformation));
         }
 
+        [HttpPatch]
+        public async Task<ActionResult<ResponseMaintenanceInformation>> CHANGESTATUS(Guid id, string  status)
+        {
+            return Ok(await _maintenanceInformationService.ChangeStatus(id, status));
+        }
+        [HttpPatch]
+        public async Task<ActionResult<ResponseMaintenanceInformation>> CHANGESTATUSBACKUP(Guid id, string status)
+        {
+            return Ok(await _maintenanceInformationService.ChangeStatusBackUp(id, status));
+        }
         [HttpDelete]
         public async Task<IActionResult> Remove(Guid id)
         {

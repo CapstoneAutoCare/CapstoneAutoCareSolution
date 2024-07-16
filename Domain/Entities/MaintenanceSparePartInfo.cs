@@ -9,6 +9,11 @@ namespace Domain.Entities
 {
     public class MaintenanceSparePartInfo
     {
+        public MaintenanceSparePartInfo()
+        {
+            MaintenanceTaskSparePartInfos = new HashSet<MaintenanceTaskSparePartInfo>();
+        }
+
         [Key]
         public Guid MaintenanceSparePartInfoId { get; set; }
         public string MaintenanceSparePartInfoName { get; set; }
@@ -23,6 +28,6 @@ namespace Domain.Entities
         public Guid InformationMaintenanceId { get; set; }
         public SparePartsItemCost SparePartsItemCost { get; set; }
         public MaintenanceInformation InformationMaintenance { get; set; }
-        public MaintenanceTaskSparePartInfo MaintenanceTaskSparePartInfo { get; set; }
+        public ICollection<MaintenanceTaskSparePartInfo> MaintenanceTaskSparePartInfos { get; set; }
     }
 }

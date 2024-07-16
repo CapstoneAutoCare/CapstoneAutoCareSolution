@@ -1,5 +1,7 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,14 @@ namespace Application.IRepository.Imp
     {
         public MaintenanceTaskSparePartInfoRepositoryImp(AppDBContext context) : base(context)
         {
+        }
+
+        public async Task<List<MaintenanceTaskSparePartInfo>> GetListByActiveAndTask(Guid id)
+        {
+            return await _context.Set<MaintenanceTaskSparePartInfo>()
+                .Include(c => c.MaintenanceTask)
+                .Where(c => c.MaintenanceTaskId.Equals(id) && c.Status.Equals(EnumStatus.ACTIVE.ToString()))
+                .ToListAsync();
         }
     }
 }

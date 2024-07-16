@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,23 @@ namespace Application.IRepository.Imp
                             .ToListAsync();
         }
 
+        public async Task<List<MaintenanceInformation>> GetListByCenterAndStatus(Guid id, string status)
+        {
+            return await _context.Set<MaintenanceInformation>()
+                           .Include(c => c.Booking)
+                           .Include(c => c.OdoHistory)
+                           .Include(c => c.CustomerCare)
+                           .Include(c => c.MaintenanceSparePartInfos)
+                           .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                           .Include(c => c.MaintenanceHistoryStatuses)
+                           .Include(c => c.MaintenanceServiceInfos)
+                           .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
+                           .Where(c => c.Booking.MaintenanceCenterId == id && c.Status.Equals(status)
+                           )
+                           .OrderByDescending(c => c.CreatedDate)
+                           .ToListAsync();
+        }
+
         public async Task<List<MaintenanceInformation>> GetListByClient(Guid id)
         {
             return await _context.Set<MaintenanceInformation>()
@@ -98,6 +116,18 @@ namespace Application.IRepository.Imp
                             .Where(c => c.Booking.ClientId == id)
                             .OrderByDescending(c => c.CreatedDate)
                             .ToListAsync();
+        }
+
+
+        public async Task<List<MaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id)
+        {
+            var result = await _context.Set<MaintenanceInformation>()
+                .Where(m => m.Booking.MaintenanceCenterId.Equals(id)
+                && m.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString())
+                && (!m.MaintenanceTasks.Any()
+                || m.MaintenanceTasks.Any(c => c.Status.Equals(STATUSENUM.STATUSBOOKING.CANCEL.ToString()))))
+                .ToListAsync();
+            return result;
         }
     }
 }

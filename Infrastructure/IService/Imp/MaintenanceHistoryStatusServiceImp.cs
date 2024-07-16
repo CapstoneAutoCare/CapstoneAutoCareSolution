@@ -45,6 +45,11 @@ namespace Infrastructure.IService.Imp
         {
             return _mapper.Map<ResponseMaintenanceHistoryStatus>(await _unitOfWork.MaintenanceHistoryStatuses.GetById(id));
         }
+        //public async Task<List<ResponseMaintenanceHistoryStatus>> GetListByCenterAndStatusCheckin(Guid id, string status)
+        //{
+        //    return _mapper.Map<ResponseMaintenanceHistoryStatus>(await _unitOfWork.MaintenanceHistoryStatuses.GetById(id));
+
+        //}
 
         public async Task<ResponseMaintenanceHistoryStatus> Update(Guid id, CreateMaintenanceHistoryStatus update)
         {

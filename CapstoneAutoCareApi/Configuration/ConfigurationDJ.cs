@@ -3,6 +3,8 @@ using Infrastructure.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Diagnostics;
 using System.Text;
 
@@ -42,6 +44,10 @@ namespace CapstoneAutoCareApi.Configuration
                     BearerFormat = "JWT",
                     Scheme = "Bearer"
                 });
+                //c.OperationFilter<EnumSchemaFilter>();
+
+                
+
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement{
                     {
                         new OpenApiSecurityScheme
@@ -55,6 +61,10 @@ namespace CapstoneAutoCareApi.Configuration
                         new string[]{}
                     }
                 });
+            });
+            services.Configure<JsonSerializerSettings>(options =>
+            {
+                options.Converters.Add(new StringEnumConverter());
             });
             services.AddCors(options =>
             {

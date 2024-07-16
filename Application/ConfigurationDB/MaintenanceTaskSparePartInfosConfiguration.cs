@@ -16,6 +16,7 @@ namespace Application.ConfigurationDB
             builder.HasKey(c => c.MaintenanceTaskSparePartInfoId);
             builder.Property(e => e.MaintenanceTaskSparePartInfoId)
                     .ValueGeneratedOnAdd();
+            //builder.HasKey(tim => new { tim.MaintenanceTaskId, tim.MaintenanceSparePartInfoId });
 
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime");
@@ -24,7 +25,12 @@ namespace Application.ConfigurationDB
             builder.HasOne(d => d.MaintenanceTask)
                     .WithMany(d => d.MaintenanceTaskSparePartInfos)
                     .HasForeignKey(d => d.MaintenanceTaskId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(d => d.MaintenanceSparePartInfo)
+                    .WithMany(d => d.MaintenanceTaskSparePartInfos)
+                    .HasForeignKey(d => d.MaintenanceSparePartInfoId)
+                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

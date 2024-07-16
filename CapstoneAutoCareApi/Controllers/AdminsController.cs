@@ -39,7 +39,7 @@ namespace CapstoneAutoCareApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(Guid id, UpdateAdmin admin)
         {
-            return Ok(_adminService.UpdateAdmin(id, admin));
+            return Ok(await _adminService.UpdateAdmin(id, admin));
         }
 
         [HttpPost]

@@ -526,9 +526,13 @@ namespace Infrastructure.Common.Mapper
             #endregion
             #region MainTaskItems
             CreateMap<MaintenanceTaskServiceInfo, ResponseMainTaskService>()
+                 .ForMember(c => c.Image, act => act.MapFrom(c => c.MaintenanceServiceInfo.MaintenanceServiceCost.MaintenanceService.Image))
+                 .ForMember(c => c.Name, act => act.MapFrom(c => c.MaintenanceServiceInfo.MaintenanceServiceInfoName))
                  .ReverseMap();
             CreateMap<MaintenanceTaskSparePartInfo, ResponseMainTaskSparePart>()
-                  .ReverseMap();
+                 .ForMember(c => c.Image, act => act.MapFrom(c => c.MaintenanceSparePartInfo.SparePartsItemCost.SparePartsItem.Image))
+                 .ForMember(c => c.Name, act => act.MapFrom(c => c.MaintenanceSparePartInfo.MaintenanceSparePartInfoName))
+                 .ReverseMap();
             #endregion
 
         }

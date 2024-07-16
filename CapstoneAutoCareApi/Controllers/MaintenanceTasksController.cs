@@ -60,12 +60,12 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceTechinicanService.UpdateStatus(id, status));
         }
-        //[HttpDelete]
-        //public async Task<IActionResult> Delete(Guid id)
-        //{
-
-        //    return NoContent();
-        //}
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _maintenanceTechinicanService.Remove(id);
+            return Ok("success");
+        }
 
     }
 }
