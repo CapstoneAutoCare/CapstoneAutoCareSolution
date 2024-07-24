@@ -23,7 +23,7 @@ namespace Domain.Entities
         public string InformationMaintenanceName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime FinishedDate { get; set; }
-        public double TotalPrice { get; set; }
+        public float TotalPrice { get; set; }
         public string Note { get; set; }
         public string Status { get; set; }
         public Guid? BookingId { get; set; }

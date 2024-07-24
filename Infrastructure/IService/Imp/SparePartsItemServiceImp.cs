@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ResponseCost;
 using Infrastructure.Common.Response.ResponseServicesCare;
@@ -46,7 +47,7 @@ namespace Infrastructure.IService.Imp
             }
             else
             {
-               var item= await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
+                var item = await _unitOfWork.SparePartsRepository.GetByID(sparepart.SparePartsId);
                 await _unitOfWork.SparePartsItem.Add(sparepart);
                 await _unitOfWork.Commit();
             }
@@ -98,5 +99,7 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.SparePartsItem.Remove(i);
             await _unitOfWork.Commit();
         }
+
+       
     }
 }

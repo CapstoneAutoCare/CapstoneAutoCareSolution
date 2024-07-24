@@ -13,7 +13,7 @@ namespace Infrastructure.Common.Response.ResponseSparePart
         public string SparePartDescription { get; set; }
         public string SparePartType { get; set; }
         public DateTime CreatedDate { get; set; }
-        public double OriginalPrice { get; set; }
+        public float OriginalPrice { get; set; }
         public string Status { get; set; }
         public Guid MaintananceScheduleId { get; set; }
         public string MaintananceScheduleName { get; set; }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestMaintenanceSparePartInfor;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
 using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
@@ -26,11 +27,14 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceSparePartInfo> Create(CreateMaintenanceSparePartInfo create)
         {
             var spi = _mapper.Map<MaintenanceSparePartInfo>(create);
-            spi.Status = "INACTIVE";
+            spi.Status = EnumStatus.ACTIVE.ToString();
             spi.CreatedDate = DateTime.Now;
             spi.Discount = 10;
-            spi.TotalCost = (spi.ActualCost * spi.Quantity) * (1 - (spi.Discount) / 100);
-            await _unitOfWork.InformationMaintenance.GetById(spi.InformationMaintenanceId);
+            spi.TotalCost = (spi.ActualCost * spi.Quantity) * (1 - (spi.Discount) / 100f);
+            var i = await _unitOfWork.InformationMaintenance.GetById(spi.InformationMaintenanceId);
+            i.TotalPrice += spi.TotalCost;
+            await _unitOfWork.InformationMaintenance.Update(i);
+
             if (spi.SparePartsItemCostId == null)
             {
                 await _unitOfWork.MaintenanceSparePartInfo.Add(spi);

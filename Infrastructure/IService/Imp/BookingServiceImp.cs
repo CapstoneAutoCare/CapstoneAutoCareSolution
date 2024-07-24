@@ -100,7 +100,7 @@ namespace Infrastructure.IService.Imp
                     sp.Status = EnumStatus.ACTIVE.ToString();
                     sp.CreatedDate = DateTime.Now;
                     sp.Discount = 10;
-                    sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100);
+                    sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100f);
                     sp.InformationMaintenanceId = mi.InformationMaintenanceId;
                     mi.TotalPrice += sp.TotalCost;
                     await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
@@ -119,7 +119,7 @@ namespace Infrastructure.IService.Imp
                     msi.Status = EnumStatus.ACTIVE.ToString();
                     msi.CreatedDate = DateTime.Now;
                     msi.Discount = 10;
-                    msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
+                    msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100f);
                     msi.InformationMaintenanceId = mi.InformationMaintenanceId;
                     mi.TotalPrice += msi.TotalCost;
 
@@ -174,7 +174,7 @@ namespace Infrastructure.IService.Imp
             var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
             if (checkInfor != null)
             {
-                if (booking.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPT.ToString()))
+                if (booking.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()))
                 {
                     MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
                     maintenanceHistoryStatus.Status = EnumStatus.WAITINGBYCAR.ToString();

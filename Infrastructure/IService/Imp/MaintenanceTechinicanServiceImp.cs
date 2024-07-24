@@ -113,6 +113,12 @@ namespace Infrastructure.IService.Imp
                 await _unitOfWork.MaintenanceTask.GetListByCustomerCare(account.CustomerCare.CustomerCareId));
         }
 
+        public async Task<List<ResponseMaintenanceTask>> GetListByInforId(Guid id)
+        {
+            return _mapper.Map<List<ResponseMaintenanceTask>>(
+                await _unitOfWork.MaintenanceTask.GetListByInfor(id));
+        }
+
         public async Task<List<ResponseMaintenanceTask>> GetListByTechnician()
         {
             var email = _tokensHandler.ClaimsFromToken();
@@ -131,7 +137,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceTask> UpdateStatus(Guid id, string status)
         {
             var t = await _unitOfWork.MaintenanceTask.GetById(id);
-            if (t.Status.Equals(EnumStatus.ACTIVE.ToString()) && status.Equals(STATUSENUM.STATUSBOOKING.ACCEPT.ToString()))
+            if (t.Status.Equals(EnumStatus.ACTIVE.ToString()) && status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()))
             {
                 t.Status = status;
                 MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
@@ -150,9 +156,9 @@ namespace Infrastructure.IService.Imp
                 }
             }
             if (t.Status.Equals(EnumStatus.ACTIVE.ToString())
-                && status.Equals(STATUSENUM.STATUSBOOKING.CANCEL.ToString()))
+                && status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
             {
-                t.Status = STATUSENUM.STATUSBOOKING.CANCEL.ToString();
+                t.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
                 var mtsi = await _unitOfWork.MaintenanceTaskServiceInfo.GetListByActiveAndTask(t.MaintenanceTaskId);
                 foreach (var i in mtsi)
                 {
@@ -165,6 +171,25 @@ namespace Infrastructure.IService.Imp
                 {
                     i.Status = EnumStatus.INACTIVE.ToString();
                     await _unitOfWork.MaintenanceTaskSparePartInfo.Update(i);
+                }
+            }
+            if (t.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString())
+                && status.Equals(STATUSENUM.STATUSMI.DONE.ToString()))
+            {
+                t.Status = STATUSENUM.STATUSMI.DONE.ToString();
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.PAYMENT.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.PAYMENT.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = t.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
+                {
+                    var mi = await _unitOfWork.InformationMaintenance.GetById(t.InformationMaintenanceId);
+                    mi.Status = EnumStatus.PAYMENT.ToString();
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                    await _unitOfWork.InformationMaintenance.Update(mi);
                 }
             }
             await _unitOfWork.MaintenanceTask.Update(t);

@@ -15,14 +15,15 @@ namespace Domain.Enum
             WAITINGBYCAR,
             CHECKIN,
             REPAIRING,
+            PAYMENT,
             DONE
         }
 
         public enum STATUSBOOKING
         {
             INACTIVE,
-            ACCEPT,
-            CANCEL
+            ACCEPTED,
+            CANCELLED
         }
     }
 }

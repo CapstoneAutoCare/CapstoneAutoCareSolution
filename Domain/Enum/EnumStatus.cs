@@ -17,5 +17,8 @@ namespace Domain.Enum
         WAITINGBYCAR,
         CHECKIN,
         REPAIRING,
+        PAYMENT,
+        YETPAID,
+        PAID
     }
 }

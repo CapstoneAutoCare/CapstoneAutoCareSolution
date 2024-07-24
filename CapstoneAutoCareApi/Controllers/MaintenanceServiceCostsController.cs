@@ -37,23 +37,35 @@ namespace CapstoneAutoCareApi.Controllers
 
         }
         [HttpGet]
+        public async Task<ActionResult<ResponseSparePartsItemCost>> GetByIdMaintenanceServiceActive(Guid id)
+        {
+            return Ok(await _maintananceServicesCost.GetByIdMaintenanceServiceActive(id));
+
+        }
+        [HttpGet]
         public async Task<ActionResult<ResponseMaintenanceServiceCost>> GetById(Guid id)
         {
             return Ok(await _maintananceServicesCost.GetById(id));
         }
-
-        [HttpPatch]
-        public async Task<ActionResult<ResponseMaintenanceServiceCost>> PatchStatus(Guid id, string status)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseSparePartsItemCost>>> GetListByDifMaintenanceServiceAndInforId(Guid centerId, Guid inforId)
         {
-            return Ok(await _maintananceServicesCost.UpdateStatus(id, status));
-        }
+            return Ok(await _maintananceServicesCost.GetListByDifMaintenanceServiceAndInforId(centerId, inforId));
 
+        }
         [HttpPost]
         public async Task<ActionResult<MaintenanceServiceCost>> Post(CreateMaintenanceServiceCost maintenanceServiceCost)
         {
             return Ok(await _maintananceServicesCost.Create(maintenanceServiceCost));
 
         }
+        [HttpPatch]
+        public async Task<ActionResult<ResponseMaintenanceServiceCost>> PatchStatus(Guid id, string status)
+        {
+            return Ok(await _maintananceServicesCost.UpdateStatus(id, status));
+        }
+
+       
 
         //[HttpDelete]
         //public async Task<IActionResult> DeleteMaintenanceServiceCost(Guid id)

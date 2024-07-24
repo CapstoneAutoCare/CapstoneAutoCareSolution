@@ -12,9 +12,10 @@ namespace Infrastructure.Common.Response.ReceiptResponse
     {
         public Guid ReceiptId { get; set; }
         public string ReceiptName { get; set; }
-        public double SubTotal { get; set; }
+        public float SubTotal { get; set; }
         public int VAT { get; set; }
-        public double TotalAmount { get; set; }
+        public float TotalAmount { get; set; }
+        public string status { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Description { get; set; }
         public Guid InformationMaintenanceId { get; set; }

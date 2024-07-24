@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Request.ReceiptRequest;
+﻿using Azure;
+using Infrastructure.Common.Request.ReceiptRequest;
 using Infrastructure.Common.Response.ReceiptResponse;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,8 @@ namespace Infrastructure.IService
         Task<List<ResponseReceipts>> GetListByCenter();
         Task<ResponseReceipts> GetById(Guid id);
         Task<ResponseReceipts> Create(CreateReceipt receipt);
+        Task<ResponseReceipts> ChangeStatus(Guid id,string status);
+        Task<ResponseReceipts> GetByInforId(Guid id);
+        Task Remove(Guid id);
     }
 }

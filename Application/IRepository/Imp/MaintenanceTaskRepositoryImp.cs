@@ -18,10 +18,16 @@ namespace Application.IRepository.Imp
         public async Task<MaintenanceTask> CheckExistByTechAndInfor(Guid techId, Guid inforId)
         {
             var i = await _context.Set<MaintenanceTask>()
-                 .Include(c => c.MaintenanceTaskSparePartInfos)
-                 .Include(c => c.MaintenanceTaskServiceInfos)
-                 .Include(c => c.Technician)
-                 .Include(c => c.InformationMaintenance)
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .ThenInclude(c => c.MaintenanceSparePartInfo)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .ThenInclude(c => c.SparePartsItem)
+                .Include(c => c.MaintenanceTaskServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
+                .Include(c => c.Technician)
+                .Include(c => c.InformationMaintenance)
                  .FirstOrDefaultAsync(c => c.TechnicianId.Equals(techId) && c.InformationMaintenanceId.Equals(inforId));
             if (i != null)
             {
@@ -30,11 +36,38 @@ namespace Application.IRepository.Imp
             return i;
         }
 
+        public async Task<MaintenanceTask> CheckTaskByInforId(Guid id, string status)
+        {
+            var i = await _context.Set<MaintenanceTask>()
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .ThenInclude(c => c.MaintenanceSparePartInfo)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .ThenInclude(c => c.SparePartsItem)
+                .Include(c => c.MaintenanceTaskServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
+                .Include(c => c.Technician)
+                .Include(c => c.InformationMaintenance)
+                 .FirstOrDefaultAsync(c => c.InformationMaintenanceId.Equals(id) && c.Status.Equals(status));
+            if(i == null)
+            {
+                throw new Exception("Null Status Task");
+            }
+            return i;
+        }
+
         public async Task<List<MaintenanceTask>> GetAll()
         {
             return await _context.Set<MaintenanceTask>()
                 .Include(c => c.MaintenanceTaskSparePartInfos)
+                .ThenInclude(c => c.MaintenanceSparePartInfo)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .ThenInclude(c => c.SparePartsItem)
                 .Include(c => c.MaintenanceTaskServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
                 .Include(c => c.InformationMaintenance)
                                 .OrderByDescending(c => c.CreatedDate).ToListAsync();
@@ -65,7 +98,13 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceTask>()
                 .Include(c => c.MaintenanceTaskSparePartInfos)
+                .ThenInclude(c => c.MaintenanceSparePartInfo)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .ThenInclude(c => c.SparePartsItem)
                 .Include(c => c.MaintenanceTaskServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.Technician.CenterId == id)
@@ -85,11 +124,35 @@ namespace Application.IRepository.Imp
                 .ToListAsync();
         }
 
+        public async Task<List<MaintenanceTask>> GetListByInfor(Guid id)
+        {
+            return await _context.Set<MaintenanceTask>()
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .ThenInclude(c => c.MaintenanceSparePartInfo)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .ThenInclude(c => c.SparePartsItem)
+                .Include(c => c.MaintenanceTaskServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
+                .Include(c => c.Technician)
+                .Include(c => c.InformationMaintenance)
+                .Where(c => c.InformationMaintenance.InformationMaintenanceId == id)
+                .OrderByDescending(c => c.CreatedDate)
+                .ToListAsync();
+        }
+
         public async Task<List<MaintenanceTask>> GetListByTech(Guid id)
         {
             return await _context.Set<MaintenanceTask>()
                 .Include(c => c.MaintenanceTaskSparePartInfos)
+                .ThenInclude(c => c.MaintenanceSparePartInfo)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .ThenInclude(c => c.SparePartsItem)
                 .Include(c => c.MaintenanceTaskServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.TechnicianId == id)

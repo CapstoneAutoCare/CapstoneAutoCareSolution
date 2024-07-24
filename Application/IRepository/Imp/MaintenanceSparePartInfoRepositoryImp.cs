@@ -37,6 +37,8 @@ namespace Application.IRepository.Imp
             return spi;
         }
 
+       
+
         public async Task<List<MaintenanceSparePartInfo>> GetListByMainInfor(Guid id)
         {
             return await _context.Set<MaintenanceSparePartInfo>()

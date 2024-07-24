@@ -17,7 +17,6 @@ namespace Application.IRepository
         Task<List<MaintenanceInformation>> GetListByCenterAndStatus(Guid id, string status);
         Task<List<MaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
 
-
         Task<MaintenanceInformation> GetByBookingId(Guid id);
     }
 }

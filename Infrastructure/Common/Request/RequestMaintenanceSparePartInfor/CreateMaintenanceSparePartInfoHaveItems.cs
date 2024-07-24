@@ -11,7 +11,7 @@ namespace Infrastructure.Common.Request.RequestMaintenanceSparePartInfor
         public Guid? SparePartsItemCostId { get; set; }
         public string MaintenanceSparePartInfoName { get; set; }
         public int Quantity { get; set; }
-        public double ActualCost { get; set; }
+        public float ActualCost { get; set; }
         public string Note { get; set; }
     }
 }

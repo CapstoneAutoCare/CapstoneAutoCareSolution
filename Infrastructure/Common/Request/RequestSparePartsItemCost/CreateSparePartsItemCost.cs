@@ -8,7 +8,7 @@ namespace Infrastructure.Common.Request.RequestSparePartsItemCost
 {
     public class CreateSparePartsItemCost
     {
-        public double ActuralCost { get; set; }
+        public float ActuralCost { get; set; }
         public string? Note { get; set; }
         public Guid SparePartsItemId { get; set; }
     }

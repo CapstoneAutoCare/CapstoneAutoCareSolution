@@ -125,9 +125,11 @@ namespace Application.IRepository.Imp
                 .Where(m => m.Booking.MaintenanceCenterId.Equals(id)
                 && m.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString())
                 && (!m.MaintenanceTasks.Any()
-                || m.MaintenanceTasks.Any(c => c.Status.Equals(STATUSENUM.STATUSBOOKING.CANCEL.ToString()))))
+                || m.MaintenanceTasks.Any(c => c.Status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))))
                 .ToListAsync();
             return result;
         }
+
+        
     }
 }

@@ -22,7 +22,28 @@ namespace Application.IRepository.Imp
 
         public async Task<Receipt> GetById(Guid id)
         {
-            return await _context.Set<Receipt>().Include(c => c.InformationMaintenance).FirstOrDefaultAsync(c => c.ReceiptId == id);
+            var r=  await _context.Set<Receipt>()
+                .Include(c => c.InformationMaintenance)
+                .Include(c=>c.FeedBack)
+                .FirstOrDefaultAsync(c => c.ReceiptId == id);
+            if(r == null)
+            {
+                throw new Exception("Not found");
+            }
+            return r;
+        }
+
+        public async Task<Receipt> GetByInfor(Guid id)
+        {
+            var r= await _context.Set<Receipt>()
+               .Include(c => c.InformationMaintenance)
+               .Include(c => c.FeedBack)
+               .FirstOrDefaultAsync(c => c.InformationMaintenanceId == id);
+            if (r == null)
+            {
+                throw new Exception("Not found");
+            }
+            return r;
         }
 
         public async Task<List<Receipt>> GetListByCenter(Guid id)

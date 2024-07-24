@@ -11,6 +11,6 @@ namespace Infrastructure.Common.Request.Sparepart
         public string SparePartName { get; set; }
         public string SparePartDescription { get; set; }
         public string SparePartType { get; set; }
-        public double OriginalPrice { get; set; }
+        public float OriginalPrice { get; set; }
     }
 }

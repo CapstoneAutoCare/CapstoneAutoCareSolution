@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestMaintenanceServiceInfo;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
 using Infrastructure.IUnitofWork;
@@ -25,12 +26,14 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceServiceInfo> Create(CreateMaintenanceServiceInfo create)
         {
             var msi = _mapper.Map<MaintenanceServiceInfo>(create);
-            msi.Status = "INACTIVE";
+            msi.Status = EnumStatus.ACTIVE.ToString();
             msi.CreatedDate = DateTime.Now;
             msi.Discount = 10;
-            msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100);
+            msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100f);
 
-            await _unitOfWork.InformationMaintenance.GetById(msi.InformationMaintenanceId);
+            var i = await _unitOfWork.InformationMaintenance.GetById(msi.InformationMaintenanceId);
+            i.TotalPrice += msi.TotalCost;
+            await _unitOfWork.InformationMaintenance.Update(i);
             if (msi.MaintenanceServiceCostId == null)
             {
                 await _unitOfWork.MaintenanceServiceInfo.Add(msi);

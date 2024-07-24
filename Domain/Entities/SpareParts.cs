@@ -21,7 +21,7 @@ namespace Domain.Entities
         public string SparePartDescription { get; set; }
         public string SparePartType { get; set; }
         public DateTime CreatedDate { get; set; }
-        public double OriginalPrice { get; set; }
+        public float OriginalPrice { get; set; }
         public string Status { get; set; }
         public Guid MaintananceScheduleId { get; set; }
         public MaintananceSchedule MaintananceSchedule { get; set; }

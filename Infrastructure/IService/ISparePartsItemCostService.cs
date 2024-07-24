@@ -19,6 +19,7 @@ namespace Infrastructure.IService
         Task<ResponseSparePartsItemCost> Create(CreateSparePartsItemCost create);
         Task<ResponseSparePartsItemCost> UpdateStatus(Guid id, string status);
         Task<ResponseSparePartsItemCost> GetByIdSparePartActive(Guid id);
+        Task<List<ResponseSparePartsItemCost>> GetListByDifSparePartAndInforId(Guid id, Guid inforId);
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.ReceiptRequest;
 using Infrastructure.Common.Response.OdoResponse;
 using Infrastructure.Common.Response.ReceiptResponse;
@@ -26,15 +27,37 @@ namespace Infrastructure.IService.Imp
             _tokensHandler = tokensHandler;
         }
 
+        public async Task<ResponseReceipts> ChangeStatus(Guid id, string status)
+        {
+            var r = await _unitOfWork.ReceiptRepository.GetById(id);
+            if (r.Status.Equals(EnumStatus.YETPAID.ToString())
+                && status.Equals(EnumStatus.PAID.ToString()))
+            {
+                r.Status = status;
+                var i = await _unitOfWork.InformationMaintenance.GetById(r.InformationMaintenanceId);
+                i.Status = status;
+                await _unitOfWork.InformationMaintenance.Update(i);
+                await _unitOfWork.ReceiptRepository.Update(r);
+            };
+
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseReceipts>(r);
+        }
+
         public async Task<ResponseReceipts> Create(CreateReceipt receipt)
         {
             var r = _mapper.Map<Receipt>(receipt);
             var i = await _unitOfWork.InformationMaintenance.GetById(r.InformationMaintenanceId);
+            await _unitOfWork.MaintenanceTask
+                .CheckTaskByInforId(i.InformationMaintenanceId, EnumStatus.DONE.ToString());
             r.CreatedDate = DateTime.Now;
             r.ReceiptName = "Receipt";
             //r.TotalAmount = 0;
             //r.SubTotal = 0;
-            r.VAT = 30;
+            r.VAT = 10;
+            r.SubTotal = i.TotalPrice;
+            r.TotalAmount = (r.SubTotal * (1 + (r.VAT / 100f)));
+            r.Status = EnumStatus.YETPAID.ToString();
             await _unitOfWork.ReceiptRepository.Add(r);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseReceipts>(r);
@@ -50,12 +73,27 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseReceipts>(await _unitOfWork.ReceiptRepository.GetById(id));
         }
 
+        public async Task<ResponseReceipts> GetByInforId(Guid id)
+        {
+            return _mapper.Map<ResponseReceipts>(await _unitOfWork.ReceiptRepository.GetByInfor(id));
+        }
+
         public async Task<List<ResponseReceipts>> GetListByCenter()
         {
             var mail = _tokensHandler.ClaimsFromToken();
             var account = await _unitOfWork.Account.Profile(mail);
 
             return _mapper.Map<List<ResponseReceipts>>(await _unitOfWork.ReceiptRepository.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId));
+        }
+
+        public async Task Remove(Guid id)
+        {
+            var r = await _unitOfWork.ReceiptRepository.GetById(id);
+            if(r.Status != EnumStatus.YETPAID.ToString()){
+                throw new Exception("PAID not Remove");
+            }
+            await _unitOfWork.ReceiptRepository.Remove(r);
+            await _unitOfWork.Commit();
         }
     }
 }

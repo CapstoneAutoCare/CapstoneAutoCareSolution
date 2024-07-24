@@ -13,5 +13,6 @@ namespace Application.IRepository
         Task<List<MaintenanceSparePartInfo>> GetAll();
         Task<List<MaintenanceSparePartInfo>> GetListByMainInfor(Guid id);
         Task<MaintenanceSparePartInfo> GetById(Guid id);
+
     }
 }

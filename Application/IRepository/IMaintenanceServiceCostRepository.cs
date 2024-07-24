@@ -1,5 +1,7 @@
 ﻿using Application.IGenericRepository;
 using Domain.Entities;
+using Domain.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +15,10 @@ namespace Application.IRepository
         Task<List<MaintenanceServiceCost>> GetAll();
         Task<MaintenanceServiceCost> GetById(Guid? id);
         Task<List<MaintenanceServiceCost>> GetListByStatusAndStatusCost(string status,string coststatus,Guid centerId);
+
+        Task<MaintenanceServiceCost> GetByIdMaintenanceServiceActive(string status, string cost, Guid id);
+        Task<List<MaintenanceServiceCost>> GetListByDifMaintenanceServiceAndInforId(string status, string cost, Guid centerId, Guid informationId);
+
+
     }
 }

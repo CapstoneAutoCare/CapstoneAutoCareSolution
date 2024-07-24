@@ -51,7 +51,6 @@ namespace Application.IRepository.Imp
             return groupedResult;
         }
 
-
         public async Task<List<SparePartsItemCost>> GetListByClientActivea(Guid centerId)
         {
             var spi = await _context.Set<SparePartsItem>()
@@ -61,7 +60,7 @@ namespace Application.IRepository.Imp
                             .Where(c => c.MaintenanceCenterId == centerId)
                             .Select(c => c.SparePartsItemCost
                                          .Where(cost => cost.Status.Equals(EnumStatus.ACTIVE.ToString()))
-                                         .OrderByDescending(cost => cost.DateTime) // replace SomeProperty with the property to order by
+                                         .OrderByDescending(cost => cost.DateTime)
                                          .LastOrDefault())
                             .ToListAsync();
 
@@ -78,5 +77,26 @@ namespace Application.IRepository.Imp
                         .FirstOrDefaultAsync();
             return spi;
         }
+
+        public async Task<List<SparePartsItemCost>> GetListByDifSparePartAndInforId(string status, string cost, Guid centerId, Guid informationId)
+        {
+            var query = _context.Set<SparePartsItemCost>()
+                                .Include(c => c.SparePartsItem)
+                                .Where(c => c.SparePartsItem.MaintenanceCenterId == centerId
+                                         && c.Status.Equals(cost)
+                                         && c.SparePartsItem.Status.Equals(status)
+                                         && !_context.Set<MaintenanceSparePartInfo>()
+                                                     .Any(m => m.SparePartsItemCost.SparePartsItemId == c.SparePartsItemId
+                                                            && m.InformationMaintenanceId == informationId))
+                                .OrderByDescending(c => c.DateTime);
+
+            var groupedResult = await query
+                                      .GroupBy(c => c.SparePartsItemId)
+                                      .Select(g => g.OrderByDescending(c => c.DateTime).FirstOrDefault())
+                                      .ToListAsync();
+
+            return groupedResult;
+        }
+
     }
 }

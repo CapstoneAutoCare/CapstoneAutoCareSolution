@@ -37,6 +37,12 @@ namespace CapstoneAutoCareApi.Controllers
 
         }
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseSparePartsItemCost>>> GetListByDifSparePartAndInforId(Guid centerId, Guid inforId)
+        {
+            return Ok(await _sparePartsItemCostService.GetListByDifSparePartAndInforId(centerId, inforId));
+
+        }
+        [HttpGet]
         public async Task<ActionResult<ResponseSparePartsItemCost>> GetByIdSparePartActive(Guid id)
         {
             return Ok(await _sparePartsItemCostService.GetByIdSparePartActive(id));

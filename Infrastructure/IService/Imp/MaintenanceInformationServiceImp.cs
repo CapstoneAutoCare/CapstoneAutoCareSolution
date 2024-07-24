@@ -84,7 +84,7 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintenanceInformation>(await _unitOfWork.InformationMaintenance.GetById(id));
         }
 
-        private async Task<double> ProcessSparePartInfos(IEnumerable<MaintenanceSparePartInfo> sparePartInfos, Guid maintenanceId, double price)
+        private async Task<float> ProcessSparePartInfos(IEnumerable<MaintenanceSparePartInfo> sparePartInfos, Guid maintenanceId, float price)
         {
             if (sparePartInfos.Any())
             {
@@ -110,7 +110,7 @@ namespace Infrastructure.IService.Imp
             return price;
         }
 
-        private async Task<double> ProcessServiceInfos(IEnumerable<MaintenanceServiceInfo> serviceInfos, Guid maintenanceId, double price)
+        private async Task<float> ProcessServiceInfos(IEnumerable<MaintenanceServiceInfo> serviceInfos, Guid maintenanceId, float price)
         {
             if (serviceInfos.Any())
             {

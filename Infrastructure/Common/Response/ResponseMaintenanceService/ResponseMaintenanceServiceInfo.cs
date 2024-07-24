@@ -12,8 +12,8 @@ namespace Infrastructure.Common.Response.ResponseMaintenanceService
         public string MaintenanceServiceInfoName { get; set; }
         public int Quantity { get; set; }
         public int Discount { get; set; }
-        public double ActualCost { get; set; }
-        public double TotalCost { get; set; }
+        public float ActualCost { get; set; }
+        public float TotalCost { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }

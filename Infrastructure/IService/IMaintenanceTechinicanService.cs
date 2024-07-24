@@ -19,6 +19,7 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceTask>> GetListByCenter();
         Task<List<ResponseMaintenanceTask>> GetListByCustomerCare();
         Task<List<ResponseMaintenanceTask>> GetListByTechnician();
+        Task<List<ResponseMaintenanceTask>> GetListByInforId(Guid id);
         Task Remove(Guid id);
     }
 }
