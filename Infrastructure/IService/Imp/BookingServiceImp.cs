@@ -19,12 +19,14 @@ namespace Infrastructure.IService.Imp
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokensHandler;
+        private readonly IEmailService _emailService;
 
-        public BookingServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler)
+        public BookingServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokensHandler = tokensHandler;
+            _emailService = emailService;
         }
 
         public async Task<ResponseBooking> Create(RequestBooking create)
@@ -171,6 +173,7 @@ namespace Infrastructure.IService.Imp
             var booking = await _unitOfWork.Booking.GetById(bookingId);
             booking.Status = status.ToString();
             await _unitOfWork.Booking.Update(booking);
+            var account = await _unitOfWork.Account.GetByClientId(booking.ClientId);
             var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
             if (checkInfor != null)
             {
@@ -190,7 +193,7 @@ namespace Infrastructure.IService.Imp
                     }
                     checkInfor.Status = EnumStatus.WAITINGBYCAR.ToString();
                     await _unitOfWork.InformationMaintenance.Update(checkInfor);
-
+                    await _emailService.SendMail("duypdxse161418@fpt.edu.vn", maintenanceHistoryStatus.Status, "Booking");
                 }
                 
             }

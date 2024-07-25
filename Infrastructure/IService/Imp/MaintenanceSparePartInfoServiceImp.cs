@@ -57,5 +57,42 @@ namespace Infrastructure.IService.Imp
         {
             return _mapper.Map<ResponseMaintenanceSparePartInfo>(await _unitOfWork.MaintenanceSparePartInfo.GetById(id));
         }
+
+        public async Task<ResponseMaintenanceSparePartInfo> UpdateStatus(Guid id, string status)
+        {
+            var mspi = await _unitOfWork.MaintenanceSparePartInfo.GetById(id);
+            var i = await _unitOfWork.InformationMaintenance.GetById(mspi.InformationMaintenanceId);
+
+            if (mspi.Status.Equals(EnumStatus.ACTIVE.ToString())
+                && status.Equals(EnumStatus.INACTIVE.ToString())
+                && (!i.Status.Equals(EnumStatus.PAID.ToString())
+                && !i.Status.Equals(EnumStatus.PAYMENT.ToString())))
+            {
+                mspi.Status = status;
+                i.TotalPrice -= mspi.TotalCost;
+                await _unitOfWork.MaintenanceSparePartInfo.Update(mspi);
+                await _unitOfWork.InformationMaintenance.Update(i);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseMaintenanceSparePartInfo>(mspi);
+
+            }
+            else if (mspi.Status.Equals(EnumStatus.INACTIVE.ToString())
+                && status.Equals(EnumStatus.ACTIVE.ToString())
+                && (!i.Status.Equals(EnumStatus.PAID.ToString())
+                && !i.Status.Equals(EnumStatus.PAYMENT.ToString())))
+            {
+                mspi.Status = status;
+                i.TotalPrice += mspi.TotalCost;
+                await _unitOfWork.MaintenanceSparePartInfo.Update(mspi);
+                await _unitOfWork.InformationMaintenance.Update(i);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseMaintenanceSparePartInfo>(mspi);
+
+            }
+            else
+            {
+                throw new Exception("Can't change Status By Status in " + i.Status.ToString());
+            }
+        }
     }
 }

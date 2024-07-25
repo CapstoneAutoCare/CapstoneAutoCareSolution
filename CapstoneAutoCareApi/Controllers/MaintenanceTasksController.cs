@@ -53,6 +53,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceTechinicanService.GetListByInforId(id));
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseMaintenanceTask>>> GetListStatusDifCancelledByInfor(Guid id)
+        {
+            return Ok(await _maintenanceTechinicanService.GetListStatusDifCancelledByInfor(id));
+        }
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceTask>> Post(CreateMaintenanceTechinican technician)
         {

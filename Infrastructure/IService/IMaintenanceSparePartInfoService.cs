@@ -15,5 +15,6 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceSparePartInfo>> GetAll();
         Task<ResponseMaintenanceSparePartInfo> GetById(Guid id);
         Task<ResponseMaintenanceSparePartInfo> Create(CreateMaintenanceSparePartInfo create);
+        Task<ResponseMaintenanceSparePartInfo> UpdateStatus(Guid id ,string status);
     }
 }

@@ -26,6 +26,17 @@ namespace Application.IRepository.Imp
             return check;
         }
 
+        public async Task<Account> GetByClientId(Guid id)
+        {
+            var check = await _context.Set<Account>()
+                .FirstOrDefaultAsync(c => c.Client.ClientId==id);
+            if (check == null)
+            {
+                throw new Exception("Null Found");
+            }
+            return check;
+        }
+
         public async Task<Account> Login(string email, string password)
         {
             var check = await _context.Set<Account>().FirstOrDefaultAsync(c => c.Email.ToLower().Equals(email) && c.Password.ToLower().Equals(password));

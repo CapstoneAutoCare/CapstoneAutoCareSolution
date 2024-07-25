@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -156,6 +157,24 @@ namespace Application.IRepository.Imp
                 .Include(c => c.Technician)
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.TechnicianId == id)
+                .OrderByDescending(c => c.CreatedDate)
+                .ToListAsync();
+        }
+
+        public async Task<List<MaintenanceTask>> GetListStatusDifCancelledByInfor(Guid id)
+        {
+            return await _context.Set<MaintenanceTask>()
+                .Include(c => c.MaintenanceTaskSparePartInfos)
+                .ThenInclude(c => c.MaintenanceSparePartInfo)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .ThenInclude(c => c.SparePartsItem)
+                .Include(c => c.MaintenanceTaskServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
+                .Include(c => c.Technician)
+                .Include(c => c.InformationMaintenance)
+                .Where(c => c.InformationMaintenance.InformationMaintenanceId == id && !c.Status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
                 .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
         }

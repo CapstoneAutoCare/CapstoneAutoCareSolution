@@ -20,6 +20,7 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceTask>> GetListByCustomerCare();
         Task<List<ResponseMaintenanceTask>> GetListByTechnician();
         Task<List<ResponseMaintenanceTask>> GetListByInforId(Guid id);
+        Task<List<ResponseMaintenanceTask>> GetListStatusDifCancelledByInfor(Guid id);
         Task Remove(Guid id);
     }
 }

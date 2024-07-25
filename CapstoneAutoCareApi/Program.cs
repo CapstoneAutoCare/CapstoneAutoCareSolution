@@ -37,6 +37,7 @@ builder.Services.AddTransient<IAccountService, AccountServiceImp>();
 
 builder.Services.AddTransient<IAdminRepository, AdminRepositoryImp>();
 builder.Services.AddTransient<IAdminService, AdminServiceImp>();
+builder.Services.AddScoped<IEmailService, EmailServiceImp>();
 
 builder.Services.AddTransient<ICustomerService, CustomerServiceImp>();
 

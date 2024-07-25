@@ -16,9 +16,11 @@ namespace CapstoneAutoCareApi.Configuration
         {
             //var appConfiguration = configuration.GetSection("ConnectString").Get<AppConfiguration>();
             var jwt = configuration.GetSection("JWT").Get<JWToken>();
+            var email = configuration.GetSection("MailConfigurations").Get<SendEmail>();
 
             services.AddDJJWT(jwt.JWTSecretKey, jwt.Issuer, jwt.Audience);
             services.AddSingleton(jwt);
+            services.AddSingleton(email);
 
             //services.AddDJService(appConfiguration.DatabaseConnection);
             //services.AddSingleton(appConfiguration);

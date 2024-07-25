@@ -47,6 +47,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceSparePartInfoService.Create(maintenanceSparePartInfo));
         }
+        [HttpPatch]
+        public async Task<ActionResult<ResponseMaintenanceSparePartInfo>> PatchStatus(Guid id,string status)
+        {
+            return Ok(await _maintenanceSparePartInfoService.UpdateStatus(id,status));
+        }
 
     }
 }

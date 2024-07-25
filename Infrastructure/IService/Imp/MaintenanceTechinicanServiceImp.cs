@@ -127,6 +127,12 @@ namespace Infrastructure.IService.Imp
                 await _unitOfWork.MaintenanceTask.GetListByTech(account.Technician.TechnicianId));
         }
 
+        public async Task<List<ResponseMaintenanceTask>> GetListStatusDifCancelledByInfor(Guid id)
+        {
+            return _mapper.Map<List<ResponseMaintenanceTask>>(
+                await _unitOfWork.MaintenanceTask.GetListStatusDifCancelledByInfor(id));
+        }
+
         public async Task Remove(Guid id)
         {
             var t = await _unitOfWork.MaintenanceTask.GetById(id);
