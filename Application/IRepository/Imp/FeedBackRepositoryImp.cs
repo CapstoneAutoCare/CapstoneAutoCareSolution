@@ -35,5 +35,14 @@ namespace Application.IRepository.Imp
             }
             return feedback;
         }
+        public async Task<List<FeedBack>> GetListByCenter(Guid center)
+        {
+            return await _context.Set<FeedBack>()
+                            .Include(c => c.MaintenanceCenter)
+                            .Include(c => c.Receipt)
+                            //.OrderByDescending(p => p.Vote)
+                            .Where(c => c.MaintenanceCenterId == center)
+                            .ToListAsync();
+        }
     }
 }

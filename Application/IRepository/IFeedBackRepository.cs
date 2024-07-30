@@ -12,6 +12,6 @@ namespace Application.IRepository
     {
         Task<List<FeedBack>> GetAll();
         Task<FeedBack> GetById(Guid id);
-        
+        Task<List<FeedBack>> GetListByCenter(Guid center);
     }
 }
