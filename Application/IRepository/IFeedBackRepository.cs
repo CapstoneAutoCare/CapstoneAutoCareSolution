@@ -10,5 +10,8 @@ namespace Application.IRepository
 {
     public interface IFeedBackRepository: IGenericRepository<FeedBack>
     {
+        Task<List<FeedBack>> GetAll();
+        Task<FeedBack> GetById(Guid id);
+        
     }
 }

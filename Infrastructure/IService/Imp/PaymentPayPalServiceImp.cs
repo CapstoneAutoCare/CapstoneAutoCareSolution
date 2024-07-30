@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Payment;
 using Infrastructure.IUnitofWork;
 using Microsoft.AspNetCore.Http;
@@ -175,7 +176,7 @@ namespace Infrastructure.IService.Imp
 
             string receiptId = vnpOrderInfo.Substring(vnpOrderInfo.LastIndexOf(":") + 1);
             Guid receiptIdd = Guid.Parse(receiptId);
-            await _unitOfWork.ReceiptRepository.GetById(receiptIdd);
+            var r = await _unitOfWork.ReceiptRepository.GetById(receiptIdd);
 
 
             if (!checkSignature)
@@ -186,18 +187,32 @@ namespace Infrastructure.IService.Imp
                 };
             }
 
-            return new VnPaymentResponse
-            {
-                Success = true,
-                PaymentMethod = "VnPay",
-                OrderDescription = vnp_OrderInfo,
-                OrderId = vnp_orderId.ToString(),
-                TransactionId = vnp_TransactionId.ToString(),
-                Token = vnp_SecureHash,
-                VnPayResponseCode = vnp_ResponseCode,
-                ReceiptId = receiptIdd,
 
-            };
+            if (vnp_ResponseCode == "00" && r.Status.Equals(EnumStatus.YETPAID.ToString()))
+            {
+                r.Status = EnumStatus.PAID.ToString();
+                r.InformationMaintenance.Status = EnumStatus.PAID.ToString();
+                await _unitOfWork.InformationMaintenance.Update(r.InformationMaintenance);
+                await _unitOfWork.ReceiptRepository.Update(r);
+                await _unitOfWork.Commit();
+                return new VnPaymentResponse
+                {
+                    Success = true,
+                    PaymentMethod = "VnPay",
+                    OrderDescription = vnp_OrderInfo,
+                    OrderId = vnp_orderId.ToString(),
+                    TransactionId = vnp_TransactionId.ToString(),
+                    Token = vnp_SecureHash,
+                    VnPayResponseCode = vnp_ResponseCode,
+                    ReceiptId = receiptIdd,
+                };
+            }
+            else
+            {
+                throw new Exception("CHANGE STATUS NOT COMPLETE");
+            }
+           
+
         }
     }
 }

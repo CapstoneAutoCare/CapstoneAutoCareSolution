@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,27 @@ namespace Application.IRepository.Imp
     {
         public FeedBackRepositoryImp(AppDBContext context) : base(context)
         {
+        }
+
+        public async Task<List<FeedBack>> GetAll()
+        {
+            return await _context.Set<FeedBack>()
+                .Include(c => c.MaintenanceCenter)
+                .Include(c => c.Receipt).ThenInclude(c => c.InformationMaintenance)
+                .ToListAsync();
+        }
+
+        public async Task<FeedBack> GetById(Guid id)
+        {
+            var feedback = await _context.Set<FeedBack>()
+                .Include(c => c.MaintenanceCenter)
+                .Include(c => c.Receipt).ThenInclude(c => c.InformationMaintenance)
+                .FirstOrDefaultAsync(c => c.FeedBackId == id);
+            if (feedback == null)
+            {
+                throw new Exception("NOT FOUND");
+            }
+            return feedback;
         }
     }
 }

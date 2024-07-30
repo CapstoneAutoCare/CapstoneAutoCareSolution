@@ -30,10 +30,19 @@ namespace Infrastructure.IService.Imp
             odo.CreatedDate = DateTime.Now;
             odo.Status = EnumStatus.ACTIVE.ToString();
             await _unitOfWork.Vehicles.GetById(odo.VehiclesId);
-            await _unitOfWork.InformationMaintenance.GetById(odo.MaintenanceInformationId);
-            await _unitOfWork.OdoHistory.Add(odo);
-            await _unitOfWork.Commit();
-            return _mapper.Map<ResponseOdoHistory>(odo);
+            var i = await _unitOfWork.InformationMaintenance.GetById(odo.MaintenanceInformationId);
+            if (i.Status.Equals(EnumStatus.CHECKIN.ToString())
+                || i.Status.Equals(EnumStatus.REPAIRING.ToString()))
+            {
+                await _unitOfWork.OdoHistory.Add(odo);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseOdoHistory>(odo);
+            }
+            else
+            {
+                throw new Exception("CAN'T CREATE ODO WITH STATUS " + i.Status);
+            }
+
         }
 
         public async Task<List<ResponseOdoHistory>> GetAll()

@@ -6,6 +6,7 @@ using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.ReceiptRequest;
 using Infrastructure.Common.Request.RequestAccount;
 using Infrastructure.Common.Request.RequestBooking;
+using Infrastructure.Common.Request.RequestFb;
 using Infrastructure.Common.Request.RequestMaintenanceHistoryStatus;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Request.RequestMaintenanceServiceCost;
@@ -27,6 +28,7 @@ using Infrastructure.Common.Response.ResponseAdmin;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCost;
 using Infrastructure.Common.Response.ResponseCustomerCare;
+using Infrastructure.Common.Response.ResponseFb;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
 using Infrastructure.Common.Response.ResponseMainInformation;
 using Infrastructure.Common.Response.ResponseMaintenanceSchedule;
@@ -543,6 +545,15 @@ namespace Infrastructure.Common.Mapper
                  .ForMember(c => c.Image, act => act.MapFrom(c => c.MaintenanceSparePartInfo.SparePartsItemCost.SparePartsItem.Image))
                  .ForMember(c => c.Name, act => act.MapFrom(c => c.MaintenanceSparePartInfo.MaintenanceSparePartInfoName))
                  .ReverseMap();
+            #endregion
+
+            #region FeedBack
+            CreateMap<CreateFeedBack, FeedBack>()
+                .ReverseMap();
+            CreateMap<FeedBack, ResponseFeedback>()
+                .ForMember(c => c.ResponseReceipts, act => act.MapFrom(c => c.Receipt))
+                .ForMember(c => c.ResponseCenter, act => act.MapFrom(c => c.MaintenanceCenter))
+                .ReverseMap();
             #endregion
 
         }
