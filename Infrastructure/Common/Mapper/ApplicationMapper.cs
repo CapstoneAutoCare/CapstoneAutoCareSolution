@@ -549,6 +549,10 @@ namespace Infrastructure.Common.Mapper
 
             #region FeedBack
             CreateMap<CreateFeedBack, FeedBack>()
+                //.ForMember(c => c.ReceiptId, act => act.MapFrom(c => c.ReceiptId))
+                //.ForMember(c => c.MaintenanceCenterId, act => act.MapFrom(c => c.MaintenanceCenterId))
+                //.ForMember(c => c.Vote, act => act.MapFrom(c => c.Vote))
+                //.ForMember(c => c.Comment, act => act.MapFrom(c => c.Comment))
                 .ReverseMap();
             CreateMap<FeedBack, ResponseFeedback>()
                 .ForMember(c => c.ResponseReceipts, act => act.MapFrom(c => c.Receipt))

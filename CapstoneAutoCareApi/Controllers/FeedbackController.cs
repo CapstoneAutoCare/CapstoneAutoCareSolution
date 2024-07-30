@@ -1,6 +1,7 @@
-﻿using Infrastructure.Common.Request.MaintenanceSchedule;
+﻿using Domain.Entities;
+using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestFb;
-using Infrastructure.Common.Response.ReponseVehicleModel;
+using Infrastructure.Common.Response.ResponseFb;
 using Infrastructure.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace CapstoneAutoCareApi.Controllers
             _feedbackService = feedbackService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<ReponseVehicleModel>>> GetAll()
+        public async Task<ActionResult<IEnumerable<FeedBack>>> GetAll()
         {
             return Ok(await _feedbackService.GetAll());
         }
@@ -27,7 +28,7 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _feedbackService.GetById(id));
         }
         [HttpGet]
-        public async Task<ActionResult<List<ReponseVehicleModel>>> GetAllFeedBackByCentet()
+        public async Task<ActionResult<List<FeedBack>>> GetAllFeedBackByCenter()
         {
             return Ok(await _feedbackService.GetListByCenter());
         }

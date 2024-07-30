@@ -19,7 +19,8 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<FeedBack>()
                 .Include(c => c.MaintenanceCenter)
-                .Include(c => c.Receipt).ThenInclude(c => c.InformationMaintenance)
+                .Include(c => c.Receipt)
+                .ThenInclude(c => c.InformationMaintenance)
                 .ToListAsync();
         }
 
@@ -27,7 +28,8 @@ namespace Application.IRepository.Imp
         {
             var feedback = await _context.Set<FeedBack>()
                 .Include(c => c.MaintenanceCenter)
-                .Include(c => c.Receipt).ThenInclude(c => c.InformationMaintenance)
+                .Include(c => c.Receipt)
+                .ThenInclude(c => c.InformationMaintenance)
                 .FirstOrDefaultAsync(c => c.FeedBackId == id);
             if (feedback == null)
             {
