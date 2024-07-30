@@ -10,6 +10,7 @@ using Domain.Entities;
 using Infrastructure.Common.Response.ReceiptResponse;
 using Infrastructure.Common.Request.ReceiptRequest;
 using Infrastructure.IService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -40,6 +41,18 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<ResponseReceipts>> GetByInforId(Guid id)
         {
             return Ok(await _receiptsService.GetByInforId(id));
+        }
+        [HttpGet]
+        [Authorize(Roles = "CENTER")]
+        public async Task<ActionResult<ResponseReceipts>> GetListByTokenCenter()
+        {
+            return Ok(await _receiptsService.GetListByCenter());
+
+        }
+        [HttpGet]
+        public async Task<ActionResult<ResponseReceipts>> GetListByCenter(Guid centerId)
+        {
+            return Ok(await _receiptsService.GetListByCenter(centerId));
 
         }
         [HttpPost]

@@ -91,6 +91,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseReceipts>>(await _unitOfWork.ReceiptRepository.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId));
         }
 
+        public async Task<List<ResponseReceipts>> GetListByCenter(Guid id)
+        {
+            return _mapper.Map<List<ResponseReceipts>>(await _unitOfWork.ReceiptRepository.GetListByCenter(id));
+        }
+
         public async Task Remove(Guid id)
         {
             var r = await _unitOfWork.ReceiptRepository.GetById(id);

@@ -13,6 +13,7 @@ namespace Infrastructure.IService
     {
         Task<List<ResponseReceipts>> GetAll();
         Task<List<ResponseReceipts>> GetListByCenter();
+        Task<List<ResponseReceipts>> GetListByCenter(Guid id);
         Task<ResponseReceipts> GetById(Guid id);
         Task<ResponseReceipts> Create(CreateReceipt receipt);
         Task<ResponseReceipts> ChangeStatus(Guid id,string status);
