@@ -101,7 +101,7 @@ namespace Infrastructure.IService.Imp
                     }
                     sp.Status = EnumStatus.ACTIVE.ToString();
                     sp.CreatedDate = DateTime.Now;
-                    sp.Discount = 10;
+                    sp.Discount = 0;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100f);
                     sp.InformationMaintenanceId = mi.InformationMaintenanceId;
                     mi.TotalPrice += sp.TotalCost;
@@ -120,7 +120,7 @@ namespace Infrastructure.IService.Imp
                     }
                     msi.Status = EnumStatus.ACTIVE.ToString();
                     msi.CreatedDate = DateTime.Now;
-                    msi.Discount = 10;
+                    msi.Discount = 0;
                     msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount) / 100f);
                     msi.InformationMaintenanceId = mi.InformationMaintenanceId;
                     mi.TotalPrice += msi.TotalCost;

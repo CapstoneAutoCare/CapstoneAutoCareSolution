@@ -20,6 +20,9 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceInformation>()
                 .Include(c => c.Booking)
+                .ThenInclude(c=>c.Vehicles)
+                .ThenInclude(c=>c.VehicleModel)
+                .ThenInclude(c=>c.VehiclesBrand)
                 .Include(c => c.OdoHistory)
                 .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)
@@ -35,6 +38,9 @@ namespace Application.IRepository.Imp
         {
             var check = await _context.Set<MaintenanceInformation>()
                              .Include(c => c.Booking)
+                             .ThenInclude(c => c.Vehicles)
+                             .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                              .Include(c => c.OdoHistory)
                              .Include(c => c.CustomerCare)
                              .Include(c => c.MaintenanceSparePartInfos)
@@ -54,6 +60,9 @@ namespace Application.IRepository.Imp
         {
             var mainifor = await _context.Set<MaintenanceInformation>()
                 .Include(c => c.Booking)
+                .ThenInclude(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.OdoHistory)
                 .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)
@@ -73,6 +82,9 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceInformation>()
                             .Include(c => c.Booking)
+                .ThenInclude(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                             .Include(c => c.OdoHistory)
                             .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)
@@ -89,6 +101,9 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceInformation>()
                            .Include(c => c.Booking)
+                .ThenInclude(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                            .Include(c => c.OdoHistory)
                            .Include(c => c.CustomerCare)
                            .Include(c => c.MaintenanceSparePartInfos)
@@ -106,6 +121,9 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceInformation>()
                             .Include(c => c.Booking)
+                .ThenInclude(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                             .Include(c => c.OdoHistory)
                             .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)

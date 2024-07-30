@@ -29,7 +29,7 @@ namespace Infrastructure.IService.Imp
             var spi = _mapper.Map<MaintenanceSparePartInfo>(create);
             spi.Status = EnumStatus.ACTIVE.ToString();
             spi.CreatedDate = DateTime.Now;
-            spi.Discount = 10;
+            spi.Discount = 0;
             spi.TotalCost = (spi.ActualCost * spi.Quantity) * (1 - (spi.Discount) / 100f);
             var i = await _unitOfWork.InformationMaintenance.GetById(spi.InformationMaintenanceId);
             i.TotalPrice += spi.TotalCost;

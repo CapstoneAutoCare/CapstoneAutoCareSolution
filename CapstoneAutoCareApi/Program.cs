@@ -38,6 +38,7 @@ builder.Services.AddTransient<IAccountService, AccountServiceImp>();
 builder.Services.AddTransient<IAdminRepository, AdminRepositoryImp>();
 builder.Services.AddTransient<IAdminService, AdminServiceImp>();
 builder.Services.AddScoped<IEmailService, EmailServiceImp>();
+builder.Services.AddHttpClient<IPaymentPayPalService, PaymentPayPalServiceImp>();
 
 builder.Services.AddTransient<ICustomerService, CustomerServiceImp>();
 
@@ -157,6 +158,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();
+
 app.UseHttpsRedirection();
 app.MapControllers();
 

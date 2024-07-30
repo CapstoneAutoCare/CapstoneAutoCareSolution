@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
 using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
+using Infrastructure.Common.Response.VehiclesResponse;
 
 namespace Infrastructure.Common.Response.ResponseMainInformation
 {
@@ -23,6 +24,7 @@ namespace Infrastructure.Common.Response.ResponseMainInformation
         public List<ResponseMaintenanceServiceInfo> ResponseMaintenanceServiceInfos { get; set; }
         public List<ResponseMaintenanceSparePartInfo> ResponseMaintenanceSparePartInfos { get; set; }
         public List<ResponseMaintenanceHistoryStatus> ResponseMaintenanceHistoryStatuses { get; set; }
+        public ResponseVehicles ResponseVehicles { get; set; }
         
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CapstoneAutoCareApi.Middlewares;
 using Infrastructure.Common;
+using Infrastructure.Common.Payment;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -17,10 +18,14 @@ namespace CapstoneAutoCareApi.Configuration
             //var appConfiguration = configuration.GetSection("ConnectString").Get<AppConfiguration>();
             var jwt = configuration.GetSection("JWT").Get<JWToken>();
             var email = configuration.GetSection("MailConfigurations").Get<SendEmail>();
-
+            var paypal = configuration.GetSection("PayPal").Get<PaymentPayPall>();
+            var vnPay = configuration.GetSection("VnPay").Get<ConfiVnPay>();
+            services.AddScoped<VnPayLibrary>();
             services.AddDJJWT(jwt.JWTSecretKey, jwt.Issuer, jwt.Audience);
             services.AddSingleton(jwt);
             services.AddSingleton(email);
+            services.AddSingleton(paypal);
+            services.AddSingleton(vnPay);
 
             //services.AddDJService(appConfiguration.DatabaseConnection);
             //services.AddSingleton(appConfiguration);
@@ -29,6 +34,8 @@ namespace CapstoneAutoCareApi.Configuration
             services.AddSingleton<GlobalExceptionMiddleware>();
             services.AddSwaggerGen();
             services.AddHealthChecks();
+            services.AddControllersWithViews();
+
             services.AddSingleton<Stopwatch>();
             return services;
         }

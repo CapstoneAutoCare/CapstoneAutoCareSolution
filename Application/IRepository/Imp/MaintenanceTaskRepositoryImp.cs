@@ -53,7 +53,7 @@ namespace Application.IRepository.Imp
                  .FirstOrDefaultAsync(c => c.InformationMaintenanceId.Equals(id) && c.Status.Equals(status));
             if(i == null)
             {
-                throw new Exception("Null Status Task");
+                throw new Exception("Null Status Task || NOT DONE");
             }
             return i;
         }

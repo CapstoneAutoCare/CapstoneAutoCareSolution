@@ -79,11 +79,15 @@ namespace Infrastructure.IService.Imp
                 //}
                 //mi.Status = STATUSENUM.STATUSMI.REPAIRING.ToString();
                 //await _unitOfWork.InformationMaintenance.Update(mi);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseMaintenanceTask>(tech);
 
             }
+            else
+            {
+                throw new Exception("Can't Create Assign Task in"+ mi.InformationMaintenanceId);
+            }
 
-            await _unitOfWork.Commit();
-            return _mapper.Map<ResponseMaintenanceTask>(tech);
         }
 
         public async Task<List<ResponseMaintenanceTask>> GetAll()
@@ -159,9 +163,16 @@ namespace Infrastructure.IService.Imp
                     mi.Status = EnumStatus.REPAIRING.ToString();
                     await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
                     await _unitOfWork.InformationMaintenance.Update(mi);
+                    await _unitOfWork.MaintenanceTask.Update(t);
+                    await _unitOfWork.Commit();
+                    return _mapper.Map<ResponseMaintenanceTask>(t);
+                }
+                else
+                {
+                    throw new Exception("History Status existed Status: " + maintenanceHistoryStatus.Status + " Can't Change Status Task :" +status);
                 }
             }
-            if (t.Status.Equals(EnumStatus.ACTIVE.ToString())
+            else if (t.Status.Equals(EnumStatus.ACTIVE.ToString())
                 && status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
             {
                 t.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
@@ -178,10 +189,14 @@ namespace Infrastructure.IService.Imp
                     i.Status = EnumStatus.INACTIVE.ToString();
                     await _unitOfWork.MaintenanceTaskSparePartInfo.Update(i);
                 }
+                await _unitOfWork.MaintenanceTask.Update(t);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseMaintenanceTask>(t);
             }
-            if (t.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString())
+            else if (t.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString())
                 && status.Equals(STATUSENUM.STATUSMI.DONE.ToString()))
             {
+                t.Status = STATUSENUM.STATUSMI.DONE.ToString();
                 t.Status = STATUSENUM.STATUSMI.DONE.ToString();
                 MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
                 maintenanceHistoryStatus.Status = EnumStatus.PAYMENT.ToString();
@@ -196,11 +211,22 @@ namespace Infrastructure.IService.Imp
                     mi.Status = EnumStatus.PAYMENT.ToString();
                     await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
                     await _unitOfWork.InformationMaintenance.Update(mi);
+                    await _unitOfWork.MaintenanceTask.Update(t);
+                    await _unitOfWork.Commit();
+                    return _mapper.Map<ResponseMaintenanceTask>(t);
+                }
+                else
+                {
+                    throw new Exception("History Status existed Status: " + maintenanceHistoryStatus.Status + " Can't Change Status Task :" + status);
+
                 }
             }
-            await _unitOfWork.MaintenanceTask.Update(t);
-            await _unitOfWork.Commit();
-            return _mapper.Map<ResponseMaintenanceTask>(t);
+            else
+            {
+                throw new Exception("Can't Change Status " + status + " Status has  ACCEPTED , DONE, CANCELLED");
+
+            }
+
 
         }
     }

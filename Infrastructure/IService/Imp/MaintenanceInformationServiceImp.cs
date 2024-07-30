@@ -97,7 +97,7 @@ namespace Infrastructure.IService.Imp
                     }
                     sp.Status = EnumStatus.ACTIVE.ToString();
                     sp.CreatedDate = DateTime.Now;
-                    sp.Discount = 10;
+                    sp.Discount = 0;
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount / 100));
                     sp.InformationMaintenanceId = maintenanceId;
                     await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
@@ -123,7 +123,7 @@ namespace Infrastructure.IService.Imp
                     }
                     msi.Status = EnumStatus.ACTIVE.ToString();
                     msi.CreatedDate = DateTime.Now;
-                    msi.Discount = 10;
+                    msi.Discount = 0;
                     msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount / 100));
                     msi.InformationMaintenanceId = maintenanceId;
                     await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);

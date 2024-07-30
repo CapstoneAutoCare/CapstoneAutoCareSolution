@@ -38,10 +38,15 @@ namespace Infrastructure.IService.Imp
                 i.Status = status;
                 await _unitOfWork.InformationMaintenance.Update(i);
                 await _unitOfWork.ReceiptRepository.Update(r);
-            };
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseReceipts>(r);
+            }
+            else
+            {
+                throw new Exception("Can't Change Status " + status + " Status has  PAID");
 
-            await _unitOfWork.Commit();
-            return _mapper.Map<ResponseReceipts>(r);
+            }
+
         }
 
         public async Task<ResponseReceipts> Create(CreateReceipt receipt)

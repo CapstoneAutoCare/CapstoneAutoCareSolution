@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestMaintenanceServiceInfo;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
+using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -44,6 +45,15 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceServiceInfoService.Create(maintenanceServiceInfo));
 
         }
-
+        [HttpPatch]
+        public async Task<ActionResult<ResponseMaintenanceServiceInfo>> PatchStatus(Guid id, string status)
+        {
+            return Ok(await _maintenanceServiceInfoService.UpdateStatus(id, status));
+        }
+        [HttpPatch]
+        public async Task<ActionResult<ResponseMaintenanceServiceInfo>> PutItem(Guid id, UpdateMaintenanceServiceInfoHaveItems item)
+        {
+            return Ok(await _maintenanceServiceInfoService.Update(id, item));
+        }
     }
 }
