@@ -129,8 +129,8 @@ builder.Services.AddTransient<IReceiptsService, ReceiptsServiceImp>();
 builder.Services.AddTransient<IMaintenanceTaskServiceInfoRepository, MaintenanceTaskServiceInfoRepositoryImp>();
 builder.Services.AddTransient<IMaintenanceTaskSparePartInfoRepository, MaintenanceTaskSparePartInfoRepositoryImp>();
 //Feedback
-builder.Services.AddTransient<IFeedBackRepository, FeedBackRepositoryImp>();
-builder.Services.AddTransient<IFeedBackService, FeedbackServiceImp>();
+//builder.Services.AddTransient<IFeedBackRepository, FeedBackRepositoryImp>();
+//builder.Services.AddTransient<IFeedBackService, FeedbackServiceImp>();
 
 //builder.Services.AddTransient<IReceiptRepository, ReceiptRepositoryImp>();
 //builder.Services.AddTransient<IReceiptsService, ReceiptsServiceImp>();

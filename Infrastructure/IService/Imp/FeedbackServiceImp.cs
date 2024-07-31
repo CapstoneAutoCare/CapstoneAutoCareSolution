@@ -21,7 +21,6 @@ namespace Infrastructure.IService.Imp
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokensHandler;
-
         public FeedbackServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler)
         {
             _unitOfWork = unitOfWork;
@@ -50,12 +49,16 @@ namespace Infrastructure.IService.Imp
 
         public async Task<List<ResponseFeedback>> GetAll()
         {
-            return _mapper.Map<List<ResponseFeedback>>(await _unitOfWork.FeedBack.GetAll());
+            var fb = await _unitOfWork.FeedBack.GetAll();
+            return _mapper.Map<List<ResponseFeedback>>(fb);
         }
 
         public async Task<ResponseFeedback> GetById(Guid id)
         {
-            return _mapper.Map<ResponseFeedback>(await _unitOfWork.FeedBack.GetById(id));
+            var fb = await _unitOfWork.FeedBack.GetById(id);
+            await _unitOfWork.MaintenanceCenter.GetById(fb.MaintenanceCenterId);
+            await _unitOfWork.ReceiptRepository.GetById(fb.ReceiptId);
+            return _mapper.Map<ResponseFeedback>(fb);
         }
 
         public async Task<List<ResponseFeedback>> GetListByCenter()
@@ -73,10 +76,13 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Commit();
         }
 
-        public async Task<ResponseFeedback> Update(Guid id, string update)
+        public async Task<ResponseFeedback> Update(Guid id, UpdateFeedback update)
         {
             var item = await _unitOfWork.FeedBack.GetById(id);
-            item.Comment = update;
+
+            item.Vote = update.vote;
+            item.Comment = update.comment;
+
             await _unitOfWork.FeedBack.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseFeedback>(item);
