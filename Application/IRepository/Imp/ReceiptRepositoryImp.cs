@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,11 @@ namespace Application.IRepository.Imp
 
         public async Task<Receipt> GetById(Guid id)
         {
-            var r=  await _context.Set<Receipt>()
+            var r = await _context.Set<Receipt>()
                 .Include(c => c.InformationMaintenance)
-                .Include(c=>c.FeedBack)
+                .Include(c => c.FeedBack)
                 .FirstOrDefaultAsync(c => c.ReceiptId == id);
-            if(r == null)
+            if (r == null)
             {
                 throw new Exception("Not found");
             }
@@ -35,7 +36,7 @@ namespace Application.IRepository.Imp
 
         public async Task<Receipt> GetByInfor(Guid id)
         {
-            var r= await _context.Set<Receipt>()
+            var r = await _context.Set<Receipt>()
                .Include(c => c.InformationMaintenance)
                .Include(c => c.FeedBack)
                .FirstOrDefaultAsync(c => c.InformationMaintenanceId == id);
@@ -51,6 +52,18 @@ namespace Application.IRepository.Imp
             return await _context.Set<Receipt>()
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.InformationMaintenance.Booking.MaintenanceCenterId == id).ToListAsync();
+        }
+
+        public async Task<(List<Receipt> Costs, float TotalCost, int Count)> TotalGetListByStatusPaidCenter(Guid centerId)
+        {
+            var receipt = await _context.Set<Receipt>()
+                 .Include(c => c.InformationMaintenance)
+                 .Where(c => c.InformationMaintenance.Booking.MaintenanceCenterId == centerId && c.Status.Equals(EnumStatus.PAID.ToString())).ToListAsync();
+
+            var totalCost = receipt.Sum(c => c.TotalAmount);
+            int count = receipt.Count;
+
+            return (receipt, totalCost, count);
         }
     }
 }

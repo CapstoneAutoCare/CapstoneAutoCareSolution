@@ -14,6 +14,7 @@ namespace Application.IRepository
         Task<List<MaintenanceInformation>> GetAll();
         Task<List<MaintenanceInformation>> GetListByClient(Guid id);
         Task<List<MaintenanceInformation>> GetListByCenter(Guid id);
+        Task<(List<MaintenanceInformation> Costs, float TotalCost, int Count)> TotalGetListByCenter(Guid id);
         Task<List<MaintenanceInformation>> GetListByCenterAndStatus(Guid id, string status);
         Task<List<MaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
 

@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,5 +99,25 @@ namespace Application.IRepository.Imp
             return groupedResult;
         }
 
+        public async Task<(List<SparePartsItemCost> Costs, float TotalCost, int Count)> TotalGetListByStatusAndCostStatus(string status, string cost, Guid id)
+        {
+            var query = _context.Set<SparePartsItemCost>()
+                                .Include(c => c.SparePartsItem)
+                                .Include(c => c.MaintenanceSparePartInfos)
+                                .OrderByDescending(c => c.DateTime)
+                                .Where(c => c.SparePartsItem.MaintenanceCenterId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
+
+            var groupedResult = await query
+                                      .GroupBy(c => c.SparePartsItemId)
+                                      .Select(g => g.OrderByDescending(c => c.DateTime)
+                                                    .FirstOrDefault())
+                                      .ToListAsync();
+
+
+            var totalCost = groupedResult.Sum(c => c.ActuralCost);
+            int count = groupedResult.Count;
+
+            return (groupedResult, totalCost, count);
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.DashBoard;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.IUnitofWork;
 using Infrastructure.IUnitofWork.Imp;
@@ -45,6 +47,46 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseCenter> GetById(Guid id)
         {
             return _mapper.Map<ResponseCenter>(await _unitOfWork.MaintenanceCenter.GetById(id));
+        }
+
+        public async Task<TotalCountAndPrice> TotalGetListByMainInfor(Guid centerId)
+        {
+            var center = await _unitOfWork.InformationMaintenance.TotalGetListByCenter(centerId);
+            return new TotalCountAndPrice
+            {
+                Count = center.Count,
+                Price = center.TotalCost,
+            };
+        }
+
+        public async Task<TotalCountAndPrice> TotalGetListByStatusAndStatusCostService(Guid centerId)
+        {
+            var center = await _unitOfWork.MaintenanceServiceCost.TotalGetListByStatusAndStatusCost(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), centerId);
+            return new TotalCountAndPrice
+            {
+                Count = center.Count,
+                Price = center.TotalCost,
+            };
+        }
+
+        public async Task<TotalCountAndPrice> TotalGetListByStatusAndStatusCostSpartPart(Guid centerId)
+        {
+            var center = await _unitOfWork.SparePartsItemCost.TotalGetListByStatusAndCostStatus(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), centerId);
+            return new TotalCountAndPrice
+            {
+                Count = center.Count,
+                Price = center.TotalCost,
+            };
+        }
+
+        public async Task<TotalCountAndPrice> TotalGetListByStatusPaidReceipt(Guid centerId)
+        {
+            var center = await _unitOfWork.ReceiptRepository.TotalGetListByStatusPaidCenter(centerId);
+            return new TotalCountAndPrice
+            {
+                Count = center.Count,
+                Price = center.TotalCost,
+            };
         }
 
         public async Task<ResponseCenter> Update(Guid id, UpdateCenter center)

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.RequestAccount;
+using Infrastructure.Common.Response.DashBoard;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseStaffCare;
 using System;
@@ -15,5 +16,10 @@ namespace Infrastructure.IService
         Task<List<ResponseCenter>> GetAll();
         Task<ResponseCenter> GetById(Guid id);
         Task<ResponseCenter> Update(Guid id, UpdateCenter center);
+        Task<TotalCountAndPrice> TotalGetListByStatusAndStatusCostService(Guid centerId);
+        Task<TotalCountAndPrice> TotalGetListByStatusAndStatusCostSpartPart(Guid centerId);
+        Task<TotalCountAndPrice> TotalGetListByStatusPaidReceipt(Guid centerId);
+        Task<TotalCountAndPrice> TotalGetListByMainInfor(Guid centerId);
+        
     }
 }

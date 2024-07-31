@@ -77,5 +77,24 @@ namespace Application.IRepository.Imp
             return groupedResult;
         }
 
+        public async Task<(List<MaintenanceServiceCost> Costs, float TotalCost, int Count)> TotalGetListByStatusAndStatusCost(string status, string coststatus, Guid centerId)
+        {
+            var query = _context.Set<MaintenanceServiceCost>()
+                                .Include(c => c.MaintenanceService)
+                                .Include(c => c.MaintenanceServiceInfos)
+                                .Where(c => c.MaintenanceService.MaintenanceCenterId == centerId && c.Status.Equals(coststatus) && c.MaintenanceService.Status.Equals(status));
+
+            var groupedResult = await query
+                                      .GroupBy(c => c.MaintenanceServiceId)
+                                      .Select(g => g.OrderByDescending(c => c.DateTime)
+                                                    .FirstOrDefault())
+                                      .ToListAsync();
+
+            var totalCost = groupedResult.Sum(c => c.ActuralCost);
+            int count = groupedResult.Count;
+
+            return (groupedResult, totalCost, count);
+        }
+
     }
 }

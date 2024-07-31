@@ -13,6 +13,7 @@ namespace Application.IRepository
         Task<List<SparePartsItemCost>> GetAll();
         Task<SparePartsItemCost> GetById(Guid? id);
         Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost, Guid id);
+        Task<(List<SparePartsItemCost> Costs, float TotalCost, int Count)> TotalGetListByStatusAndCostStatus(string status, string cost, Guid id);
         Task<SparePartsItemCost> GetByIdSparePartActive(string status, string cost, Guid id);
         Task<List<SparePartsItemCost>> GetListByDifSparePartAndInforId(string status, string cost, Guid centerId, Guid informationId);
 

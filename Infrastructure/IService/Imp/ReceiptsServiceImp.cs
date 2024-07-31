@@ -61,7 +61,7 @@ namespace Infrastructure.IService.Imp
             //r.SubTotal = 0;
             r.VAT = 10;
             r.SubTotal = i.TotalPrice;
-            r.TotalAmount = (r.SubTotal * (1 + (r.VAT / 100f)));
+            r.TotalAmount = (float)Math.Round(r.SubTotal * (1 + (r.VAT / 100f)), 0, MidpointRounding.AwayFromZero); 
             r.Status = EnumStatus.YETPAID.ToString();
             await _unitOfWork.ReceiptRepository.Add(r);
             await _unitOfWork.Commit();

@@ -20,9 +20,9 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<MaintenanceInformation>()
                 .Include(c => c.Booking)
-                .ThenInclude(c=>c.Vehicles)
-                .ThenInclude(c=>c.VehicleModel)
-                .ThenInclude(c=>c.VehiclesBrand)
+                .ThenInclude(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.OdoHistory)
                 .Include(c => c.CustomerCare)
                 .Include(c => c.MaintenanceSparePartInfos)
@@ -148,6 +148,16 @@ namespace Application.IRepository.Imp
             return result;
         }
 
-        
+        public async Task<(List<MaintenanceInformation> Costs, float TotalCost, int Count)> TotalGetListByCenter(Guid id)
+        {
+            var i = await _context.Set<MaintenanceInformation>()
+                .Where(c => c.Booking.MaintenanceCenterId == id)
+                .OrderByDescending(c => c.CreatedDate)
+                .ToListAsync();
+            var totalCost = i.Sum(c => c.TotalPrice);
+            int count = i.Count;
+
+            return (i, totalCost, count);
+        }
     }
 }

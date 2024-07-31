@@ -138,7 +138,7 @@ namespace Infrastructure.IService.Imp
             _vnPayLibrary.AddRequestData("vnp_Version", _confiVnPay.Version);
             _vnPayLibrary.AddRequestData("vnp_Command", _confiVnPay.Command);
             _vnPayLibrary.AddRequestData("vnp_TmnCode", _confiVnPay.TmnCode);
-            _vnPayLibrary.AddRequestData("vnp_Amount", (r.TotalAmount * 100000).ToString());
+            _vnPayLibrary.AddRequestData("vnp_Amount", (r.TotalAmount * 100).ToString());
 
             _vnPayLibrary.AddRequestData("vnp_CreateDate", model.CreatedDate.ToString("yyyyMMddHHmmss"));
             _vnPayLibrary.AddRequestData("vnp_CurrCode", _confiVnPay.CurrCode);
@@ -158,32 +158,28 @@ namespace Infrastructure.IService.Imp
             return paymentUrl;
         }
 
-        public async Task<VnPaymentResponse> PaymentExecute(PaymentExecuteRequest url)
+        public async Task<VnPaymentResponse> PaymentExecute(IQueryCollection queryParameters)
         {
-            var queryParameters = _vnPayLibrary.GetQueryParameters(url.Uri);
-
-            foreach (string key in queryParameters.AllKeys)
+            foreach (var (key, value) in queryParameters)
             {
                 if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
                 {
-                    _vnPayLibrary.AddResponseData(key, queryParameters[key]);
+                    _vnPayLibrary.AddResponseData(key, value.ToString());
                 }
             }
 
             var vnp_orderId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TxnRef"));
             var vnp_TransactionId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TransactionNo"));
-            var vnp_SecureHash = queryParameters["vnp_SecureHash"];
+            var vnp_SecureHash = _vnPayLibrary.GetResponseData("vnp_SecureHash");
             var vnp_ResponseCode = _vnPayLibrary.GetResponseData("vnp_ResponseCode");
             var vnp_OrderInfo = _vnPayLibrary.GetResponseData("vnp_OrderInfo");
 
             bool checkSignature = _vnPayLibrary.ValidateSignature(vnp_SecureHash, _confiVnPay.HashSecret);
 
             string vnpOrderInfo = queryParameters["vnp_OrderInfo"];
-
             string receiptId = vnpOrderInfo.Substring(vnpOrderInfo.LastIndexOf(":") + 1);
             Guid receiptIdd = Guid.Parse(receiptId);
-            var r = await _unitOfWork.ReceiptRepository.GetById(receiptIdd);
-
+            var receipt = await _unitOfWork.ReceiptRepository.GetById(receiptIdd);
 
             if (!checkSignature)
             {
@@ -193,14 +189,14 @@ namespace Infrastructure.IService.Imp
                 };
             }
 
-
-            if (vnp_ResponseCode == "00" && r.Status.Equals(EnumStatus.YETPAID.ToString()))
+            if (vnp_ResponseCode == "00" && receipt.Status.Equals(EnumStatus.YETPAID.ToString()))
             {
-                r.Status = EnumStatus.PAID.ToString();
-                r.InformationMaintenance.Status = EnumStatus.PAID.ToString();
-                await _unitOfWork.InformationMaintenance.Update(r.InformationMaintenance);
-                await _unitOfWork.ReceiptRepository.Update(r);
+                receipt.Status = EnumStatus.PAID.ToString();
+                receipt.InformationMaintenance.Status = EnumStatus.PAID.ToString();
+                await _unitOfWork.InformationMaintenance.Update(receipt.InformationMaintenance);
+                await _unitOfWork.ReceiptRepository.Update(receipt);
                 await _unitOfWork.Commit();
+
                 return new VnPaymentResponse
                 {
                     Success = true,
@@ -217,8 +213,7 @@ namespace Infrastructure.IService.Imp
             {
                 throw new Exception("CHANGE STATUS NOT COMPLETE");
             }
-
-
         }
+
     }
 }

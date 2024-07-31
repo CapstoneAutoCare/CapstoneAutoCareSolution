@@ -40,10 +40,10 @@ namespace CapstoneAutoCareApi.Controllers
             var response = await _payPalService.CreatePaymentUrl(HttpContext, vn);
             return Ok(response);
         }
-        [HttpPost]
-        public async Task<ActionResult<string>> PaymentExecute(PaymentExecuteRequest uri)
+        [HttpGet]
+        public async Task<ActionResult<string>> PaymentExecute()
         {
-            var response = await _payPalService.PaymentExecute(uri);
+            var response = await _payPalService.PaymentExecute(Request.Query);
             return Ok(response);
         }
         public class CreateOrderRequest
