@@ -77,7 +77,7 @@ namespace Infrastructure.IService.Imp
             mi.CreatedDate = DateTime.Now;
             mi.InformationMaintenanceName = "Client created Booking and Maintenance Infor";
             mi.Note = check.Note;
-            mi.Status =EnumStatus.CREATEDBYClIENT.ToString();
+            mi.Status = EnumStatus.CREATEDBYClIENT.ToString();
             await _unitOfWork.InformationMaintenance.Add(mi);
             MaintenanceHistoryStatus historyStatus = new MaintenanceHistoryStatus
             {
@@ -171,35 +171,59 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseBooking> UpdateStatus(Guid bookingId, string status)
         {
             var booking = await _unitOfWork.Booking.GetById(bookingId);
-            booking.Status = status.ToString();
-            await _unitOfWork.Booking.Update(booking);
+            
             var account = await _unitOfWork.Account.GetByClientId(booking.ClientId);
             var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
-            if (checkInfor != null)
+            if (booking.Status.Equals("WAITING") && status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()))
             {
-                if (booking.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()))
+                booking.Status = status;
+                await _unitOfWork.Booking.Update(booking);
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.WAITINGBYCAR.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.WAITINGBYCAR.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = checkInfor.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
                 {
-                    MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
-                    maintenanceHistoryStatus.Status = EnumStatus.WAITINGBYCAR.ToString();
-                    maintenanceHistoryStatus.DateTime = DateTime.Now;
-                    maintenanceHistoryStatus.Note = EnumStatus.WAITINGBYCAR.ToString();
-                    maintenanceHistoryStatus.MaintenanceInformationId = checkInfor.InformationMaintenanceId;
-                    var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
-                          .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
-                    if (checkStatus == null)
-                    {
-                        await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
 
-                    }
-                    checkInfor.Status = EnumStatus.WAITINGBYCAR.ToString();
-                    await _unitOfWork.InformationMaintenance.Update(checkInfor);
-                    await _emailService.SendMail("duypdxse161418@fpt.edu.vn", maintenanceHistoryStatus.Status, "Booking");
                 }
-                
+                checkInfor.Status = EnumStatus.WAITINGBYCAR.ToString();
+                await _unitOfWork.InformationMaintenance.Update(checkInfor);
+                await _emailService.SendMail("duypdxse161418@fpt.edu.vn", maintenanceHistoryStatus.Status, "Booking");
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseBooking>(booking);
+            }
+            else if(booking.Status.Equals("WAITING") && status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
+            {
+                booking.Status = status;
+                await _unitOfWork.Booking.Update(booking);
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = checkInfor.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
+                {
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+
+                }
+                checkInfor.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                await _unitOfWork.InformationMaintenance.Update(checkInfor);
+                await _emailService.SendMail("duypdxse161418@fpt.edu.vn", maintenanceHistoryStatus.Status, "Booking");
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseBooking>(booking);
+            }
+            else
+            {
+                throw new Exception("Booking Status existed Status: " + booking.Status + " Can't Change Status  :" + status);
             }
 
-            await _unitOfWork.Commit();
-            return _mapper.Map<ResponseBooking>(booking);
+
         }
 
         public async Task<ResponseBooking> UpdateStatusBackup(Guid bookingId, string status)
@@ -226,6 +250,10 @@ namespace Infrastructure.IService.Imp
                 await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
             }
             return booking;
+        }
+        public class PaymentExecuteRequest
+        {
+            public string Uri { get; set; }
         }
     }
 }

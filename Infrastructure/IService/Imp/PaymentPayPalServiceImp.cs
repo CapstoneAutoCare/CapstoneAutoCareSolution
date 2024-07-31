@@ -14,6 +14,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 using static Infrastructure.Common.Payment.PayPalSeal;
+using static Infrastructure.IService.Imp.BookingServiceImp;
 
 namespace Infrastructure.IService.Imp
 {
@@ -24,14 +25,16 @@ namespace Infrastructure.IService.Imp
         private readonly ConfiVnPay _confiVnPay;
         private readonly VnPayLibrary _vnPayLibrary;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PaymentPayPalServiceImp(PaymentPayPall paymentPayPall, HttpClient httpClient, ConfiVnPay confiVnPay, VnPayLibrary vnPayLibrary, IUnitOfWork unitOfWork)
+        public PaymentPayPalServiceImp(PaymentPayPall paymentPayPall, HttpClient httpClient, ConfiVnPay confiVnPay, VnPayLibrary vnPayLibrary, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
             _paymentPayPall = paymentPayPall;
             _httpClient = httpClient;
             _confiVnPay = confiVnPay;
             _vnPayLibrary = vnPayLibrary;
             _unitOfWork = unitOfWork;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public string BaseUrl => _paymentPayPall.Model == "Live"
@@ -127,24 +130,27 @@ namespace Infrastructure.IService.Imp
             return response ?? throw new Exception("Failed to deserialize create order response");
         }
 
-        public async Task<string> CreatePaymentUrl(HttpContext context, VnPaymentRequest model)
+        public async Task<string> CreatePaymentUrl(HttpContext httpContext, VnPaymentRequest model)
         {
             var tick = DateTime.Now.Ticks.ToString();
+            var r = await _unitOfWork.ReceiptRepository.GetById(model.ReceiptId);
 
             _vnPayLibrary.AddRequestData("vnp_Version", _confiVnPay.Version);
             _vnPayLibrary.AddRequestData("vnp_Command", _confiVnPay.Command);
             _vnPayLibrary.AddRequestData("vnp_TmnCode", _confiVnPay.TmnCode);
-            _vnPayLibrary.AddRequestData("vnp_Amount", (model.Amount * 100).ToString());
+            _vnPayLibrary.AddRequestData("vnp_Amount", (r.TotalAmount * 100000).ToString());
 
             _vnPayLibrary.AddRequestData("vnp_CreateDate", model.CreatedDate.ToString("yyyyMMddHHmmss"));
             _vnPayLibrary.AddRequestData("vnp_CurrCode", _confiVnPay.CurrCode);
-            _vnPayLibrary.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(context));
+            _vnPayLibrary.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(httpContext));
             _vnPayLibrary.AddRequestData("vnp_Locale", _confiVnPay.Locale);
-            await _unitOfWork.ReceiptRepository.GetById(model.ReceiptId);
 
             _vnPayLibrary.AddRequestData("vnp_OrderInfo", "Thanh toán cho đơn hàng:" + model.ReceiptId);
             _vnPayLibrary.AddRequestData("vnp_OrderType", "other");
-            _vnPayLibrary.AddRequestData("vnp_ReturnUrl", _confiVnPay.PaymentBackReturnUrl);
+
+            string baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.PathBase}";
+            string returnUrl = $"{baseUrl}/api/Payments/PaymentExecute/";
+            _vnPayLibrary.AddRequestData("vnp_ReturnUrl", returnUrl);
 
             _vnPayLibrary.AddRequestData("vnp_TxnRef", tick);
 
@@ -152,9 +158,9 @@ namespace Infrastructure.IService.Imp
             return paymentUrl;
         }
 
-        public async Task<VnPaymentResponse> PaymentExecute(string url)
+        public async Task<VnPaymentResponse> PaymentExecute(PaymentExecuteRequest url)
         {
-            var queryParameters = _vnPayLibrary.GetQueryParameters(url);
+            var queryParameters = _vnPayLibrary.GetQueryParameters(url.Uri);
 
             foreach (string key in queryParameters.AllKeys)
             {
@@ -211,7 +217,7 @@ namespace Infrastructure.IService.Imp
             {
                 throw new Exception("CHANGE STATUS NOT COMPLETE");
             }
-           
+
 
         }
     }

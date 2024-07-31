@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Infrastructure.Common.Payment.PayPalSeal;
+using static Infrastructure.IService.Imp.BookingServiceImp;
 
 namespace Infrastructure.IService
 {
@@ -14,8 +15,8 @@ namespace Infrastructure.IService
         Task<CreateOrderResponse> CreateOrder(string value, string currency, Guid reference);
         Task<CaptureOrderResponse> CaptureOrder(string orderId);
 
-        Task<string> CreatePaymentUrl(HttpContext context, VnPaymentRequest model);
-        Task<VnPaymentResponse> PaymentExecute(string url);
+        Task<string> CreatePaymentUrl(HttpContext httpContext, VnPaymentRequest model);
+        Task<VnPaymentResponse> PaymentExecute(PaymentExecuteRequest url);
 
 
     }

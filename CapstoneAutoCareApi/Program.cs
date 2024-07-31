@@ -38,7 +38,7 @@ builder.Services.AddTransient<IAccountService, AccountServiceImp>();
 builder.Services.AddTransient<IAdminRepository, AdminRepositoryImp>();
 builder.Services.AddTransient<IAdminService, AdminServiceImp>();
 builder.Services.AddScoped<IEmailService, EmailServiceImp>();
-builder.Services.AddHttpClient<IPaymentPayPalService, PaymentPayPalServiceImp>();
+builder.Services.AddScoped<IPaymentPayPalService, PaymentPayPalServiceImp>();
 
 builder.Services.AddTransient<ICustomerService, CustomerServiceImp>();
 
@@ -143,6 +143,7 @@ builder.Services.AddCors(c => c
             .AllowAnyMethod()
             .AllowAnyOrigin()));
 builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

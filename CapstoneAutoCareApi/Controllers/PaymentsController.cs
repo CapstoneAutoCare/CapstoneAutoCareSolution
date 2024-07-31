@@ -5,7 +5,9 @@ using Infrastructure.Common.Response.ResponseCost;
 using Infrastructure.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 using static Infrastructure.Common.Payment.PayPalSeal;
+using static Infrastructure.IService.Imp.BookingServiceImp;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -19,6 +21,7 @@ namespace CapstoneAutoCareApi.Controllers
         {
             _payPalService = payPalService;
         }
+
         [HttpPost]
         public async Task<ActionResult<CreateOrderResponse>> Post(CreateOrderRequest create)
         {
@@ -38,7 +41,7 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(response);
         }
         [HttpPost]
-        public async Task<ActionResult<string>> PaymentExecute(string uri)
+        public async Task<ActionResult<string>> PaymentExecute(PaymentExecuteRequest uri)
         {
             var response = await _payPalService.PaymentExecute(uri);
             return Ok(response);
