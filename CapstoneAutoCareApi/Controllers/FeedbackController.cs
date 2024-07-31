@@ -23,24 +23,30 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _feedbackService.GetAll());
         }
         [HttpGet]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<ActionResult<FeedBack>> GetById(Guid id)
         {
             return Ok(await _feedbackService.GetById(id));
         }
         [HttpGet]
-        public async Task<ActionResult<List<FeedBack>>> GetAllFeedBackByCenter()
+        public async Task<ActionResult<List<ResponseFeedback>>> GetAllFeedBackByCenter()
         {
             return Ok(await _feedbackService.GetListByCenter());
         }
         [HttpPost]
-        public async Task<IActionResult> Post(CreateFeedBack createFb)
+        public async Task<ActionResult<FeedBack>> Post(CreateFeedBack createFb)
         {
             return Ok(await _feedbackService.Create(createFb));
         }
         [HttpPut]
-        public async Task<IActionResult> Update(Guid id, [FromBody] string update)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateFeedback update)
         {
             return Ok(await _feedbackService.Update(id, update));
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            await _feedbackService.Remove(id);
+            return Ok("Sucess");
         }
     }
 }

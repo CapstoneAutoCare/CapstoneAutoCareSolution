@@ -43,6 +43,7 @@ namespace Application.IRepository.Imp
                             .Include(c => c.MaintenanceCenter)
                             .Include(c => c.Receipt)
                             //.OrderByDescending(p => p.Vote)
+                            .ThenInclude(c => c.InformationMaintenance)
                             .Where(c => c.MaintenanceCenterId == center)
                             .ToListAsync();
         }
