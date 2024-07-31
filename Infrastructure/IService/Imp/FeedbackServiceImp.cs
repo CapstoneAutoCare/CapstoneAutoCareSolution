@@ -31,18 +31,26 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseFeedback> Create(CreateFeedBack create)
         {
             var feedback = _mapper.Map<FeedBack>(create);
-            var reciept = _unitOfWork.ReceiptRepository.GetById(create.ReceiptId);
-            if (!reciept.IsCompleted) throw new Exception("You need complete payment to give feedback");
-            await _unitOfWork.MaintenanceCenter.GetById(feedback.MaintenanceCenterId);
-            await _unitOfWork.ReceiptRepository.GetById(feedback.ReceiptId);
+            //var reciept = _unitOfWork.ReceiptRepository.GetById(create.ReceiptId);
+
+            var mc = await _unitOfWork.MaintenanceCenter.GetById(create.MaintenanceCenterId);
+            var rc = await _unitOfWork.ReceiptRepository.GetById(create.ReceiptId);
+
+            feedback.MaintenanceCenter = mc;
+            feedback.Receipt = rc;
+
+            if (rc.Status != "PAID") throw new Exception("You need complete payment to give feedback");
+
             await _unitOfWork.FeedBack.Add(feedback);
             await _unitOfWork.Commit();
+
+
             return _mapper.Map<ResponseFeedback>(feedback);
         }
 
         public async Task<List<ResponseFeedback>> GetAll()
         {
-            return _mapper.Map<List<ResponseFeedback>>(await _unitOfWork.FeedBack.GetAll());  
+            return _mapper.Map<List<ResponseFeedback>>(await _unitOfWork.FeedBack.GetAll());
         }
 
         public async Task<ResponseFeedback> GetById(Guid id)
