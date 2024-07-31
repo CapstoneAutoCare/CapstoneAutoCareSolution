@@ -50,7 +50,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _Booking = new BookingRepositoryImp(_context);
             _Client = new ClientRepositoryImp(_context);
             _CustomerCare = new CustomerCareRepositoryImp(_context);
-            //_FeedBack = new FeedBackRepositoryImp(_context);
+            _FeedBack = new FeedBackRepositoryImp(_context);
             _InformationMaintenance = new InformationMaintenanceRepositoryImp(_context);
             _MaintenanceSchedule = new MaintananceScheduleRepositoryImp(_context);
             _MaintenanceCenter = new MaintenanceCenterRepositoryImp(_context);
