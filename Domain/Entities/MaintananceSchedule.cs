@@ -14,7 +14,7 @@ namespace Domain.Entities
         {
             Bookings = new HashSet<Booking>();
             Parts = new HashSet<SpareParts>();
-            ServiceCares = new HashSet<ServiceCare>();
+            ServiceCares = new HashSet<ServiceCares>();
         }
 
         [Key]
@@ -26,6 +26,6 @@ namespace Domain.Entities
         public VehicleModel VehicleModel { get; set; }
         public ICollection<Booking> Bookings { get; set; }
         public ICollection<SpareParts> Parts { get; set; }
-        public ICollection<ServiceCare> ServiceCares { get; set; }
+        public ICollection<ServiceCares> ServiceCares { get; set; }
     }
 }

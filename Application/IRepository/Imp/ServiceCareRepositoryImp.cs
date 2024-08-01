@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository.Imp
 {
-    public class ServiceCareRepositoryImp : GenericRepositoryImp<ServiceCare>, IServiceCareRepository
+    public class ServiceCareRepositoryImp : GenericRepositoryImp<ServiceCares>, IServiceCareRepository
     {
         public ServiceCareRepositoryImp(AppDBContext context) : base(context)
         {
         }
 
-        public async Task<List<ServiceCare>> GetAll()
+        public async Task<List<ServiceCares>> GetAll()
         {
-            return await _context.Set<ServiceCare>().Include(p => p.MaintananceSchedule).ToListAsync();
+            return await _context.Set<ServiceCares>().Include(p => p.MaintananceSchedule).ToListAsync();
         }
 
-        public async Task<ServiceCare> GetByID(Guid? id)
+        public async Task<ServiceCares> GetByID(Guid? id)
         {
-            var service = await _context.Set<ServiceCare>().Include(p => p.MaintananceSchedule).FirstOrDefaultAsync(x => x.ServiceCareId.Equals(id));
+            var service = await _context.Set<ServiceCares>().Include(p => p.MaintananceSchedule).FirstOrDefaultAsync(x => x.ServiceCareId.Equals(id));
             if (service == null)
             {
                 throw new Exception("Not Found");

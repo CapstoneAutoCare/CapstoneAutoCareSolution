@@ -15,7 +15,7 @@ namespace CapstoneAutoCareApi.Controllers
             _VMService = vehicleModelService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<ReponseVehicleModel>>> GetAll()
+        public async Task<ActionResult<List<ReponseVehicleModels>>> GetAll()
         {
             return Ok(await _VMService.GetAllVehiclesModels());
         }

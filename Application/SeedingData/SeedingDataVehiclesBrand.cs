@@ -12,42 +12,21 @@ namespace Application.SeedingData
     {
         public static List<VehiclesBrand> Get()
         {
-            return new List<VehiclesBrand>
+            var brandNames = new List<string>
         {
-                new VehiclesBrand
-                {
-                    CreatedDate = DateTime.Now,
-                    Status=EnumStatus.ACTIVE.ToString(),
-                    VehiclesBrandName=EnumBrand.BMW.ToString(),
-                    VehiclesBrandId =Guid.NewGuid(),
-                },
-                new VehiclesBrand
-                {
-                    CreatedDate = DateTime.Now,
-                    Status=EnumStatus.ACTIVE.ToString(),
-                    VehiclesBrandName=EnumBrand.MEC.ToString(),
-                    VehiclesBrandId =Guid.NewGuid(),
-                },
-                new VehiclesBrand {
-                    CreatedDate = DateTime.Now,
-                    Status=EnumStatus.ACTIVE.ToString(),
-                    VehiclesBrandName=EnumBrand.AUDI.ToString(),
-                    VehiclesBrandId =Guid.NewGuid()
-                },
-                new VehiclesBrand {
-                    CreatedDate = DateTime.Now,
-                    Status=EnumStatus.ACTIVE.ToString(),
-                    VehiclesBrandName=EnumBrand.TOYOTA.ToString(),
-                    VehiclesBrandId =Guid.NewGuid()
-                },
-                new VehiclesBrand {
-                    CreatedDate = DateTime.Now,
-                    Status=EnumStatus.ACTIVE.ToString(),
-                    VehiclesBrandName=EnumBrand.HONDA.ToString(),
-                    VehiclesBrandId =Guid.NewGuid()
-                },
-
+            EnumBrand.BMW.ToString(),
+            EnumBrand.MEC.ToString(),
+            EnumBrand.AUDI.ToString(),
+            EnumBrand.TOYOTA.ToString(),
+            EnumBrand.HONDA.ToString()
         };
+            return brandNames.Select(brandName => new VehiclesBrand
+            {
+                CreatedDate = DateTime.Now,
+                Status = EnumStatus.ACTIVE.ToString(),
+                VehiclesBrandName = brandName,
+                VehiclesBrandId = Guid.NewGuid()
+            }).ToList();
         }
     }
 }

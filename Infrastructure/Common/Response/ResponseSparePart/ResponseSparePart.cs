@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Common.Response.ReponseVehicleModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,8 @@ namespace Infrastructure.Common.Response.ResponseSparePart
         public string Status { get; set; }
         public Guid MaintananceScheduleId { get; set; }
         public string MaintananceScheduleName { get; set; }
+        public ReponseVehicleModels ReponseVehicleModel { get; set; }
+
 
     }
 }

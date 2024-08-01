@@ -16,7 +16,7 @@ namespace Application.ConfigurationDB
             builder.HasKey(c => c.VehiclesId);
             builder.Property(e => e.VehiclesId)
                     .ValueGeneratedOnAdd();
-
+            builder.HasIndex(c => c.LicensePlate).IsUnique();
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime");
 

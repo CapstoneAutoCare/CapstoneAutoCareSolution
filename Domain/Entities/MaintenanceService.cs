@@ -21,7 +21,7 @@ namespace Domain.Entities
         public string? Image { get; set; }
         public Guid? ServiceCareId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
-        public ServiceCare ServiceCare { get; set; }
+        public ServiceCares ServiceCare { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public ICollection<MaintenanceServiceCost> MaintenanceServiceCosts { get; set; }
 

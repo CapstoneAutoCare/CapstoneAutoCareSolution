@@ -19,5 +19,8 @@ namespace Infrastructure.Common.Response.ResponseServicesCare
         public Guid MaintenanceCenterId { get; set; }
         public string MaintenanceCenterName { get; set; }
         public List<ResponseMaintenanceServiceCost> ResponseMaintenanceServiceCosts { get; set; }
+        public string VehiclesBrandName { get; set; }
+        public string VehicleModelName { get; set; }
+        public string MaintananceScheduleName { get; set; }
     }
 }

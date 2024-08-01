@@ -9,94 +9,23 @@ using System.Threading.Tasks;
 
 namespace Application.SeedingData
 {
-    public class SeedingDataSparePartsItem
+    public partial class SeedingDataSparePartsItem
     {
-        private static List<SparePartsItem> Get(MaintenanceCenter center)
+        public static List<SparePartsItem> GetSparePartsItems(List<MaintenanceCenter> centers, List<SpareParts> spareParts)
         {
-            return new List<SparePartsItem>
-            {
-                new SparePartsItem
+            return centers.AsParallel().SelectMany(center =>
+                spareParts.Select(sparePart => new SparePartsItem
                 {
-                   CreatedDate=DateTime.Now,
-                   Image="https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
-                   MaintenanceCenterId=center.MaintenanceCenterId,
-                   SparePartsId=null,
-                   SparePartsItemName = "Cảm biến lùi xe ô tô",
-                   Status=EnumStatus.ACTIVE.ToString(),
-                   SparePartsItemtId=Guid.NewGuid(),
-                },
-                new SparePartsItem
-                {
-                   CreatedDate=DateTime.Now,
-                   Image="https://hanoicomputercdn.com/media/product/72039_camera_hanh_trinh_xiaomi_70mai_m500_64gb__2_.jpg",
-                   MaintenanceCenterId=center.MaintenanceCenterId,
-                   SparePartsId=null,
-                   SparePartsItemName = "Camera hành trình",
-                   Status=EnumStatus.ACTIVE.ToString(),
-                   SparePartsItemtId=Guid.NewGuid(),
-                },
-                new SparePartsItem
-                {
-                   CreatedDate=DateTime.Now,
-                   Image="https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
-                   MaintenanceCenterId=center.MaintenanceCenterId,
-                   SparePartsId=null,
-                   SparePartsItemName = "Lọc gió xe ô tô",
-                   Status=EnumStatus.ACTIVE.ToString(),
-                   SparePartsItemtId=Guid.NewGuid(),
-                },
-                new SparePartsItem
-                {
-                   CreatedDate=DateTime.Now,
-                   Image="https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
-                   MaintenanceCenterId=center.MaintenanceCenterId,
-                   SparePartsId=null,
-                   SparePartsItemName = "Màn hình xe ô tô",
-                   Status=EnumStatus.ACTIVE.ToString(),
-                   SparePartsItemtId=Guid.NewGuid(),
-                },
-                new SparePartsItem
-                {
-                   CreatedDate=DateTime.Now,
-                   Image="https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
-                   MaintenanceCenterId=center.MaintenanceCenterId,
-                   SparePartsId=null,
-                   SparePartsItemName = "Giá màn hình xe ô tô",
-                   Status=EnumStatus.ACTIVE.ToString(),
-                   SparePartsItemtId=Guid.NewGuid(),
-                },
-                new SparePartsItem
-                {
-                   CreatedDate=DateTime.Now,
-                   Image="https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
-                   MaintenanceCenterId=center.MaintenanceCenterId,
-                   SparePartsId=null,
-                   SparePartsItemName = "Gạt mưa ô tô",
-                   Status=EnumStatus.ACTIVE.ToString(),
-                   SparePartsItemtId=Guid.NewGuid(),
-                },
-                new SparePartsItem
-                {
-                   CreatedDate=DateTime.UtcNow.Date,
-                   Image="https://dochoiotogiare.com/wp-content/uploads/2018/09/cam-bien-lui-va-canh-bao-va-cham10.png",
-                   MaintenanceCenterId=center.MaintenanceCenterId,
-                   SparePartsId=null,
-                   SparePartsItemName = "Rèm che nắng",
-                   Status=EnumStatus.ACTIVE.ToString(),
-                   SparePartsItemtId=Guid.NewGuid(),
-                },
-            };
-        }
-        public static List<SparePartsItem> ServiceSeedingDataSparePartItems(ModelBuilder modelBuilder, List<MaintenanceCenter> centers)
-        {
-            List<SparePartsItem> spi = new List<SparePartsItem>();
-            foreach (var item in centers)
-            {
-                spi = Get(item);
-                modelBuilder.Entity<SparePartsItem>().HasData(spi);
-            }
-            return spi;
-
+                    SparePartsItemtId = Guid.NewGuid(),
+                    Status = EnumStatus.ACTIVE.ToString(),
+                    SparePartsItemName = sparePart.SparePartName,
+                    CreatedDate = DateTime.Now,
+                    Image = "",
+                    Capacity = 5,
+                    SparePartsId = sparePart.SparePartId,
+                    MaintenanceCenterId = center.MaintenanceCenterId,
+                })
+            ).ToList();
         }
     }
 }

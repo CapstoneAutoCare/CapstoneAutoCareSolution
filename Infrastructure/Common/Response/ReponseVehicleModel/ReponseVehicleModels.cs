@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Common.Response.ReponseVehicleModel
 {
-    public class ReponseVehicleModel
+    public class ReponseVehicleModels
     {
         public Guid VehicleModelId { get; set; }
         public Guid VehiclesBrandId { get; set; }

@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class ServiceCare
+    public class ServiceCares
     {
-        public ServiceCare()
+        public ServiceCares()
         {
             MaintenanceServices = new HashSet<MaintenanceService>();
         }
 
         [Key]
-
         public Guid ServiceCareId { get; set; }
         public string ServiceCareName { get; set; }
         public string ServiceCareDescription { get; set; }

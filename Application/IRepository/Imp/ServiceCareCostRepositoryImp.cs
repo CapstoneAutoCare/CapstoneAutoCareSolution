@@ -20,7 +20,10 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintenanceService>()
                 .Include(c => c.MaintenanceCenter)
                 .Include(c=>c.MaintenanceServiceCosts)
-                .Include(p => p.ServiceCare)
+                .Include(c => c.ServiceCare)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(p=>p.CreatedDate)
                 .ToListAsync();
         }
@@ -31,6 +34,9 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.MaintenanceServiceCosts)
                 .Include(p => p.ServiceCare)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefaultAsync(x => x.MaintenanceServiceId.Equals(id));
             if (ms == null)
@@ -46,6 +52,10 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintenanceService>()
                             .Include(c => c.MaintenanceCenter)
                             .Include(c => c.MaintenanceServiceCosts)
+                            .Include(c => c.ServiceCare)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                             .OrderByDescending(p => p.CreatedDate)
                             .Include(p => p.ServiceCare).Where(c => c.MaintenanceCenterId == center)
                             .ToListAsync();

@@ -10,75 +10,25 @@ namespace Application.SeedingData
 {
     public partial class SeedingDataMaintananceSchedule
     {
-        public static List<MaintananceSchedule> Get(VehicleModel vehicle)
+        public static List<MaintananceSchedule> Get(List<VehicleModel> vehicles)
         {
-            // 9 schedule
-            return new List<MaintananceSchedule>
+            var scheduleDistances = new[] { 5000, 10000, 20000, 40000 };
+
+            var maintenanceSchedules = new List<MaintananceSchedule>();
+            foreach (var vehicle in vehicles)
             {
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="1000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="5000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="100000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="15000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="20000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="25000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="30000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="35000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                },
-                new MaintananceSchedule {
-                    MaintananceScheduleId = Guid.NewGuid(),
-                    CreateDate = DateTime.Now,
-                    MaintananceScheduleName="40000",
-                    Description="Km",
-                    VehicleModelId=vehicle.VehicleModelId,
-                }
-            };
+                maintenanceSchedules.AddRange(
+                 scheduleDistances.Select(distance => new MaintananceSchedule
+                 {
+                     MaintananceScheduleId = Guid.NewGuid(),
+                     CreateDate = DateTime.Now,
+                     MaintananceScheduleName = distance.ToString(),
+                     Description = "Km",
+                     VehicleModelId = vehicle.VehicleModelId,
+                 }).ToList());
+            }
+            return maintenanceSchedules;
+
         }
 
     }

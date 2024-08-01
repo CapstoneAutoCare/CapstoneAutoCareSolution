@@ -22,6 +22,9 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.SparePartsItemCost)
                 .Include(p => p.SpareParts)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
         }
@@ -29,9 +32,12 @@ namespace Application.IRepository.Imp
         public async Task<SparePartsItem> GetById(Guid? id)
         {
             var spi = await _context.Set<SparePartsItem>()
-                .Include(p => p.SpareParts)
                 .Include(c => c.SparePartsItemCost)
                 .Include(c => c.MaintenanceCenter)
+                .Include(c => c.SpareParts)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(c => c.CreatedDate)
                 .FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id));
             if (spi == null)
@@ -45,9 +51,12 @@ namespace Application.IRepository.Imp
         public async Task<SparePartsItem> GetByStatusAndCostActive(Guid? id)
         {
             var spi = await _context.Set<SparePartsItem>()
-                            .Include(p => p.SpareParts)
                             .Include(c => c.MaintenanceCenter)
                             .Include(c => c.SparePartsItemCost)
+                            .Include(c => c.SpareParts)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                             .OrderByDescending(c => c.CreatedDate)
                             .FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id)
                             && x.Status.Equals(EnumStatus.ACTIVE.ToString())
@@ -65,13 +74,17 @@ namespace Application.IRepository.Imp
             return await _context.Set<SparePartsItem>()
                             .Include(c => c.MaintenanceCenter)
                             .Include(c => c.SparePartsItemCost)
+                            .Include(c => c.SpareParts)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
                             .OrderByDescending(c => c.CreatedDate)
                             .Include(p => p.SpareParts).Where(c => c.MaintenanceCenterId == center)
                             .ToListAsync();
         }
 
 
-       
+
 
 
 

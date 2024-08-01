@@ -24,7 +24,7 @@ namespace Domain.Entities
         public string Phone { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }
-        public string Logo { get; set; }
+        public string? Logo { get; set; }
         public Admin Admin { get; set; }
         public Client Client { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }

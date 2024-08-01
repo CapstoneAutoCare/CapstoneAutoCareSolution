@@ -19,6 +19,8 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<SpareParts>()
                 .Include(p => p.MaintananceSchedule)
+                .ThenInclude(c=>c.VehicleModel)
+                .ThenInclude(c=>c.VehiclesBrand)
                 .OrderByDescending(p => p.CreatedDate)
                 .ToListAsync();
         }
@@ -27,6 +29,8 @@ namespace Application.IRepository.Imp
         {
             var sp = await _context.Set<SpareParts>()
                 .Include(p => p.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefaultAsync(x => x.SparePartId.Equals(id));
             if (sp == null)

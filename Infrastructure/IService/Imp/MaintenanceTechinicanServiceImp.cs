@@ -33,7 +33,6 @@ namespace Infrastructure.IService.Imp
             var tech = _mapper.Map<MaintenanceTask>(create);
             tech.CreatedDate = DateTime.Now;
             tech.Status = "ACTIVE";
-            tech.MaintenanceTaskName = "Text";
             var mi = await _unitOfWork.InformationMaintenance.GetById(tech.InformationMaintenanceId);
             await _unitOfWork.MaintenanceTask.CheckExistByTechAndInfor(tech.TechnicianId, tech.InformationMaintenanceId);
             if (mi.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()))
@@ -85,7 +84,7 @@ namespace Infrastructure.IService.Imp
             }
             else
             {
-                throw new Exception("Can't Create Assign Task in"+ mi.InformationMaintenanceId);
+                throw new Exception("Can't Create Assign Task in"+ mi.InformationMaintenanceId + "By Status not  CheckIN");
             }
 
         }

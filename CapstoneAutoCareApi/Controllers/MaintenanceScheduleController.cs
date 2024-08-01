@@ -17,7 +17,7 @@ namespace CapstoneAutoCareApi.Controllers
             _maintenanceScheduleService = maintenanceScheduleService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<ReponseVehicleModel>>> GetAll()
+        public async Task<ActionResult<List<ReponseVehicleModels>>> GetAll()
         {
             return Ok(await _maintenanceScheduleService.GetAll());
         }

@@ -31,7 +31,7 @@ namespace Application
         public virtual DbSet<MaintenanceService> MaintenanceServices { get; set; }
         public virtual DbSet<OdoHistory> OdoHistories { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
-        public virtual DbSet<ServiceCare> ServiceCares { get; set; }
+        public virtual DbSet<ServiceCares> ServiceCares { get; set; }
         public virtual DbSet<SpareParts> SpareParts { get; set; }
         public virtual DbSet<SparePartsItem> SparePartsItem { get; set; }
         public virtual DbSet<Technician> Technicians { get; set; }
@@ -49,9 +49,9 @@ namespace Application
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db6604.public.databaseasp.net; Database=db6604; User Id=db6604; Password=2Zf%p?B7!4wK; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer("Server=db6604.public.databaseasp.net; Database=db6604; User Id=db6604; Password=2Zf%p?B7!4wK; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer("Server=mssql-178379-0.cloudclusters.net,10009; Database=AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssql-180106-0.cloudclusters.net,10031; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
@@ -69,7 +69,7 @@ namespace Application
             modelBuilder.ApplyConfiguration(new MaintenanceSparePartInfoConfiguration());
             modelBuilder.ApplyConfiguration(new OdoHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new ReceiptConfiguration());
-            modelBuilder.ApplyConfiguration(new ServiceCareConfiguration());
+            modelBuilder.ApplyConfiguration(new ServiceCaresConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceConfiguration());
             modelBuilder.ApplyConfiguration(new SparePartsConfiguration());
             modelBuilder.ApplyConfiguration(new SparePartsCostConfiguration());
@@ -91,14 +91,34 @@ namespace Application
 
             var vehicleBrands = SeedingDataVehiclesBrand.Get();
             modelBuilder.Entity<VehiclesBrand>().HasData(vehicleBrands);
-            var centre = SeedingDataCenter.ServiceSeedingDataCenter(modelBuilder);
-            var clients = SeedingDataClient.ServiceSeedingDataClient(modelBuilder);
-            var vehicelsModels = SeedingDataVehicleModel.ServiceSeedingDataVehicleModel(modelBuilder, vehicleBrands);
-            //var vehicles = SeedingDataVehicles.ServiceSeedingDataVeHicles(modelBuilder, clients, vehicelsModels);
-            var spi = SeedingDataSparePartsItem.ServiceSeedingDataSparePartItems(modelBuilder, centre);
-            var ms = SeedingDataMaintenanceService.ServiceSeedingDataMaintenanceService(modelBuilder, centre);
-            OnModelCreatingPartial(modelBuilder);
+            var vehiclemodel = SeedingDataVehicleModel.ServiceSeedingDataVehicleModel(vehicleBrands);
+            modelBuilder.Entity<VehicleModel>().HasData(vehiclemodel);
+            var schedule = SeedingDataMaintananceSchedule.Get(vehiclemodel);
+            modelBuilder.Entity<MaintananceSchedule>().HasData(schedule);
 
+            var spareParts = SeedingDataSparePart.GetSpareParts(schedule);
+            modelBuilder.Entity<SpareParts>().HasData(spareParts);
+
+
+            var serviceCares = SeedingDataServicesItem.GetServicesItem(schedule);
+            modelBuilder.Entity<ServiceCares>().HasData(serviceCares);
+
+            var center = SeedingDataCenter.ServiceSeedingDataCenter(modelBuilder);
+
+            var sparepartitems = SeedingDataSparePartsItem.GetSparePartsItems(center, spareParts);
+            modelBuilder.Entity<SparePartsItem>().HasData(sparepartitems);
+
+            var maintenanceServices = SeedingDataMaintenanceService.GetMaintenanceServices(center, serviceCares);
+            modelBuilder.Entity<MaintenanceService>().HasData(maintenanceServices);
+
+            var sparePartsItemCosts = SeedingDataSparePartsItemCost.GetSparePartsItemsCost(sparepartitems);
+            modelBuilder.Entity<SparePartsItemCost>().HasData(sparePartsItemCosts);
+
+            var maintenanceServiceCosts = SeedingDataMaintenanceServiceCost.GetMaintenanceServiceCost(maintenanceServices);
+            modelBuilder.Entity<MaintenanceServiceCost>().HasData(maintenanceServiceCosts);
+
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

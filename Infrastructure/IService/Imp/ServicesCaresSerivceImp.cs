@@ -22,7 +22,7 @@ namespace Infrastructure.IService.Imp
         }
         public async Task<ResponseServicesCare> Create(CreateServicesCare create)
         {
-            var service = _mapper.Map<ServiceCare>(create);
+            var service = _mapper.Map<ServiceCares>(create);
             await _unitOfWork.MaintenanceSchedule.GetByID(service.MaintananceScheduleId);
 
             service.CreatedDate = DateTime.Now;

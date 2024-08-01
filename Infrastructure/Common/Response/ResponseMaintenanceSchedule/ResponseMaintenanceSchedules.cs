@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Common.Response.ResponseMaintenanceSchedule
 {
-    public class ResponseMaintenanceSchedule
+    public class ResponseMaintenanceSchedules
     {
         public Guid MaintananceScheduleId { get; set; }
         public string MaintananceScheduleName { get; set; }
