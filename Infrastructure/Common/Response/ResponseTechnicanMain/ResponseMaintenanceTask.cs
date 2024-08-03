@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Common.Response.ResponseStaffCare;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,6 @@ namespace Infrastructure.Common.Response.ResponseTechnicanMain
         public Guid TechnicianId { get; set; }
         public List<ResponseMainTaskService> ResponseMainTaskServices { get; set; }
         public List<ResponseMainTaskSparePart> ResponseMainTaskSpareParts { get; set; }
+        public ResponseTechnician ResponseTechnician { get; set; }
     }
 }

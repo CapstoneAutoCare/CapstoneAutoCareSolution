@@ -12,6 +12,7 @@ namespace Application.IRepository
     {
         Task<List<SparePartsItemCost>> GetAll();
         Task<SparePartsItemCost> GetById(Guid? id);
+        Task<SparePartsItemCost> CheckCostVehicleIdAndIdCost(Guid modelVehiclesId, Guid? id);
         Task<List<SparePartsItemCost>> GetListByStatusAndCostStatus(string status, string cost, Guid id);
         Task<(List<SparePartsItemCost> Costs, float TotalCost, int Count)> TotalGetListByStatusAndCostStatus(string status, string cost, Guid id);
         Task<SparePartsItemCost> GetByIdSparePartActive(string status, string cost, Guid id);

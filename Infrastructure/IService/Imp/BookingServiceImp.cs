@@ -105,7 +105,9 @@ namespace Infrastructure.IService.Imp
                     sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount) / 100f);
                     sp.InformationMaintenanceId = mi.InformationMaintenanceId;
                     mi.TotalPrice += sp.TotalCost;
-                    await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
+                    //await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
+
+                    await _unitOfWork.SparePartsItemCost.CheckCostVehicleIdAndIdCost(check.Vehicles.VehicleModelId, sp.SparePartsItemCostId);
                     await _unitOfWork.MaintenanceSparePartInfo.Add(sp);
                 }
             }
@@ -125,7 +127,9 @@ namespace Infrastructure.IService.Imp
                     msi.InformationMaintenanceId = mi.InformationMaintenanceId;
                     mi.TotalPrice += msi.TotalCost;
 
-                    await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
+                    //await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
+                    await _unitOfWork.SparePartsItemCost.CheckCostVehicleIdAndIdCost(check.Vehicles.VehicleModelId, msi.MaintenanceServiceCostId);
+
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }
             }
@@ -171,7 +175,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseBooking> UpdateStatus(Guid bookingId, string status)
         {
             var booking = await _unitOfWork.Booking.GetById(bookingId);
-            
+
             var account = await _unitOfWork.Account.GetByClientId(booking.ClientId);
             var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
             if (booking.Status.Equals("WAITING") && status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()))
@@ -196,7 +200,7 @@ namespace Infrastructure.IService.Imp
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseBooking>(booking);
             }
-            else if(booking.Status.Equals("WAITING") && status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
+            else if (booking.Status.Equals("WAITING") && status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
             {
                 booking.Status = status;
                 await _unitOfWork.Booking.Update(booking);
@@ -237,7 +241,7 @@ namespace Infrastructure.IService.Imp
 
         private async Task<Booking> IsBookingHaveSchedule(Booking booking)
         {
-            await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+            var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
             booking.Status = "WAITING";
             booking.CreatedDate = DateTime.Now;
             if (booking.MaintananceScheduleId == null)

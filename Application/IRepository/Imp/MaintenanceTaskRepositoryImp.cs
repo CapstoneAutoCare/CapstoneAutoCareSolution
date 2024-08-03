@@ -28,6 +28,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                  .FirstOrDefaultAsync(c => c.TechnicianId.Equals(techId) && c.InformationMaintenanceId.Equals(inforId));
             if (i != null)
@@ -49,6 +51,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                  .FirstOrDefaultAsync(c => c.InformationMaintenanceId.Equals(id) && c.Status.Equals(status));
             if(i == null)
@@ -70,6 +74,7 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
+                .ThenInclude(c=>c.Account)
                 .Include(c => c.InformationMaintenance)
                                 .OrderByDescending(c => c.CreatedDate).ToListAsync();
         }
@@ -86,6 +91,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c=>c.MaintenanceServiceCost)
                 .ThenInclude(c=>c.MaintenanceService)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                 .FirstOrDefaultAsync(c => c.MaintenanceTaskId.Equals(id));
             if (model == null)
@@ -107,6 +114,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.Technician.CenterId == id)
                 .OrderByDescending(c => c.CreatedDate)
@@ -119,6 +128,8 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceTaskSparePartInfos)
                 .Include(c => c.MaintenanceTaskServiceInfos)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.InformationMaintenance.CustomerCareId == id)
                 .OrderByDescending(c => c.CreatedDate)
@@ -137,6 +148,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.InformationMaintenance.InformationMaintenanceId == id)
                 .OrderByDescending(c => c.CreatedDate)
@@ -155,6 +168,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.TechnicianId == id)
                 .OrderByDescending(c => c.CreatedDate)
@@ -173,6 +188,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
+                                .ThenInclude(c => c.Account)
+
                 .Include(c => c.InformationMaintenance)
                 .Where(c => c.InformationMaintenance.InformationMaintenanceId == id && !c.Status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
                 .OrderByDescending(c => c.CreatedDate)

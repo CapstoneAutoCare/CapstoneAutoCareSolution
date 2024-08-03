@@ -33,17 +33,11 @@ namespace Infrastructure.IService.Imp
             spi.TotalCost = (spi.ActualCost * spi.Quantity) * (1 - (spi.Discount) / 100f);
             var i = await _unitOfWork.InformationMaintenance.GetById(spi.InformationMaintenanceId);
             i.TotalPrice += spi.TotalCost;
-            await _unitOfWork.InformationMaintenance.Update(i);
 
-            if (spi.SparePartsItemCostId == null)
-            {
-                await _unitOfWork.MaintenanceSparePartInfo.Add(spi);
-            }
-            else
-            {
-                await _unitOfWork.SparePartsItemCost.GetById(spi.SparePartsItemCostId);
-                await _unitOfWork.MaintenanceSparePartInfo.Add(spi);
-            }
+            await _unitOfWork.SparePartsItemCost.CheckCostVehicleIdAndIdCost(i.Booking.Vehicles.VehicleModelId, spi.SparePartsItemCostId);
+            //await _unitOfWork.SparePartsItemCost.GetById(spi.SparePartsItemCostId);
+            await _unitOfWork.MaintenanceSparePartInfo.Add(spi);
+            await _unitOfWork.InformationMaintenance.Update(i);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceSparePartInfo>(spi);
         }

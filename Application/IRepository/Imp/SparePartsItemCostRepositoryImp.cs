@@ -21,17 +21,31 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
+                .ThenInclude(c => c.SpareParts)
+                .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(c => c.DateTime)
                 .ToListAsync();
         }
 
         public async Task<SparePartsItemCost> GetById(Guid? id)
         {
-            return await _context.Set<SparePartsItemCost>()
+            var i = await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
+                .ThenInclude(c => c.SpareParts)
+                .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.MaintenanceSparePartInfos)
                 .OrderByDescending(c => c.DateTime)
                 .FirstOrDefaultAsync(c => c.SparePartsItemCostId == id);
+            if (i == null)
+            {
+                throw new Exception("Not Found Id");
+
+            }
+            return i;
         }
 
 
@@ -39,6 +53,10 @@ namespace Application.IRepository.Imp
         {
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
+                                .ThenInclude(c => c.SpareParts)
+                .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                                 .Include(c => c.MaintenanceSparePartInfos)
                                 .OrderByDescending(c => c.DateTime)
                                 .Where(c => c.SparePartsItem.MaintenanceCenterId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
@@ -72,6 +90,10 @@ namespace Application.IRepository.Imp
         {
             var spi = await _context.Set<SparePartsItemCost>()
                         .Include(c => c.SparePartsItem)
+                        .ThenInclude(c => c.SpareParts)
+                .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                         .Include(c => c.MaintenanceSparePartInfos)
                         .Where(c => c.SparePartsItem.SparePartsItemtId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status))
                         .OrderByDescending(c => c.DateTime)
@@ -83,6 +105,10 @@ namespace Application.IRepository.Imp
         {
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
+                                .ThenInclude(c => c.SpareParts)
+                .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                                 .Where(c => c.SparePartsItem.MaintenanceCenterId == centerId
                                          && c.Status.Equals(cost)
                                          && c.SparePartsItem.Status.Equals(status)
@@ -103,6 +129,10 @@ namespace Application.IRepository.Imp
         {
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
+                                .ThenInclude(c => c.SpareParts)
+                .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                                 .Include(c => c.MaintenanceSparePartInfos)
                                 .OrderByDescending(c => c.DateTime)
                                 .Where(c => c.SparePartsItem.MaintenanceCenterId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status));
@@ -118,6 +148,26 @@ namespace Application.IRepository.Imp
             int count = groupedResult.Count;
 
             return (groupedResult, totalCost, count);
+        }
+
+        public async Task<SparePartsItemCost> CheckCostVehicleIdAndIdCost(Guid vehicleId, Guid? id)
+        {
+            var c = await _context.Set<SparePartsItemCost>()
+                .Include(c => c.SparePartsItem)
+                .ThenInclude(c=>c.SpareParts)
+                .ThenInclude(c=>c.MaintananceSchedule)
+                .ThenInclude(c=>c.VehicleModel)
+                .ThenInclude(c=>c.VehiclesBrand)
+                .Include(c => c.MaintenanceSparePartInfos)
+                
+                .OrderByDescending(c => c.DateTime)
+                .SingleOrDefaultAsync(c => c.SparePartsItemCostId == id
+                && c.SparePartsItem.SpareParts.MaintananceSchedule.VehicleModelId.Equals(vehicleId));
+            if (c == null)
+            {
+                throw new Exception("This product does not belong to this vehicle");
+            }
+            return c;
         }
     }
 }

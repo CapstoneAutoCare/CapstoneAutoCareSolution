@@ -15,6 +15,17 @@ namespace Application.IRepository.Imp
         {
         }
 
+        public async Task<Vehicles> CheckLicenseplateExist(string licenseplate)
+        {
+            var check = await _context.Set<Vehicles>().Include(c => c.Client).Include(c => c.VehicleModel).ThenInclude(c => c.VehiclesBrand)
+                .SingleOrDefaultAsync(c => c.LicensePlate.ToUpper().Equals(licenseplate.ToUpper()));
+            if (check != null)
+            {
+                throw new Exception($"Existed Licenseplate {licenseplate}");
+            }
+            return check;
+        }
+
         public async Task<List<Vehicles>> GetAll()
         {
             return await _context.Set<Vehicles>().Include(c => c.Client).Include(c => c.VehicleModel).ThenInclude(c => c.VehiclesBrand).ToListAsync();

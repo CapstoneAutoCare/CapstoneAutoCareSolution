@@ -17,12 +17,25 @@ namespace Application.IRepository.Imp
 
         public async Task<List<ServiceCares>> GetAll()
         {
-            return await _context.Set<ServiceCares>().Include(p => p.MaintananceSchedule).ToListAsync();
+            return await _context.Set<ServiceCares>()
+                .Include(p => p.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                                .OrderByDescending(p => p.CreatedDate)
+
+                .ToListAsync();
         }
+
 
         public async Task<ServiceCares> GetByID(Guid? id)
         {
-            var service = await _context.Set<ServiceCares>().Include(p => p.MaintananceSchedule).FirstOrDefaultAsync(x => x.ServiceCareId.Equals(id));
+            var service = await _context.Set<ServiceCares>()
+                .Include(p => p.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                                .OrderByDescending(p => p.CreatedDate)
+
+                .FirstOrDefaultAsync(x => x.ServiceCareId.Equals(id));
             if (service == null)
             {
                 throw new Exception("Not Found");

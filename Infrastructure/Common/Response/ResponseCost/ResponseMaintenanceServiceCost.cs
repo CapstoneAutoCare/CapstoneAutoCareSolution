@@ -18,6 +18,7 @@ namespace Infrastructure.Common.Response.ResponseCost
 
         public Guid MaintenanceServiceId { get; set; }
         public string MaintenanceServiceName { get; set; }
-
+        public string VehicleModelName { get; set; }
+        public string VehiclesBrandName { get; set; }
     }
 }

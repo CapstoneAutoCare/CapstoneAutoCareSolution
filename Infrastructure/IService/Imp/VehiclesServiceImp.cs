@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Infrastructure.IService.Imp
@@ -35,11 +36,26 @@ namespace Infrastructure.IService.Imp
             vehicles.ClientId = account.Client.ClientId;
             vehicles.Status = "ACTIVE";
             vehicles.CreatedDate = DateTime.Now;
-            await _unitOfWork.Vehicles.Add(vehicles);
-            await _unitOfWork.Commit();
-            return _mapper.Map<ResponseVehicles>(vehicles);
+            var check = ValidateLicensePlate(vehicles.LicensePlate);
+            await _unitOfWork.Vehicles.CheckLicenseplateExist(vehicles.LicensePlate);
+            if (check == true)
+            {
+                await _unitOfWork.Vehicles.Add(vehicles);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseVehicles>(vehicles);
+            }
+            else
+            {
+                throw new Exception("LicensePlate does not match");
+            }
         }
+        private static bool ValidateLicensePlate(string licensePlate)
+        {
+            string pattern = @"^[0-9]{2}[A-Z] [0-9]{3}\.[0-9]{2}$";
+            Regex regex = new Regex(pattern);
 
+            return regex.IsMatch(licensePlate);
+        }
         public async Task<List<ResponseVehicles>> GetAll()
         {
             return _mapper.Map<List<ResponseVehicles>>(await _unitOfWork.Vehicles.GetAll());

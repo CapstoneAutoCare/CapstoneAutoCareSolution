@@ -16,6 +16,7 @@ namespace Application.IRepository
         Task<MaintenanceServiceCost> GetById(Guid? id);
         Task<List<MaintenanceServiceCost>> GetListByStatusAndStatusCost(string status, string coststatus, Guid centerId);
         Task<(List<MaintenanceServiceCost> Costs, float TotalCost, int Count)> TotalGetListByStatusAndStatusCost(string status, string coststatus, Guid centerId);
+        Task<MaintenanceServiceCost> CheckCostVehicleIdAndIdCost(Guid modelVehiclesId, Guid? id);
 
         Task<MaintenanceServiceCost> GetByIdMaintenanceServiceActive(string status, string cost, Guid id);
         Task<List<MaintenanceServiceCost>> GetListByDifMaintenanceServiceAndInforId(string status, string cost, Guid centerId, Guid informationId);

@@ -34,16 +34,10 @@ namespace Infrastructure.IService.Imp
 
             var i = await _unitOfWork.InformationMaintenance.GetById(msi.InformationMaintenanceId);
             i.TotalPrice += msi.TotalCost;
+            await _unitOfWork.MaintenanceServiceCost.CheckCostVehicleIdAndIdCost(i.Booking.Vehicles.VehicleModelId, msi.MaintenanceServiceCostId);
+            await _unitOfWork.MaintenanceServiceInfo.Add(msi);
             await _unitOfWork.InformationMaintenance.Update(i);
-            if (msi.MaintenanceServiceCostId == null)
-            {
-                await _unitOfWork.MaintenanceServiceInfo.Add(msi);
-            }
-            else
-            {
-                await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
-                await _unitOfWork.MaintenanceServiceInfo.Add(msi);
-            }
+
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceServiceInfo>(msi);
         }
