@@ -5,6 +5,7 @@ using Infrastructure.Common.Response.ClientResponse;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
+using Infrastructure.IUnitofWork.Imp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace Infrastructure.IService.Imp
         {
             var client = _mapper.Map<Client>(create);
             await _unitOfWork.Account.CheckExistEmail(client.Account.Email);
+            await _unitOfWork.Account.CheckPhone(client.Account.Phone);
 
             client.Account.Status = "ACTIVE";
             client.Account.Role = "CUSTOMER";

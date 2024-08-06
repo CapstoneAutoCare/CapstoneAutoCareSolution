@@ -128,7 +128,7 @@ namespace Infrastructure.IService.Imp
                     mi.TotalPrice += msi.TotalCost;
 
                     //await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
-                    await _unitOfWork.SparePartsItemCost.CheckCostVehicleIdAndIdCost(check.Vehicles.VehicleModelId, msi.MaintenanceServiceCostId);
+                    await _unitOfWork.MaintenanceServiceCost.CheckCostVehicleIdAndIdCost(check.Vehicles.VehicleModelId, msi.MaintenanceServiceCostId);
 
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }
@@ -163,6 +163,10 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByCenterAndClient(centerid, clientId));
         }
 
+        public async Task<List<ResponseBooking>> GetListByCenterId(Guid id)
+        {
+            return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByCenter(id));
+        }
 
         public async Task<List<ResponseBooking>> GetListByClient()
         {

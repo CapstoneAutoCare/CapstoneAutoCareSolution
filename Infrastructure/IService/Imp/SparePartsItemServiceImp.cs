@@ -100,6 +100,10 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Commit();
         }
 
-       
+        public async Task<List<ResponseSparePartsItem>> GetListByCenterId(Guid id)
+        {
+            var list = await _unitOfWork.SparePartsItem.GetListByCenter(id);
+            return _mapper.Map<List<ResponseSparePartsItem>>(list);
+        }
     }
 }

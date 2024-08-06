@@ -61,8 +61,10 @@ namespace Infrastructure.IService.Imp
             //r.SubTotal = 0;
             r.VAT = 10;
             r.SubTotal = i.TotalPrice;
-            r.TotalAmount = (float)Math.Round(r.SubTotal * (1 + (r.VAT / 100f)), 0, MidpointRounding.AwayFromZero); 
+            r.TotalAmount = (float)Math.Round(r.SubTotal * (1 + (r.VAT / 100f)), 0, MidpointRounding.AwayFromZero);
             r.Status = EnumStatus.YETPAID.ToString();
+            i.Status = EnumStatus.YETPAID.ToString();
+            await _unitOfWork.InformationMaintenance.Update(i);
             await _unitOfWork.ReceiptRepository.Add(r);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseReceipts>(r);
@@ -96,12 +98,25 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseReceipts>>(await _unitOfWork.ReceiptRepository.GetListByCenter(id));
         }
 
+        public async Task<List<ResponseReceipts>> GetListByClient()
+        {
+            var mail = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(mail);
+
+            return _mapper.Map<List<ResponseReceipts>>(await _unitOfWork.ReceiptRepository.GetListByClient(account.Client.ClientId));
+
+        }
+
         public async Task Remove(Guid id)
         {
             var r = await _unitOfWork.ReceiptRepository.GetById(id);
-            if(r.Status != EnumStatus.YETPAID.ToString()){
+            var i = await _unitOfWork.InformationMaintenance.GetById(r.InformationMaintenanceId);
+            //i.Status = EnumStatus.PAYMENT.ToString();
+            if (r.Status != EnumStatus.YETPAID.ToString())
+            {
                 throw new Exception("PAID not Remove");
             }
+            //await _unitOfWork.InformationMaintenance.Update(i);
             await _unitOfWork.ReceiptRepository.Remove(r);
             await _unitOfWork.Commit();
         }

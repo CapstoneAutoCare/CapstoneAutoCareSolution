@@ -33,6 +33,8 @@ namespace Infrastructure.IService.Imp
             var care = _mapper.Map<CustomerCare>(create);
             var account = await _unitOfWork.Account.Profile(email);
             await _unitOfWork.Account.CheckExistEmail(care.Account.Email);
+            await _unitOfWork.Account.CheckPhone(care.Account.Phone);
+
             care.CenterId = account.MaintenanceCenter.MaintenanceCenterId;
             care.Account.CreatedDate = DateTime.Now;
             care.Account.Status = "ACTIVE";

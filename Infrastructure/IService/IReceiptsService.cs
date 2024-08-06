@@ -18,6 +18,7 @@ namespace Infrastructure.IService
         Task<ResponseReceipts> Create(CreateReceipt receipt);
         Task<ResponseReceipts> ChangeStatus(Guid id,string status);
         Task<ResponseReceipts> GetByInforId(Guid id);
+        Task<List<ResponseReceipts>>GetListByClient();
         Task Remove(Guid id);
     }
 }

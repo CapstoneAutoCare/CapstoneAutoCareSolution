@@ -25,11 +25,11 @@ namespace Application.SeedingData
         }
         private static readonly Dictionary<string, List<string>> BrandModels = new Dictionary<string, List<string>>
         {
-            { EnumBrand.BMW.ToString(), new List<string> { "330i", "i8", "740Li" } },
+            { EnumBrand.BMW.ToString(), new List<string> { "330i","740Li" } },
             { EnumBrand.MEC.ToString(), new List<string> { "E300 AMG", "S450","GLC 300" } },
             //{ EnumBrand.AUDI.ToString(), new List<string> { "A1", "A3", "Q7", "A5", "A6", "A4" } },
-            //{ EnumBrand.TOYOTA.ToString(), new List<string> { "Vios", "Camry", "Fortuner"} },
-            //{ EnumBrand.HONDA.ToString(), new List<string> { "Civic", "City"  } }
+            { EnumBrand.TOYOTA.ToString(), new List<string> { "Vios", "Camry",} },
+            { EnumBrand.HONDA.ToString(), new List<string> { "Civic", "City"  } }
         };
         public static List<VehicleModel> ServiceSeedingDataVehicleModel(List<VehiclesBrand> vehicleBrands)
         {

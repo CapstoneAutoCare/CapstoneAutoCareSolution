@@ -13,6 +13,7 @@ namespace Application.IRepository
         Task<List<Receipt>> GetAll();
         Task<Receipt> GetById(Guid id);
         Task<List<Receipt>> GetListByCenter(Guid id);
+        Task<List<Receipt>>  GetListByClient(Guid id);
         Task<Receipt>GetByInfor(Guid id);
         Task<(List<Receipt> Costs, float TotalCost, int Count)> TotalGetListByStatusPaidCenter(Guid centerId);
     }

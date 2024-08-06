@@ -50,6 +50,13 @@ namespace CapstoneAutoCareApi.Controllers
 
         }
         [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<ResponseReceipts>> GetListByTokenClient()
+        {
+            return Ok(await _receiptsService.GetListByClient());
+
+        }
+        [HttpGet]
         public async Task<ActionResult<ResponseReceipts>> GetListByCenter(Guid centerId)
         {
             return Ok(await _receiptsService.GetListByCenter(centerId));

@@ -18,6 +18,8 @@ namespace Infrastructure.Common.Response.ReceiptResponse
         public string status { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Description { get; set; }
+        public Guid MaintenanceCenterId { get; set; }
+
         public Guid InformationMaintenanceId { get; set; }
         public ResponseMaintenanceInformation ResponseMaintenanceInformation { get; set; }
     }

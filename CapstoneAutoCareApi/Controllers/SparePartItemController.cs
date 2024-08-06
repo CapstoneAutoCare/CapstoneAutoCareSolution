@@ -35,6 +35,12 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _sparePartsItemService.GetListByCenter());
         }
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseSparePartsItem>>> GetListByCenterId(Guid id)
+        {
+            return Ok(await _sparePartsItemService.GetListByCenterId(id));
+        }
         [HttpPost]
         public async Task<ActionResult<ResponseSparePartsItem>> Post([FromBody] CreateSparePartsItem create)
         {

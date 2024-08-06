@@ -139,7 +139,10 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id)
         {
-            var result = await _context.Set<MaintenanceInformation>()
+            var result = await _context.Set<MaintenanceInformation>().Include(c => c.Booking)
+                .ThenInclude(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                 .Where(m => m.Booking.MaintenanceCenterId.Equals(id)
                 && m.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString())
                 && (!m.MaintenanceTasks.Any()

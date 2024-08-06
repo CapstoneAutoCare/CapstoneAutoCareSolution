@@ -46,7 +46,7 @@ namespace Infrastructure.IService.Imp
             }
             else
             {
-                throw new Exception("LicensePlate does not match");
+                throw new Exception("LicensePlate does not match  format( 54A 333.12)");
             }
         }
         private static bool ValidateLicensePlate(string licensePlate)

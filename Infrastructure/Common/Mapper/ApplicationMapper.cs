@@ -488,6 +488,7 @@ namespace Infrastructure.Common.Mapper
                    .ForMember(c => c.Image, act => act.MapFrom(c => c.MaintenanceService.Image))
                    .ForPath(c => c.VehicleModelName, act => act.MapFrom(c => c.MaintenanceService.ServiceCare.MaintananceSchedule.VehicleModel.VehicleModelName))
                    .ForPath(c => c.VehiclesBrandName, act => act.MapFrom(c => c.MaintenanceService.ServiceCare.MaintananceSchedule.VehicleModel.VehiclesBrand.VehiclesBrandName))
+                   .ForPath(c => c.MaintananceScheduleName, act => act.MapFrom(c => c.MaintenanceService.ServiceCare.MaintananceSchedule.MaintananceScheduleName))
 
                    .ReverseMap();
 
@@ -500,6 +501,8 @@ namespace Infrastructure.Common.Mapper
                    .ForMember(c => c.Image, act => act.MapFrom(c => c.SparePartsItem.Image))
                    .ForPath(c => c.VehicleModelName, act => act.MapFrom(c => c.SparePartsItem.SpareParts.MaintananceSchedule.VehicleModel.VehicleModelName))
                    .ForPath(c => c.VehiclesBrandName, act => act.MapFrom(c => c.SparePartsItem.SpareParts.MaintananceSchedule.VehicleModel.VehiclesBrand.VehiclesBrandName))
+                                     .ForPath(c => c.MaintananceScheduleName, act => act.MapFrom(c => c.SparePartsItem.SpareParts.MaintananceSchedule.MaintananceScheduleName))
+
                    .ReverseMap();
             #endregion
 
@@ -531,6 +534,8 @@ namespace Infrastructure.Common.Mapper
                    .ReverseMap();
             CreateMap<Receipt, ResponseReceipts>()
                   .ForMember(p => p.ResponseMaintenanceInformation, act => act.MapFrom(src => src.InformationMaintenance))
+                                    .ForMember(p => p.MaintenanceCenterId, act => act.MapFrom(src => src.InformationMaintenance.Booking.MaintenanceCenterId))
+
                   .ReverseMap();
 
 

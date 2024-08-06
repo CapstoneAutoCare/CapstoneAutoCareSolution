@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Infrastructure.IService;
 using Infrastructure.Common.Response.ResponseTechnicanMain;
 using Infrastructure.Common.Request.RequestMaintenanceTechinican;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -34,9 +35,16 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceTechinicanService.GetById(id));
         }
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ResponseMaintenanceTask>>> GetListByCenter()
         {
             return Ok(await _maintenanceTechinicanService.GetListByCenter());
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<ResponseMaintenanceTask>>> GetListByCenterId(Guid id)
+        {
+            return Ok(await _maintenanceTechinicanService.GetListByCenterId(id));
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ResponseMaintenanceTask>>> GetListByCustomerCare()

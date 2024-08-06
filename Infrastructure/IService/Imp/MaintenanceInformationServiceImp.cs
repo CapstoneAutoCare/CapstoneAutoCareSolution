@@ -245,6 +245,18 @@ namespace Infrastructure.IService.Imp
 
         }
 
+        public async Task<ResponseMaintenanceInformation> GetByBookingId(Guid id)
+        {
+            return _mapper.Map<ResponseMaintenanceInformation>(
+                            await _unitOfWork.InformationMaintenance.GetByBookingId(id));
+        }
+
+        public async Task<List<ResponseMaintenanceInformation>> GetListByCenterId(Guid id)
+        {
+            return _mapper.Map<List<ResponseMaintenanceInformation>>(
+                             await _unitOfWork.InformationMaintenance.GetListByCenter(id));
+        }
+
         //public Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckin(Guid id)
         //{
         //    return _mapper.Map<List<ResponseMaintenanceInformation>>(

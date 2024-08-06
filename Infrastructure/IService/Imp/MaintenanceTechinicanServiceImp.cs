@@ -108,6 +108,12 @@ namespace Infrastructure.IService.Imp
 
         }
 
+        public async Task<List<ResponseMaintenanceTask>> GetListByCenterId(Guid id)
+        {
+            return _mapper.Map<List<ResponseMaintenanceTask>>(
+                         await _unitOfWork.MaintenanceTask.GetListByCenter(id));
+        }
+
         public async Task<List<ResponseMaintenanceTask>> GetListByCustomerCare()
         {
             var email = _tokensHandler.ClaimsFromToken();

@@ -42,6 +42,7 @@ namespace Infrastructure.IService.Imp
             admin.Account.Status = "ACTIVE";
             admin.Account.Role = "ADMIN";
             await _unitofWork.Account.CheckExistEmail(admin.Account.Email);
+            await _unitofWork.Account.CheckPhone(admin.Account.Phone);
             await _unitofWork.Admin.Add(admin);
             await _unitofWork.Account.Add(admin.Account);
             await _unitofWork.Commit();
@@ -68,6 +69,7 @@ namespace Infrastructure.IService.Imp
             admin.Account.Gender = update.Gender;
             admin.Account.Logo = update.Logo;
             await _unitofWork.Account.Update(admin.Account);
+
             await _unitofWork.Commit();
 
             return _mapper.Map<ResponseAdmin>(admin);

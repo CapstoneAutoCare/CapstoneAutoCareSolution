@@ -26,10 +26,21 @@ namespace Application.IRepository.Imp
             return check;
         }
 
+        public async Task<Account> CheckPhone(string phone)
+        {
+            var check = await _context.Set<Account>()
+                           .SingleOrDefaultAsync(c => c.Phone == phone);
+            if (check != null)
+            {
+                throw new Exception("Phone existed");
+            }
+            return check;
+        }
+
         public async Task<Account> GetByClientId(Guid id)
         {
             var check = await _context.Set<Account>()
-                .FirstOrDefaultAsync(c => c.Client.ClientId==id);
+                .FirstOrDefaultAsync(c => c.Client.ClientId == id);
             if (check == null)
             {
                 throw new Exception("Null Found");

@@ -20,5 +20,7 @@ namespace Infrastructure.Common.Response.ResponseCost
         public string MaintenanceServiceName { get; set; }
         public string VehicleModelName { get; set; }
         public string VehiclesBrandName { get; set; }
+        public string MaintananceScheduleName { get; set; }
+
     }
 }

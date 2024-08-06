@@ -51,7 +51,13 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _bookingsService.GetListByCenter());
         }
-       
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<List<ResponseBooking>>> GetListByCenterId(Guid id)
+        {
+            return Ok(await _bookingsService.GetListByCenterId(id));
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenterAndClient(Guid centerId, Guid clientId)
         {

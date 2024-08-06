@@ -14,5 +14,6 @@ namespace Application.IRepository
         Task<Account> Profile(string email);
         Task<Account> CheckExistEmail(string email);
         Task<Account> GetByClientId(Guid id);
+        Task<Account> CheckPhone(string phone);
     }
 }

@@ -72,6 +72,12 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintananceServices>>(list);
         }
 
+        public async Task<List<ResponseMaintananceServices>> GetListByCenterId(Guid id)
+        {
+            var list = await _unitOfWork.MaintenanceService.GetListByCenter(id);
+            return _mapper.Map<List<ResponseMaintananceServices>>(list);
+        }
+
         public async Task Remove(Guid id)
         {
             var u = await _unitOfWork.MaintenanceService.GetById(id);
