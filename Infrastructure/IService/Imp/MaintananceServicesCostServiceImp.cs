@@ -54,7 +54,7 @@ namespace Infrastructure.IService.Imp
 
         }
 
-        public async Task<List<ResponseMaintenanceServiceCost>> GetListByDifMaintenanceServiceAndInforId(Guid centerId, Guid inforId)
+        public async Task<List<ResponseMaintenanceServiceCost>> GetListByDifMaintenanceServiceAndInforIdAndBooleanFalse(Guid centerId, Guid inforId)
         {
             var spic = await _unitOfWork.MaintenanceServiceCost.GetListByDifMaintenanceServiceAndInforId(EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), centerId, inforId);
 

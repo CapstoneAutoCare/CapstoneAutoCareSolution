@@ -16,11 +16,23 @@ namespace Application.IRepository.Imp
         {
         }
 
+        public async Task<MaintenanceTaskServiceInfo> GetById(Guid id)
+        {
+            var mtsi = await _context.Set<MaintenanceTaskServiceInfo>()
+                            .Include(c => c.MaintenanceTask)
+                            .SingleOrDefaultAsync(c => c.MaintenanceTaskServiceInfoId == id);
+            if (mtsi == null)
+            {
+                throw new Exception("Not found MaintenanceTaskServiceInfo");
+            }
+            return mtsi;
+        }
+
         public async Task<List<MaintenanceTaskServiceInfo>> GetListByActiveAndTask(Guid id)
         {
             return await _context.Set<MaintenanceTaskServiceInfo>()
-                .Include(c=>c.MaintenanceTask)
-                .Where(c=>c.MaintenanceTaskId == id && c.Status.Equals(EnumStatus.ACTIVE.ToString()))
+                .Include(c => c.MaintenanceTask)
+                .Where(c => c.MaintenanceTaskId == id && c.Status.Equals(EnumStatus.ACTIVE.ToString()))
                 .ToListAsync();
         }
     }

@@ -19,10 +19,13 @@ namespace Domain.Entities
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Image { get; set; }
+        public bool Boolean {  get; set; }
         public Guid? ServiceCareId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
+        public Guid VehicleModelId { get; set; }
         public ServiceCares ServiceCare { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
+        public VehicleModel VehicleModel { get; set; }
         public ICollection<MaintenanceServiceCost> MaintenanceServiceCosts { get; set; }
 
     }

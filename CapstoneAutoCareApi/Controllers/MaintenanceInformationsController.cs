@@ -69,10 +69,11 @@ namespace CapstoneAutoCareApi.Controllers
         }
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByCenterAndStatusCheckinAndAnyTaskCancel()
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByCenterAndStatusCheckinAndAnyTaskCancel(Guid centerId)
         {
-            return Ok(await _maintenanceInformationService.GetListByCenterAndStatusCheckinAndTaskInactive());
+            return Ok(await _maintenanceInformationService.GetListByCenterAndStatusCheckinAndTaskInactive(centerId));
         }
+        
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)
         {

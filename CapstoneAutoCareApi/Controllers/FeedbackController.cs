@@ -1,4 +1,4 @@
-﻿    using Domain.Entities;
+﻿using Domain.Entities;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.RequestFb;
 using Infrastructure.Common.Response.ResponseFb;
@@ -31,6 +31,11 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<List<ResponseFeedback>>> GetAllFeedBackByCenter()
         {
             return Ok(await _feedbackService.GetListByCenter());
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseFeedback>>> GetListByCenterId(Guid id)
+        {
+            return Ok(await _feedbackService.GetListByCenterId(id));
         }
         [HttpPost]
         public async Task<ActionResult<FeedBack>> Post(CreateFeedBack createFb)

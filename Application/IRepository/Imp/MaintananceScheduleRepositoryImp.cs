@@ -17,12 +17,12 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintananceSchedule>> GetAll()
         {
-            return await _context.Set<MaintananceSchedule>().Include(c => c.VehicleModel).ToListAsync();
+            return await _context.Set<MaintananceSchedule>().Include(c => c.VehicleModel).ThenInclude(c=>c.VehiclesBrand).ToListAsync();
         }
 
         public async Task<MaintananceSchedule> GetByID(Guid? id)
         {
-            var maintanance_schedule = await _context.Set<MaintananceSchedule>().Include(a => a.VehicleModel)
+            var maintanance_schedule = await _context.Set<MaintananceSchedule>().Include(a => a.VehicleModel).ThenInclude(c => c.VehiclesBrand)
                 .FirstOrDefaultAsync(c => c.MaintananceScheduleId == id);
             if(maintanance_schedule == null)
             {

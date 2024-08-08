@@ -72,7 +72,7 @@ namespace Application
             modelBuilder.ApplyConfiguration(new ServiceCaresConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceConfiguration());
             modelBuilder.ApplyConfiguration(new SparePartsConfiguration());
-            modelBuilder.ApplyConfiguration(new SparePartsCostConfiguration());
+            modelBuilder.ApplyConfiguration(new SparePartsItemConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceTaskConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerCareConfiguration());
             modelBuilder.ApplyConfiguration(new VehicleModelConfiguration());
@@ -84,7 +84,7 @@ namespace Application
             modelBuilder.ApplyConfiguration(new MaintenanceServiceInfoConfiguration());
             modelBuilder.ApplyConfiguration(new ImageRepairReceiptConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceServiceCostConfiguration());
-            modelBuilder.ApplyConfiguration(new SparePartsCostConfiguration());
+            modelBuilder.ApplyConfiguration(new SparePartsItemConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceTaskServiceInfosConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceTaskSparePartInfosConfiguration());
             #endregion
@@ -96,7 +96,7 @@ namespace Application
             var schedule = SeedingDataMaintananceSchedule.Get(vehiclemodel);
             modelBuilder.Entity<MaintananceSchedule>().HasData(schedule);
 
-            var spareParts = SeedingDataSparePart.GetSpareParts(schedule);
+            var spareParts = SeedingDataSparePart.GetSpareParts(vehiclemodel);
             modelBuilder.Entity<SpareParts>().HasData(spareParts);
 
 
@@ -108,7 +108,7 @@ namespace Application
             var sparepartitems = SeedingDataSparePartsItem.GetSparePartsItems(center, spareParts);
             modelBuilder.Entity<SparePartsItem>().HasData(sparepartitems);
 
-            var maintenanceServices = SeedingDataMaintenanceService.GetMaintenanceServices(center, serviceCares);
+            var maintenanceServices = SeedingDataMaintenanceService.GetMaintenanceServices(center, serviceCares, vehiclemodel);
             modelBuilder.Entity<MaintenanceService>().HasData(maintenanceServices);
 
             var sparePartsItemCosts = SeedingDataSparePartsItemCost.GetSparePartsItemsCost(sparepartitems);

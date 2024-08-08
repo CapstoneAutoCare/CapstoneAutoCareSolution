@@ -45,6 +45,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseServicesCare>(maintanance_plan);
         }
 
+        public async Task<List<ResponseServicesCare>> GetServiceCaresNotInMaintenanceServices(Guid id)
+        {
+            return _mapper.Map<List<ResponseServicesCare>>(await _unitOfWork.ServiceCare.GetServiceCaresNotInMaintenanceServices(id));
+        }
+
         public async Task<ResponseServicesCare> Update(Guid id, UpdateServies update)
         {
             var item = await _unitOfWork.ServiceCare.GetByID(id);

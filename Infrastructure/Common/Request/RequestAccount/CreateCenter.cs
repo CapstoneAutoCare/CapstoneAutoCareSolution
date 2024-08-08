@@ -10,7 +10,6 @@ namespace Infrastructure.Common.Request.RequestAccount
     public class CreateCenter
     {
         [EmailAddress]
-
         public string Email { get; set; }
         public string Password { get; set; }
         public string Gender { get; set; }

@@ -25,12 +25,12 @@ namespace Application.ConfigurationDB
             builder.HasOne(d => d.MaintenanceTask)
                     .WithMany(d => d.MaintenanceTaskSparePartInfos)
                     .HasForeignKey(d => d.MaintenanceTaskId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.MaintenanceSparePartInfo)
                     .WithMany(d => d.MaintenanceTaskSparePartInfos)
                     .HasForeignKey(d => d.MaintenanceSparePartInfoId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

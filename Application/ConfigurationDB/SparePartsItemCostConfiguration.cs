@@ -20,7 +20,7 @@ namespace Application.ConfigurationDB
             builder.HasOne(d => d.SparePartsItem)
                      .WithMany(d => d.SparePartsItemCost)
                      .HasForeignKey(d => d.SparePartsItemId)
-                     .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -10,8 +10,6 @@ namespace Infrastructure.Common.Request.RequestMaintenanceInformation
 {
     public class CreateMaintenanceInformationHaveItemsByClient
     {
-        public Guid CustomerCareId { get; set; }
-        public DateTime FinishedDate { get; set; }
         public List<CreateMaintenanceSparePartInfoHaveItems>? CreateMaintenanceSparePartInfos { get; set; }
         public List<CreateMaintenanceServiceInfoHaveItems>? CreateMaintenanceServiceInfos { get; set; }
 

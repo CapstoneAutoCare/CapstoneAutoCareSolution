@@ -10,7 +10,7 @@ namespace Application.IRepository
 {
     public interface ICustomerCareRepository : IGenericRepository<CustomerCare>
     {
-        Task<CustomerCare> GetById(Guid id);
+        Task<CustomerCare> GetById(Guid? id);
         Task<List<CustomerCare>> GetAll();
         Task<List<CustomerCare>> GetListByCenter(Guid id);
     }

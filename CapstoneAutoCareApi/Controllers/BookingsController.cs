@@ -70,19 +70,26 @@ namespace CapstoneAutoCareApi.Controllers
         //    return NoContent();
         //}
 
-        [HttpPost]
-        public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
-        {
-            return Ok(await _bookingsService.Create(booking));
-
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
+        //{
+        //    return Ok(await _bookingsService.Create(booking));
+        //}
         [HttpPost]
         public async Task<ActionResult<ResponseBooking>> PostHaveItems([FromBody] RequestBookingHaveItems booking)
         {
             return Ok(await _bookingsService.CreateHaveItemsByClient(booking));
 
         }
+        [HttpPost]
+        public async Task<ActionResult<ResponseBooking>> PostHavePackage([FromBody] CreateBookingPackage booking)
+        {
+            return Ok(await _bookingsService.CreatePackageByClient(booking));
+
+        }
+        
         [HttpPatch]
+        [Authorize(Roles = "CUSTOMERCARE,CUSTOMER")]
         public async Task<ActionResult<ResponseBooking>> UpdateStatus(Guid bookingId, string status)
         {
             return Ok(await _bookingsService.UpdateStatus(bookingId, status));

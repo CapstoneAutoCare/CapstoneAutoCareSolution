@@ -55,7 +55,7 @@ namespace Application.IRepository.Imp
 
                 .Include(c => c.InformationMaintenance)
                  .FirstOrDefaultAsync(c => c.InformationMaintenanceId.Equals(id) && c.Status.Equals(status));
-            if(i == null)
+            if (i == null)
             {
                 throw new Exception("Null Status Task || NOT DONE");
             }
@@ -74,7 +74,7 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceServiceCost)
                 .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
-                .ThenInclude(c=>c.Account)
+                .ThenInclude(c => c.Account)
                 .Include(c => c.InformationMaintenance)
                                 .OrderByDescending(c => c.CreatedDate).ToListAsync();
         }
@@ -87,9 +87,9 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.SparePartsItemCost)
                 .ThenInclude(c => c.SparePartsItem)
                 .Include(c => c.MaintenanceTaskServiceInfos)
-                .ThenInclude(c=>c.MaintenanceServiceInfo)
-                .ThenInclude(c=>c.MaintenanceServiceCost)
-                .ThenInclude(c=>c.MaintenanceService)
+                .ThenInclude(c => c.MaintenanceServiceInfo)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                .ThenInclude(c => c.MaintenanceService)
                 .Include(c => c.Technician)
                                 .ThenInclude(c => c.Account)
 
@@ -99,6 +99,15 @@ namespace Application.IRepository.Imp
             {
                 throw new Exception("Not Found");
             }
+            return model;
+        }
+
+
+        public async Task<List<MaintenanceTask>> GetByInforId(Guid id)
+        {
+            var model = await _context.Set<MaintenanceTask>()
+                .Include(c => c.InformationMaintenance)
+                .Where(c => c.InformationMaintenanceId == id).ToListAsync();
             return model;
         }
 
@@ -195,5 +204,7 @@ namespace Application.IRepository.Imp
                 .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
         }
+
+
     }
 }

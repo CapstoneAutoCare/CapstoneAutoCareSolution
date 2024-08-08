@@ -78,6 +78,10 @@ namespace Infrastructure.IService.Imp
         public async Task<AuthenResponseMessToken> Login(string email, string password)
         {
             var account = await _unitOfWork.Account.Login(email, password);
+            //if (account.Status == "INACTIVE")
+            //{
+            //    throw new Exception("Account Is INACTIVE");
+            //}
             var token = _tokensHandler.CreateAccessToken(account);
 
             return _mapper.Map<AuthenResponseMessToken>(token);

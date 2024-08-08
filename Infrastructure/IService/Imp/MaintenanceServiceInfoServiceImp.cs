@@ -36,6 +36,24 @@ namespace Infrastructure.IService.Imp
             i.TotalPrice += msi.TotalCost;
             await _unitOfWork.MaintenanceServiceCost.CheckCostVehicleIdAndIdCost(i.Booking.Vehicles.VehicleModelId, msi.MaintenanceServiceCostId);
             await _unitOfWork.MaintenanceServiceInfo.Add(msi);
+
+            var tasks = await _unitOfWork.MaintenanceTask.GetByInforId(i.InformationMaintenanceId);
+            if (tasks != null && tasks.Any())
+            {
+                foreach (var task in tasks)
+                {
+                    var maintenanceTaskServiceInfo = new MaintenanceTaskServiceInfo
+                    {
+                        CreatedDate = DateTime.Now,
+                        Status = EnumStatus.ACTIVE.ToString(),
+                        MaintenanceTaskServiceInfoId = Guid.NewGuid(),
+                        MaintenanceServiceInfoId = msi.MaintenanceServiceInfoId,
+                        MaintenanceTaskId = task.MaintenanceTaskId,
+                    };
+                    await _unitOfWork.MaintenanceTaskServiceInfo.Add(maintenanceTaskServiceInfo);
+                }
+            }
+
             await _unitOfWork.InformationMaintenance.Update(i);
 
             await _unitOfWork.Commit();

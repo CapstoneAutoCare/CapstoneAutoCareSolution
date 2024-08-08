@@ -12,5 +12,6 @@ namespace Application.IRepository
     {
         Task<List<ServiceCares>> GetAll();
         Task<ServiceCares> GetByID(Guid? id);
+        Task<List<ServiceCares>> GetServiceCaresNotInMaintenanceServices(Guid centerId);
     }
 }

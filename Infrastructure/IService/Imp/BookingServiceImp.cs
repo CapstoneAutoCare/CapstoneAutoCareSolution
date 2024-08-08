@@ -6,6 +6,7 @@ using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Booking.Add(check);
 
             var mi = _mapper.Map<MaintenanceInformation>(check.MaintenanceInformation);
-            await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
+            //await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             mi.BookingId = booking.BookingId;
             mi.CreatedDate = DateTime.Now;
             mi.InformationMaintenanceName = "Client created Booking and Maintenance Infor";
@@ -89,6 +90,10 @@ namespace Infrastructure.IService.Imp
             };
             await _unitOfWork.MaintenanceHistoryStatuses.Add(historyStatus);
 
+            if (mi.MaintenanceSparePartInfos.Count() == 0 && mi.MaintenanceServiceInfos.Count() == 0)
+            {
+                throw new Exception("Booking items should have items");
+            }
 
             if (mi.MaintenanceSparePartInfos.Count() > 0)
             {
@@ -140,6 +145,79 @@ namespace Infrastructure.IService.Imp
 
         }
 
+        public async Task<ResponseBooking> CreatePackageByClient(CreateBookingPackage create)
+        {
+            var booking = _mapper.Map<Booking>(create);
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            var client = await _unitOfWork.Client.GetById(account.Client.ClientId);
+            booking.ClientId = client.ClientId;
+            var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+            booking.Status = "WAITING";
+            booking.CreatedDate = DateTime.Now;
+
+            await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+            await _unitOfWork.Booking.Add(booking);
+            MaintenanceInformation maintenanceInformation = new MaintenanceInformation
+            {
+                BookingId = booking.BookingId,
+                CreatedDate = DateTime.Now,
+                CustomerCareId = null,
+                FinishedDate = null,
+                InformationMaintenanceId = Guid.NewGuid(),
+                InformationMaintenanceName = create.InformationName,
+                Note = create.Note,
+                Status = EnumStatus.CREATEDBYClIENT.ToString(),
+                TotalPrice = 0,
+            };
+            await _unitOfWork.InformationMaintenance.Add(maintenanceInformation);
+            MaintenanceHistoryStatus historyStatus = new MaintenanceHistoryStatus
+            {
+                MaintenanceHistoryStatusId = new Guid(),
+                Status = EnumStatus.CREATEDBYClIENT.ToString(),
+                DateTime = DateTime.Now,
+                MaintenanceInformationId = maintenanceInformation.InformationMaintenanceId,
+                Note = maintenanceInformation.Note,
+            };
+            await _unitOfWork.MaintenanceHistoryStatuses.Add(historyStatus);
+            var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
+            if (schedule.VehicleModelId != vehicle.VehicleModelId)
+            {
+                throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe");
+            }
+            var list = await _unitOfWork.MaintenanceService.GetListPackageByOdoAndCenterIdAndVehicleId(booking.MaintenanceCenterId, booking.MaintananceScheduleId, vehicle.VehicleModelId);
+            if (!list.Any())
+            {
+                throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe ");
+            }
+            foreach (var item in list)
+            {
+                var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                      (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+                MaintenanceServiceInfo maintenanceServiceInfo = new MaintenanceServiceInfo
+                {
+                    InformationMaintenanceId = maintenanceInformation.InformationMaintenanceId,
+                    ActualCost = cost.ActuralCost,
+                    Discount = 0,
+                    CreatedDate = DateTime.Now,
+                    Note = create.InformationName,
+                    Quantity = 1,
+                    Status = EnumStatus.ACTIVE.ToString(),
+                    TotalCost = (cost.ActuralCost * 1) * (1 - (0) / 100f),
+                    MaintenanceServiceCostId = cost.MaintenanceServiceCostId,
+                    MaintenanceServiceInfoId = Guid.NewGuid(),
+                    MaintenanceServiceInfoName = cost.MaintenanceService.MaintenanceServiceName,
+                };
+                //await _unitOfWork.MaintenanceServiceCost.CheckCostVehicleIdAndIdCost(check.Vehicles.VehicleModelId, msi.MaintenanceServiceCostId);
+                maintenanceInformation.TotalPrice += maintenanceServiceInfo.TotalCost;
+                await _unitOfWork.MaintenanceServiceInfo.Add(maintenanceServiceInfo);
+            }
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseBooking>(booking);
+
+        }
+
         public async Task<List<ResponseBooking>> GetAll()
         {
             return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetAll());
@@ -180,10 +258,13 @@ namespace Infrastructure.IService.Imp
         {
             var booking = await _unitOfWork.Booking.GetById(bookingId);
 
-            var account = await _unitOfWork.Account.GetByClientId(booking.ClientId);
             var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
             if (booking.Status.Equals("WAITING") && status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()))
             {
+                var email = _tokensHandler.ClaimsFromToken();
+                var account = await _unitOfWork.Account.Profile(email);
+                checkInfor.CustomerCareId = account.CustomerCare.CustomerCareId;
+
                 booking.Status = status;
                 await _unitOfWork.Booking.Update(booking);
                 MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();

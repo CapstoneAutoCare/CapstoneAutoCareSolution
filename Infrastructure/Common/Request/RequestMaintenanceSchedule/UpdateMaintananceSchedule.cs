@@ -8,7 +8,7 @@ namespace Infrastructure.Common.Request.MaintenanceSchedule
 {
     public class UpdateMaintananceSchedule
     {
-        public string Odo { get; set; }
+        public int Odo { get; set; }
         public string Description { get; set; }
     }
 }

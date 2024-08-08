@@ -16,7 +16,7 @@ namespace Application.SeedingData
             return centers.AsParallel().SelectMany(center =>
                 spareParts.Select(sparePart => new SparePartsItem
                 {
-                    SparePartsItemtId = Guid.NewGuid(),
+                    SparePartsItemId = Guid.NewGuid(),
                     Status = EnumStatus.ACTIVE.ToString(),
                     SparePartsItemName = sparePart.SparePartName,
                     CreatedDate = DateTime.Now,

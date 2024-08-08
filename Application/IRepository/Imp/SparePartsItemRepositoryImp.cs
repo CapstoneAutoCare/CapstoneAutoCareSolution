@@ -22,7 +22,6 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.SparePartsItemCost)
                 .Include(p => p.SpareParts)
-                            .ThenInclude(c => c.MaintananceSchedule)
                             .ThenInclude(c => c.VehicleModel)
                             .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(c => c.CreatedDate)
@@ -35,11 +34,10 @@ namespace Application.IRepository.Imp
                 .Include(c => c.SparePartsItemCost)
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.SpareParts)
-                            .ThenInclude(c => c.MaintananceSchedule)
                             .ThenInclude(c => c.VehicleModel)
                             .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(c => c.CreatedDate)
-                .FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id));
+                .FirstOrDefaultAsync(x => x.SparePartsItemId.Equals(id));
             if (spi == null)
             {
                 throw new Exception("Not Found");
@@ -54,11 +52,10 @@ namespace Application.IRepository.Imp
                             .Include(c => c.MaintenanceCenter)
                             .Include(c => c.SparePartsItemCost)
                             .Include(c => c.SpareParts)
-                            .ThenInclude(c => c.MaintananceSchedule)
                             .ThenInclude(c => c.VehicleModel)
                             .ThenInclude(c => c.VehiclesBrand)
                             .OrderByDescending(c => c.CreatedDate)
-                            .FirstOrDefaultAsync(x => x.SparePartsItemtId.Equals(id)
+                            .FirstOrDefaultAsync(x => x.SparePartsItemId.Equals(id)
                             && x.Status.Equals(EnumStatus.ACTIVE.ToString())
                             && x.SparePartsItemCost.Select(c => c.Status.Equals(EnumStatus.ACTIVE.ToString())).LastOrDefault());
             if (spi == null)
@@ -75,7 +72,6 @@ namespace Application.IRepository.Imp
                             .Include(c => c.MaintenanceCenter)
                             .Include(c => c.SparePartsItemCost)
                             .Include(c => c.SpareParts)
-                            .ThenInclude(c => c.MaintananceSchedule)
                             .ThenInclude(c => c.VehicleModel)
                             .ThenInclude(c => c.VehiclesBrand)
                             .OrderByDescending(c => c.CreatedDate)

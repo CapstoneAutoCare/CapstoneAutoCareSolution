@@ -37,6 +37,23 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.SparePartsItemCost.CheckCostVehicleIdAndIdCost(i.Booking.Vehicles.VehicleModelId, spi.SparePartsItemCostId);
             //await _unitOfWork.SparePartsItemCost.GetById(spi.SparePartsItemCostId);
             await _unitOfWork.MaintenanceSparePartInfo.Add(spi);
+
+            var tasks = await _unitOfWork.MaintenanceTask.GetByInforId(i.InformationMaintenanceId);
+            if (tasks != null && tasks.Any())
+            {
+                foreach (var mtsp in tasks)
+                {
+                    MaintenanceTaskSparePartInfo maintenanceTaskSparePartInfo = new MaintenanceTaskSparePartInfo
+                    {
+                        CreatedDate = DateTime.Now,
+                        MaintenanceSparePartInfoId = spi.MaintenanceSparePartInfoId,
+                        MaintenanceTaskId = mtsp.MaintenanceTaskId,
+                        MaintenanceTaskSparePartInfoId = Guid.NewGuid(),
+                        Status = EnumStatus.ACTIVE.ToString(),
+                    };
+                    await _unitOfWork.MaintenanceTaskSparePartInfo.Add(maintenanceTaskSparePartInfo);
+                }
+            }
             await _unitOfWork.InformationMaintenance.Update(i);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceSparePartInfo>(spi);

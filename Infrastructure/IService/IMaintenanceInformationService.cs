@@ -21,7 +21,7 @@ namespace Infrastructure.IService
         Task<ResponseMaintenanceInformation> Create(CreateMaintenanceInformation create);
         Task<ResponseMaintenanceInformation> CreateHaveItems(CreateMaintenanceInformationHaveItems create);
         Task<List<ResponseMaintenanceInformation>> GetAll();
-        Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive();
+        Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
         Task<ResponseMaintenanceInformation> ChangeStatus (Guid id, string status);
         Task<ResponseMaintenanceInformation> ChangeStatusBackUp (Guid id, string status);
         Task Remove (Guid id);

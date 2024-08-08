@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace Application.ConfigurationDB
 {
-    public class SparePartsCostConfiguration : IEntityTypeConfiguration<SparePartsItem>
+    public class SparePartsItemConfiguration : IEntityTypeConfiguration<SparePartsItem>
     {
         public void Configure(EntityTypeBuilder<SparePartsItem> builder)
         {
-            builder.HasKey(c => c.SparePartsItemtId);
+            builder.HasKey(c => c.SparePartsItemId);
 
-            builder.Property(e => e.SparePartsItemtId)
+            builder.Property(e => e.SparePartsItemId)
                     .ValueGeneratedOnAdd();
+            builder.HasIndex(e => new {  e.SparePartsId, e.MaintenanceCenterId }).IsUnique();
 
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime");

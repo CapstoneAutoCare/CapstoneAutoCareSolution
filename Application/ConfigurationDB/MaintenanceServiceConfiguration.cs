@@ -16,6 +16,7 @@ namespace Application.ConfigurationDB
             builder.HasKey(c => c.MaintenanceServiceId);
             builder.Property(e => e.MaintenanceServiceId)
                     .ValueGeneratedOnAdd();
+            builder.HasIndex(e => new { e.ServiceCareId, e.VehicleModelId, e.MaintenanceCenterId }).IsUnique();
 
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime");
@@ -28,6 +29,10 @@ namespace Application.ConfigurationDB
             builder.HasOne(d => d.MaintenanceCenter)
                     .WithMany(d => d.MaintenanceServices)
                     .HasForeignKey(d => d.MaintenanceCenterId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(d => d.VehicleModel)
+                    .WithMany(d => d.MaintenanceServices)
+                    .HasForeignKey(d => d.VehicleModelId)
                     .OnDelete(DeleteBehavior.Restrict);
         }
     }

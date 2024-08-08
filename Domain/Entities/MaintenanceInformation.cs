@@ -22,12 +22,12 @@ namespace Domain.Entities
         public Guid InformationMaintenanceId { get; set; }
         public string InformationMaintenanceName { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime FinishedDate { get; set; }
+        public DateTime? FinishedDate { get; set; }
         public float TotalPrice { get; set; }
         public string Note { get; set; }
         public string Status { get; set; }
         public Guid? BookingId { get; set; }
-        public Guid CustomerCareId { get; set; }
+        public Guid? CustomerCareId { get; set; }
         public Booking Booking { get; set; }
         public CustomerCare CustomerCare { get; set; }
         public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }

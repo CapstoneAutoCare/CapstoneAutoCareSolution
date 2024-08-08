@@ -16,7 +16,7 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceServiceCost>> GetListByVIEWClient(Guid centerId);
         Task<ResponseMaintenanceServiceCost> GetByIdMaintenanceServiceActive(Guid id);
 
-        Task<List<ResponseMaintenanceServiceCost>> GetListByDifMaintenanceServiceAndInforId(Guid centerId, Guid inforId);
+        Task<List<ResponseMaintenanceServiceCost>> GetListByDifMaintenanceServiceAndInforIdAndBooleanFalse(Guid centerId, Guid inforId);
         Task<ResponseMaintenanceServiceCost> GetById(Guid id);
         Task<ResponseMaintenanceServiceCost> Create(CreateMaintenanceServiceCost create);
         Task<ResponseMaintenanceServiceCost> UpdateStatus(Guid id, string status);

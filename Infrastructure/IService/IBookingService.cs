@@ -15,6 +15,7 @@ namespace Infrastructure.IService
         Task<List<ResponseBooking>> GetAll();
         Task<ResponseBooking> Create(RequestBooking create);
         Task<ResponseBooking> CreateHaveItemsByClient(RequestBookingHaveItems create);
+        Task<ResponseBooking> CreatePackageByClient(CreateBookingPackage create);
 
         Task<ResponseBooking> GetById (Guid id);
         Task<List<ResponseBooking>> GetListByClient();

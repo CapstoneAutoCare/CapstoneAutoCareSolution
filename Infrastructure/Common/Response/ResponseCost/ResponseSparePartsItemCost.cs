@@ -19,6 +19,5 @@ namespace Infrastructure.Common.Response.ResponseCost
         public string SparePartsItemName { get; set; }
         public string VehicleModelName { get; set; }
         public string VehiclesBrandName { get; set; }
-        public string MaintananceScheduleName {  get; set; }
     }
 }

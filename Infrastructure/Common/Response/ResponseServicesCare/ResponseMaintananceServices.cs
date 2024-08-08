@@ -14,7 +14,7 @@ namespace Infrastructure.Common.Response.ResponseServicesCare
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Image { get; set; }
-
+        public bool Boolean {  get; set; }
         public Guid ServiceCareId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
         public string MaintenanceCenterName { get; set; }
@@ -22,5 +22,8 @@ namespace Infrastructure.Common.Response.ResponseServicesCare
         public string VehiclesBrandName { get; set; }
         public string VehicleModelName { get; set; }
         public string MaintananceScheduleName { get; set; }
+        public Guid MaintananceScheduleId { get; set; }
+
+
     }
 }

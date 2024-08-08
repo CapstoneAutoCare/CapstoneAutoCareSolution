@@ -15,16 +15,36 @@ namespace Application.IRepository.Imp
         {
         }
 
-        public async Task<List<MaintenanceService>> GetAll()
+        public async Task<MaintenanceService> CheckServiceAdminExistWithCenterId(Guid? serviceadmin, Guid centerId)
         {
-            return await _context.Set<MaintenanceService>()
+            var item = await _context.Set<MaintenanceService>()
                 .Include(c => c.MaintenanceCenter)
-                .Include(c=>c.MaintenanceServiceCosts)
+                .Include(c => c.MaintenanceServiceCosts)
                 .Include(c => c.ServiceCare)
                             .ThenInclude(c => c.MaintananceSchedule)
                             .ThenInclude(c => c.VehicleModel)
                             .ThenInclude(c => c.VehiclesBrand)
-                .OrderByDescending(p=>p.CreatedDate)
+                .OrderByDescending(p => p.CreatedDate)
+                .SingleOrDefaultAsync(c => c.ServiceCareId == serviceadmin && c.MaintenanceCenterId == centerId);
+            if (item != null)
+            {
+                throw new Exception("Dịch vụ này đã được cung cấp từ nhà cung cấp");
+            }
+            return item;
+        }
+
+
+
+        public async Task<List<MaintenanceService>> GetAll()
+        {
+            return await _context.Set<MaintenanceService>()
+                .Include(c => c.MaintenanceCenter)
+                .Include(c => c.MaintenanceServiceCosts)
+                .Include(c => c.ServiceCare)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .ThenInclude(c => c.VehicleModel)
+                            .ThenInclude(c => c.VehiclesBrand)
+                .OrderByDescending(p => p.CreatedDate)
                 .ToListAsync();
         }
 
@@ -57,8 +77,68 @@ namespace Application.IRepository.Imp
                             .ThenInclude(c => c.VehicleModel)
                             .ThenInclude(c => c.VehiclesBrand)
                             .OrderByDescending(p => p.CreatedDate)
-                            .Include(p => p.ServiceCare).Where(c => c.MaintenanceCenterId == center)
+                            .Include(p => p.ServiceCare)
+                            .ThenInclude(c => c.MaintananceSchedule)
+                            .Where(c => c.MaintenanceCenterId == center)
                             .ToListAsync();
+        }
+
+        public async Task<List<MaintenanceService>> GetListPackageByOdoAndCenterId(Guid centerId, Guid odoId)
+        {
+            return await _context.Set<MaintenanceService>()
+                           .Include(c => c.MaintenanceCenter)
+                           .Include(c => c.MaintenanceServiceCosts)
+                           .Include(c => c.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .ThenInclude(c => c.VehicleModel)
+                           .ThenInclude(c => c.VehiclesBrand)
+                           .OrderByDescending(p => p.CreatedDate)
+                           .Include(p => p.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .Where(c => c.MaintenanceCenterId == centerId
+                           && c.ServiceCare.MaintananceScheduleId == odoId && c.Boolean == true)
+                           .ToListAsync();
+        }
+
+        public async Task<List<MaintenanceService>> GetListPackageByOdoAndCenterIdAndVehicleId(Guid centerId, Guid? odoId, Guid modelvehicleId)
+        {
+            var i = await _context.Set<MaintenanceService>()
+                           .Include(c => c.MaintenanceCenter)
+                           .Include(c => c.MaintenanceServiceCosts)
+                           .Include(c => c.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .ThenInclude(c => c.VehicleModel)
+                           .ThenInclude(c => c.VehiclesBrand)
+                           .OrderByDescending(p => p.CreatedDate)
+                           .Include(p => p.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .Where(c => c.MaintenanceCenterId == centerId
+                           && c.ServiceCare.MaintananceScheduleId == odoId && c.Boolean == true && c.VehicleModelId == modelvehicleId)
+
+
+                           .ToListAsync();
+            if (i == null)
+            {
+                throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe ");
+            }
+            return i;
+        }
+
+        public async Task<List<MaintenanceService>> GetListPackageOdoTRUEByCenterId(Guid centerId)
+        {
+            var i = await _context.Set<MaintenanceService>()
+                           .Include(c => c.MaintenanceCenter)
+                           .Include(c => c.MaintenanceServiceCosts)
+                           .Include(c => c.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .ThenInclude(c => c.VehicleModel)
+                           .ThenInclude(c => c.VehiclesBrand)
+                           .OrderByDescending(p => p.CreatedDate)
+                           .Include(p => p.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .Where(c => c.MaintenanceCenterId == centerId
+                           && c.Boolean == true).ToListAsync();
+            return i;
         }
     }
 }

@@ -13,6 +13,8 @@ namespace Domain.Entities
         {
             Vehicles = new HashSet<Vehicles>();
             MaintenanceSchedules = new HashSet<MaintananceSchedule>();
+            Parts = new HashSet<SpareParts>();
+
         }
 
         [Key]
@@ -24,6 +26,8 @@ namespace Domain.Entities
         public Guid VehiclesBrandId { get; set; }
         public VehiclesBrand VehiclesBrand { get; set; }
         public ICollection<Vehicles> Vehicles { get; set; }
+        public ICollection<SpareParts> Parts { get; set; }
+        public ICollection<MaintenanceService> MaintenanceServices { get; set; }
         public ICollection<MaintananceSchedule> MaintenanceSchedules { get; set; }
     }
 }

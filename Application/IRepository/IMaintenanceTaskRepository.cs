@@ -17,8 +17,8 @@ namespace Application.IRepository
         Task<List<MaintenanceTask>> GetListByTech(Guid id);
         Task<List<MaintenanceTask>> GetListByInfor(Guid id);
         Task<List<MaintenanceTask>> GetListStatusDifCancelledByInfor(Guid id);
-
-        Task<MaintenanceTask> CheckExistByTechAndInfor(Guid techId,Guid inforId);
-        Task<MaintenanceTask> CheckTaskByInforId(Guid id,string status);
+        Task<List<MaintenanceTask>> GetByInforId(Guid id);
+        Task<MaintenanceTask> CheckExistByTechAndInfor(Guid techId, Guid inforId);
+        Task<MaintenanceTask> CheckTaskByInforId(Guid id, string status);
     }
 }

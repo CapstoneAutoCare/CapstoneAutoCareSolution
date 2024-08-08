@@ -22,7 +22,6 @@ namespace Application.IRepository.Imp
             return await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
                 .ThenInclude(c => c.SpareParts)
-                .ThenInclude(c => c.MaintananceSchedule)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(c => c.DateTime)
@@ -34,7 +33,6 @@ namespace Application.IRepository.Imp
             var i = await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
                 .ThenInclude(c => c.SpareParts)
-                .ThenInclude(c => c.MaintananceSchedule)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.MaintenanceSparePartInfos)
@@ -54,7 +52,6 @@ namespace Application.IRepository.Imp
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
                                 .ThenInclude(c => c.SpareParts)
-                .ThenInclude(c => c.MaintananceSchedule)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                                 .Include(c => c.MaintenanceSparePartInfos)
@@ -91,11 +88,10 @@ namespace Application.IRepository.Imp
             var spi = await _context.Set<SparePartsItemCost>()
                         .Include(c => c.SparePartsItem)
                         .ThenInclude(c => c.SpareParts)
-                .ThenInclude(c => c.MaintananceSchedule)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                         .Include(c => c.MaintenanceSparePartInfos)
-                        .Where(c => c.SparePartsItem.SparePartsItemtId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status))
+                        .Where(c => c.SparePartsItem.SparePartsItemId == id && c.Status.Equals(cost) && c.SparePartsItem.Status.Equals(status))
                         .OrderByDescending(c => c.DateTime)
                         .FirstOrDefaultAsync();
             return spi;
@@ -106,7 +102,6 @@ namespace Application.IRepository.Imp
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
                                 .ThenInclude(c => c.SpareParts)
-                .ThenInclude(c => c.MaintananceSchedule)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                                 .Where(c => c.SparePartsItem.MaintenanceCenterId == centerId
@@ -130,7 +125,6 @@ namespace Application.IRepository.Imp
             var query = _context.Set<SparePartsItemCost>()
                                 .Include(c => c.SparePartsItem)
                                 .ThenInclude(c => c.SpareParts)
-                .ThenInclude(c => c.MaintananceSchedule)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                                 .Include(c => c.MaintenanceSparePartInfos)
@@ -155,14 +149,13 @@ namespace Application.IRepository.Imp
             var c = await _context.Set<SparePartsItemCost>()
                 .Include(c => c.SparePartsItem)
                 .ThenInclude(c=>c.SpareParts)
-                .ThenInclude(c=>c.MaintananceSchedule)
                 .ThenInclude(c=>c.VehicleModel)
                 .ThenInclude(c=>c.VehiclesBrand)
                 .Include(c => c.MaintenanceSparePartInfos)
                 
                 .OrderByDescending(c => c.DateTime)
                 .SingleOrDefaultAsync(c => c.SparePartsItemCostId == id
-                && c.SparePartsItem.SpareParts.MaintananceSchedule.VehicleModelId.Equals(vehicleId));
+                && c.SparePartsItem.SpareParts.VehicleModelId.Equals(vehicleId));
             if (c == null)
             {
                 throw new Exception("This product does not belong to this vehicle");

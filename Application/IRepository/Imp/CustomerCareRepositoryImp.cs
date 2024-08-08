@@ -28,7 +28,7 @@ namespace Application.IRepository.Imp
                 .Where(c => c.CenterId == id).ToListAsync();
         }
 
-        public async Task<CustomerCare> GetById(Guid id)
+        public async Task<CustomerCare> GetById(Guid? id)
         {
             var customercare = await _context.Set<CustomerCare>()
                 .Include(c => c.Account)

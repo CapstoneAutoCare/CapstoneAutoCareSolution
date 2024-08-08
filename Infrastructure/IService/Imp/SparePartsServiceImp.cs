@@ -29,7 +29,7 @@ namespace Infrastructure.IService.Imp
         {
 
             var sparepart = _mapper.Map<SpareParts>(create);
-            await _unitOfWork.MaintenanceSchedule.GetByID(sparepart.MaintananceScheduleId);
+            await _unitOfWork.VehicleModel.GetById(sparepart.VehicleModelId);
 
             sparepart.CreatedDate = DateTime.Now;
             sparepart.Status = "ACTIVE";

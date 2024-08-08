@@ -20,7 +20,7 @@ namespace Application.ConfigurationDB
             builder.HasOne(d => d.MaintenanceService)
                      .WithMany(d => d.MaintenanceServiceCosts)
                      .HasForeignKey(d => d.MaintenanceServiceId)
-                     .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

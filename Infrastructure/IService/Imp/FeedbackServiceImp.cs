@@ -30,10 +30,9 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseFeedback> Create(CreateFeedBack create)
         {
             var feedback = _mapper.Map<FeedBack>(create);
-            //var reciept = _unitOfWork.ReceiptRepository.GetById(create.ReceiptId);
 
-            var mc = await _unitOfWork.MaintenanceCenter.GetById(create.MaintenanceCenterId);
-            var rc = await _unitOfWork.ReceiptRepository.GetById(create.ReceiptId);
+            var mc = await _unitOfWork.MaintenanceCenter.GetById(feedback.MaintenanceCenterId);
+            var rc = await _unitOfWork.ReceiptRepository.GetById(feedback.ReceiptId);
 
             feedback.MaintenanceCenter = mc;
             feedback.Receipt = rc;
@@ -66,6 +65,12 @@ namespace Infrastructure.IService.Imp
             var email = _tokensHandler.ClaimsFromToken();
             var account = await _unitOfWork.Account.Profile(email);
             var list = await _unitOfWork.FeedBack.GetListByCenter(account.MaintenanceCenter.MaintenanceCenterId);
+            return _mapper.Map<List<ResponseFeedback>>(list);
+        }
+
+        public async Task<List<ResponseFeedback>> GetListByCenterId(Guid id)
+        {
+            var list = await _unitOfWork.FeedBack.GetListByCenter(id);
             return _mapper.Map<List<ResponseFeedback>>(list);
         }
 

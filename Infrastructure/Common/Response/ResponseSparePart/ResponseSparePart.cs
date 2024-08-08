@@ -16,8 +16,6 @@ namespace Infrastructure.Common.Response.ResponseSparePart
         public DateTime CreatedDate { get; set; }
         public float OriginalPrice { get; set; }
         public string Status { get; set; }
-        public Guid MaintananceScheduleId { get; set; }
-        public string MaintananceScheduleName { get; set; }
         public ReponseVehicleModels ReponseVehicleModel { get; set; }
 
 

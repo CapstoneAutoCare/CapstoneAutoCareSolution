@@ -18,8 +18,7 @@ namespace Application.IRepository.Imp
         public async Task<List<SpareParts>> GetAll()
         {
             return await _context.Set<SpareParts>()
-                .Include(p => p.MaintananceSchedule)
-                .ThenInclude(c=>c.VehicleModel)
+                .Include(c=>c.VehicleModel)
                 .ThenInclude(c=>c.VehiclesBrand)
                 .OrderByDescending(p => p.CreatedDate)
                 .ToListAsync();
@@ -28,8 +27,7 @@ namespace Application.IRepository.Imp
         public async Task<SpareParts> GetByID(Guid? id)
         {
             var sp = await _context.Set<SpareParts>()
-                .Include(p => p.MaintananceSchedule)
-                .ThenInclude(c => c.VehicleModel)
+                .Include(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefaultAsync(x => x.SparePartId.Equals(id));

@@ -17,5 +17,7 @@ namespace Infrastructure.IService
         Task<ResponseServicesCare> Create(CreateServicesCare create);
         Task<ResponseServicesCare> Update(Guid id, UpdateServies update);
         Task<ResponseServicesCare> UpdateStatus(Guid id, string status);
+        Task<List<ResponseServicesCare>> GetServiceCaresNotInMaintenanceServices(Guid id);
+
     }
 }

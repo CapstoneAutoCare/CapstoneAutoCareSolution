@@ -27,7 +27,7 @@ namespace Application.ConfigurationDB
                     .WithMany(d => d.Technicians)
                     .HasForeignKey(d => d.CenterId)
                     .OnDelete(DeleteBehavior.Restrict);
-           
+
         }
     }
 }

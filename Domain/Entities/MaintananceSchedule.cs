@@ -13,19 +13,17 @@ namespace Domain.Entities
         public MaintananceSchedule()
         {
             Bookings = new HashSet<Booking>();
-            Parts = new HashSet<SpareParts>();
             ServiceCares = new HashSet<ServiceCares>();
         }
 
         [Key]
         public Guid MaintananceScheduleId { get; set; }
-        public string MaintananceScheduleName { get; set; }
+        public int MaintananceScheduleName { get; set; }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
         public Guid VehicleModelId { get; set; }
         public VehicleModel VehicleModel { get; set; }
         public ICollection<Booking> Bookings { get; set; }
-        public ICollection<SpareParts> Parts { get; set; }
         public ICollection<ServiceCares> ServiceCares { get; set; }
     }
 }

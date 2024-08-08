@@ -32,7 +32,7 @@ namespace Infrastructure.IService.Imp
         {
             var tech = _mapper.Map<MaintenanceTask>(create);
             tech.CreatedDate = DateTime.Now;
-            tech.Status = "ACTIVE";
+            tech.Status = STATUSENUM.STATUSBOOKING.ACCEPTED.ToString();
             var mi = await _unitOfWork.InformationMaintenance.GetById(tech.InformationMaintenanceId);
             await _unitOfWork.MaintenanceTask.CheckExistByTechAndInfor(tech.TechnicianId, tech.InformationMaintenanceId);
             if (mi.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()))
@@ -78,13 +78,27 @@ namespace Infrastructure.IService.Imp
                 //}
                 //mi.Status = STATUSENUM.STATUSMI.REPAIRING.ToString();
                 //await _unitOfWork.InformationMaintenance.Update(mi);
+
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.REPAIRING.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.REPAIRING.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = mi.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
+                {
+                    mi.Status = EnumStatus.REPAIRING.ToString();
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                    await _unitOfWork.InformationMaintenance.Update(mi);
+                }
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseMaintenanceTask>(tech);
 
             }
             else
             {
-                throw new Exception("Can't Create Assign Task in"+ mi.InformationMaintenanceId + "By Status not  CheckIN");
+                throw new Exception("Can't Create Assign Task in" + mi.InformationMaintenanceId + "By Status not  CheckIN");
             }
 
         }
@@ -174,7 +188,7 @@ namespace Infrastructure.IService.Imp
                 }
                 else
                 {
-                    throw new Exception("History Status existed Status: " + maintenanceHistoryStatus.Status + " Can't Change Status Task :" +status);
+                    throw new Exception("History Status existed Status: " + maintenanceHistoryStatus.Status + " Can't Change Status Task :" + status);
                 }
             }
             else if (t.Status.Equals(EnumStatus.ACTIVE.ToString())
@@ -201,7 +215,6 @@ namespace Infrastructure.IService.Imp
             else if (t.Status.Equals(STATUSENUM.STATUSBOOKING.ACCEPTED.ToString())
                 && status.Equals(STATUSENUM.STATUSMI.DONE.ToString()))
             {
-                t.Status = STATUSENUM.STATUSMI.DONE.ToString();
                 t.Status = STATUSENUM.STATUSMI.DONE.ToString();
                 MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
                 maintenanceHistoryStatus.Status = EnumStatus.PAYMENT.ToString();

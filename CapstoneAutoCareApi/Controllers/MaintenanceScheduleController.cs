@@ -2,6 +2,7 @@
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Response.ReponseVehicleModel;
+using Infrastructure.Common.Response.ResponseMaintenanceSchedule;
 using Infrastructure.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace CapstoneAutoCareApi.Controllers
             _maintenanceScheduleService = maintenanceScheduleService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<ReponseVehicleModels>>> GetAll()
+        public async Task<ActionResult<List<ResponseMaintenanceSchedules>>> GetAll()
         {
             return Ok(await _maintenanceScheduleService.GetAll());
         }

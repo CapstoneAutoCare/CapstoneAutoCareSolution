@@ -23,8 +23,8 @@ namespace Domain.Entities
         public DateTime CreatedDate { get; set; }
         public float OriginalPrice { get; set; }
         public string Status { get; set; }
-        public Guid MaintananceScheduleId { get; set; }
-        public MaintananceSchedule MaintananceSchedule { get; set; }
+        public Guid VehicleModelId { get; set; }
+        public VehicleModel VehicleModel { get; set; }
         public ICollection<SparePartsItem> SparePartsItems { get; set; }
     }
 }

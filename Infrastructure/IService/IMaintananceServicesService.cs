@@ -17,6 +17,8 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintananceServices>> GetListByCenterId(Guid id);
         Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update);
         Task<ResponseMaintananceServices> UpdateStatus(Guid id, string status);
+        Task<List<ResponseMaintananceServices>> GetListPackageByOdoAndCenterId(Guid id, Guid odoId);
+        Task<List<ResponseMaintananceServices>> GetListPackageAndOdoTRUEByCenterId(Guid id);
         Task Remove(Guid id);
     }
 }

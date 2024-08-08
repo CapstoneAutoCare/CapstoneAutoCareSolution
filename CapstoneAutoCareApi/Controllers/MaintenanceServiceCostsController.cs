@@ -48,10 +48,9 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintananceServicesCost.GetById(id));
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResponseSparePartsItemCost>>> GetListByDifMaintenanceServiceAndInforId(Guid centerId, Guid inforId)
+        public async Task<ActionResult<IEnumerable<ResponseSparePartsItemCost>>> GetListByDifMaintenanceServiceAndInforIdAndBooleanFalse(Guid centerId, Guid inforId)
         {
-            return Ok(await _maintananceServicesCost.GetListByDifMaintenanceServiceAndInforId(centerId, inforId));
-
+            return Ok(await _maintananceServicesCost.GetListByDifMaintenanceServiceAndInforIdAndBooleanFalse(centerId, inforId));
         }
         [HttpPost]
         public async Task<ActionResult<MaintenanceServiceCost>> Post(CreateMaintenanceServiceCost maintenanceServiceCost)

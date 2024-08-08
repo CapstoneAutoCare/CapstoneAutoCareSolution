@@ -15,6 +15,7 @@ namespace Infrastructure.IService
         Task<List<ResponseFeedback>> GetAll();
         Task<ResponseFeedback> GetById(Guid id);
         Task<ResponseFeedback> Create(CreateFeedBack create);
+        Task<List<ResponseFeedback>> GetListByCenterId(Guid id);
         Task<List<ResponseFeedback>> GetListByCenter();
         Task<ResponseFeedback> Update(Guid id, UpdateFeedback update);
         Task Remove(Guid id);

@@ -11,7 +11,7 @@ namespace Application.SeedingData
     public partial class SeedingDataSparePart
     {
 
-        public static  List<SpareParts> GetSpareParts(List<MaintananceSchedule> maintananceSchedules)
+        public static  List<SpareParts> GetSpareParts(List<VehicleModel> vehicleModels)
         {
             var sparePartsName = new[] {
                 "Piston",
@@ -20,18 +20,18 @@ namespace Application.SeedingData
                 "Bu Lông",
                 "Má Phanh" ,
                 "Hộp số" ,
-                "Ống Dẫn Dầu Phanh" ,
-                "Bộ Trợ Lực Phanh" ,
-                "Vô Lăng" ,
-                "Cột Lái" ,
-                "Hệ Thống Trợ Lực Lái" ,
-                "Cơ Cấu Lái" ,
-                "Lò Xo" ,
-                "Thanh Cân Bằng" ,
-                "Ống Xả" ,
-                "Bộ Giảm Thanh" ,
-                "Bộ Lọc Khí Thải" ,
-                "Ắc Quy" ,
+                //"Ống Dẫn Dầu Phanh" ,
+                //"Bộ Trợ Lực Phanh" ,
+                //"Vô Lăng" ,
+                //"Cột Lái" ,
+                //"Hệ Thống Trợ Lực Lái" ,
+                //"Cơ Cấu Lái" ,
+                //"Lò Xo" ,
+                //"Thanh Cân Bằng" ,
+                //"Ống Xả" ,
+                //"Bộ Giảm Thanh" ,
+                //"Bộ Lọc Khí Thải" ,
+                //"Ắc Quy" ,
                 //"Máy Phát Điện" ,
                 //"Bộ Điều Khiển" ,
                 //"Hệ Thống Dây Điện" ,
@@ -60,18 +60,18 @@ namespace Application.SeedingData
                 //"Rotuyn lái",
             };
             var spareParts = new List<SpareParts>();
-            foreach (var schedule in maintananceSchedules)
+            foreach (var vehicleModel in vehicleModels)
             {
                 spareParts.AddRange(
                  sparePartsName.Select(name => new SpareParts
                  {
                      CreatedDate = DateTime.Now,
-                     MaintananceScheduleId = schedule.MaintananceScheduleId,
                      SparePartId = Guid.NewGuid(),
                      OriginalPrice = 100000,
                      SparePartName = name,
                      SparePartType = name,
                      SparePartDescription = name,
+                     VehicleModelId = vehicleModel.VehicleModelId,
                      Status = EnumStatus.ACTIVE.ToString(),
                  }).ToList());
             }

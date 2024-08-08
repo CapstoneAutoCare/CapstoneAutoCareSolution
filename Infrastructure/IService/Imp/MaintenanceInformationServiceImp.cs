@@ -236,12 +236,12 @@ namespace Infrastructure.IService.Imp
                 await _unitOfWork.InformationMaintenance.GetListByCenterAndStatus(account.MaintenanceCenter.MaintenanceCenterId, status));
         }
 
-        public async Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive()
+        public async Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid centerId)
         {
-            var email = _tokensHandler.ClaimsFromToken();
-            var account = await _unitOfWork.Account.Profile(email);
+            //var email = _tokensHandler.ClaimsFromToken();
+            //var account = await _unitOfWork.Account.Profile(email);
             return _mapper.Map<List<ResponseMaintenanceInformation>>(
-                await _unitOfWork.InformationMaintenance.GetListByCenterAndStatusCheckinAndTaskInactive(account.MaintenanceCenter.MaintenanceCenterId));
+                await _unitOfWork.InformationMaintenance.GetListByCenterAndStatusCheckinAndTaskInactive(centerId));
 
         }
 

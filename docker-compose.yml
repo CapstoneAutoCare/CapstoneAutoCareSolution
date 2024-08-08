@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  capstoneautocareapi:
+    image: ${DOCKER_REGISTRY-}capstoneautocareapi
+    build:
+      context: .
+      dockerfile: CapstoneAutoCareApi/Dockerfile

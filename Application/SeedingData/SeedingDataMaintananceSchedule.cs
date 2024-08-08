@@ -12,7 +12,7 @@ namespace Application.SeedingData
     {
         public static List<MaintananceSchedule> Get(List<VehicleModel> vehicles)
         {
-            var scheduleDistances = new[] { 5000, 10000, 20000, 40000 };
+            var scheduleDistances = new[] { 5000, 10000, 50000 };
 
             var maintenanceSchedules = new List<MaintananceSchedule>();
             foreach (var vehicle in vehicles)
@@ -22,7 +22,7 @@ namespace Application.SeedingData
                  {
                      MaintananceScheduleId = Guid.NewGuid(),
                      CreateDate = DateTime.Now,
-                     MaintananceScheduleName = distance.ToString(),
+                     MaintananceScheduleName = distance,
                      Description = "Km",
                      VehicleModelId = vehicle.VehicleModelId,
                  }).ToList());

@@ -43,5 +43,22 @@ namespace Application.IRepository.Imp
             }
             return service;
         }
+
+        public async Task<List<ServiceCares>> GetServiceCaresNotInMaintenanceServices(Guid centerId)
+        {
+            var listserviceId =
+                 _context.Set<MaintenanceService>()
+
+                .Where(c => c.MaintenanceCenterId == centerId)
+                .Select(c => c.ServiceCareId).ToList();
+            var service = await _context.Set<ServiceCares>()
+                .Include(p => p.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                                .OrderByDescending(p => p.CreatedDate)
+                .Where(c => !listserviceId.Contains(c.ServiceCareId)).ToListAsync();
+
+            return service;
+        }
     }
 }

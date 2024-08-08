@@ -26,7 +26,7 @@ namespace Application.SeedingData
             {
                 ActuralCost = GetRandomNumber(),
                 DateTime = DateTime.Now,
-                SparePartsItemId = c.SparePartsItemtId,
+                SparePartsItemId = c.SparePartsItemId,
                 Note = "",
                 SparePartsItemCostId = Guid.NewGuid(),
                 Status = EnumStatus.ACTIVE.ToString()

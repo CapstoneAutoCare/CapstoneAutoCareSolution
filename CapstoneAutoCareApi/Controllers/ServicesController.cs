@@ -27,6 +27,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _services.GetById(id));
         }
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseServicesCare>>> GetServiceCaresNotInMaintenanceServices(Guid id)
+        {
+            return Ok(await _services.GetServiceCaresNotInMaintenanceServices(id));
+        }
         [HttpPost]
         public async Task<IActionResult> Post(CreateServicesCare create)
         {

@@ -31,17 +31,30 @@ namespace CapstoneAutoCareApi.Controllers
         }
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<List<ResponseSparePartsItem>>> GetListByCenter()
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListByCenter()
         {
             return Ok(await _service.GetListByCenter());
         }
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<List<ResponseSparePartsItem>>> GetListByCenterId(Guid id)
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListByCenterId(Guid id)
         {
             return Ok(await _service.GetListByCenterId(id));
         }
+        [HttpGet]
+        //[Authorize]
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListPackageByOdoAndCenterId(Guid id,Guid  odoId)
+        {
+            return Ok(await _service.GetListPackageByOdoAndCenterId(id, odoId));
+        }
+        [HttpGet]
+        //[Authorize]
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListPackageAndOdoTRUEByCenterId(Guid id)
+        {
+            return Ok(await _service.GetListPackageAndOdoTRUEByCenterId(id));
+        }
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ResponseMaintananceServices>> Post([FromBody]CreateMaintananceServices create)
         {
             return Ok(await _service.Create(create));
