@@ -13,6 +13,9 @@ using Infrastructure.ISecurity.Imp;
 using CapstoneAutoCareApi.Configuration;
 using Infrastructure.Common.Mapper;
 using Newtonsoft.Json.Converters;
+using CapstoneAutoCareApi.Hubs;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +27,7 @@ var configuration = new ConfigurationBuilder()
 builder.Services.DependencyInjection(configuration);
 
 builder.Services.AddControllers();
-           
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -141,13 +144,20 @@ builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 
 builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSignalR();
 
 
-builder.Services.AddCors(c => c
-            .AddDefaultPolicy(b => b
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowAnyOrigin()));
+builder.Services.AddCors(c =>
+ c.AddPolicy("AllowSpecificOrigin", builder =>
+ {
+
+     builder.WithOrigins()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+ }));
+
+
 builder.Services.AddHttpClient();
 
 var app = builder.Build();
@@ -164,9 +174,9 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
+app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
 app.MapControllers();
-
+//app.MapHub<NotificationHub>("bookingHub");
 app.Run();

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.RequestMaintananceServices;
 using Infrastructure.Common.Response.ResponseMaintenanceSchedule;
 using Infrastructure.IUnitofWork;
 using Infrastructure.IUnitofWork.Imp;
@@ -27,12 +29,14 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.VehicleModel.GetById(maintanance_schedule.VehicleModelId);
 
             maintanance_schedule.CreateDate = DateTime.Now;
-
+            maintanance_schedule.Status = EnumStatus.ACTIVE.ToString();
             await _unitOfWork.MaintenanceSchedule.Add(maintanance_schedule);
             await _unitOfWork.Commit();
 
             return _mapper.Map<ResponseMaintenanceSchedules>(maintanance_schedule);
         }
+
+        
 
         public async Task<List<ResponseMaintenanceSchedules>> GetAll()
         {
@@ -43,6 +47,11 @@ namespace Infrastructure.IService.Imp
         {
             var maintanance_schedule = await _unitOfWork.MaintenanceSchedule.GetByID(id);
             return _mapper.Map<ResponseMaintenanceSchedules>(maintanance_schedule);
+        }
+
+        public async Task<List<ResponseMaintenanceSchedules>> GetListPackageCenterId(Guid id)
+        {
+            return _mapper.Map<List<ResponseMaintenanceSchedules>>(await _unitOfWork.MaintenanceSchedule.GetListPackageByCenterId(id));
         }
 
         public async Task<ResponseMaintenanceSchedules> Update(Guid id, UpdateMaintananceSchedule update)

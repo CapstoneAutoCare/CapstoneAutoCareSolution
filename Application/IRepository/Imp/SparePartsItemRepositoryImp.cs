@@ -79,10 +79,14 @@ namespace Application.IRepository.Imp
                             .ToListAsync();
         }
 
-
-
-
-
-
+        public async Task<List<SparePartsItem>> GetListBySparepartId(Guid id)
+        {
+            return await _context.Set<SparePartsItem>()
+                             .Include(c => c.SparePartsItemCost)
+                             .Include(c => c.SpareParts)
+                             .OrderByDescending(c => c.CreatedDate)
+                             .Include(p => p.SpareParts).Where(c => c.SparePartsId == id)
+                             .ToListAsync();
+        }
     }
 }

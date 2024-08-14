@@ -19,6 +19,7 @@ namespace Domain.Entities
         public Guid SparePartsItemId { get; set; }
         public string Status { get; set; }
         public string SparePartsItemName { get; set; }
+        public string SparePartsItemType { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Image { get; set; }
         public int? Capacity { get; set; }

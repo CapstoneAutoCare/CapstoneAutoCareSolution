@@ -71,7 +71,11 @@ namespace Infrastructure.IService.Imp
             booking.ClientId = client.ClientId;
             var check = await IsBookingHaveSchedule(booking);
             await _unitOfWork.Booking.Add(check);
-
+            var center = await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+            if (center.Account.Status == EnumStatus.INACTIVE.ToString())
+            {
+                throw new Exception("Trung tâm không hoạt động");
+            }
             var mi = _mapper.Map<MaintenanceInformation>(check.MaintenanceInformation);
             //await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             mi.BookingId = booking.BookingId;
@@ -156,7 +160,11 @@ namespace Infrastructure.IService.Imp
             booking.Status = "WAITING";
             booking.CreatedDate = DateTime.Now;
 
-            await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+            if (center.Account.Status == EnumStatus.INACTIVE.ToString())
+            {
+                throw new Exception("Trung tâm không hoạt động");
+            }
             await _unitOfWork.Booking.Add(booking);
             MaintenanceInformation maintenanceInformation = new MaintenanceInformation
             {
@@ -183,7 +191,7 @@ namespace Infrastructure.IService.Imp
             var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
             if (schedule.VehicleModelId != vehicle.VehicleModelId)
             {
-                throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe");
+                throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe " +schedule.VehicleModel.VehicleModelName);
             }
             var list = await _unitOfWork.MaintenanceService.GetListPackageByOdoAndCenterIdAndVehicleId(booking.MaintenanceCenterId, booking.MaintananceScheduleId, vehicle.VehicleModelId);
             if (!list.Any())

@@ -24,6 +24,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _VMService.GetVehicleById(id));
         }
+        [HttpGet]
+        public async Task<ActionResult<List<ReponseVehicleModels>>> GetListByBrandId(Guid id)
+        {
+            return Ok(await _VMService.GetListVehicleByBrandId(id));
+        }
         //[HttpPut] 
         //public async Task<IActionResult> UpdateStatus(Guid id, string status)
         //{

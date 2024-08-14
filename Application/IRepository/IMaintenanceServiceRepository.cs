@@ -17,6 +17,8 @@ namespace Application.IRepository
         Task<List<MaintenanceService>> GetListPackageByOdoAndCenterId(Guid centerId, Guid odoId);
         Task<List<MaintenanceService>> GetListPackageByOdoAndCenterIdAndVehicleId(Guid centerId, Guid? odoId, Guid modelvehicleId);
         Task<List<MaintenanceService>> GetListPackageOdoTRUEByCenterId(Guid centerId);
+        Task<List<MaintenanceService>> GetListPackageOdoTRUEByCenterIdAndModelId(Guid centerId, Guid modelId);
+        Task<List<MaintenanceService>> GetListMainSerivceByServiceId(Guid id);
 
     }
 }

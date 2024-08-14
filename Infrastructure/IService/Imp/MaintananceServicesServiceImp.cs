@@ -2,9 +2,11 @@
 using Domain.Entities;
 using Domain.Enum;
 using Infrastructure.Common.Request.MaintananceServices;
+using Infrastructure.Common.Request.RequestMaintananceServices;
 using Infrastructure.Common.Response.ResponseServicesCare;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,28 +47,51 @@ namespace Infrastructure.IService.Imp
                 maintanance_services.Boolean = false;
                 await _unitOfWork.Commit();
             }
-            else
-            {
-                maintanance_services.Boolean = true;
-                var item = await _unitOfWork.ServiceCare.GetByID(maintanance_services.ServiceCareId);
-                await _unitOfWork.MaintenanceService.CheckServiceAdminExistWithCenterId(maintanance_services.ServiceCareId, maintanance_services.MaintenanceCenterId);
-                MaintenanceServiceCost cost = new MaintenanceServiceCost
-                {
-                    DateTime = DateTime.Now,
-                    ActuralCost = item.OriginalPrice,
-                    MaintenanceServiceCostId = Guid.NewGuid(),
-                    Note = "Giá Tiền Từ Nhà Cung Cấp",
-                    Status = EnumStatus.ACTIVE.ToString(),
-                    MaintenanceServiceId = maintanance_services.MaintenanceServiceId,
-
-                };
-                await _unitOfWork.MaintenanceServiceCost.Add(cost);
-
-                await _unitOfWork.Commit();
-            }
-
-
             return _mapper.Map<ResponseMaintananceServices>(maintanance_services);
+        }
+
+        public async Task<List<ResponseMaintananceServices>> CreateList(CreateMainServiceList create)
+        {
+            var email = _tokensHandler.ClaimsFromToken();
+            var account = await _unitOfWork.Account.Profile(email);
+            if (create.ServiceCareIds == null || !create.ServiceCareIds.Any())
+            {
+                throw new Exception("Danh sách dịch vụ bị trống.");
+            }
+            List<MaintenanceService> list = new List<MaintenanceService>();
+            foreach (var item in create.ServiceCareIds)
+            {
+                var service = await _unitOfWork.ServiceCare.GetByID(item);
+                MaintenanceService maintenanceService = new MaintenanceService
+                {
+                    Boolean = true,
+                    CreatedDate = DateTime.Now,
+                    Image = service.Image,
+                    MaintenanceServiceType = service.ServiceCareType,
+                    MaintenanceServiceName = service.ServiceCareName,
+                    MaintenanceCenterId = account.MaintenanceCenter.MaintenanceCenterId,
+                    ServiceCareId = service.ServiceCareId,
+                    Status = service.Status,
+                    MaintenanceServiceId = Guid.NewGuid(),
+                    VehicleModelId = service.MaintananceSchedule.VehicleModelId,
+                };
+                await _unitOfWork.MaintenanceService.Add(maintenanceService);
+                list.Add(maintenanceService);
+                MaintenanceServiceCost serviceCost = new MaintenanceServiceCost
+                {
+                    MaintenanceServiceCostId = Guid.NewGuid(),
+                    ActuralCost = service.OriginalPrice,
+                    MaintenanceServiceId = maintenanceService.MaintenanceServiceId,
+                    Note = "Đồng bộ với nhà cung cấp",
+                    Status = EnumStatus.ACTIVE.ToString(),
+                };
+                serviceCost.DateTime = DateTime.Now;
+                await _unitOfWork.MaintenanceServiceCost.Add(serviceCost);
+            }
+            await
+                _unitOfWork.Commit();
+            return _mapper.Map<List<ResponseMaintananceServices>>(list);
+
         }
 
         public async Task<List<ResponseMaintananceServices>> GetAll()
@@ -99,6 +124,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintananceServices>>(await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterId(id));
         }
 
+        public async Task<List<ResponseMaintananceServices>> GetListPackageAndOdoTRUEByCenterIdAndModelId(Guid id, Guid modelId)
+        {
+            return _mapper.Map<List<ResponseMaintananceServices>>(await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelId(id, modelId));
+        }
+
         public async Task<List<ResponseMaintananceServices>> GetListPackageByOdoAndCenterId(Guid id, Guid odoId)
         {
             return _mapper.Map<List<ResponseMaintananceServices>>(await _unitOfWork.MaintenanceService.GetListPackageByOdoAndCenterId(id, odoId));
@@ -109,6 +139,11 @@ namespace Infrastructure.IService.Imp
             var u = await _unitOfWork.MaintenanceService.GetById(id);
             await _unitOfWork.MaintenanceService.Remove(u);
             await _unitOfWork.Commit();
+        }
+
+        public async Task<List<ResponseMaintananceServices>> Test(Guid id)
+        {
+            return _mapper.Map<List<ResponseMaintananceServices>>(await _unitOfWork.MaintenanceService.GetListMainSerivceByServiceId(id));
         }
 
         public async Task<ResponseMaintananceServices> Update(Guid id, UpdateMaintananceServices update)

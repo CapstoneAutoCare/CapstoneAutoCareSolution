@@ -13,6 +13,7 @@ namespace Infrastructure.IService
     public interface ISparePartsService
     {
         Task<List<ResponseSparePart>> GetAll();
+        Task<List<ResponseSparePart>> GetSpartPartNotSparePartItemId(Guid id);
         Task<ResponseSparePart> GetById(Guid id);
         Task<ResponseSparePart> Create(CreateSpareParts create);
         Task<ResponseSparePart> Update(Guid id, UpdateSparePart update);

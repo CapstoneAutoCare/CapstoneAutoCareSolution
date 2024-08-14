@@ -12,5 +12,6 @@ namespace Application.IRepository
     {
         Task<List<VehicleModel>> GetAll();
         Task<VehicleModel> GetById(Guid id);
+        Task<List<VehicleModel>>GetListByBrandId(Guid brandId);
     }
 }

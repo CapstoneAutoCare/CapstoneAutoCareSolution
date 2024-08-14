@@ -51,7 +51,7 @@ namespace Application
             {
                 //optionsBuilder.UseSqlServer("Server=db6604.public.databaseasp.net; Database=db6604; User Id=db6604; Password=2Zf%p?B7!4wK; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
-                optionsBuilder.UseSqlServer("Server=mssql-180425-0.cloudclusters.net,16008; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssql-181059-0.cloudclusters.net,18755; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
@@ -103,19 +103,19 @@ namespace Application
             var serviceCares = SeedingDataServicesItem.GetServicesItem(schedule);
             modelBuilder.Entity<ServiceCares>().HasData(serviceCares);
 
-            var center = SeedingDataCenter.ServiceSeedingDataCenter(modelBuilder);
+            //var center = SeedingDataCenter.ServiceSeedingDataCenter(modelBuilder);
 
-            var sparepartitems = SeedingDataSparePartsItem.GetSparePartsItems(center, spareParts);
-            modelBuilder.Entity<SparePartsItem>().HasData(sparepartitems);
+            //var sparepartitems = SeedingDataSparePartsItem.GetSparePartsItems(center, spareParts);
+            //modelBuilder.Entity<SparePartsItem>().HasData(sparepartitems);
 
-            var maintenanceServices = SeedingDataMaintenanceService.GetMaintenanceServices(center, serviceCares, vehiclemodel);
-            modelBuilder.Entity<MaintenanceService>().HasData(maintenanceServices);
+            //var maintenanceServices = SeedingDataMaintenanceService.GetMaintenanceServices(center, serviceCares, vehiclemodel);
+            //modelBuilder.Entity<MaintenanceService>().HasData(maintenanceServices);
 
-            var sparePartsItemCosts = SeedingDataSparePartsItemCost.GetSparePartsItemsCost(sparepartitems);
-            modelBuilder.Entity<SparePartsItemCost>().HasData(sparePartsItemCosts);
+            //var sparePartsItemCosts = SeedingDataSparePartsItemCost.GetSparePartsItemsCost(sparepartitems);
+            //modelBuilder.Entity<SparePartsItemCost>().HasData(sparePartsItemCosts);
 
-            var maintenanceServiceCosts = SeedingDataMaintenanceServiceCost.GetMaintenanceServiceCost(maintenanceServices);
-            modelBuilder.Entity<MaintenanceServiceCost>().HasData(maintenanceServiceCosts);
+            //var maintenanceServiceCosts = SeedingDataMaintenanceServiceCost.GetMaintenanceServiceCost(maintenanceServices);
+            //modelBuilder.Entity<MaintenanceServiceCost>().HasData(maintenanceServiceCosts);
 
 
             OnModelCreatingPartial(modelBuilder);

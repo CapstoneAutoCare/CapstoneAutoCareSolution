@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructure.Common.Request.RequestVehicleBrandRequest;
 using Infrastructure.Common.Request.VehicleBrandRequest;
 using Infrastructure.IService.Imp;
 using System;
@@ -11,7 +12,7 @@ namespace Infrastructure.IService
 {
     public interface IVehicleBrandService
     {
-        Task<VehiclesBrand> CreateVehicleBrand(string vehiclesBrandName); 
+        Task<VehiclesBrand> CreateVehicleBrand(CreateBrand createBrand); 
         Task<VehiclesBrand> UpdateVehicleBrand(Guid BrandId, VehicleBrandUpdate vehiclesBrand);
         Task<VehiclesBrand> ChangeStatusVehicleBrand(Guid BrandId, string status);
         Task<VehiclesBrand> GetVehiclesBrandByID(Guid id);

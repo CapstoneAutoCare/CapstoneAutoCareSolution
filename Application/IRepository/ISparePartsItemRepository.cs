@@ -13,8 +13,9 @@ namespace Application.IRepository
         Task<List<SparePartsItem>> GetAll();
         Task<SparePartsItem> GetById(Guid? id);
         Task<SparePartsItem> GetByStatusAndCostActive(Guid? id);
+        
         Task<List<SparePartsItem>> GetListByCenter(Guid center);
-        //Task<List<SparePartsItem>> GetListByClientActive(Guid centerId);
+        Task<List<SparePartsItem>> GetListBySparepartId(Guid id);
 
     }
 }

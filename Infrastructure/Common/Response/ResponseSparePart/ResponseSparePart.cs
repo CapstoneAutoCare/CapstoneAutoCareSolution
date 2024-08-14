@@ -16,6 +16,8 @@ namespace Infrastructure.Common.Response.ResponseSparePart
         public DateTime CreatedDate { get; set; }
         public float OriginalPrice { get; set; }
         public string Status { get; set; }
+        public string? Image { get; set; }
+
         public ReponseVehicleModels ReponseVehicleModel { get; set; }
 
 

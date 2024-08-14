@@ -21,6 +21,7 @@ namespace Domain.Entities
         public Guid VehicleModelId { get; set; }
         public string VehicleModelName { get; set; }
         public string? Image { get; set; } 
+        public string? VehicleModelDecription {  get; set; } 
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid VehiclesBrandId { get; set; }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Response.ResponseServicesCare;
 using Infrastructure.IUnitofWork;
@@ -53,14 +54,38 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseServicesCare> Update(Guid id, UpdateServies update)
         {
             var item = await _unitOfWork.ServiceCare.GetByID(id);
-            item.ServiceCareName = update.ServiceCareName;
-            item.ServiceCareDescription = update.ServiceCareDescription;
-            item.ServiceCareType = update.ServiceCareType;
+            var service = _mapper.Map(update, item);
+            await _unitOfWork.ServiceCare.Update(service);
+            //if (item.OriginalPrice != update.OriginalPrice)
+            //{
             item.OriginalPrice = update.OriginalPrice;
-            await _unitOfWork.ServiceCare.Update(item);
+            var ms = await _unitOfWork.MaintenanceService.GetListMainSerivceByServiceId(item.ServiceCareId);
+            //if (ms != null)
+            //{
+            foreach (var m in ms)
+            {
+                MaintenanceServiceCost cost = new MaintenanceServiceCost
+                {
+                    ActuralCost = item.OriginalPrice,
+                    DateTime = DateTime.Now,
+                    MaintenanceServiceId = m.MaintenanceServiceId,
+                    Note = "Giá mới được cập nhật từ nhà cung cấp",
+                    Status = EnumStatus.INACTIVE.ToString(),
+                    MaintenanceServiceCostId = Guid.NewGuid(),
+
+                };
+                m.Image = service.Image;
+                
+                await _unitOfWork.MaintenanceService.Update(m);
+                await _unitOfWork.MaintenanceServiceCost.Add(cost);
+                //}
+                //}
+
+            }
+
+
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseServicesCare>(item);
-
         }
 
         public async Task<ResponseServicesCare> UpdateStatus(Guid id, string status)

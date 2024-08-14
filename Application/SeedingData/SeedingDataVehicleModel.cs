@@ -20,7 +20,9 @@ namespace Application.SeedingData
                 CreatedDate = DateTime.Now,
                 VehicleModelName = modelName,
                 Image = "",
-                VehiclesBrandId = brandId
+                VehiclesBrandId = brandId,
+                VehicleModelDecription = modelName,
+
             };
         }
         private static readonly Dictionary<string, List<string>> BrandModels = new Dictionary<string, List<string>>

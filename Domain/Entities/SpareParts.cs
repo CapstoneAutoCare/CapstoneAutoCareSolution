@@ -20,6 +20,7 @@ namespace Domain.Entities
         public string SparePartName { get; set; }
         public string SparePartDescription { get; set; }
         public string SparePartType { get; set; }
+        public string? Image {  get; set; }
         public DateTime CreatedDate { get; set; }
         public float OriginalPrice { get; set; }
         public string Status { get; set; }

@@ -18,8 +18,8 @@ namespace Application.IRepository.Imp
         public async Task<List<SpareParts>> GetAll()
         {
             return await _context.Set<SpareParts>()
-                .Include(c=>c.VehicleModel)
-                .ThenInclude(c=>c.VehiclesBrand)
+                .Include(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
                 .OrderByDescending(p => p.CreatedDate)
                 .ToListAsync();
         }
@@ -37,6 +37,21 @@ namespace Application.IRepository.Imp
 
             }
             return sp;
+        }
+
+        public async Task<List<SpareParts>> GetSpartPartNotSparePartItemId(Guid id)
+        {
+            var sparepartid = await _context.Set<SparePartsItem>()
+                  .Include(c => c.SpareParts)
+                  .Where(c => c.MaintenanceCenterId == id)
+                  .Select(c => c.SparePartsId).ToListAsync();
+
+            var sparepart = await _context.Set<SpareParts>()
+               .Include(p => p.VehicleModel)
+               .ThenInclude(c => c.VehiclesBrand)
+                               .OrderByDescending(p => p.CreatedDate)
+               .Where(c => !sparepartid.Contains(c.SparePartId)).ToListAsync();
+            return sparepart;
         }
     }
 }

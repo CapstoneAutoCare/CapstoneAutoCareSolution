@@ -22,6 +22,7 @@ namespace Application.IRepository
         Task<MaintenanceServiceCost> GetByIdMaintenanceServiceActiveAndServiceAdmin(string statusserviceadmin,string status, string cost, Guid id);
         Task<List<MaintenanceServiceCost>> GetListByDifMaintenanceServiceAndInforId(string status, string cost, Guid centerId, Guid informationId);
 
+        Task<List<MaintenanceServiceCost>> GetListCostByMainServiceId(Guid id);
 
     }
 }

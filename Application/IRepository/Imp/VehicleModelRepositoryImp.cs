@@ -28,5 +28,17 @@ namespace Application.IRepository.Imp
             }
             return model;
         }
+
+        public async Task<List<VehicleModel>> GetListByBrandId(Guid brandId)
+        {
+            var model = await _context.Set<VehicleModel>()
+                .Include(a => a.VehiclesBrand)
+                .Where(c => c.VehiclesBrandId.Equals(brandId)).ToListAsync();
+            if (model == null)
+            {
+                throw new Exception("Not Found");
+            }
+            return model;
+        }
     }
 }

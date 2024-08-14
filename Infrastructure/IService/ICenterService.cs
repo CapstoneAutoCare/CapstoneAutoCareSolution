@@ -16,6 +16,7 @@ namespace Infrastructure.IService
         Task<List<ResponseCenter>> GetAll();
         Task<ResponseCenter> GetById(Guid id);
         Task<ResponseCenter> Update(Guid id, UpdateCenter center);
+        Task<ResponseCenter> UpdateStatus(Guid id,string status);
         Task<TotalCountAndPrice> TotalGetListByStatusAndStatusCostService(Guid centerId);
         Task<TotalCountAndPrice> TotalGetListByStatusAndStatusCostSpartPart(Guid centerId);
         Task<TotalCountAndPrice> TotalGetListByStatusPaidReceipt(Guid centerId);

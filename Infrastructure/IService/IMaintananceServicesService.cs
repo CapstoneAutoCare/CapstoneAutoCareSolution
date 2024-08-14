@@ -1,4 +1,6 @@
 ﻿using Infrastructure.Common.Request.MaintananceServices;
+using Infrastructure.Common.Request.RequestMaintananceServices;
+using Infrastructure.Common.Response.ResponseMaintenanceSchedule;
 using Infrastructure.Common.Response.ResponseServicesCare;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,10 @@ namespace Infrastructure.IService
         Task<ResponseMaintananceServices> UpdateStatus(Guid id, string status);
         Task<List<ResponseMaintananceServices>> GetListPackageByOdoAndCenterId(Guid id, Guid odoId);
         Task<List<ResponseMaintananceServices>> GetListPackageAndOdoTRUEByCenterId(Guid id);
+        Task<List<ResponseMaintananceServices>> GetListPackageAndOdoTRUEByCenterIdAndModelId(Guid id, Guid modelId);
+        Task<List<ResponseMaintananceServices>> Test(Guid id);
+        Task<List<ResponseMaintananceServices>> CreateList(CreateMainServiceList create);
+
         Task Remove(Guid id);
     }
 }

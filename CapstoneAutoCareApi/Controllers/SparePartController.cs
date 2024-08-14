@@ -22,6 +22,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _sparePartService.GetAll());
         }
         [HttpGet]
+        public async Task<ActionResult<List<ResponseSparePart>>> GetSpartPartNotSparePartItemId(Guid id)
+        {
+            return Ok(await _sparePartService.GetSpartPartNotSparePartItemId(id));
+        }
+        [HttpGet]
         public async Task<IActionResult> GetById(Guid id)
         {
             return Ok(await _sparePartService.GetById(id));

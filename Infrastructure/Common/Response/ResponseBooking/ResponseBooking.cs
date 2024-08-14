@@ -25,5 +25,6 @@ namespace Infrastructure.Common.Response.ResponseBooking
         public ResponseCenter ResponseCenter { get; set; }
         public ResponseClient ResponseClient { get; set; }
 
+        
     }
 }

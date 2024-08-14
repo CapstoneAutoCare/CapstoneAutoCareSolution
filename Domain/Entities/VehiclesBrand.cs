@@ -18,6 +18,8 @@ namespace Domain.Entities
         [Key]
         public Guid VehiclesBrandId {  get; set; }
         public string VehiclesBrandName { get; set; }
+        public string? VehiclesBrandDescription {  get; set; }
+        public string? Logo {  get; set; }
         public DateTime CreatedDate { get; set;}
         public string Status { get; set;}
         public ICollection<VehicleModel> VehicleModels { get; set; }

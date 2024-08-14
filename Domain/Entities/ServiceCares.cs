@@ -19,6 +19,8 @@ namespace Domain.Entities
         public string ServiceCareName { get; set; }
         public string ServiceCareDescription { get; set; }
         public string ServiceCareType { get; set; }
+        public string? Image { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public float OriginalPrice { get; set; }

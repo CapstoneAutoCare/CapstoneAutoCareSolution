@@ -12,6 +12,8 @@ using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
 using Microsoft.AspNetCore.Authorization;
 using Domain.Enum;
+using CapstoneAutoCareApi.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -19,49 +21,58 @@ namespace CapstoneAutoCareApi.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
-        private readonly IBookingService _bookingsService;
+        private readonly IBookingService _bookingService;
+        private readonly IHubContext<NotificationHub, IBookingHubs> _hubContext;
 
-        public BookingsController(IBookingService bookingsService)
+        public BookingsController(IBookingService bookingService, IHubContext<NotificationHub, IBookingHubs> hubContext)
         {
-            _bookingsService = bookingsService;
+            _bookingService = bookingService;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ResponseBooking>>> GetAll()
         {
-            return Ok(await _bookingsService.GetAll());
+            var bookings = await _bookingService.GetAll();
+
+            await _hubContext.Clients.All.SendNotification(bookings);
+
+            return Ok(bookings);
 
         }
 
         [HttpGet]
         public async Task<ActionResult<ResponseBooking>> GetById(Guid id)
         {
-            return Ok(await _bookingsService.GetById(id));
+            return Ok(await _bookingService.GetById(id));
         }
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByClient()
         {
-            return Ok(await _bookingsService.GetListByClient());
+            return Ok(await _bookingService.GetListByClient());
         }
 
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenter()
         {
-            return Ok(await _bookingsService.GetListByCenter());
+            return Ok(await _bookingService.GetListByCenter());
         }
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenterId(Guid id)
         {
-            return Ok(await _bookingsService.GetListByCenterId(id));
+            var bookings = await _bookingService.GetListByCenterId(id);
+            await _hubContext.Clients.All.SendNotification(bookings);
+
+            return Ok(bookings);
         }
 
         [HttpGet]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenterAndClient(Guid centerId, Guid clientId)
         {
-            return Ok(await _bookingsService.GetListByCenterAndClient(centerId, clientId));
+            return Ok(await _bookingService.GetListByCenterAndClient(centerId, clientId));
         }
         //[HttpPut]
         //public async Task<IActionResult> PutBooking(Guid id, Booking booking)
@@ -73,26 +84,26 @@ namespace CapstoneAutoCareApi.Controllers
         //[HttpPost]
         //public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
         //{
-        //    return Ok(await _bookingsService.Create(booking));
+        //    return Ok(await _bookingService.Create(booking));
         //}
         [HttpPost]
         public async Task<ActionResult<ResponseBooking>> PostHaveItems([FromBody] RequestBookingHaveItems booking)
         {
-            return Ok(await _bookingsService.CreateHaveItemsByClient(booking));
+            return Ok(await _bookingService.CreateHaveItemsByClient(booking));
 
         }
         [HttpPost]
         public async Task<ActionResult<ResponseBooking>> PostHavePackage([FromBody] CreateBookingPackage booking)
         {
-            return Ok(await _bookingsService.CreatePackageByClient(booking));
+            return Ok(await _bookingService.CreatePackageByClient(booking));
 
         }
-        
+
         [HttpPatch]
         [Authorize(Roles = "CUSTOMERCARE,CUSTOMER")]
         public async Task<ActionResult<ResponseBooking>> UpdateStatus(Guid bookingId, string status)
         {
-            return Ok(await _bookingsService.UpdateStatus(bookingId, status));
+            return Ok(await _bookingService.UpdateStatus(bookingId, status));
 
         }
         //[HttpDelete]

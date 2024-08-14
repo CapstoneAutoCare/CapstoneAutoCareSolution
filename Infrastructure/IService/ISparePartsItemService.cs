@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.RequestSparepart;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ResponseCost;
 using Infrastructure.Common.Response.ResponseServicesCare;
@@ -20,6 +21,7 @@ namespace Infrastructure.IService
 
         Task<ResponseSparePartsItem> GetById(Guid id);
         Task<ResponseSparePartsItem> Create(CreateSparePartsItem create);
+        Task<List<ResponseSparePartsItem>> CreateList(CreateListSparePartItem create);
         Task<ResponseSparePartsItem> Update(Guid id, UpdateSparePartItem update);
         Task<ResponseSparePartsItem> UpdateStatus(Guid id, string status);
 

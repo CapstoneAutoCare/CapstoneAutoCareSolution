@@ -26,6 +26,7 @@ namespace Application.SeedingData
                     ServiceCareId = serviceCare.ServiceCareId,
                     MaintenanceCenterId = center.MaintenanceCenterId,
                     VehicleModelId = model.VehicleModelId,
+                    MaintenanceServiceType =serviceCare.ServiceCareType,
                 }))
             ).ToList();
         }

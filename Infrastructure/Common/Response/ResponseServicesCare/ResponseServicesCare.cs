@@ -14,6 +14,7 @@ namespace Infrastructure.Common.Response.ResponseServicesCare
         public string ServiceCareDescription { get; set; }
         public string ServiceCareType { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string? Image { get; set; }
 
         public float OriginalPrice { get; set; }
         public string Status { get; set; }

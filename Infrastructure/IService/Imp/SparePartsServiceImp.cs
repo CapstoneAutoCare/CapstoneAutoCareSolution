@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ResponseSparePart;
 using Infrastructure.ISecurity;
@@ -50,13 +51,41 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseSparePart>(sparepart);
         }
 
+        public async Task<List<ResponseSparePart>> GetSpartPartNotSparePartItemId(Guid id)
+        {
+            return _mapper.Map<List<ResponseSparePart>>(await _unitOfWork.SparePartsRepository.GetSpartPartNotSparePartItemId(id));
+        }
+
         public async Task<ResponseSparePart> Update(Guid id, UpdateSparePart update)
         {
             var item = await _unitOfWork.SparePartsRepository.GetByID(id);
             item.SparePartName = update.SparePartName;
             item.SparePartDescription = update.SparePartDescription;
             item.SparePartType = update.SparePartType;
+            item.Status = update.Status;
+            item.Image=update.Image;
+            //if (item.OriginalPrice != update.OriginalPrice)
+            //{
             item.OriginalPrice = update.OriginalPrice;
+            var ms = await _unitOfWork.SparePartsItem.GetListBySparepartId(item.SparePartId);
+            //if (ms != null)
+            //{
+            foreach (var m in ms)
+            {
+                SparePartsItemCost cost = new SparePartsItemCost
+                {
+                    ActuralCost = item.OriginalPrice,
+                    DateTime = DateTime.Now,
+                    SparePartsItemId = m.SparePartsItemId,
+                    Note = "Giá mới được cập nhật từ nhà cung cấp",
+                    Status = EnumStatus.INACTIVE.ToString(),
+                    SparePartsItemCostId = Guid.NewGuid(),
+                };
+                await _unitOfWork.SparePartsItemCost.Add(cost);
+            }
+            //}
+            //}
+
             await _unitOfWork.SparePartsRepository.Update(item);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseSparePart>(item);

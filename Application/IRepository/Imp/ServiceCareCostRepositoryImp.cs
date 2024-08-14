@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -83,6 +84,17 @@ namespace Application.IRepository.Imp
                             .ToListAsync();
         }
 
+        public async Task<List<MaintenanceService>> GetListMainSerivceByServiceId(Guid id)
+        {
+            return await _context.Set<MaintenanceService>()
+                               .Include(c => c.MaintenanceServiceCosts)
+                               .Include(c => c.ServiceCare)
+                               .OrderByDescending(p => p.CreatedDate)
+                               .Where(c => c.ServiceCareId == id)
+                               .ToListAsync();
+
+        }
+
         public async Task<List<MaintenanceService>> GetListPackageByOdoAndCenterId(Guid centerId, Guid odoId)
         {
             return await _context.Set<MaintenanceService>()
@@ -113,9 +125,11 @@ namespace Application.IRepository.Imp
                            .Include(p => p.ServiceCare)
                            .ThenInclude(c => c.MaintananceSchedule)
                            .Where(c => c.MaintenanceCenterId == centerId
-                           && c.ServiceCare.MaintananceScheduleId == odoId && c.Boolean == true && c.VehicleModelId == modelvehicleId)
-
-
+                           && c.ServiceCare.MaintananceScheduleId == odoId
+                           && c.Boolean == true
+                           && c.VehicleModelId == modelvehicleId
+                           && c.ServiceCare.MaintananceSchedule.Status
+                           .Equals(EnumStatus.ACTIVE.ToString()))
                            .ToListAsync();
             if (i == null)
             {
@@ -138,6 +152,23 @@ namespace Application.IRepository.Imp
                            .ThenInclude(c => c.MaintananceSchedule)
                            .Where(c => c.MaintenanceCenterId == centerId
                            && c.Boolean == true).ToListAsync();
+            return i;
+        }
+
+        public async Task<List<MaintenanceService>> GetListPackageOdoTRUEByCenterIdAndModelId(Guid centerId, Guid modelId)
+        {
+            var i = await _context.Set<MaintenanceService>()
+                           .Include(c => c.MaintenanceCenter)
+                           .Include(c => c.MaintenanceServiceCosts)
+                           .Include(c => c.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .ThenInclude(c => c.VehicleModel)
+                           .ThenInclude(c => c.VehiclesBrand)
+                           .OrderByDescending(p => p.CreatedDate)
+                           .Include(p => p.ServiceCare)
+                           .ThenInclude(c => c.MaintananceSchedule)
+                           .Where(c => c.MaintenanceCenterId == centerId
+                           && c.Boolean == true && c.VehicleModelId == modelId).ToListAsync();
             return i;
         }
     }

@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Infrastructure.Common.Request.VehicleModel;
 using Infrastructure.Common.Response.ReponseVehicleModel;
+using Infrastructure.Common.Response.VehiclesResponse;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,12 @@ namespace Infrastructure.IService.Imp
         public async Task<List<ReponseVehicleModels>> GetAllVehiclesModels()
         {
             var models = await _unitofWork.VehicleModel.GetAll();
+            return _mapper.Map<List<ReponseVehicleModels>>(models);
+        }
+
+        public async Task<List<ReponseVehicleModels>> GetListVehicleByBrandId(Guid id)
+        {
+            var models = await _unitofWork.VehicleModel.GetListByBrandId(id);
             return _mapper.Map<List<ReponseVehicleModels>>(models);
         }
 

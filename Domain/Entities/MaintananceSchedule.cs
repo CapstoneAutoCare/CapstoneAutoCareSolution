@@ -21,6 +21,7 @@ namespace Domain.Entities
         public int MaintananceScheduleName { get; set; }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
+        public string Status { get; set; }
         public Guid VehicleModelId { get; set; }
         public VehicleModel VehicleModel { get; set; }
         public ICollection<Booking> Bookings { get; set; }

@@ -14,21 +14,17 @@ namespace Application.SeedingData
         {
             var scheduleDistances = new[] { 5000, 10000, 50000 };
 
-            var maintenanceSchedules = new List<MaintananceSchedule>();
-            foreach (var vehicle in vehicles)
-            {
-                maintenanceSchedules.AddRange(
-                 scheduleDistances.Select(distance => new MaintananceSchedule
-                 {
-                     MaintananceScheduleId = Guid.NewGuid(),
-                     CreateDate = DateTime.Now,
-                     MaintananceScheduleName = distance,
-                     Description = "Km",
-                     VehicleModelId = vehicle.VehicleModelId,
-                 }).ToList());
-            }
-            return maintenanceSchedules;
 
+            return vehicles.SelectMany(ve => scheduleDistances.Select(distance => new MaintananceSchedule
+            {
+                CreateDate = DateTime.Now,
+                VehicleModelId = ve.VehicleModelId,
+                MaintananceScheduleName = distance,
+                MaintananceScheduleId=Guid.NewGuid(),
+                Status=EnumStatus.ACTIVE.ToString(),
+                Description=distance.ToString(),
+                
+            })).ToList();
         }
 
     }

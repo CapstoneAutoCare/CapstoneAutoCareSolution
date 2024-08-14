@@ -11,6 +11,7 @@ namespace Application.IRepository
     public interface ISparePartsRepository: IGenericRepository<SpareParts>
     {
         Task<List<SpareParts>> GetAll();
+        Task<List<SpareParts>> GetSpartPartNotSparePartItemId(Guid id);
         Task<SpareParts> GetByID(Guid? id);
     }
 }

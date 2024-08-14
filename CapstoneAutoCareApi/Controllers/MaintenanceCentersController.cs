@@ -10,6 +10,7 @@ using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Request.RequestAccount;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Infrastructure.Common.Response.ReponseVehicleModel;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -37,11 +38,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _centerService.GetById(id));
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> PutMaintenanceCenter(Guid id, MaintenanceCenter maintenanceCenter)
-        //{
-        //    return NoContent();
-        //}
+        [HttpPatch]
+        public async Task<ActionResult<ResponseCenter>> UpdateStatus(Guid id, string status)
+        {
+            return Ok(await _centerService.UpdateStatus(id, status));
+        }
 
         [HttpPost]
         public async Task<ActionResult<MaintenanceCenter>> Post(CreateCenter create)

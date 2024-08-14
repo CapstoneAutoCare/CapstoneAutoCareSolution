@@ -24,7 +24,7 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.MaintenanceServiceInfos)
-                .FirstOrDefaultAsync(c => c.MaintenanceServiceCostId == id 
+                .FirstOrDefaultAsync(c => c.MaintenanceServiceCostId == id
                 && c.MaintenanceService.VehicleModelId.Equals(modelVehiclesId));
             if (i == null)
             {
@@ -139,6 +139,18 @@ namespace Application.IRepository.Imp
                                       .ToListAsync();
 
             return groupedResult;
+        }
+
+        public async Task<List<MaintenanceServiceCost>> GetListCostByMainServiceId(Guid id)
+        {
+            return await _context.Set<MaintenanceServiceCost>()
+                .Include(c => c.MaintenanceService)
+                .ThenInclude(c => c.ServiceCare)
+                                .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                .Where(c => c.MaintenanceServiceId == id)
+                .ToListAsync();
         }
 
         public async Task<(List<MaintenanceServiceCost> Costs, float TotalCost, int Count)> TotalGetListByStatusAndStatusCost(string status, string coststatus, Guid centerId)

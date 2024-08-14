@@ -10,8 +10,10 @@ namespace Infrastructure.Common.Request.VehicleModel
     public class CreateVehicleModel
     {
         public Guid VehiclesBrandId { get; set; }
+        public string? Image { get; set; }
 
         public string VehicleModelName { get; set; }
-        public string Image { get; set; }
+        public string? VehicleModelDecription { get; set; }
+
     }
 }

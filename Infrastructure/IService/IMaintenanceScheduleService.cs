@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.RequestMaintananceServices;
 using Infrastructure.Common.Response.ResponseMaintenanceSchedule;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,11 @@ namespace Infrastructure.IService
     {
         Task<List<ResponseMaintenanceSchedules>> GetAll();
         Task<ResponseMaintenanceSchedules> GetById(Guid id);
+        Task<List<ResponseMaintenanceSchedules>> GetListPackageCenterId(Guid id);
+
         Task<ResponseMaintenanceSchedules> Create(CreateMaintenanceSchedule create);
         Task<ResponseMaintenanceSchedules> Update(Guid id, UpdateMaintananceSchedule update);
        // Task<ResponseMaintenanceSchedule> UpdateStatus(Guid id, string status);
+
     }
 }

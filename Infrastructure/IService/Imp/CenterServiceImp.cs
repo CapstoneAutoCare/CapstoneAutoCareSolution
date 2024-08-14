@@ -99,5 +99,15 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseCenter>(update);
 
         }
+
+        public async Task<ResponseCenter> UpdateStatus(Guid id, string status)
+        {
+            var center1 = await _unitOfWork.MaintenanceCenter.GetById(id);
+            center1.Account.Status = status;
+            await _unitOfWork.Account.Update(center1.Account);
+            await _unitOfWork.Commit();
+
+            return _mapper.Map<ResponseCenter>(center1);
+        }
     }
 }

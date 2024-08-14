@@ -13,6 +13,7 @@ namespace Infrastructure.Common.Response.ReponseVehicleModel
         public Guid VehiclesBrandId { get; set; }
         public string VehiclesBrandName { get; set; }
         public string VehicleModelName { get; set; }
+        public string? VehicleModelDecription { get; set; }
         public string Image { get; set; }
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; }

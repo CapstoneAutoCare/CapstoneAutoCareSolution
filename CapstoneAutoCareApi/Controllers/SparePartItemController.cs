@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.RequestSparepart;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseCost;
@@ -24,6 +25,7 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _sparePartsItemService.GetAll());
         }
+
         [HttpGet]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -42,11 +44,18 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _sparePartsItemService.GetListByCenterId(id));
         }
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ResponseSparePartsItem>> Post([FromBody] CreateSparePartsItem create)
         {
             return Ok(await _sparePartsItemService.Create(create));
         }
-        
+        [HttpPost]
+        [Authorize]
+
+        public async Task<ActionResult<ResponseSparePartsItem>> PostList(CreateListSparePartItem create)
+        {
+            return Ok(await _sparePartsItemService.CreateList(create));
+        }
         [HttpPut]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateSparePartItem update)
         {

@@ -12,5 +12,9 @@ namespace Infrastructure.Common.Request.MaintananceServices
         public string ServiceCareDescription { get; set; }
         public string ServiceCareType { get; set; }
         public float OriginalPrice { get; set; }
+        public string? Image { get; set; }
+
+        public string Status { get; set; }
+
     }
 }

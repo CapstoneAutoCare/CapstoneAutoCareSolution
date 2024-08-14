@@ -14,6 +14,9 @@ namespace Infrastructure.Common.Response.ResponseSparePart
         public string SparePartsItemName { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public string SparePartsItemType { get; set; }
+
         public string? Image {  get; set; }
         public Guid SparePartsId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
@@ -22,6 +25,8 @@ namespace Infrastructure.Common.Response.ResponseSparePart
         //public ResponseSparePart ResponseSparePart { get; set; }
         public string VehiclesBrandName { get; set; }
         public string VehicleModelName { get; set; }
+        public Guid VehicleModelId { get; set; }
+        public Guid VehiclesBrandId { get; set; }
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using Infrastructure.IService;
+﻿using Domain.Entities;
+using Infrastructure.Common.Request.RequestVehicleBrandRequest;
+using Infrastructure.IService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CapstoneAutoCareApi.Controllers
@@ -23,9 +25,9 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _vehicleBrandService.GetVehiclesBrandByID(id));
         }
         [HttpPost]
-        public async Task<IActionResult> Post(string brandName)
+        public async Task<ActionResult<VehiclesBrand>> Post(CreateBrand create)
         {
-            return Ok(await _vehicleBrandService.CreateVehicleBrand(brandName));
+            return Ok(await _vehicleBrandService.CreateVehicleBrand(create));
         }
         //[HttpPut]
         //public async Task<IActionResult> UpdateStatus(Guid id, string status)

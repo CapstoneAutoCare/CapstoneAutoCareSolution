@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Request.MaintenanceSchedule;
+using Infrastructure.Common.Request.RequestMaintananceServices;
 using Infrastructure.Common.Request.Sparepart;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.Common.Response.ResponseServicesCare;
@@ -42,8 +43,13 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _service.GetListByCenterId(id));
         }
         [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> test(Guid id)
+        {
+            return Ok(await _service.Test(id));
+        }
+        [HttpGet]
         //[Authorize]
-        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListPackageByOdoAndCenterId(Guid id,Guid  odoId)
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListPackageByOdoAndCenterId(Guid id, Guid odoId)
         {
             return Ok(await _service.GetListPackageByOdoAndCenterId(id, odoId));
         }
@@ -53,13 +59,24 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _service.GetListPackageAndOdoTRUEByCenterId(id));
         }
+        [HttpGet]
+        //[Authorize]
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListPackageAndOdoTRUEByCenterIdAndVehicleModelId(Guid id, Guid modelId)
+        {
+            return Ok(await _service.GetListPackageAndOdoTRUEByCenterIdAndModelId(id, modelId));
+        }
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<ResponseMaintananceServices>> Post([FromBody]CreateMaintananceServices create)
+        public async Task<ActionResult<ResponseMaintananceServices>> Post( CreateMaintananceServices create)
         {
             return Ok(await _service.Create(create));
         }
-        
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult<ResponseMaintananceServices>> PostList(CreateMainServiceList create)
+        {
+            return Ok(await _service.CreateList(create));
+        }
         [HttpPut]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateMaintananceServices update)
         {

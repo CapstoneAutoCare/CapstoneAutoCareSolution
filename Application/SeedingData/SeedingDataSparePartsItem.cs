@@ -24,6 +24,7 @@ namespace Application.SeedingData
                     Capacity = 5,
                     SparePartsId = sparePart.SparePartId,
                     MaintenanceCenterId = center.MaintenanceCenterId,
+                    SparePartsItemType=sparePart.SparePartType
                 })
             ).ToList();
         }

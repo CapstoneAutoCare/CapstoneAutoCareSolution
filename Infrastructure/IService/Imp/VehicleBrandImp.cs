@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enum;
+using Infrastructure.Common.Request.RequestVehicleBrandRequest;
 using Infrastructure.Common.Request.VehicleBrandRequest;
 using Infrastructure.IUnitofWork;
 using System;
@@ -29,13 +31,11 @@ namespace Infrastructure.IService.Imp
             return brand;
         }
 
-        public async Task<VehiclesBrand> CreateVehicleBrand(string vehiclesBrandName)
+        public async Task<VehiclesBrand> CreateVehicleBrand(CreateBrand create)
         {
-            var check = await _unitofWork.VehiclesBrand.GetBrandbyName(vehiclesBrandName);
-            VehiclesBrand brand = new VehiclesBrand();
-            brand.VehiclesBrandName = vehiclesBrandName;
+            var brand = _mapper.Map<VehiclesBrand>(create);
+            brand.Status = EnumStatus.ACTIVE.ToString();
             brand.CreatedDate = DateTime.Now;
-            brand.Status = "ACTIVE";
             await _unitofWork.VehiclesBrand.Add(brand);
             await _unitofWork.Commit();
             return brand;

@@ -17,18 +17,42 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintananceSchedule>> GetAll()
         {
-            return await _context.Set<MaintananceSchedule>().Include(c => c.VehicleModel).ThenInclude(c=>c.VehiclesBrand).ToListAsync();
+            return await _context.Set<MaintananceSchedule>().Include(c => c.VehicleModel).ThenInclude(c => c.VehiclesBrand).ToListAsync();
         }
 
         public async Task<MaintananceSchedule> GetByID(Guid? id)
         {
             var maintanance_schedule = await _context.Set<MaintananceSchedule>().Include(a => a.VehicleModel).ThenInclude(c => c.VehiclesBrand)
                 .FirstOrDefaultAsync(c => c.MaintananceScheduleId == id);
-            if(maintanance_schedule == null)
+            if (maintanance_schedule == null)
             {
                 throw new Exception("Not Found");
             }
             return maintanance_schedule;
         }
+
+        public async Task<List<MaintananceSchedule>> GetListPackageByCenterId(Guid id)
+        {
+            var maintenanceServices = await _context.Set<MaintenanceService>()
+                .Include(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                            .Include(ms => ms.ServiceCare)
+                                .ThenInclude(sc => sc.MaintananceSchedule)
+
+                            .Where(ms => ms.MaintenanceCenterId == id)
+                            .ToListAsync();
+
+            var maintananceSchedules = maintenanceServices
+
+                .Select(ms => ms.ServiceCare.MaintananceSchedule)
+
+                .Distinct()
+                .ToList();
+
+            return maintananceSchedules;
+        }
+
+
+
     }
 }
