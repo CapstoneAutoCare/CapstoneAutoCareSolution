@@ -22,12 +22,10 @@ namespace CapstoneAutoCareApi.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly IBookingService _bookingService;
-        private readonly IHubContext<NotificationHub, IBookingHubs> _hubContext;
 
-        public BookingsController(IBookingService bookingService, IHubContext<NotificationHub, IBookingHubs> hubContext)
+        public BookingsController(IBookingService bookingService)
         {
             _bookingService = bookingService;
-            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -35,7 +33,6 @@ namespace CapstoneAutoCareApi.Controllers
         {
             var bookings = await _bookingService.GetAll();
 
-            await _hubContext.Clients.All.SendNotification(bookings);
 
             return Ok(bookings);
 
@@ -64,7 +61,6 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenterId(Guid id)
         {
             var bookings = await _bookingService.GetListByCenterId(id);
-            await _hubContext.Clients.All.SendNotification(bookings);
 
             return Ok(bookings);
         }
