@@ -32,7 +32,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDBContext>();
-
+#region ADD
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddTransient<IAccountRepository, AccountRepositoryImp>();
@@ -140,7 +140,7 @@ builder.Services.AddTransient<IMaintenanceTaskSparePartInfoService, MaintenanceT
 //builder.Services.AddTransient<IReceiptsService, ReceiptsServiceImp>();
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
-
+#endregion
 
 builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
 builder.Services.AddHttpContextAccessor();

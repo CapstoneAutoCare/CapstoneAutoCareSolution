@@ -81,7 +81,7 @@ namespace Infrastructure.IService.Imp
             //await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             mi.BookingId = booking.BookingId;
             mi.CreatedDate = DateTime.Now;
-            mi.InformationMaintenanceName = "Client created Booking and Maintenance Infor";
+            mi.InformationMaintenanceName = "Khách Hàng Tạo Lịch Đặt";
             mi.Note = check.Note;
             mi.Status = EnumStatus.CREATEDBYClIENT.ToString();
             await _unitOfWork.InformationMaintenance.Add(mi);
@@ -235,6 +235,11 @@ namespace Infrastructure.IService.Imp
         public async Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id)
         {
             return _mapper.Map<List<MonthlyBookingSummary>>(await _unitOfWork.Booking.GetBookingsByMonthByCenterId(id));
+        }
+
+        public async Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid id,int year)
+        {
+            return _mapper.Map<List<MonthlyBookingSummary>>(await _unitOfWork.Booking.GetBookingsByMonthInYearByCenterId(id, year));
         }
 
         public async Task<ResponseBooking> GetById(Guid id)

@@ -83,7 +83,7 @@ namespace Application.IRepository.Imp
         {
             var bookings = await _context.Set<Booking>()
                 .Where(b => b.MaintenanceCenterId == id)
-                .GroupBy(b => new { b.CreatedDate.Year, b.CreatedDate.Month })
+                .GroupBy(b => new { b.BookingDate.Year, b.BookingDate.Month })
                 .Select(g => new MonthlyBookingSummary
                 {
                     Year = g.Key.Year,
@@ -110,5 +110,29 @@ namespace Application.IRepository.Imp
                             .Where(c => c.ClientId == id)
                             .ToListAsync();
         }
+
+        public async Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid centerId, int year)
+        {
+            var bookings = await _context.Set<Booking>()
+                              .Include(c => c.Client.Account)
+                              .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                              .Include(c => c.MaintenanceCenter.Account)
+                              .Where(c => c.MaintenanceCenterId == centerId && c.BookingDate.Year == year)
+                              .ToListAsync();
+
+            var monthlySummary = bookings
+                .GroupBy(b => new { b.BookingDate.Year, b.BookingDate.Month })
+                .Select(g => new MonthlyBookingSummary
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    BookingCount = g.Count()
+                })
+                .OrderBy(m => m.Year).ThenBy(m => m.Month)
+                .ToList();
+
+            return monthlySummary;
+        }
+        
     }
 }

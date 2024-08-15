@@ -40,6 +40,8 @@ namespace Infrastructure.IService.Imp
             care.Account.Status = "ACTIVE";
             care.Account.Role = "CUSTOMERCARE";
             care.CustomerCareDescription = "null";
+            await _unitOfWork.Account.CheckPhone(care.Account.Phone);
+
             await _unitOfWork.Account.Add(care.Account);
             await _unitOfWork.CustomerCare.Add(care);
             await _unitOfWork.Commit();

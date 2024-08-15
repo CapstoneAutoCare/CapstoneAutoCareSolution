@@ -57,6 +57,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _bookingService.GetBookingsByMonthByCenterId(id));
         }
         [HttpGet]
+        public async Task<ActionResult<List<MonthlyBookingSummary>>> GetBookingsByMonthInYearByCenterId(Guid id,int year)
+        {
+            return Ok(await _bookingService.GetBookingsByMonthInYearByCenterId(id, year));
+        }
+        [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenter()
         {

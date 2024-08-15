@@ -26,6 +26,7 @@ namespace Infrastructure.IService
         Task<List<ResponseBooking>> GetListByCenter();
         Task<List<ResponseBooking>> GetListByCenterId(Guid id);
         Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id);
+        Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid id,int year);
 
     }
 }
