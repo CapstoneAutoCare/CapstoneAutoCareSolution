@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Dashboard;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Enum;
 using Infrastructure.Common.Request.RequestBooking;
@@ -229,6 +230,11 @@ namespace Infrastructure.IService.Imp
         public async Task<List<ResponseBooking>> GetAll()
         {
             return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetAll());
+        }
+
+        public async Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id)
+        {
+            return _mapper.Map<List<MonthlyBookingSummary>>(await _unitOfWork.Booking.GetBookingsByMonthByCenterId(id));
         }
 
         public async Task<ResponseBooking> GetById(Guid id)

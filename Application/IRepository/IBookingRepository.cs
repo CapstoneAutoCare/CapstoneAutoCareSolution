@@ -1,4 +1,5 @@
-﻿using Application.IGenericRepository;
+﻿using Application.Dashboard;
+using Application.IGenericRepository;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace Application.IRepository
         Task<List<Booking>> GetListByClient(Guid id);
         Task<List<Booking>> GetListByCenterAndClient (Guid centerid, Guid clientId);
         Task<List<Booking>> GetListByCenter(Guid id);
+        Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id);
     }
 }

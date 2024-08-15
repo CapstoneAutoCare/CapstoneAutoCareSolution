@@ -1,4 +1,5 @@
-﻿using Application.IGenericRepository.Imp;
+﻿using Application.Dashboard;
+using Application.IGenericRepository.Imp;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -45,7 +46,7 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenanceSparePartInfos)
                 .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
                 .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
-                .OrderByDescending(c=>c.CreatedDate)
+                .OrderByDescending(c => c.CreatedDate)
                 .FirstOrDefaultAsync(c => c.BookingId == id);
             if (booking == null)
             {
@@ -78,7 +79,23 @@ namespace Application.IRepository.Imp
                             .Where(c => c.ClientId == clientId && c.MaintenanceCenterId == centerid)
                             .ToListAsync();
         }
+        public async Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id)
+        {
+            var bookings = await _context.Set<Booking>()
+                .Where(b => b.MaintenanceCenterId == id)
+                .GroupBy(b => new { b.CreatedDate.Year, b.CreatedDate.Month })
+                .Select(g => new MonthlyBookingSummary
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    BookingCount = g.Count()
+                })
+                .OrderBy(g => g.Year)
+                .ThenBy(g => g.Month)
+                .ToListAsync();
 
+            return bookings;
+        }
         public async Task<List<Booking>> GetListByClient(Guid id)
         {
             return await _context.Set<Booking>()

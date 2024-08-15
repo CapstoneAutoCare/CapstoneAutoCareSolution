@@ -35,17 +35,15 @@ namespace Application.IRepository.Imp
         {
             var maintenanceServices = await _context.Set<MaintenanceService>()
                 .Include(c => c.VehicleModel)
-                .ThenInclude(c => c.VehiclesBrand)
-                            .Include(ms => ms.ServiceCare)
-                                .ThenInclude(sc => sc.MaintananceSchedule)
-
-                            .Where(ms => ms.MaintenanceCenterId == id)
-                            .ToListAsync();
+                    .ThenInclude(c => c.VehiclesBrand)
+                .Include(ms => ms.ServiceCare)
+                    .ThenInclude(sc => sc.MaintananceSchedule)
+                .Where(ms => ms.MaintenanceCenterId == id)
+                .ToListAsync();
 
             var maintananceSchedules = maintenanceServices
-
-                .Select(ms => ms.ServiceCare.MaintananceSchedule)
-
+                .Where(ms => ms.ServiceCare != null) 
+                .Select(ms => ms.ServiceCare.MaintananceSchedule) 
                 .Distinct()
                 .ToList();
 

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Domain.Enum;
 using CapstoneAutoCareApi.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Application.Dashboard;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -51,6 +52,11 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult<List<MonthlyBookingSummary>>> GetBookingsByMonthByCenterId(Guid id)
+        {
+            return Ok(await _bookingService.GetBookingsByMonthByCenterId(id));
+        }
+        [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenter()
         {
@@ -77,11 +83,11 @@ namespace CapstoneAutoCareApi.Controllers
         //    return NoContent();
         //}
 
-        //[HttpPost]
-        //public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
-        //{
-        //    return Ok(await _bookingService.Create(booking));
-        //}
+        [HttpPost]
+        public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
+        {
+            return Ok(await _bookingService.Create(booking));
+        }
         [HttpPost]
         public async Task<ActionResult<ResponseBooking>> PostHaveItems([FromBody] RequestBookingHaveItems booking)
         {

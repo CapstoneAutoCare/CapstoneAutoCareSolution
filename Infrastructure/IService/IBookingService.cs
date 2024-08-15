@@ -1,4 +1,5 @@
-﻿using Domain.Enum;
+﻿using Application.Dashboard;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseCustomerCare;
@@ -24,6 +25,7 @@ namespace Infrastructure.IService
 
         Task<List<ResponseBooking>> GetListByCenter();
         Task<List<ResponseBooking>> GetListByCenterId(Guid id);
+        Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id);
 
     }
 }
