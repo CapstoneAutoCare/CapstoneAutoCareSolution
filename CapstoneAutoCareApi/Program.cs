@@ -147,15 +147,15 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();
 
 
-builder.Services.AddCors(c =>
- c.AddPolicy("AllowSpecificOrigin", builder =>
- {
-
-     builder.WithOrigins()
-                   .AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowCredentials();
- }));
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyHeader()
+            .AllowAnyOrigin()
+            .AllowAnyMethod();
+    });
+});
 
 
 builder.Services.AddHttpClient();
@@ -174,7 +174,7 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("AllowSpecificOrigin");
+app.UseCors();
 
 app.UseHttpsRedirection();
 app.MapControllers();
