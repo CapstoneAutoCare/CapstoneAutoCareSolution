@@ -16,5 +16,6 @@ namespace Infrastructure.IService
         Task<ResponseOdoHistory> GetById(Guid id);
         Task<ResponseOdoHistory> Create(CreateOdoHistory create);
         Task<ResponseOdoHistory> Update(Guid id, UpdateOdo updateOdo);
+        Task<ResponseOdoHistory> GetByInforId(Guid id);
     }
 }

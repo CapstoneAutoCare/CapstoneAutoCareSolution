@@ -478,8 +478,8 @@ namespace Infrastructure.Common.Mapper
                    .ForMember(c => c.VehicleModelName, act => act.MapFrom(c => c.MaintenanceService.VehicleModel.VehicleModelName))
                    .ForMember(c => c.VehiclesBrandName, act => act.MapFrom(c => c.MaintenanceService.VehicleModel.VehiclesBrand.VehiclesBrandName))
                    .ForMember(c => c.MaintananceScheduleName, act => act.MapFrom(c => c.MaintenanceService.ServiceCare.MaintananceSchedule.MaintananceScheduleName))
-                   .ForMember(c => c.VehicleModelId, act => act.MapFrom(c => c.MaintenanceService.ServiceCare.MaintananceSchedule.VehicleModelId))
-                   .ForMember(c => c.VehiclesBrandId, act => act.MapFrom(c => c.MaintenanceService.ServiceCare.MaintananceSchedule.VehicleModel.VehiclesBrandId))
+                   .ForMember(c => c.VehicleModelId, act => act.MapFrom(c => c.MaintenanceService.VehicleModelId))
+                   .ForMember(c => c.VehiclesBrandId, act => act.MapFrom(c => c.MaintenanceService.VehicleModel.VehiclesBrandId))
 
                    .ReverseMap();
 

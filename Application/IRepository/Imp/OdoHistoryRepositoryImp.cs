@@ -30,5 +30,16 @@ namespace Application.IRepository.Imp
             }
             return odo;
         }
+
+        public async Task<OdoHistory> GetByInforId(Guid inforId)
+        {
+            var odo = await _context.Set<OdoHistory>().Include(c => c.MaintenanceInformation).FirstOrDefaultAsync(c => c.MaintenanceInformationId == inforId);
+            if (odo == null)
+            {
+                throw new Exception("not found");
+
+            }
+            return odo;
+        }
     }
 }

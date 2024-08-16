@@ -36,6 +36,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _historyService.GetById(id));
 
         }
+        [HttpGet]
+        public async Task<ActionResult<ResponseOdoHistory>> GetOdoByInforId(Guid id)
+        {
+            return Ok(await _historyService.GetByInforId(id));
+        }
         [HttpPost]
         public async Task<ActionResult<ResponseOdoHistory>> Post(CreateOdoHistory odoHistory)
         {

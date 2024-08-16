@@ -12,5 +12,6 @@ namespace Application.IRepository
     {
         Task<List<OdoHistory>> GetAll();
         Task<OdoHistory> GetById(Guid id);
+        Task<OdoHistory> GetByInforId(Guid inforId);
     }
 }

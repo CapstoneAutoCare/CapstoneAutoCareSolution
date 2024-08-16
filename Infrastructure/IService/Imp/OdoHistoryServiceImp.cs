@@ -26,10 +26,11 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseOdoHistory> Create(CreateOdoHistory create)
         {
             var odo = _mapper.Map<OdoHistory>(create);
-            odo.OdoHistoryName = create.Odo.ToString();
+            var ve = await _unitOfWork.Vehicles.GetById(odo.VehiclesId);
+
+            odo.OdoHistoryName = ve.VehicleModel.VehiclesBrand.VehiclesBrandName + " " + ve.VehicleModel.VehicleModelName + " " + ve.LicensePlate +" "+ create.Odo.ToString();
             odo.CreatedDate = DateTime.Now;
             odo.Status = EnumStatus.ACTIVE.ToString();
-            await _unitOfWork.Vehicles.GetById(odo.VehiclesId);
             var i = await _unitOfWork.InformationMaintenance.GetById(odo.MaintenanceInformationId);
             if (i.Status.Equals(EnumStatus.CHECKIN.ToString())
                 || i.Status.Equals(EnumStatus.REPAIRING.ToString()))
@@ -53,6 +54,11 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseOdoHistory> GetById(Guid id)
         {
             return _mapper.Map<ResponseOdoHistory>(await _unitOfWork.OdoHistory.GetById(id));
+        }
+
+        public async Task<ResponseOdoHistory> GetByInforId(Guid id)
+        {
+            return _mapper.Map<ResponseOdoHistory>(await _unitOfWork.OdoHistory.GetByInforId(id));
         }
 
         public async Task<ResponseOdoHistory> Update(Guid id, UpdateOdo updateOdo)
