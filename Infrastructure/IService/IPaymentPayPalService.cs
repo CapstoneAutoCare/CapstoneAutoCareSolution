@@ -18,6 +18,7 @@ namespace Infrastructure.IService
         Task<string> CreatePaymentUrl(HttpContext httpContext, VnPaymentRequest model);
         Task<VnPaymentResponse> PaymentExecute(IQueryCollection  values);
 
+        Task<string> PaymentExecutev1(IQueryCollection queryParameters);
 
     }
 }

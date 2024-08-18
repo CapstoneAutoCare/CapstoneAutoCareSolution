@@ -34,12 +34,13 @@ namespace Infrastructure.IService.Imp
             var mc = await _unitOfWork.MaintenanceCenter.GetById(feedback.MaintenanceCenterId);
             var rc = await _unitOfWork.ReceiptRepository.GetById(feedback.ReceiptId);
 
-            feedback.MaintenanceCenter = mc;
-            feedback.Receipt = rc;
+            mc.Rating = ((mc.Rating + feedback.Vote) / 2f);
+
 
             if (rc.Status != "PAID") throw new Exception("You need complete payment to give feedback");
 
             await _unitOfWork.FeedBack.Add(feedback);
+            await _unitOfWork.MaintenanceCenter.Update(mc);
             await _unitOfWork.Commit();
 
 

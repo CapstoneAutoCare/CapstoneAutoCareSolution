@@ -133,6 +133,20 @@ namespace Application.IRepository.Imp
 
             return monthlySummary;
         }
-        
+
+        public async Task<Booking> GetByInforid(Guid inforid)
+        {
+            var booking =  await _context.Set<Booking>()
+                             .Include(c => c.Client.Account)
+                             .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                             .Include(c => c.MaintenanceCenter.Account)
+                             .OrderByDescending(c => c.CreatedDate)
+                             .SingleOrDefaultAsync(c => c.MaintenanceInformation.InformationMaintenanceId == inforid); 
+            if(booking == null)
+            {
+                throw new Exception("Thông tin bảo dưỡng không tồn tại trong booking này");
+            }
+            return booking;
+        }
     }
 }

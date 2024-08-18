@@ -211,11 +211,38 @@ namespace Infrastructure.IService.Imp
                     await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
                 }
                 re.Status = status;
-            }
-            await _unitOfWork.InformationMaintenance.Update(re);
-            await _unitOfWork.Commit();
+                await _unitOfWork.InformationMaintenance.Update(re);
+                await _unitOfWork.Commit();
 
-            return _mapper.Map<ResponseMaintenanceInformation>(re);
+                return _mapper.Map<ResponseMaintenanceInformation>(re);
+            }
+            else if (re.Status.Equals(STATUSENUM.STATUSMI.WAITINGBYCAR.ToString()) && status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString()))
+            {
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = re.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
+                {
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                }
+                re.Status = status;
+                var booking = await _unitOfWork.Booking.GetById(re.BookingId);
+                booking.Status = status;
+                await _unitOfWork.Booking.Update(booking);
+                await _unitOfWork.InformationMaintenance.Update(re);
+                await _unitOfWork.Commit();
+
+                return _mapper.Map<ResponseMaintenanceInformation>(re);
+            }
+            else
+            {
+                throw new Exception("Không thay đổi Status được nữa");
+            }
+
         }
 
         public async Task<ResponseMaintenanceInformation> ChangeStatusBackUp(Guid id, string status)

@@ -28,14 +28,17 @@ namespace Infrastructure.IService.Imp
             var odo = _mapper.Map<OdoHistory>(create);
             var ve = await _unitOfWork.Vehicles.GetById(odo.VehiclesId);
 
-            odo.OdoHistoryName = ve.VehicleModel.VehiclesBrand.VehiclesBrandName + " " + ve.VehicleModel.VehicleModelName + " " + ve.LicensePlate +" "+ create.Odo.ToString();
+            odo.OdoHistoryName = ve.VehicleModel.VehiclesBrand.VehiclesBrandName + " " + ve.VehicleModel.VehicleModelName + " " + ve.LicensePlate + " " + create.Odo.ToString();
             odo.CreatedDate = DateTime.Now;
             odo.Status = EnumStatus.ACTIVE.ToString();
             var i = await _unitOfWork.InformationMaintenance.GetById(odo.MaintenanceInformationId);
             if (i.Status.Equals(EnumStatus.CHECKIN.ToString())
                 || i.Status.Equals(EnumStatus.REPAIRING.ToString()))
             {
+                ve.Odo = odo.Odo;
                 await _unitOfWork.OdoHistory.Add(odo);
+                await _unitOfWork.Vehicles.Update(ve);
+
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseOdoHistory>(odo);
             }
@@ -65,8 +68,12 @@ namespace Infrastructure.IService.Imp
         {
 
             var odo = await _unitOfWork.OdoHistory.GetById(id);
+            var vehicle = await _unitOfWork.Vehicles.GetById(odo.VehiclesId);
+
             var update = _mapper.Map(updateOdo, odo);
+            vehicle.Odo = update.Odo;
             await _unitOfWork.OdoHistory.Update(update);
+            await _unitOfWork.Vehicles.Update(vehicle);
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseOdoHistory>(update);
         }

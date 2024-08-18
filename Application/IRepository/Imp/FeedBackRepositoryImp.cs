@@ -21,6 +21,9 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.Receipt)
                 .ThenInclude(c => c.InformationMaintenance)
+                 .ThenInclude(c => c.Booking)
+                            .ThenInclude(c => c.Client)
+                            .ThenInclude(c=>c.Account)
                 .ToListAsync();
         }
 
@@ -30,6 +33,10 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.Receipt)
                 .ThenInclude(c => c.InformationMaintenance)
+                 .ThenInclude(c => c.Booking)
+                            .ThenInclude(c => c.Client)
+                                                        .ThenInclude(c => c.Account)
+
                 .FirstOrDefaultAsync(c => c.FeedBackId == id);
             if (feedback == null)
             {
@@ -44,6 +51,10 @@ namespace Application.IRepository.Imp
                             .Include(c => c.Receipt)
                             //.OrderByDescending(p => p.Vote)
                             .ThenInclude(c => c.InformationMaintenance)
+                            .ThenInclude(c=>c.Booking)
+                            .ThenInclude(c=>c.Client)
+                                                        .ThenInclude(c => c.Account)
+
                             .Where(c => c.MaintenanceCenterId == center)
                             .ToListAsync();
         }

@@ -6,6 +6,7 @@ using Infrastructure.Common.Response.OdoResponse;
 using Infrastructure.Common.Response.ReceiptResponse;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,13 @@ namespace Infrastructure.IService.Imp
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokensHandler;
-
-        public ReceiptsServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler)
+        private readonly IConfiguration _configuration;
+        public ReceiptsServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler,IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokensHandler = tokensHandler;
+            _configuration = configuration;
         }
 
         public async Task<ResponseReceipts> ChangeStatus(Guid id, string status)
@@ -59,7 +61,7 @@ namespace Infrastructure.IService.Imp
             r.ReceiptName = "Receipt";
             //r.TotalAmount = 0;
             //r.SubTotal = 0;
-            r.VAT = 10;
+            r.VAT = _configuration.GetValue<int>("VAT");
             r.SubTotal = i.TotalPrice;
             r.TotalAmount = (float)Math.Round(r.SubTotal * (1 + (r.VAT / 100f)), 0, MidpointRounding.AwayFromZero);
             r.Status = EnumStatus.YETPAID.ToString();

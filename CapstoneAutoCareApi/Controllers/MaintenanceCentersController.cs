@@ -38,6 +38,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _centerService.GetById(id));
         }
 
+        [HttpGet]
+        public async Task<ActionResult<MaintenanceCenter>> GetAllStatusActive()
+        {
+            return Ok(await _centerService.GetAllActive());
+        }
         [HttpPatch]
         public async Task<ActionResult<ResponseCenter>> UpdateStatus(Guid id, string status)
         {

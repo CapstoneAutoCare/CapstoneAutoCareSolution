@@ -21,6 +21,7 @@ namespace Infrastructure.IService
         Task<TotalCountAndPrice> TotalGetListByStatusAndStatusCostSpartPart(Guid centerId);
         Task<TotalCountAndPrice> TotalGetListByStatusPaidReceipt(Guid centerId);
         Task<TotalCountAndPrice> TotalGetListByMainInfor(Guid centerId);
+        Task<List<ResponseCenter>> GetAllActive();
         
     }
 }

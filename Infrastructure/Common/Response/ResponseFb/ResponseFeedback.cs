@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructure.Common.Response.ClientResponse;
 using Infrastructure.Common.Response.ReceiptResponse;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using System;
@@ -18,5 +19,6 @@ namespace Infrastructure.Common.Response.ResponseFb
         public Guid ReceiptId { get; set; }
         public ResponseCenter ResponseCenter { get; set; }
         public ResponseReceipts ResponseReceipts { get; set; }
+        public ResponseClient ResponseClient { get; set; }
     }
 }

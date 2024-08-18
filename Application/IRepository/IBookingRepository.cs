@@ -18,6 +18,7 @@ namespace Application.IRepository
         Task<List<Booking>> GetListByCenter(Guid id);
         Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id);
         Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid centerId, int year);
+        Task<Booking> GetByInforid(Guid inforid);
 
     }
 }

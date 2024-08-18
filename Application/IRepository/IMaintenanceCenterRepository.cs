@@ -11,5 +11,6 @@ namespace Application.IRepository
     {
         Task<MaintenanceCenter> GetById(Guid id);
         Task<List<MaintenanceCenter>> GetAll();
+        Task<List<MaintenanceCenter>> GetAllActive();
     }
 }

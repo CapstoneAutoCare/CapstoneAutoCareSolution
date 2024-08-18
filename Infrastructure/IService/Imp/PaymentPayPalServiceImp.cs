@@ -185,7 +185,7 @@ namespace Infrastructure.IService.Imp
             {
                 return new VnPaymentResponse
                 {
-                    Success = false
+                    VnPayResponseCode = "https://payment-failure.vercel.app/"
                 };
             }
 
@@ -199,21 +199,61 @@ namespace Infrastructure.IService.Imp
 
                 return new VnPaymentResponse
                 {
-                    Success = true,
-                    PaymentMethod = "VnPay",
-                    OrderDescription = vnp_OrderInfo,
-                    OrderId = vnp_orderId.ToString(),
-                    TransactionId = vnp_TransactionId.ToString(),
-                    Token = vnp_SecureHash,
-                    VnPayResponseCode = vnp_ResponseCode,
-                    ReceiptId = receiptIdd,
+                    VnPayResponseCode = "https://payment-success-amber.vercel.app/"
                 };
+                
             }
             else
             {
-                throw new Exception("CHANGE STATUS NOT COMPLETE");
+                return new VnPaymentResponse
+                {
+                    VnPayResponseCode = "https://payment-failure.vercel.app/"
+                };
             }
         }
 
+        public async Task<string> PaymentExecutev1(IQueryCollection queryParameters)
+        {
+            foreach (var (key, value) in queryParameters)
+            {
+                if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
+                {
+                    _vnPayLibrary.AddResponseData(key, value.ToString());
+                }
+            }
+
+            var vnp_orderId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TxnRef"));
+            var vnp_TransactionId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TransactionNo"));
+            var vnp_SecureHash = _vnPayLibrary.GetResponseData("vnp_SecureHash");
+            var vnp_ResponseCode = _vnPayLibrary.GetResponseData("vnp_ResponseCode");
+            var vnp_OrderInfo = _vnPayLibrary.GetResponseData("vnp_OrderInfo");
+
+            bool checkSignature = _vnPayLibrary.ValidateSignature(vnp_SecureHash, _confiVnPay.HashSecret);
+
+            string vnpOrderInfo = queryParameters["vnp_OrderInfo"];
+            string receiptId = vnpOrderInfo.Substring(vnpOrderInfo.LastIndexOf(":") + 1);
+            Guid receiptIdd = Guid.Parse(receiptId);
+            var receipt = await _unitOfWork.ReceiptRepository.GetById(receiptIdd);
+
+            if (!checkSignature)
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+
+            if (vnp_ResponseCode == "00" && receipt.Status.Equals(EnumStatus.YETPAID.ToString()))
+            {
+                receipt.Status = EnumStatus.PAID.ToString();
+                receipt.InformationMaintenance.Status = EnumStatus.PAID.ToString();
+                await _unitOfWork.InformationMaintenance.Update(receipt.InformationMaintenance);
+                await _unitOfWork.ReceiptRepository.Update(receipt);
+                await _unitOfWork.Commit();
+
+                return "https://payment-success-amber.vercel.app/";
+            }
+            else
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+        }
     }
 }

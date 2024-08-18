@@ -20,7 +20,13 @@ namespace Application.IRepository.Imp
             return await _context.Set<MaintenanceCenter>().Include(c => c.Account).ToListAsync();
         }
 
-        
+        public async Task<List<MaintenanceCenter>> GetAllActive()
+        {
+            return await _context.Set<MaintenanceCenter>()
+                .Include(c => c.Account)
+                .Where(c=> c.Account.Status=="ACTIVE")
+                .ToListAsync();
+        }
 
         public async Task<MaintenanceCenter> GetById(Guid id)
         {

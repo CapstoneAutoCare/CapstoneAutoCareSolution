@@ -46,6 +46,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseCenter>>(await _unitOfWork.MaintenanceCenter.GetAll());
         }
 
+        public async Task<List<ResponseCenter>> GetAllActive()
+        {
+            return _mapper.Map<List<ResponseCenter>>(await _unitOfWork.MaintenanceCenter.GetAllActive());
+        }
+
         public async Task<ResponseCenter> GetById(Guid id)
         {
             return _mapper.Map<ResponseCenter>(await _unitOfWork.MaintenanceCenter.GetById(id));

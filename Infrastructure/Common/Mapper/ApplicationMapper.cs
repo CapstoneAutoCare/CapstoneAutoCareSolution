@@ -561,6 +561,7 @@ namespace Infrastructure.Common.Mapper
             CreateMap<FeedBack, ResponseFeedback>()
                 .ForMember(c => c.ResponseReceipts, act => act.MapFrom(c => c.Receipt))
                 .ForMember(c => c.ResponseCenter, act => act.MapFrom(c => c.MaintenanceCenter))
+                .ForMember(c => c.ResponseClient, act => act.MapFrom(c => c.Receipt.InformationMaintenance.Booking.Client))
                 .ReverseMap();
             #endregion
 
