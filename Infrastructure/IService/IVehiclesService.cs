@@ -16,5 +16,6 @@ namespace Infrastructure.IService
         Task<ResponseVehicles> GetById(Guid id);
         Task<List<ResponseVehicles>> GetListByClient();
         Task<ResponseVehicles> UpdateStatus(Guid id , string status);
+        Task<ResponseVehicles> Update(Guid id,UpdateVehicle updateVehicle);
     }
 }

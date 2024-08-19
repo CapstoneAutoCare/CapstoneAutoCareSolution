@@ -17,7 +17,6 @@ namespace Application
         {
         }
         public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<CustomerCare> CustomerCares { get; set; }
@@ -49,7 +48,7 @@ namespace Application
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db7310.public.databaseasp.net; Database=db7310; User Id=db7310; Password=w!5S-Fz39x_H; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer("Server=db6880.public.databaseasp.net; Database=db6880; User Id=db6880; Password=fB!3S-9ek2P+; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer("Server=mssql-181059-0.cloudclusters.net,18755; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
@@ -59,7 +58,6 @@ namespace Application
         {
             #region AddConfiguration
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
-            modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
             modelBuilder.ApplyConfiguration(new ClientConfiguration());
             modelBuilder.ApplyConfiguration(new FeedBackConfiguration());

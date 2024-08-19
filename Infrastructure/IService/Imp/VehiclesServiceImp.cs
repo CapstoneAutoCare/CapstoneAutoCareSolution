@@ -82,5 +82,15 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseVehicles>(vehicle);
         }
+
+        public async Task<ResponseVehicles> Update(Guid id, UpdateVehicle updateVehicle)
+        {
+            var vehicle = await _unitOfWork.Vehicles.GetById(id);
+
+            var update = _mapper.Map(updateVehicle, vehicle);
+            await _unitOfWork.Vehicles.Update(vehicle);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseVehicles>(update);
+        }
     }
 }

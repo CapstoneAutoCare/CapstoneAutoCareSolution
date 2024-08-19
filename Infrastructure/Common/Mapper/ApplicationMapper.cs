@@ -69,17 +69,6 @@ namespace Infrastructure.Common.Mapper
             }));
 
 
-            //CREATE ADMIN
-
-            CreateMap<CreateAdmin, Admin>()
-            .ForMember(p => p.Account, act => act.MapFrom(src => new Account
-            {
-                Logo = src.Logo,
-                Gender = src.Gender,
-                Password = src.Password,
-                Phone = src.Phone,
-                Email = src.Email
-            }));
 
             // CREATE CUSTOMER CARE
             CreateMap<CreateCustomerCare, CustomerCare>()
@@ -128,19 +117,6 @@ namespace Infrastructure.Common.Mapper
                 Phone = src.Phone,
                 Email = src.Email
             }));
-
-
-            CreateMap<Admin, ResponseAdmin>()
-            .ForMember(c => c.Email, act => act.MapFrom(src => src.Account.Email))
-            .ForMember(c => c.AccountId, act => act.MapFrom(src => src.AccountId))
-            .ForMember(c => c.AdminId, act => act.MapFrom(src => src.AdminId))
-            .ForMember(c => c.Password, act => act.MapFrom(src => src.Account.Password))
-            .ForMember(c => c.Logo, act => act.MapFrom(src => src.Account.Logo))
-            .ForMember(c => c.Status, act => act.MapFrom(src => src.Account.Status))
-            .ForMember(c => c.CreatedDate, act => act.MapFrom(src => src.Account.CreatedDate))
-            .ForMember(c => c.Gender, act => act.MapFrom(src => src.Account.Gender))
-            .ForMember(c => c.Phone, act => act.MapFrom(src => src.Account.Phone))
-            .ForMember(c => c.Role, act => act.MapFrom(src => src.Account.Role));
 
 
 
@@ -564,6 +540,8 @@ namespace Infrastructure.Common.Mapper
                 .ForMember(c => c.ResponseClient, act => act.MapFrom(c => c.Receipt.InformationMaintenance.Booking.Client))
                 .ReverseMap();
             #endregion
+            CreateMap<UpdateVehicle, Vehicles>()
+                .ReverseMap();
 
             #region Brand
             CreateMap<CreateBrand, VehiclesBrand>()

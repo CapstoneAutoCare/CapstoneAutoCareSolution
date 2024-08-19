@@ -65,7 +65,6 @@ namespace Application.IRepository.Imp
             var account = await _context.Set<Account>()
                 .Include(c => c.Technician)
                 .Include(c => c.Client)
-                .Include(c => c.Admin)
                 .Include(c => c.MaintenanceCenter)
                 .Include(c => c.CustomerCare)
                 .FirstOrDefaultAsync(c => c.Email.ToLower().Equals(email.ToLower()));

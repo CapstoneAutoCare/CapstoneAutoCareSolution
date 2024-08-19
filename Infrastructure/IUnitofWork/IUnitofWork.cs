@@ -1,4 +1,5 @@
 ﻿using Application.IRepository;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace Infrastructure.IUnitofWork
     public interface IUnitOfWork
     {
         IAccountRepository Account { get; }
-        IAdminRepository Admin { get; }
         IBookingRepository Booking { get; }
         IClientRepository Client { get; }
         ICustomerCareRepository CustomerCare { get; }

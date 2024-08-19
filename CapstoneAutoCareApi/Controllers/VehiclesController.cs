@@ -59,12 +59,12 @@ namespace CapstoneAutoCareApi.Controllers
 
             return Ok(await _vehiclesService.UpdateStatus(id, status));
         }
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteVehicles(Guid id)
-        //{
+        [HttpDelete]
+        public async Task<ActionResult<ResponseVehicles>> PutVehicle(Guid id,UpdateVehicle vehicle)
+        {
 
-        //    return NoContent();
-        //}
+            return Ok(await _vehiclesService.Update(id, vehicle));
+        }
 
 
     }

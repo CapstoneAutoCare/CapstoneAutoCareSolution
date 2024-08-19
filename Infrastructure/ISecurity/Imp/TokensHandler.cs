@@ -44,6 +44,23 @@ namespace Infrastructure.ISecurity.Imp
         //    var username = claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
         //    return username;
         //}
+        public  string GetRoleFromJwt()
+        {
+            var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrWhiteSpace(authorizationHeader))
+            {
+                throw new Exception("Authorization header is missing");
+            }
+
+            var token = authorizationHeader.Replace("Bearer ", "");
+
+            var claims = GetClaimsFromToken(token);
+
+            // Tìm tuyên bố có tên là role
+            var roleClaim = claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+
+            return roleClaim?.Value;
+        }
         public string ClaimsFromToken()
         {
             var authorizationHeader = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();

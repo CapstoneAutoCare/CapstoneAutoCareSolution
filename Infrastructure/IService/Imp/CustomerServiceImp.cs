@@ -6,6 +6,7 @@ using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using Infrastructure.IUnitofWork.Imp;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,13 @@ namespace Infrastructure.IService.Imp
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokensHandler;
-
-        public CustomerServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler)
+        private readonly IConfiguration _configuration;
+        public CustomerServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokensHandler = tokensHandler;
+            _configuration = configuration;
         }
 
         public async Task<ResponseClient> CreateCustomer(CreateClient create)
@@ -36,25 +38,13 @@ namespace Infrastructure.IService.Imp
             client.Account.Status = "ACTIVE";
             client.Account.Role = "CUSTOMER";
             client.Account.CreatedDate = DateTime.Now;
-            //Client client1 = new Client
-            //{
-            //    Address= create.Address,
-            //    Birthday= create.Birthday,
-            //    FirstName= create.FirstName,
-            //    LastName= create.LastName,
+            var adminEmail = _configuration["AccountSettings:AdminEmail"];
+            var adminPassword = _configuration["AccountSettings:AdminPassword"];
 
-            //    Account = new Account
-            //    {
-            //        CreatedDate = DateTime.Now,
-            //        Email= create.Email,
-            //        Gender= create.Gender,
-            //        Logo= create.Logo,
-            //        Password= create.Password,
-            //        Role = "CUSTMOMER",
-            //        Phone= create.Phone,
-            //        Status ="ACTIVE"
-            //    }
-            //};
+            if (client.Account.Email == adminEmail && client.Account.Password == adminPassword)
+            {
+                throw new Exception("Không thể tạo tài khoản với thông tin đăng nhập của quản trị viên.");
+            }
 
             await _unitOfWork.Account.Add(client.Account);
             await _unitOfWork.Client.Add(client);
@@ -78,11 +68,24 @@ namespace Infrastructure.IService.Imp
             var center1 = await _unitOfWork.Client.GetById(id);
 
             var update = _mapper.Map(updateClient, center1);
+            if (updateClient.Phone != center1.Account.Phone)
+            {
+                await _unitOfWork.Account.CheckPhone(updateClient.Phone);
+            }
+            var adminEmail = _configuration["AccountSettings:AdminEmail"];
+            var adminPassword = _configuration["AccountSettings:AdminPassword"];
+
+            if (center1.Account.Email == adminEmail && center1.Account.Password == adminPassword)
+            {
+                throw new Exception("Không thể tạo tài khoản với thông tin đăng nhập của quản trị viên.");
+            }
+            update.Account.Phone = updateClient.Phone;
             update.Account.Logo = updateClient.Logo;
             await _unitOfWork.Client.Update(update);
+            await _unitOfWork.Account.Update(update.Account);
             await _unitOfWork.Commit();
 
-            return _mapper.Map<ResponseClient>(update); 
+            return _mapper.Map<ResponseClient>(update);
         }
     }
 }

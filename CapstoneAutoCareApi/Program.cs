@@ -38,8 +38,6 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IAccountRepository, AccountRepositoryImp>();
 builder.Services.AddTransient<IAccountService, AccountServiceImp>();
 
-builder.Services.AddTransient<IAdminRepository, AdminRepositoryImp>();
-builder.Services.AddTransient<IAdminService, AdminServiceImp>();
 builder.Services.AddTransient<IFeedBackRepository, FeedBackRepositoryImp>();
 builder.Services.AddTransient<IFeedBackService, FeedbackServiceImp>();
 builder.Services.AddScoped<IEmailService, EmailServiceImp>();

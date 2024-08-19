@@ -2,6 +2,7 @@
 using Application.IRepository;
 using Application.IRepository.Imp;
 using Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,6 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly AppDBContext _context;
 
         private readonly IAccountRepository _Account;
-        private readonly IAdminRepository _Admin;
         private readonly IBookingRepository _Booking;
         private readonly IClientRepository _Client;
         private readonly ICustomerCareRepository _CustomerCare;
@@ -46,7 +46,6 @@ namespace Infrastructure.IUnitofWork.Imp
         {
             _context = context;
             _Account = new AccountRepositoryImp(_context);
-            _Admin = new AdminRepositoryImp(_context);
             _Booking = new BookingRepositoryImp(_context);
             _Client = new ClientRepositoryImp(_context);
             _CustomerCare = new CustomerCareRepositoryImp(_context);
@@ -72,11 +71,11 @@ namespace Infrastructure.IUnitofWork.Imp
             _MaintenanceServiceCost = new MaintenanceServiceCostRepositoryImp(_context);
             _maintenanceTaskServiceInfoRepository = new MaintenanceTaskServiceInfoRepositoryImp(_context);
             _maintenanceTaskSparePartInfoRepository = new MaintenanceTaskSparePartInfoRepositoryImp(_context);
+
         }
 
         public IAccountRepository Account => _Account;
 
-        public IAdminRepository Admin => _Admin;
 
         public IBookingRepository Booking => _Booking;
 
@@ -130,6 +129,7 @@ namespace Infrastructure.IUnitofWork.Imp
         public IMaintenanceTaskServiceInfoRepository MaintenanceTaskServiceInfo => _maintenanceTaskServiceInfoRepository;
 
         public IMaintenanceTaskSparePartInfoRepository MaintenanceTaskSparePartInfo => _maintenanceTaskSparePartInfoRepository;
+
 
         public async Task Commit() => await _context.SaveChangesAsync();
 

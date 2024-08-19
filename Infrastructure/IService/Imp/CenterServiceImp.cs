@@ -6,6 +6,7 @@ using Infrastructure.Common.Response.DashBoard;
 using Infrastructure.Common.Response.ReponseVehicleModel;
 using Infrastructure.IUnitofWork;
 using Infrastructure.IUnitofWork.Imp;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace Infrastructure.IService.Imp
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public CenterServiceImp(IUnitOfWork unitOfWork, IMapper mapper)
+        public CenterServiceImp(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _config = configuration;
         }
 
         public async Task<ResponseCenter> Create(CreateCenter create)
@@ -32,8 +35,16 @@ namespace Infrastructure.IService.Imp
             centre.Account.Status = "INACTIVE";
             centre.Account.Role = "CENTER";
             centre.Rating = 5;
+            
             await _unitOfWork.Account.CheckExistEmail(centre.Account.Email);
             await _unitOfWork.Account.CheckPhone(centre.Account.Phone);
+            var adminEmail = _config["AccountSettings:AdminEmail"];
+            var adminPassword = _config["AccountSettings:AdminPassword"];
+
+            if (centre.Account.Email == adminEmail && centre.Account.Password == adminPassword)
+            {
+                throw new Exception("Không thể tạo tài khoản với thông tin đăng nhập của quản trị viên.");
+            }
 
             await _unitOfWork.MaintenanceCenter.Add(centre);
             await _unitOfWork.Account.Add(centre.Account);
@@ -100,7 +111,24 @@ namespace Infrastructure.IService.Imp
         {
             var center1 = await _unitOfWork.MaintenanceCenter.GetById(id);
             var update = _mapper.Map(center, center1);
+           
+
+            var adminEmail = _config["AccountSettings:AdminEmail"];
+            var adminPassword = _config["AccountSettings:AdminPassword"];
+
+            if (update.Account.Email == adminEmail && update.Account.Password == adminPassword)
+            {
+                throw new Exception("Không thể cập nhật tài khoản với thông tin đăng nhập của quản trị viên.");
+            }
+            if (center.Phone != center1.Account.Phone)
+            {
+                await _unitOfWork.Account.CheckPhone(center.Phone);
+            }
+            update.Account.Phone=center.Phone;
+            update.Account.Logo=center.Logo;
             await _unitOfWork.MaintenanceCenter.Update(update);
+
+            await _unitOfWork.Account.Update(update.Account);
             await _unitOfWork.Commit();
 
             return _mapper.Map<ResponseCenter>(update);
