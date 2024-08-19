@@ -16,5 +16,7 @@ namespace Infrastructure.ISecurity
         //string ClaimsFromToken(string token);
 
         string ClaimsFromToken();
+        string GetRoleFromJwt();
+
     }
 }
