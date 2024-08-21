@@ -34,10 +34,14 @@ namespace Infrastructure.IService.Imp
             tech.CreatedDate = DateTime.Now;
             tech.Status = STATUSENUM.STATUSBOOKING.ACCEPTED.ToString();
             var mi = await _unitOfWork.InformationMaintenance.GetById(tech.InformationMaintenanceId);
-            await _unitOfWork.MaintenanceTask.CheckExistByTechAndInfor(tech.TechnicianId, tech.InformationMaintenanceId);
+            await _unitOfWork.MaintenanceTask
+                .CheckExistByTechAndInfor(tech.TechnicianId, 
+                tech.InformationMaintenanceId);
             if (mi.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()))
             {
-                var mspi = await _unitOfWork.MaintenanceSparePartInfo.GetListByMainInfor(mi.InformationMaintenanceId);
+                var mspi = await _unitOfWork.MaintenanceSparePartInfo
+                    .GetListByMainInfor(mi.InformationMaintenanceId);
+
                 await _unitOfWork.MaintenanceTask.Add(tech);
                 foreach (var item in mspi)
                 {
@@ -85,7 +89,9 @@ namespace Infrastructure.IService.Imp
                 maintenanceHistoryStatus.Note = EnumStatus.REPAIRING.ToString();
                 maintenanceHistoryStatus.MaintenanceInformationId = mi.InformationMaintenanceId;
                 var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
-                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus
+                      .MaintenanceInformationId, maintenanceHistoryStatus.Status);
+
                 if (checkStatus == null)
                 {
                     mi.Status = EnumStatus.REPAIRING.ToString();

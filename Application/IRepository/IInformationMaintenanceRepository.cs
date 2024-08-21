@@ -1,4 +1,5 @@
-﻿using Application.IGenericRepository;
+﻿using Application.Dashboard;
+using Application.IGenericRepository;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Application.IRepository
         Task<(List<MaintenanceInformation> Costs, float TotalCost, int Count)> TotalGetListByCenter(Guid id);
         Task<List<MaintenanceInformation>> GetListByCenterAndStatus(Guid id, string status);
         Task<List<MaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
-
+        Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year,Guid id);
         Task<MaintenanceInformation> GetByBookingId(Guid id);
     }
 }

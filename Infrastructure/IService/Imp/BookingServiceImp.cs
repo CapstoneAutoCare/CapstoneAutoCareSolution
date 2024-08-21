@@ -152,12 +152,12 @@ namespace Infrastructure.IService.Imp
 
         public async Task<ResponseBooking> CreatePackageByClient(CreateBookingPackage create)
         {
-            var booking = _mapper.Map<Booking>(create);
+            var booking = _mapper.Map<Booking>(create); 
             var email = _tokensHandler.ClaimsFromToken();
             var account = await _unitOfWork.Account.Profile(email);
             var client = await _unitOfWork.Client.GetById(account.Client.ClientId);
             booking.ClientId = client.ClientId;
-            var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+                var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
             booking.Status = "WAITING";
             booking.CreatedDate = DateTime.Now;
 

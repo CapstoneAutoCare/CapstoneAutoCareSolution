@@ -62,6 +62,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.GetListByCenterId(id));
         }
         [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListGetMonthlyRevenueByCenterId(Guid id,int year)
+        {
+            return Ok(await _maintenanceInformationService.GetMonthlyRevenue(year, id));
+        }
+        [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByCenterAndStatus(string status)
         {

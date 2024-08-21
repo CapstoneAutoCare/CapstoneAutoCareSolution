@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Dashboard;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Enum;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
@@ -45,7 +46,7 @@ namespace Infrastructure.IService.Imp
             else
             {
                 var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
-                booking.Status = EnumStatus.ACCEPT.ToString();
+                booking.Status = STATUSENUM.STATUSBOOKING.ACCEPTED.ToString();
                 await _unitOfWork.InformationMaintenance.Add(mi);
                 await _unitOfWork.Booking.Update(booking);
                 await _unitOfWork.Commit();
@@ -212,7 +213,7 @@ namespace Infrastructure.IService.Imp
                 }
                 re.Status = status;
                 await _unitOfWork.InformationMaintenance.Update(re);
-                await _unitOfWork.Commit();
+                    await _unitOfWork.Commit();
 
                 return _mapper.Map<ResponseMaintenanceInformation>(re);
             }
@@ -282,6 +283,12 @@ namespace Infrastructure.IService.Imp
         {
             return _mapper.Map<List<ResponseMaintenanceInformation>>(
                              await _unitOfWork.InformationMaintenance.GetListByCenter(id));
+        }
+
+        public async Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year, Guid id)
+        {
+            return _mapper.Map<List<MonthlyRevenue>>(
+                             await _unitOfWork.InformationMaintenance.GetMonthlyRevenue(year, id));
         }
 
         //public Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckin(Guid id)

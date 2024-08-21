@@ -1,4 +1,5 @@
-﻿using Application.IGenericRepository.Imp;
+﻿using Application.Dashboard;
+using Application.IGenericRepository.Imp;
 using Domain.Entities;
 using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
@@ -162,5 +163,30 @@ namespace Application.IRepository.Imp
 
             return (i, totalCost, count);
         }
+
+        public async Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year, Guid id)
+        {
+            var monthlyRevenues = await _context.MaintenanceInformations
+                .Where(m => m.Booking.BookingDate.Year == year && m.Booking.MaintenanceCenterId == id)
+                .GroupBy(m => new { m.Booking.BookingDate.Month, m.Booking.BookingDate.Year })
+                .Select(g => new
+                {
+                    Month = g.Key.Month,
+                    Revenue = g.Sum(m => m.TotalPrice)
+                })
+                .OrderBy(g => g.Month)
+                .ToListAsync();
+
+            var result = monthlyRevenues
+                .Select(mr => new MonthlyRevenue
+                {
+                    Month = mr.Month.ToString("00"),
+                    Revenue = mr.Revenue
+                })
+                .ToList();
+
+            return result;
+        }
+
     }
 }

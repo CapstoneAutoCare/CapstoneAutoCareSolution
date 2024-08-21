@@ -60,7 +60,6 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<ResponseReceipts>> GetListByCenter(Guid centerId)
         {
             return Ok(await _receiptsService.GetListByCenter(centerId));
-
         }
         [HttpPost]
         public async Task<ActionResult<ResponseReceipts>> Post(CreateReceipt receipt)

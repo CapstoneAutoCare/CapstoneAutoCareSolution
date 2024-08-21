@@ -56,7 +56,8 @@ namespace Infrastructure.IService.Imp
             var r = _mapper.Map<Receipt>(receipt);
             var i = await _unitOfWork.InformationMaintenance.GetById(r.InformationMaintenanceId);
             await _unitOfWork.MaintenanceTask
-                .CheckTaskByInforId(i.InformationMaintenanceId, EnumStatus.DONE.ToString());
+                .CheckTaskByInforId(i.InformationMaintenanceId,
+                EnumStatus.DONE.ToString());
             r.CreatedDate = DateTime.Now;
             r.ReceiptName = "Receipt";
             //r.TotalAmount = 0;
