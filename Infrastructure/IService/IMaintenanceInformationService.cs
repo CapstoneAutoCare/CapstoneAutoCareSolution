@@ -1,4 +1,5 @@
-﻿using Domain.Enum;
+﻿using Application.Dashboard;
+using Domain.Enum;
 using Infrastructure.Common.Request.RequestMaintenanceInformation;
 using Infrastructure.Common.Response.ResponseBooking;
 using Infrastructure.Common.Response.ResponseMainInformation;
@@ -24,6 +25,7 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
         Task<ResponseMaintenanceInformation> ChangeStatus (Guid id, string status);
         Task<ResponseMaintenanceInformation> ChangeStatusBackUp (Guid id, string status);
+        Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year, Guid id);
         Task Remove (Guid id);
     }
 }
