@@ -1,5 +1,6 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,15 @@ namespace Application.IRepository.Imp
                 throw new Exception("Existed");
             }
             return brand;
+        }
+
+        public async Task<List<VehiclesBrand>> GetListBrandActive()
+        {
+            return await _context.Set<VehiclesBrand>()
+                //.Include(c=>c.VehiclesMaintenance)
+                //.Include(c=>c.VehicleModels)
+                .Where(c=>c.Status.Equals(EnumStatus.ACTIVE.ToString()))
+                .ToListAsync();
         }
     }
 }

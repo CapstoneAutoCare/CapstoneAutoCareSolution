@@ -21,11 +21,18 @@ namespace CapstoneAutoCareApi.Configuration
             var paypal = configuration.GetSection("PayPal").Get<PaymentPayPall>();
             var vnPay = configuration.GetSection("VnPay").Get<ConfiVnPay>();
             services.AddScoped<VnPayLibrary>();
+            services.AddSingleton<NotificationHub>();
+
             services.AddDJJWT(jwt.JWTSecretKey, jwt.Issuer, jwt.Audience);
             services.AddSingleton(jwt);
             services.AddSingleton(email);
             services.AddSingleton(paypal);
             services.AddSingleton(vnPay);
+            services.AddSignalR(options =>
+            {
+                options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+                options.KeepAliveInterval = TimeSpan.FromSeconds(30);
+            });
 
             //services.AddDJService(appConfiguration.DatabaseConnection);
             //services.AddSingleton(appConfiguration);
@@ -77,10 +84,12 @@ namespace CapstoneAutoCareApi.Configuration
             });
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
+                options.AddPolicy("AllowSpecificOrigins", builder =>
                 {
-                    builder.AllowAnyHeader().AllowAnyOrigin()
-                           .AllowAnyMethod();
+                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001") // Chỉ định các origin mà bạn muốn cho phép
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials(); // Chỉ cho phép credentials nếu cần
                 });
             });
             return services;

@@ -71,6 +71,7 @@ namespace Infrastructure.IUnitofWork.Imp
             _MaintenanceServiceCost = new MaintenanceServiceCostRepositoryImp(_context);
             _maintenanceTaskServiceInfoRepository = new MaintenanceTaskServiceInfoRepositoryImp(_context);
             _maintenanceTaskSparePartInfoRepository = new MaintenanceTaskSparePartInfoRepositoryImp(_context);
+            _VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
 
         }
 

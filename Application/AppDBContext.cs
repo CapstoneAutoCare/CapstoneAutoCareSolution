@@ -49,7 +49,7 @@ namespace Application
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Server=db6880.public.databaseasp.net; Database=db6880; User Id=db6880; Password=fB!3S-9ek2P+; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
-                //optionsBuilder.UseSqlServer("Server=XUANDUY; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlServer("Server=LAPTOP-O5LECEEK; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer("Server=mssql-181059-0.cloudclusters.net,18755; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }

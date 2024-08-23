@@ -36,6 +36,7 @@ namespace Infrastructure.IService.Imp
             var brand = _mapper.Map<VehiclesBrand>(create);
             brand.Status = EnumStatus.ACTIVE.ToString();
             brand.CreatedDate = DateTime.Now;
+            await _unitofWork.VehiclesBrand.GetBrandbyName(brand.VehiclesBrandName);
             await _unitofWork.VehiclesBrand.Add(brand);
             await _unitofWork.Commit();
             return brand;
@@ -46,6 +47,13 @@ namespace Infrastructure.IService.Imp
             var brand = await _unitofWork.VehiclesBrand.GetAll();
             //var brandView = _mapper.Map<List<VehiclesBrand>>(brand);
             return brand;
+        }
+
+        public async Task<List<VehiclesBrand>> GetListBrandActive()
+        {
+            var brand = await _unitofWork.VehiclesBrand.GetListBrandActive();
+            return brand;
+
         }
 
         public async Task<VehiclesBrand> GetVehiclesBrandByID(Guid id)

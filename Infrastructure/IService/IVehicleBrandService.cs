@@ -17,5 +17,6 @@ namespace Infrastructure.IService
         Task<VehiclesBrand> ChangeStatusVehicleBrand(Guid BrandId, string status);
         Task<VehiclesBrand> GetVehiclesBrandByID(Guid id);
         Task<List<VehiclesBrand>> GetAllVehiclesBrand();
+        Task<List<VehiclesBrand>> GetListBrandActive();
     }
 }

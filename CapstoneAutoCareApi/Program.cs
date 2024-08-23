@@ -1,4 +1,4 @@
-using Infrastructure.IService.Imp;
+﻿using Infrastructure.IService.Imp;
 using Infrastructure.IService;
 using Infrastructure.IUnitofWork.Imp;
 using Infrastructure.IUnitofWork;
@@ -13,10 +13,8 @@ using Infrastructure.ISecurity.Imp;
 using CapstoneAutoCareApi.Configuration;
 using Infrastructure.Common.Mapper;
 using Newtonsoft.Json.Converters;
-using CapstoneAutoCareApi.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -34,6 +32,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDBContext>();
 #region ADD
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddTransient<IVehiclesMaintenanceRepository, VehiclesMaintenanceRepositoryImp>();
+builder.Services.AddTransient<IVehiclesMaintenanceService, VehiclesMaintenanceServiceImp>();
 
 builder.Services.AddTransient<IAccountRepository, AccountRepositoryImp>();
 builder.Services.AddTransient<IAccountService, AccountServiceImp>();
@@ -144,15 +145,15 @@ builder.Services.AddAutoMapper(typeof(ApplicationMapper).Assembly);
 builder.Services.AddHttpContextAccessor();
 
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.AllowAnyHeader()
-            .AllowAnyOrigin()
-            .AllowAnyMethod();
-    });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddDefaultPolicy(builder =>
+//    {
+//        builder.AllowAnyHeader()
+//            .AllowAnyOrigin()
+//            .AllowAnyMethod();
+//    });
+//});
 
 
 builder.Services.AddHttpClient();
@@ -169,11 +170,16 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 
 
 app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors("AllowSpecificOrigins");
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
 
-app.UseHttpsRedirection();
+
 app.MapControllers();
-//app.MapHub<NotificationHub>("bookingHub");
+app.MapHub<NotificationHub>("/notificationHub"); 
+
+
 app.Run();

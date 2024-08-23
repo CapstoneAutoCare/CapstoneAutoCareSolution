@@ -541,8 +541,17 @@ namespace Infrastructure.Common.Mapper
                 .ReverseMap();
             #endregion
             CreateMap<UpdateVehicle, Vehicles>()
+
                 .ReverseMap();
 
+            CreateMap<VehiclesMaintenance, ResponseVehiclesMaintenance>()
+                 .ForMember(c => c.ResponseCenter, act => act.MapFrom(c => c.MaintenanceCenter))
+                .ForMember(c => c.ResponseBrand, act => act.MapFrom(c => c.VehiclesBrand))
+                .ReverseMap();
+            CreateMap<VehiclesBrand, ResponseBrand>()
+    //.ForMember(c => c.ResponseCenter, act => act.MapFrom(c => c.MaintenanceCenter))
+    //.ForMember(c => c.VehiclesBrand, act => act.MapFrom(c => c.VehiclesBrand))
+    .ReverseMap();
             #region Brand
             CreateMap<CreateBrand, VehiclesBrand>()
                 .ReverseMap();

@@ -29,6 +29,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _vehicleBrandService.CreateVehicleBrand(create));
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllActive()
+        {
+            return Ok(await _vehicleBrandService.GetListBrandActive());
+        }
         //[HttpPut]
         //public async Task<IActionResult> UpdateStatus(Guid id, string status)
         //{

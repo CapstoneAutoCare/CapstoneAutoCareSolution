@@ -12,7 +12,6 @@ using Infrastructure.Common.Request.RequestBooking;
 using Infrastructure.Common.Response.ResponseBooking;
 using Microsoft.AspNetCore.Authorization;
 using Domain.Enum;
-using CapstoneAutoCareApi.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Application.Dashboard;
 
@@ -68,7 +67,7 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _bookingService.GetListByCenter());
         }
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<List<ResponseBooking>>> GetListByCenterId(Guid id)
         {
             var bookings = await _bookingService.GetListByCenterId(id);

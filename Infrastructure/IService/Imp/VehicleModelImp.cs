@@ -29,7 +29,7 @@ namespace Infrastructure.IService.Imp
 
             model.CreatedDate = DateTime.Now;
             model.Status = "ACTIVE";
-
+            await _unitofWork.VehicleModel.CheckExist(model.VehicleModelName);
             await _unitofWork.VehicleModel.Add(model);
             await _unitofWork.Commit();
             return _mapper.Map<ReponseVehicleModels>(model);
@@ -40,6 +40,12 @@ namespace Infrastructure.IService.Imp
         public async Task<List<ReponseVehicleModels>> GetAllVehiclesModels()
         {
             var models = await _unitofWork.VehicleModel.GetAll();
+            return _mapper.Map<List<ReponseVehicleModels>>(models);
+        }
+
+        public async Task<List<ReponseVehicleModels>> GetListByBrandIdActive(Guid id)
+        {
+            var models = await _unitofWork.VehicleModel.GetListActiveByBrandId(id);
             return _mapper.Map<List<ReponseVehicleModels>>(models);
         }
 

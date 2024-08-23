@@ -18,6 +18,6 @@ namespace Infrastructure.IService
         Task<ReponseVehicleModels> UpdateStatusVehicleModel(Guid id,string status);
         Task<List<ReponseVehicleModels>> GetAllVehiclesModels();
         Task<List<ReponseVehicleModels>> GetListVehicleByBrandId(Guid id);
-
+        Task<List<ReponseVehicleModels>> GetListByBrandIdActive(Guid id);
     }
 }

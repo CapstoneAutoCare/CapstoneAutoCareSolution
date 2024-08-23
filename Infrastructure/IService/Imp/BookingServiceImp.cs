@@ -8,6 +8,7 @@ using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,15 @@ namespace Infrastructure.IService.Imp
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokensHandler;
         private readonly IEmailService _emailService;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public BookingServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler, IEmailService emailService)
+        public BookingServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler, IEmailService emailService, IHubContext<NotificationHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokensHandler = tokensHandler;
             _emailService = emailService;
+            _hubContext = hubContext;
         }
 
         public async Task<ResponseBooking> Create(RequestBooking create)
@@ -152,12 +155,12 @@ namespace Infrastructure.IService.Imp
 
         public async Task<ResponseBooking> CreatePackageByClient(CreateBookingPackage create)
         {
-            var booking = _mapper.Map<Booking>(create); 
+            var booking = _mapper.Map<Booking>(create);
             var email = _tokensHandler.ClaimsFromToken();
             var account = await _unitOfWork.Account.Profile(email);
             var client = await _unitOfWork.Client.GetById(account.Client.ClientId);
             booking.ClientId = client.ClientId;
-                var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+            var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
             booking.Status = "WAITING";
             booking.CreatedDate = DateTime.Now;
 
@@ -192,7 +195,7 @@ namespace Infrastructure.IService.Imp
             var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(booking.MaintananceScheduleId);
             if (schedule.VehicleModelId != vehicle.VehicleModelId)
             {
-                throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe " +schedule.VehicleModel.VehicleModelName);
+                throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe " + schedule.VehicleModel.VehicleModelName);
             }
             var list = await _unitOfWork.MaintenanceService.GetListPackageByOdoAndCenterIdAndVehicleId(booking.MaintenanceCenterId, booking.MaintananceScheduleId, vehicle.VehicleModelId);
             if (!list.Any())
@@ -237,7 +240,7 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<MonthlyBookingSummary>>(await _unitOfWork.Booking.GetBookingsByMonthByCenterId(id));
         }
 
-        public async Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid id,int year)
+        public async Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid id, int year)
         {
             return _mapper.Map<List<MonthlyBookingSummary>>(await _unitOfWork.Booking.GetBookingsByMonthInYearByCenterId(id, year));
         }
@@ -262,8 +265,13 @@ namespace Infrastructure.IService.Imp
 
         public async Task<List<ResponseBooking>> GetListByCenterId(Guid id)
         {
-            return _mapper.Map<List<ResponseBooking>>(await _unitOfWork.Booking.GetListByCenter(id));
+            var booking = await _unitOfWork.Booking.GetListByCenter(id);
+            var list = _mapper.Map<List<ResponseBooking>>(booking);
+            await _hubContext.Clients.Group(id.ToString()).SendAsync("ReceiveBookingUpdate", list);
+
+            return list;
         }
+
 
         public async Task<List<ResponseBooking>> GetListByClient()
         {
