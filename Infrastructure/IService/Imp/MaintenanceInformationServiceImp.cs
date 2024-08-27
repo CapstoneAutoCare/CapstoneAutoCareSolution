@@ -196,6 +196,9 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceInformation> ChangeStatus(Guid id, string status)
         {
             var re = await _unitOfWork.InformationMaintenance.GetById(id);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(re.CustomerCare.CenterId);
+            var client = await _unitOfWork.Client.GetById(re.Booking.ClientId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(re.CustomerCareId);
             //re.Status = status;
             if (re.Status.Equals(STATUSENUM.STATUSMI.WAITINGBYCAR.ToString()) && status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()))
             {
@@ -213,7 +216,48 @@ namespace Infrastructure.IService.Imp
                 }
                 re.Status = status;
                 await _unitOfWork.InformationMaintenance.Update(re);
-                    await _unitOfWork.Commit();
+
+
+                Notification notification = new Notification
+                {
+                    AccountId = client.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Đặt Lịch Bảo Dưỡng",
+                    Message = $"Đã nhận xe tại {center.MaintenanceCenterName} vào lúc {re.Booking.BookingDate} và biển số xe là {re.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Đặt lịch"
+                };
+                await _unitOfWork.NotificationRepository.Add(notification);
+                Notification notificationCenter = new Notification
+                {
+                    AccountId = center.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Đặt Lịch Bảo Dưỡng",
+                    Message = $"Đã nhận xe bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {re.Booking.BookingDate} và biển số xe là {re.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Đặt lịch"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationCenter);
+
+                Notification notificationCustomerCare= new Notification
+                {
+                    AccountId = customercare.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Đặt Lịch Bảo Dưỡng",
+                    Message = $"Đã nhận xe bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {re.Booking.BookingDate} và biển số xe là {re.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Đặt lịch"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationCustomerCare);
+
+
+                await _unitOfWork.Commit();
 
                 return _mapper.Map<ResponseMaintenanceInformation>(re);
             }

@@ -165,5 +165,19 @@ namespace Application.IRepository.Imp
                            && c.Boolean == true && c.VehicleModelId == modelId).ToListAsync();
             return i;
         }
+        public async Task<List<MaintenanceService>> GetListFalseByCenterIdAndModelId(Guid centerId, Guid modelId)
+        {
+            var i = await _context.Set<MaintenanceService>()
+                          .Include(c => c.MaintenanceCenter)
+               .Include(c => c.VehicleModel)
+               .ThenInclude(c => c.VehiclesBrand)
+               .Include(c => c.ServiceCare)
+               .ThenInclude(c => c.MaintananceSchedule)
+               .Include(c => c.MaintenanceServiceCosts)
+                .OrderByDescending(p => p.CreatedDate)
+                           .Where(c => c.MaintenanceCenterId == centerId
+                           && c.Boolean == false && c.VehicleModelId == modelId).ToListAsync();
+            return i;
+        }
     }
 }

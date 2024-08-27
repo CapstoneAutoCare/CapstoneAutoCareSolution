@@ -26,13 +26,17 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMainTaskSparePart> ChangeStatus(Guid id, string status)
         {
             var mtspi = await _unitOfWork.MaintenanceTaskSparePartInfo.GetById(id);
+            var task = await _unitOfWork.MaintenanceTask.GetById(mtspi.MaintenanceTaskId);
+            var mi = await _unitOfWork.InformationMaintenance.GetById(task.InformationMaintenanceId);
+            var client = await _unitOfWork.Client.GetById(mi.Booking.ClientId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(mi.Booking.MaintenanceCenterId);
+            var tech = await _unitOfWork.Techician.GetById(task.TechnicianId);
             if (mtspi.Status == EnumStatus.ACTIVE.ToString()
                 && status.Equals(EnumStatus.DONE.ToString()))
             {
                 mtspi.Status = EnumStatus.DONE.ToString();
                 await _unitOfWork.MaintenanceTaskSparePartInfo.Update(mtspi);
-                var task = await _unitOfWork.MaintenanceTask.GetById(mtspi.MaintenanceTaskId);
-                var mi = await _unitOfWork.InformationMaintenance.GetById(task.InformationMaintenanceId);
 
                 var checkmtspi = await _unitOfWork.MaintenanceTaskSparePartInfo.GetListByActiveAndTask(mtspi.MaintenanceTaskId);
                 var checkmtsi = await _unitOfWork.MaintenanceTaskServiceInfo.GetListByActiveAndTask(mtspi.MaintenanceTaskId);
@@ -60,6 +64,61 @@ namespace Infrastructure.IService.Imp
                     mi.Status = EnumStatus.PAYMENT.ToString();
                     await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
                     await _unitOfWork.InformationMaintenance.Update(mi);
+
+
+
+                    Notification notification = new Notification
+                    {
+                        AccountId = customercare.AccountId,
+                        IsRead = false,
+                        CreatedDate = DateTime.Now,
+                        NotificationId = Guid.NewGuid(),
+                        Title = "Sửa Chữa && Bảo Dưỡng",
+                        Message = $"Đã hoàn thành sửa chữa và bảo dưỡng {center.MaintenanceCenterName} vào lúc {maintenanceHistoryStatus.DateTime} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                        ReadDate = null,
+                        NotificationType = "Hoàn thành sửa chữa"
+                    };
+                    await _unitOfWork.NotificationRepository.Add(notification);
+                    Notification notificationCenter = new Notification
+                    {
+                        AccountId = center.AccountId,
+                        IsRead = false,
+                        CreatedDate = DateTime.Now,
+                        NotificationId = Guid.NewGuid(),
+                        Title = "Sửa Chữa && Bảo Dưỡng",
+                        Message = $"Đã hoàn thành sửa chữa và bảo dưỡng {center.MaintenanceCenterName} vào lúc {maintenanceHistoryStatus.DateTime} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                        ReadDate = null,
+                        NotificationType = "Hoàn thành sửa chữa"
+                    };
+                    await _unitOfWork.NotificationRepository.Add(notificationCenter);
+
+
+                    Notification notificationtech = new Notification
+                    {
+                        AccountId = tech.AccountId,
+                        IsRead = false,
+                        CreatedDate = DateTime.Now,
+                        NotificationId = Guid.NewGuid(),
+                        Title = "Sửa Chữa && Bảo Dưỡng",
+                        Message = $"Đã hoàn thành sửa chữa và bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {maintenanceHistoryStatus.DateTime} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                        ReadDate = null,
+                        NotificationType = "Hoàn thành sửa chữa"
+                    };
+
+                    Notification notificationclient = new Notification
+                    {
+                        AccountId = client.AccountId,
+                        IsRead = false,
+                        CreatedDate = DateTime.Now,
+                        NotificationId = Guid.NewGuid(),
+                        Title = "Sửa Chữa && Bảo Dưỡng",
+                        Message = $"Đã hoàn thành sửa chữa và bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {maintenanceHistoryStatus.DateTime} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                        ReadDate = null,
+                        NotificationType = "Hoàn thành sửa chữa"
+                    };
+
+                    await _unitOfWork.NotificationRepository.Add(notificationclient);
+
 
                 }
                 await _unitOfWork.Commit();

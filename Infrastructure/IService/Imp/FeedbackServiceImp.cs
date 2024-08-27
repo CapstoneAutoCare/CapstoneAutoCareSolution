@@ -61,6 +61,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseFeedback>(fb);
         }
 
+        public async Task<ResponseFeedback> GetByReceiptId(Guid id)
+        {
+            return _mapper.Map<ResponseFeedback>(await _unitOfWork.FeedBack.GetByReceiptId(id));
+        }
+
         public async Task<List<ResponseFeedback>> GetListByCenter()
         {
             var email = _tokensHandler.ClaimsFromToken();

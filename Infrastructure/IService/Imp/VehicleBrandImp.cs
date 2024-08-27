@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Enum;
 using Infrastructure.Common.Request.RequestVehicleBrandRequest;
 using Infrastructure.Common.Request.VehicleBrandRequest;
+using Infrastructure.Common.Response;
 using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,11 @@ namespace Infrastructure.IService.Imp
             var brand = await _unitofWork.VehiclesBrand.GetAll();
             //var brandView = _mapper.Map<List<VehiclesBrand>>(brand);
             return brand;
+        }
+
+        public async Task<List<ResponseBrand>> GetBrandsNotInCenter(Guid centerId)
+        {
+            return _mapper.Map<List<ResponseBrand>>(await _unitofWork.VehiclesBrand.GetBrandsNotInCenter(centerId));
         }
 
         public async Task<List<VehiclesBrand>> GetListBrandActive()

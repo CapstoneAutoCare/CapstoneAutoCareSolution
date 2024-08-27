@@ -16,9 +16,10 @@ namespace Application.IRepository.Imp
         {
         }
 
-        public async Task<VehicleModel> CheckExist(string name)
+        public async Task<VehicleModel> CheckExist(string name, Guid brandId)
         {
-            var model = await _context.Set<VehicleModel>().Include(a => a.VehiclesBrand).FirstOrDefaultAsync(c => c.VehicleModelName.ToLower().Equals(name.ToLower()));
+            var model = await _context.Set<VehicleModel>().Include(a => a.VehiclesBrand)
+                .FirstOrDefaultAsync(c => c.VehicleModelName.ToLower().Equals(name.ToLower()) && c.VehiclesBrandId == brandId);
             if (model != null)
             {
                 throw new Exception("Không được trùng tên xe");

@@ -43,12 +43,15 @@ namespace Application
         public virtual DbSet<SparePartsItemCost> SparePartsItemCosts { get; set; }
         public virtual DbSet<MaintenanceServiceCost> MaintenanceServiceCosts { get; set; }
         public virtual DbSet<MaintenanceTaskServiceInfo> MaintenanceTaskServiceInfos { get; set; }
-        public virtual DbSet<MaintenanceTaskSparePartInfo> MaintenanceTaskSparePartInfos { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Transactions> Transactions { get; set; }
+        public virtual DbSet<Package> Packages { get; set; }
+        public virtual DbSet<CenterPackages> CenterPackages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db6880.public.databaseasp.net; Database=db6880; User Id=db6880; Password=fB!3S-9ek2P+; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer("Server=db7452.public.databaseasp.net; Database=db7452; User Id=db7452; Password=5Lt%h-D4Hf2@; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=LAPTOP-O5LECEEK; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer("Server=mssql-181059-0.cloudclusters.net,18755; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
@@ -58,6 +61,7 @@ namespace Application
         {
             #region AddConfiguration
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
+
             modelBuilder.ApplyConfiguration(new BookingConfiguration());
             modelBuilder.ApplyConfiguration(new ClientConfiguration());
             modelBuilder.ApplyConfiguration(new FeedBackConfiguration());
@@ -85,6 +89,10 @@ namespace Application
             modelBuilder.ApplyConfiguration(new SparePartsItemConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceTaskServiceInfosConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceTaskSparePartInfosConfiguration());
+            modelBuilder.ApplyConfiguration(new NotificationConfiguration());
+            modelBuilder.ApplyConfiguration(new PackageConfiguration());
+            modelBuilder.ApplyConfiguration(new CenterPackagesConfiguration());
+            modelBuilder.ApplyConfiguration(new TransactionsConfiguration());
             #endregion
 
             var vehicleBrands = SeedingDataVehiclesBrand.Get();

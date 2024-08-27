@@ -13,7 +13,7 @@ namespace Application.IRepository
         Task<List<VehicleModel>> GetAll();
         Task<VehicleModel> GetById(Guid id);
         Task<List<VehicleModel>>GetListByBrandId(Guid brandId);
-        Task<VehicleModel> CheckExist(string name);
+        Task<VehicleModel> CheckExist(string name,Guid brandId);
         Task<List<VehicleModel>> GetListActiveByBrandId(Guid brandId);
     }
 }

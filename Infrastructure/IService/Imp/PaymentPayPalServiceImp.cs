@@ -201,7 +201,7 @@ namespace Infrastructure.IService.Imp
                 {
                     VnPayResponseCode = "https://payment-success-amber.vercel.app/"
                 };
-                
+
             }
             else
             {
@@ -234,7 +234,10 @@ namespace Infrastructure.IService.Imp
             string receiptId = vnpOrderInfo.Substring(vnpOrderInfo.LastIndexOf(":") + 1);
             Guid receiptIdd = Guid.Parse(receiptId);
             var receipt = await _unitOfWork.ReceiptRepository.GetById(receiptIdd);
-
+            var mi = await _unitOfWork.InformationMaintenance.GetById(receipt.InformationMaintenanceId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
+            var client = await _unitOfWork.Client.GetById(mi.Booking.ClientId);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(mi.Booking.MaintenanceCenterId);
             if (!checkSignature)
             {
                 return "https://payment-failure.vercel.app/";
@@ -246,6 +249,51 @@ namespace Infrastructure.IService.Imp
                 receipt.InformationMaintenance.Status = EnumStatus.PAID.ToString();
                 await _unitOfWork.InformationMaintenance.Update(receipt.InformationMaintenance);
                 await _unitOfWork.ReceiptRepository.Update(receipt);
+
+                Notification notification = new Notification
+                {
+                    AccountId = customercare.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại{center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+                await _unitOfWork.NotificationRepository.Add(notification);
+                Notification notificationCenter = new Notification
+                {
+                    AccountId = center.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại {center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationCenter);
+                Notification notificationclient = new Notification
+                {
+                    AccountId = client.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại {center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+
+                await _unitOfWork.NotificationRepository.Add(notificationclient);
+
+
+
+
+
+
+
                 await _unitOfWork.Commit();
 
                 return "https://payment-success-amber.vercel.app/";
@@ -254,6 +302,11 @@ namespace Infrastructure.IService.Imp
             {
                 return "https://payment-failure.vercel.app/";
             }
+        }
+
+        public Task<string> CreatePaymentUrlCenter(HttpContext httpContext)
+        {
+            throw new NotImplementedException();
         }
     }
 }

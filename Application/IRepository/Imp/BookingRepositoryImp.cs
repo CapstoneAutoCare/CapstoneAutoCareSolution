@@ -39,7 +39,8 @@ namespace Application.IRepository.Imp
         public async Task<Booking> GetById(Guid? id)
         {
             var booking = await _context.Set<Booking>()
-                .Include(c => c.Client.Account)
+                .Include(c => c.Client)
+                .ThenInclude(c=>c.Account)
                 .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
                 .Include(c => c.MaintenanceCenter.Account)
                 .Include(c => c.MaintenanceInformation)

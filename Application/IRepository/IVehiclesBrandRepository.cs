@@ -14,5 +14,7 @@ namespace Application.IRepository
         Task<VehiclesBrand> GetBrandbyName(string brandName);
         Task<List<VehiclesBrand>> GetAll();
         Task<List<VehiclesBrand>> GetListBrandActive();
+        Task<List<VehiclesBrand>> GetBrandsNotInCenter(Guid centerId);
+
     }
 }

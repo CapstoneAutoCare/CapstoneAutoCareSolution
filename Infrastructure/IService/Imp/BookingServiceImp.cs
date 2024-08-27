@@ -146,6 +146,30 @@ namespace Infrastructure.IService.Imp
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
                 }
             }
+            Notification notification = new Notification
+            {
+                AccountId = account.AccountID,
+                IsRead = false,
+                CreatedDate = DateTime.Now,
+                NotificationId = Guid.NewGuid(),
+                Title = "Đặt Lịch",
+                Message = $"Đã đặt lịch tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                ReadDate = null,
+                NotificationType = "Đặt lịch"
+            };
+            await _unitOfWork.NotificationRepository.Add(notification);
+            Notification notificationCenter = new Notification
+            {
+                AccountId = center.AccountId,
+                IsRead = false,
+                CreatedDate = DateTime.Now,
+                NotificationId = Guid.NewGuid(),
+                Title = "Đặt Lịch ",
+                Message = $"Đã đặt lịch  tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                ReadDate = null,
+                NotificationType = "Đặt lịch"
+            };
+            await _unitOfWork.NotificationRepository.Add(notificationCenter);
 
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseBooking>(check);
@@ -224,6 +248,31 @@ namespace Infrastructure.IService.Imp
                 maintenanceInformation.TotalPrice += maintenanceServiceInfo.TotalCost;
                 await _unitOfWork.MaintenanceServiceInfo.Add(maintenanceServiceInfo);
             }
+            Notification notification = new Notification
+            {
+                AccountId = account.AccountID,
+                IsRead = false,
+                CreatedDate = DateTime.Now,
+                NotificationId = Guid.NewGuid(),
+                Title = "Đặt Lịch Bảo Dưỡng",
+                Message = $"Đã đặt lịch bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {vehicle.LicensePlate}",
+                ReadDate = null,
+                NotificationType ="Đặt lịch"
+            };
+            await _unitOfWork.NotificationRepository.Add(notification);
+            Notification notificationCenter = new Notification
+            {
+                AccountId = center.AccountId,
+                IsRead = false,
+                CreatedDate = DateTime.Now,
+                NotificationId = Guid.NewGuid(),
+                Title = "Đặt Lịch Bảo Dưỡng",
+                Message = $"Đã đặt lịch bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {vehicle.LicensePlate}",
+                ReadDate = null,
+                NotificationType = "Đặt lịch"
+            };
+            await _unitOfWork.NotificationRepository.Add(notificationCenter);
+
             await _unitOfWork.Commit();
 
             return _mapper.Map<ResponseBooking>(booking);
@@ -307,6 +356,35 @@ namespace Infrastructure.IService.Imp
 
                 }
                 checkInfor.Status = EnumStatus.WAITINGBYCAR.ToString();
+                var center = await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+                var client = await _unitOfWork.Client.GetById(booking.ClientId);
+
+                Notification notification = new Notification
+                {
+                    AccountId = account.AccountID,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Đặt Lịch Bảo Dưỡng",
+                    Message = $"Đã chấp nhận đặt lịch bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Chấp nhận đặt lịch"
+                };
+                await _unitOfWork.NotificationRepository.Add(notification);
+
+                Notification notificationv2 = new Notification
+                {
+                    AccountId = client.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Đặt Lịch Bảo Dưỡng",
+                    Message = $"Đã chấp nhận đặt lịch bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Chấp nhận đặt lịch"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationv2);
+
                 await _unitOfWork.InformationMaintenance.Update(checkInfor);
                 await _emailService.SendMail("duypdxse161418@fpt.edu.vn", maintenanceHistoryStatus.Status, "Booking");
                 await _unitOfWork.Commit();
@@ -330,6 +408,22 @@ namespace Infrastructure.IService.Imp
                 }
                 checkInfor.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
                 await _unitOfWork.InformationMaintenance.Update(checkInfor);
+                var client = await _unitOfWork.Client.GetById(booking.ClientId);
+                var center = await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+
+                Notification notificationv2 = new Notification
+                {
+                    AccountId = client.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Đặt Lịch Bảo Dưỡng",
+                    Message = $"Đã hủy đặt lịch bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hủy đặt lịch"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationv2);
+
                 await _emailService.SendMail("duypdxse161418@fpt.edu.vn", maintenanceHistoryStatus.Status, "Booking");
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseBooking>(booking);

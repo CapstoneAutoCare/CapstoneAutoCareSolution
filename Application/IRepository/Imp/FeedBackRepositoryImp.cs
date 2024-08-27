@@ -44,6 +44,24 @@ namespace Application.IRepository.Imp
             }
             return feedback;
         }
+
+        public async Task<FeedBack> GetByReceiptId(Guid receiptId)
+        {
+            var feedback = await _context.Set<FeedBack>()
+                           .Include(c => c.MaintenanceCenter)
+                           .Include(c => c.Receipt)
+                           .ThenInclude(c => c.InformationMaintenance)
+                            .ThenInclude(c => c.Booking)
+                                       .ThenInclude(c => c.Client)
+                                                                   .ThenInclude(c => c.Account)
+                           .FirstOrDefaultAsync(c => c.ReceiptId == receiptId);
+            if (feedback == null)
+            {
+                throw new Exception("NOT FOUND");
+            }
+            return feedback;
+        }
+
         public async Task<List<FeedBack>> GetListByCenter(Guid center)
         {
             return await _context.Set<FeedBack>()

@@ -53,8 +53,27 @@ namespace Application.IRepository.Imp
             return await _context.Set<VehiclesBrand>()
                 //.Include(c=>c.VehiclesMaintenance)
                 //.Include(c=>c.VehicleModels)
-                .Where(c=>c.Status.Equals(EnumStatus.ACTIVE.ToString()))
+                .Where(c => c.Status.Equals(EnumStatus.ACTIVE.ToString()))
                 .ToListAsync();
+        }
+
+        public async Task<List<VehiclesBrand>> GetBrandsNotInCenter(Guid centerId)
+        {
+            var allBrands = await _context.Set<VehiclesBrand>()
+                    .Where(b => b.Status == "ACTIVE")
+                    .ToListAsync();
+
+            var brandsInCenter = await _context.Set<VehiclesMaintenance>()
+                    .Where(vm => vm.MaintenanceCenterId == centerId)
+                    .Select(vm => vm.VehiclesBrand)
+                    .Distinct()
+                    .ToListAsync();
+
+            var brandsNotInCenter = allBrands
+                .Where(b => !brandsInCenter.Any(bc => bc.VehiclesBrandId == b.VehiclesBrandId))
+                .ToList();
+
+            return brandsNotInCenter;
         }
     }
 }

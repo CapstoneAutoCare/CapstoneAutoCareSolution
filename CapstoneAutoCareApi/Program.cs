@@ -135,8 +135,17 @@ builder.Services.AddTransient<IMaintenanceTaskSparePartInfoRepository, Maintenan
 builder.Services.AddTransient<IMaintenanceTaskServiceInfoService, MaintenanceTaskServiceInfoServiceImp>();
 
 builder.Services.AddTransient<IMaintenanceTaskSparePartInfoService, MaintenanceTaskSparePartInfoServiceImp>();
-//builder.Services.AddTransient<IReceiptRepository, ReceiptRepositoryImp>();
-//builder.Services.AddTransient<IReceiptsService, ReceiptsServiceImp>();
+builder.Services.AddTransient<ITransactionRepository, TransactionRepositoryImp>();
+builder.Services.AddTransient<ITransactionService, TransactionServiceImp>();
+
+builder.Services.AddTransient<IPackageCenterRepository, PackageCenterRepositoryImp>();
+builder.Services.AddTransient<IPackageCenterService, PackageCenterServiceImp>();
+
+builder.Services.AddTransient<IPackageRepository, PackageRepositoryImp>();
+builder.Services.AddTransient<IPackageService, PackageServiceImp>();
+
+builder.Services.AddTransient<INotificationRepository, NotificationRepositoryImp>();
+builder.Services.AddTransient<INotificationSerivce, NotificationServiceImp>();
 
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 #endregion

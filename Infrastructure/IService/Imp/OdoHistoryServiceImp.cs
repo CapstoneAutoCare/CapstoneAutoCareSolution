@@ -32,12 +32,61 @@ namespace Infrastructure.IService.Imp
             odo.CreatedDate = DateTime.Now;
             odo.Status = EnumStatus.ACTIVE.ToString();
             var i = await _unitOfWork.InformationMaintenance.GetById(odo.MaintenanceInformationId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(i.CustomerCareId);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(customercare.CenterId);
+            var client = await _unitOfWork.Client.GetById(i.Booking.ClientId);
             if (i.Status.Equals(EnumStatus.CHECKIN.ToString())
                 || i.Status.Equals(EnumStatus.REPAIRING.ToString()))
             {
                 ve.Odo = odo.Odo;
                 await _unitOfWork.OdoHistory.Add(odo);
                 await _unitOfWork.Vehicles.Update(ve);
+
+
+                Notification notification = new Notification
+                {
+                    AccountId = customercare.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Sửa Chữa && Bảo Dưỡng",
+                    Message = $"Đã lưu odo hiện tại tại {center.MaintenanceCenterName} vào lúc {odo.CreatedDate} và biển số xe là {ve.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Lưu lịch sử odo hiện tại"
+                };
+                await _unitOfWork.NotificationRepository.Add(notification);
+                Notification notificationCenter = new Notification
+                {
+                    AccountId = center.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Sửa Chữa && Bảo Dưỡng",
+                    Message = $"Đã lưu odo hiện tại tại {center.MaintenanceCenterName} vào lúc {odo.CreatedDate} và biển số xe là {ve.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Lưu lịch sử odo hiện tại"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationCenter);
+
+
+
+                Notification notificationclient = new Notification
+                {
+                    AccountId = client.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Sửa Chữa && Bảo Dưỡng",
+                    Message = $"Đã lưu odo hiện tại tại {center.MaintenanceCenterName} vào lúc {odo.CreatedDate} và biển số xe là {ve.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Lưu lịch sử odo hiện tại"
+                };
+
+                await _unitOfWork.NotificationRepository.Add(notificationclient);
+
+
+
+
 
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseOdoHistory>(odo);

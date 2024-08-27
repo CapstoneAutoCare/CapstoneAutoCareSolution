@@ -24,6 +24,12 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _vehicleBrandService.GetVehiclesBrandByID(id));
         }
+        [HttpGet]
+        public async Task<IActionResult> GetNotInCenter(Guid id)
+        {
+            return Ok(await _vehicleBrandService.GetBrandsNotInCenter(id));
+        }
+
         [HttpPost]
         public async Task<ActionResult<VehiclesBrand>> Post(CreateBrand create)
         {

@@ -37,6 +37,12 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.MaintenanceTask
                 .CheckExistByTechAndInfor(tech.TechnicianId, 
                 tech.InformationMaintenanceId);
+
+
+            var center = await _unitOfWork.MaintenanceCenter.GetById(mi.CustomerCare.CenterId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCare.CustomerCareId);
+            var techaccount = await _unitOfWork.Techician.GetById(tech.TechnicianId);
+            var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
             if (mi.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()))
             {
                 var mspi = await _unitOfWork.MaintenanceSparePartInfo
@@ -54,6 +60,7 @@ namespace Infrastructure.IService.Imp
                         MaintenanceSparePartInfoId = item.MaintenanceSparePartInfoId,
                     };
                     await _unitOfWork.MaintenanceTaskSparePartInfo.Add(partInfo);
+                    
                 }
                 var msi = await _unitOfWork.MaintenanceServiceInfo.GetListByMainInfor(mi.InformationMaintenanceId);
                 foreach (var item in msi)
@@ -97,7 +104,61 @@ namespace Infrastructure.IService.Imp
                     mi.Status = EnumStatus.REPAIRING.ToString();
                     await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
                     await _unitOfWork.InformationMaintenance.Update(mi);
+                    var client = await _unitOfWork.Client.GetById(booking.ClientId);
+                    Notification notificationClient = new Notification
+                    {
+                        AccountId = client.AccountId,
+                        IsRead = false,
+                        CreatedDate = DateTime.Now,
+                        NotificationId = Guid.NewGuid(),
+                        Title = "Sửa Chữa && Bảo Dưỡng",
+                        Message = $"Đã bàn giao sửa chữa tại {center.MaintenanceCenterName} vào lúc {tech.CreatedDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                        ReadDate = null,
+                        NotificationType = "Bàn giao sửa chữa"
+                    };
+                    await _unitOfWork.NotificationRepository.Add(notificationClient);
                 }
+
+
+                Notification notification = new Notification
+                {
+                    AccountId = customercare.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Sửa Chữa && Bảo Dưỡng",
+                    Message = $"Đã bàn giao sửa chữa tại {center.MaintenanceCenterName} vào lúc {tech.CreatedDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Bàn giao sửa chữa"
+                };
+                await _unitOfWork.NotificationRepository.Add(notification);
+                Notification notificationCenter = new Notification
+                {
+                    AccountId = center.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Sửa Chữa && Bảo Dưỡng",
+                    Message = $"Đã bàn giao sửa chữa tại {center.MaintenanceCenterName} vào lúc {tech.CreatedDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Bàn giao sửa chữa"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationCenter);
+
+
+                Notification notificationtech = new Notification
+                {
+                    AccountId = techaccount.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Sửa Chữa && Bảo Dưỡng",
+                    Message = $"Đã bàn giao sửa chữa tại {center.MaintenanceCenterName} vào lúc {tech.CreatedDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Bàn giao sửa chữa"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationtech);
+
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseMaintenanceTask>(tech);
 

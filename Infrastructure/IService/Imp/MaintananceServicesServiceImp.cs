@@ -119,6 +119,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintananceServices>>(list);
         }
 
+        public async Task<List<ResponseMaintananceServices>> GetListFalseByCenterIdAndModelId(Guid id, Guid modelId)
+        {
+            return _mapper.Map<List<ResponseMaintananceServices>>(await _unitOfWork.MaintenanceService.GetListFalseByCenterIdAndModelId(id, modelId));
+        }
+
         public async Task<List<ResponseMaintananceServices>> GetListPackageAndOdoTRUEByCenterId(Guid id)
         {
             return _mapper.Map<List<ResponseMaintananceServices>>(await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterId(id));

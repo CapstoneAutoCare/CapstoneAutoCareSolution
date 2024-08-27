@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Common.ModelSecurity;
+using Infrastructure.Common.Request;
 using Infrastructure.Common.Request.MaintananceServices;
 using Infrastructure.Common.Request.MaintenanceSchedule;
 using Infrastructure.Common.Request.ReceiptRequest;
@@ -556,6 +557,22 @@ namespace Infrastructure.Common.Mapper
             CreateMap<CreateBrand, VehiclesBrand>()
                 .ReverseMap();
             #endregion
+
+
+            CreateMap<Notification, ResponseNotification>()
+               .ReverseMap();
+            CreateMap<CreatePackage, Package>()
+              .ReverseMap();
+            CreateMap<CreateCenterPackage, CenterPackages>()
+             .ReverseMap();
+            CreateMap<CreateTransaction, Transactions>()
+             .ReverseMap();
+            CreateMap<Package, ResponsePackage>()
+             .ReverseMap();
+            CreateMap<CenterPackages, ResponseCenterPackage>()
+             .ReverseMap();
+            CreateMap<Transactions, ResponseTransaction>()
+             .ReverseMap();
         }
     }
 }

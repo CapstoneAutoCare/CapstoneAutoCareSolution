@@ -28,6 +28,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _feedbackService.GetById(id));
         }
         [HttpGet]
+        public async Task<ActionResult<FeedBack>> GetByReceiptId(Guid id)
+        {
+            return Ok(await _feedbackService.GetByReceiptId(id));
+        }
+        [HttpGet]
         public async Task<ActionResult<List<ResponseFeedback>>> GetAllFeedBackByCenter()
         {
             return Ok(await _feedbackService.GetListByCenter());

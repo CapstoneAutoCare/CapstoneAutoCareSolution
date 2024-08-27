@@ -12,6 +12,5 @@ namespace Application.IRepository
     {
         Task<List<VehiclesMaintenance>> GetAll();
         Task<List<VehiclesMaintenance>> GetListByCenter(Guid id);
-
     }
 }

@@ -32,14 +32,58 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseReceipts> ChangeStatus(Guid id, string status)
         {
             var r = await _unitOfWork.ReceiptRepository.GetById(id);
+            var mi = await _unitOfWork.InformationMaintenance.GetById(r.InformationMaintenanceId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
+            var client = await _unitOfWork.Client.GetById(mi.Booking.ClientId);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(mi.Booking.MaintenanceCenterId);
             if (r.Status.Equals(EnumStatus.YETPAID.ToString())
                 && status.Equals(EnumStatus.PAID.ToString()))
             {
                 r.Status = status;
-                var i = await _unitOfWork.InformationMaintenance.GetById(r.InformationMaintenanceId);
-                i.Status = status;
-                await _unitOfWork.InformationMaintenance.Update(i);
+                mi.Status = status;
+                await _unitOfWork.InformationMaintenance.Update(mi);
                 await _unitOfWork.ReceiptRepository.Update(r);
+
+                Notification notification = new Notification
+                {
+                    AccountId = customercare.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại{center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+                await _unitOfWork.NotificationRepository.Add(notification);
+                Notification notificationCenter = new Notification
+                {
+                    AccountId = center.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại {center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationCenter);
+                Notification notificationclient = new Notification
+                {
+                    AccountId = client.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại {center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+
+                await _unitOfWork.NotificationRepository.Add(notificationclient);
+
+
+
                 await _unitOfWork.Commit();
                 return _mapper.Map<ResponseReceipts>(r);
             }
@@ -59,7 +103,7 @@ namespace Infrastructure.IService.Imp
                 .CheckTaskByInforId(i.InformationMaintenanceId,
                 EnumStatus.DONE.ToString());
             r.CreatedDate = DateTime.Now;
-            r.ReceiptName = "Receipt";
+            r.ReceiptName = "Hóa Đơn Thanh Toán";
             //r.TotalAmount = 0;
             //r.SubTotal = 0;
             r.VAT = _configuration.GetValue<int>("VAT");

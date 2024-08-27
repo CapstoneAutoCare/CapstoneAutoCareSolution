@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Infrastructure.Common.Request.RequestVehicleBrandRequest;
 using Infrastructure.Common.Request.VehicleBrandRequest;
+using Infrastructure.Common.Response;
 using Infrastructure.IService.Imp;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace Infrastructure.IService
         Task<VehiclesBrand> GetVehiclesBrandByID(Guid id);
         Task<List<VehiclesBrand>> GetAllVehiclesBrand();
         Task<List<VehiclesBrand>> GetListBrandActive();
+        Task<List<ResponseBrand>> GetBrandsNotInCenter(Guid centerId);
     }
 }
