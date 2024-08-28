@@ -9,6 +9,8 @@ namespace Infrastructure.Common.Request
     public class CreateTransaction
     {
         public float Amount { get; set; }
+        //public DateTime TransactionDate { get; set; }
+
         public string PaymentMethod { get; set; }
     }
 }

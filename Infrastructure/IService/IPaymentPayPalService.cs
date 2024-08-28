@@ -21,6 +21,7 @@ namespace Infrastructure.IService
         Task<VnPaymentResponse> PaymentExecute(IQueryCollection  values);
 
         Task<string> PaymentExecutev1(IQueryCollection queryParameters);
+        Task<string> PaymentExecutev2(IQueryCollection queryParameters);
 
     }
 }

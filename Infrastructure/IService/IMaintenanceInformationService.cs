@@ -26,6 +26,8 @@ namespace Infrastructure.IService
         Task<ResponseMaintenanceInformation> ChangeStatus (Guid id, string status);
         Task<ResponseMaintenanceInformation> ChangeStatusBackUp (Guid id, string status);
         Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year, Guid id);
+        Task<List<MonthlyBookingSummary>> GetMonthlyRevenuePAID(int year, Guid id);
+
         Task Remove (Guid id);
     }
 }

@@ -13,6 +13,7 @@ using Infrastructure.Common.Response.ResponseMainInformation;
 using Infrastructure.Common.Response.ResponseBooking;
 using Microsoft.AspNetCore.Authorization;
 using Domain.Enum;
+using Application.Dashboard;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -65,6 +66,11 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListGetMonthlyRevenueByCenterId(Guid id,int year)
         {
             return Ok(await _maintenanceInformationService.GetMonthlyRevenue(year, id));
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<MonthlyBookingSummary>>> GetListGetMonthlyBookingSummaryPAIDByCenterId(Guid id, int year)
+        {
+            return Ok(await _maintenanceInformationService.GetMonthlyRevenuePAID(year, id));
         }
         [HttpGet]
         [Authorize]

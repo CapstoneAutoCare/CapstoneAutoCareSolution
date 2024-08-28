@@ -56,8 +56,8 @@ namespace Infrastructure.IService.Imp
                 TransactionsId=Guid.NewGuid(),
                 Status=EnumStatus.ACTIVE.ToString(),
                 CenterPackagesId=create.CenterPackagesId,
-                TransactionDate=DateTime.Now,
             };
+            transactions.TransactionDate=DateTime.Now;
             await _unitOfWork.TransactionRepository.Add(transactions);
 
 
@@ -101,9 +101,9 @@ namespace Infrastructure.IService.Imp
             _vnPayLibrary.AddRequestData("vnp_OrderInfo", "Thanh toán cho đơn hàng:" + transactions.TransactionsId);
             _vnPayLibrary.AddRequestData("vnp_OrderType", "other");
 
-            //string baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.PathBase}";
-            //string returnUrl = $"{baseUrl}/api/Payments/PaymentExecute/";
-            _vnPayLibrary.AddRequestData("vnp_ReturnUrl", "returnUrl");
+            string baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}";
+            string returnUrl = $"{baseUrl}/api/Payments/PaymentExecutev2/";
+            _vnPayLibrary.AddRequestData("vnp_ReturnUrl", returnUrl);
 
             _vnPayLibrary.AddRequestData("vnp_TxnRef", tick);
 

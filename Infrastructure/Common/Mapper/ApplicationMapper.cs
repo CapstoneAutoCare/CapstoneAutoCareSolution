@@ -371,6 +371,8 @@ namespace Infrastructure.Common.Mapper
             .ForMember(p => p.ResponseMaintenanceSparePartInfos, act => act.MapFrom(src => src.MaintenanceSparePartInfos))
             .ForMember(p => p.ResponseMaintenanceHistoryStatuses, act => act.MapFrom(src => src.MaintenanceHistoryStatuses))
             .ForMember(p => p.ResponseVehicles, act => act.MapFrom(src => src.Booking.Vehicles))
+            .ForMember(p => p.DateBooking, act => act.MapFrom(src => src.Booking.BookingDate))
+
             .ReverseMap();
 
 

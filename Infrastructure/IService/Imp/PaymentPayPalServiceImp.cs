@@ -308,5 +308,43 @@ namespace Infrastructure.IService.Imp
         {
             throw new NotImplementedException();
         }
+
+        public async Task<string> PaymentExecutev2(IQueryCollection queryParameters)
+        {
+            foreach (var (key, value) in queryParameters)
+            {
+                if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
+                {
+                    _vnPayLibrary.AddResponseData(key, value.ToString());
+                }
+            }
+
+            var vnp_orderId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TxnRef"));
+            var vnp_TransactionId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TransactionNo"));
+            var vnp_SecureHash = _vnPayLibrary.GetResponseData("vnp_SecureHash");
+            var vnp_ResponseCode = _vnPayLibrary.GetResponseData("vnp_ResponseCode");
+            var vnp_OrderInfo = _vnPayLibrary.GetResponseData("vnp_OrderInfo");
+
+            bool checkSignature = _vnPayLibrary.ValidateSignature(vnp_SecureHash, _confiVnPay.HashSecret);
+
+            string vnpOrderInfo = queryParameters["vnp_OrderInfo"];
+            //string receiptId = vnpOrderInfo.Substring(vnpOrderInfo.LastIndexOf(":") + 1);
+            
+            if (!checkSignature)
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+
+            if (vnp_ResponseCode == "00" )
+            {
+                await _unitOfWork.Commit();
+                return "https://payment-success-amber.vercel.app/";
+            }
+            else
+            {
+                return "https://payment-failure.vercel.app/";
+
+            }
+        }
     }
 }

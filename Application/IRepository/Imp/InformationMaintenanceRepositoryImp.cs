@@ -163,16 +163,37 @@ namespace Application.IRepository.Imp
 
             return (i, totalCost, count);
         }
+        public async Task<List<MonthlyBookingSummary>> GetInforPAIDByMonthInYearByCenterId(Guid centerId, int year)
+        {
+            var bookings = await _context.Set<MaintenanceInformation>()
+                              .Where(m => m.Booking.BookingDate.Year == year && m.Booking.MaintenanceCenterId == centerId && m.Status=="PAID")
+                                .GroupBy(m => new { m.Booking.BookingDate.Month, m.Booking.BookingDate.Year })
+                                              .ToListAsync();
 
+            var monthlySummary = bookings
+                //.GroupBy(b => new { b.BookingDate.Year, b.BookingDate.Month })
+                .Select(g => new MonthlyBookingSummary
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    BookingCount = g.Count()
+                })
+                .OrderBy(m => m.Year).ThenBy(m => m.Month)
+                .ToList();
+
+            return monthlySummary;
+        }
         public async Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year, Guid id)
         {
-            var monthlyRevenues = await _context.MaintenanceInformations
-                .Where(m => m.Booking.BookingDate.Year == year && m.Booking.MaintenanceCenterId == id)
-                .GroupBy(m => new { m.Booking.BookingDate.Month, m.Booking.BookingDate.Year })
+            var monthlyRevenues = await _context.Receipts
+                .Include(c=>c.InformationMaintenance)
+                .ThenInclude(c=>c.Booking)
+                .Where(m => m.InformationMaintenance.Booking.BookingDate.Year == year && m.InformationMaintenance.Booking.MaintenanceCenterId == id && m.InformationMaintenance.Status == "PAID")
+                .GroupBy(m => new { m.InformationMaintenance.Booking.BookingDate.Month, m.InformationMaintenance.Booking.BookingDate.Year })
                 .Select(g => new
                 {
                     Month = g.Key.Month,
-                    Revenue = g.Sum(m => m.TotalPrice)
+                    Revenue = g.Sum(m => m.TotalAmount)
                 })
                 .OrderBy(g => g.Month)
                 .ToListAsync();

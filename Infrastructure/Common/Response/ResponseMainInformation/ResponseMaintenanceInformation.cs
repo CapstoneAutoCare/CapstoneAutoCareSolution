@@ -15,6 +15,7 @@ namespace Infrastructure.Common.Response.ResponseMainInformation
         public Guid InformationMaintenanceId { get; set; }
         public string InformationMaintenanceName { get; set; }
         public DateTime CreatedDate { get; set; }
+        public DateTime DateBooking { get; set; }
         public DateTime FinishedDate { get; set; }
         public float TotalPrice { get; set; }
         public string Note { get; set; }

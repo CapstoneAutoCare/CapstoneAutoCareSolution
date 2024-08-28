@@ -335,6 +335,14 @@ namespace Infrastructure.IService.Imp
                              await _unitOfWork.InformationMaintenance.GetMonthlyRevenue(year, id));
         }
 
+        public async Task<List<MonthlyBookingSummary>> GetMonthlyRevenuePAID(int year, Guid id)
+        {
+            return _mapper.Map<List<MonthlyBookingSummary>>(
+                                        await _unitOfWork.InformationMaintenance.GetInforPAIDByMonthInYearByCenterId(id, year));
+        }
+
+        
+
         //public Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckin(Guid id)
         //{
         //    return _mapper.Map<List<ResponseMaintenanceInformation>>(
