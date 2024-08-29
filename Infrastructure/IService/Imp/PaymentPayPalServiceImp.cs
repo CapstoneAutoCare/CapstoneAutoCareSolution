@@ -149,7 +149,7 @@ namespace Infrastructure.IService.Imp
             _vnPayLibrary.AddRequestData("vnp_OrderType", "other");
 
             string baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.PathBase}";
-            string returnUrl = $"{baseUrl}/api/Payments/PaymentExecute/";
+            string returnUrl = $"{baseUrl}/api/Payments/PaymentCallback";
             _vnPayLibrary.AddRequestData("vnp_ReturnUrl", returnUrl);
 
             _vnPayLibrary.AddRequestData("vnp_TxnRef", tick);
@@ -173,6 +173,7 @@ namespace Infrastructure.IService.Imp
             var vnp_SecureHash = _vnPayLibrary.GetResponseData("vnp_SecureHash");
             var vnp_ResponseCode = _vnPayLibrary.GetResponseData("vnp_ResponseCode");
             var vnp_OrderInfo = _vnPayLibrary.GetResponseData("vnp_OrderInfo");
+            var vnp_ReturnUrl = _vnPayLibrary.GetResponseData("vnp_ReturnUrl");
 
             bool checkSignature = _vnPayLibrary.ValidateSignature(vnp_SecureHash, _confiVnPay.HashSecret);
 
@@ -247,8 +248,27 @@ namespace Infrastructure.IService.Imp
             {
                 receipt.Status = EnumStatus.PAID.ToString();
                 receipt.InformationMaintenance.Status = EnumStatus.PAID.ToString();
+                var i = await _unitOfWork.InformationMaintenance.GetById(receipt.InformationMaintenanceId);
                 await _unitOfWork.InformationMaintenance.Update(receipt.InformationMaintenance);
                 await _unitOfWork.ReceiptRepository.Update(receipt);
+
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.PAID.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.PAID.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = i.InformationMaintenanceId;
+                //var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                //      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                //if (checkStatus == null)
+                //{
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                //}
+
+
+
+
+
+
 
                 Notification notification = new Notification
                 {
@@ -296,19 +316,14 @@ namespace Infrastructure.IService.Imp
 
                 await _unitOfWork.Commit();
 
-                return "https://payment-success-amber.vercel.app/";
+                return "https://webautocarev2.vercel.app/dashboard/";
             }
             else
             {
                 return "https://payment-failure.vercel.app/";
             }
         }
-
-        public Task<string> CreatePaymentUrlCenter(HttpContext httpContext)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public async Task<string> PaymentExecutev2(IQueryCollection queryParameters)
         {
             foreach (var (key, value) in queryParameters)
@@ -329,13 +344,13 @@ namespace Infrastructure.IService.Imp
 
             string vnpOrderInfo = queryParameters["vnp_OrderInfo"];
             //string receiptId = vnpOrderInfo.Substring(vnpOrderInfo.LastIndexOf(":") + 1);
-            
+
             if (!checkSignature)
             {
                 return "https://payment-failure.vercel.app/";
             }
 
-            if (vnp_ResponseCode == "00" )
+            if (vnp_ResponseCode == "00")
             {
                 await _unitOfWork.Commit();
                 return "https://payment-success-amber.vercel.app/";

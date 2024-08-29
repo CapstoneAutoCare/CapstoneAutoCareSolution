@@ -86,7 +86,7 @@ namespace CapstoneAutoCareApi.Configuration
             {
                 options.AddPolicy("AllowSpecificOrigins", builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://webautocare.vercel.app") // Chỉ định các origin mà bạn muốn cho phép
+                    builder.WithOrigins("http://localhost:3000", "http://localhost:3001", "https://webautocare.vercel.app", "https://webautocarev2.vercel.app") // Chỉ định các origin mà bạn muốn cho phép
                            .AllowAnyHeader()
                            .AllowAnyMethod()
                            .AllowCredentials(); // Chỉ cho phép credentials nếu cần

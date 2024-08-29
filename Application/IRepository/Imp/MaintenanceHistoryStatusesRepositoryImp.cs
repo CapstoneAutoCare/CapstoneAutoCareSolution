@@ -21,10 +21,10 @@ namespace Application.IRepository.Imp
                             .Include(c => c.MaintenanceInformation)
                             .FirstOrDefaultAsync(c => c.MaintenanceInformationId == id
                             && c.Status.ToUpper().Contains(status.ToUpper()));
-            if (mhs != null)
-            {
-                throw new Exception("EXISTED");
-            }
+           // if (mhs != null)
+           //{ 
+           //     throw new Exception("EXISTED");
+           // }
             return mhs;
         }
 

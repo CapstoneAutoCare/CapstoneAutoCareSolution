@@ -44,6 +44,21 @@ namespace Infrastructure.IService.Imp
                 await _unitOfWork.InformationMaintenance.Update(mi);
                 await _unitOfWork.ReceiptRepository.Update(r);
 
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.PAID.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.PAID.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = mi.InformationMaintenanceId;
+                //var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                //      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                //if (checkStatus == null)
+                    {
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                }
+
+
+
+
                 Notification notification = new Notification
                 {
                     AccountId = customercare.AccountId,
@@ -111,6 +126,21 @@ namespace Infrastructure.IService.Imp
             r.TotalAmount = (float)Math.Round(r.SubTotal * (1 + (r.VAT / 100f)), 0, MidpointRounding.AwayFromZero);
             r.Status = EnumStatus.YETPAID.ToString();
             i.Status = EnumStatus.YETPAID.ToString();
+
+
+            MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+            maintenanceHistoryStatus.Status = EnumStatus.YETPAID.ToString();
+            maintenanceHistoryStatus.DateTime = DateTime.Now;
+            maintenanceHistoryStatus.Note = EnumStatus.YETPAID.ToString();
+            maintenanceHistoryStatus.MaintenanceInformationId = i.InformationMaintenanceId;
+            //var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+            //      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+            //if (checkStatus == null)
+            {
+                await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+            }
+
+
             await _unitOfWork.InformationMaintenance.Update(i);
             await _unitOfWork.ReceiptRepository.Add(r);
             await _unitOfWork.Commit();

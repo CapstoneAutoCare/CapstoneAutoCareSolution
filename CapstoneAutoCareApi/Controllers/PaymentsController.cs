@@ -46,7 +46,13 @@ namespace CapstoneAutoCareApi.Controllers
             var response = await _payPalService.PaymentExecutev1(Request.Query);
             return Ok(response);
         }
+        [HttpGet]
+        public async Task<IActionResult> PaymentCallback()
+        {
+            var result = await _payPalService.PaymentExecutev1(Request.Query);
 
+            return Redirect(result);
+        }
         [HttpGet]
         public async Task<ActionResult<string>> PaymentExecutev2()
         {
