@@ -316,7 +316,7 @@ namespace Infrastructure.IService.Imp
         {
             var booking = await _unitOfWork.Booking.GetListByCenter(id);
             var list = _mapper.Map<List<ResponseBooking>>(booking);
-            await _hubContext.Clients.Group(id.ToString()).SendAsync("ReceiveBookingUpdate", list);
+            //await _hubContext.Clients.Group(id.ToString()).SendAsync("ReceiveBookingUpdate", list);
 
             return list;
         }

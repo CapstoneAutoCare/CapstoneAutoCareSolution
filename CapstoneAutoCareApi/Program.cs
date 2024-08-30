@@ -15,6 +15,7 @@ using Infrastructure.Common.Mapper;
 using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
+using Infrastructure.Hubs;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -166,6 +167,8 @@ builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddHttpClient();
+//builder.Services.AddSignalR();
+//builder.Services.AddSignalRCore();
 
 var app = builder.Build();
 
@@ -179,16 +182,17 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 
 
 app.UseHttpsRedirection();
-app.UseRouting();
 
 app.UseCors("AllowSpecificOrigins");
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 
 app.MapControllers();
-app.MapHub<NotificationHub>("/notificationHub"); 
+//app.MapHub<NotificationHub>("/notificationHub");
+app.MapHub<VehicleHub>("/vehicleHub");
 
 
 app.Run();

@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Azure;
 using Domain.Entities;
 using Infrastructure.Common.Request.RequestVehicles;
 using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.VehiclesResponse;
+using Infrastructure.Hubs;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +22,14 @@ namespace Infrastructure.IService.Imp
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokenHandler;
+        private readonly IHubContext<VehicleHub> _hubContext;
 
-        public VehiclesServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokenHandler)
+        public VehiclesServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokenHandler, IHubContext<VehicleHub> hubContext)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _tokenHandler = tokenHandler;
+            _hubContext = hubContext;
         }
 
         public async Task<ResponseVehicles> Create(CreateVehicle create)
@@ -86,11 +91,19 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseVehicles> Update(Guid id, UpdateVehicle updateVehicle)
         {
             var vehicle = await _unitOfWork.Vehicles.GetById(id);
+            var previousOdo = vehicle.Odo; 
 
             var update = _mapper.Map(updateVehicle, vehicle);
             await _unitOfWork.Vehicles.Update(vehicle);
             await _unitOfWork.Commit();
-            return _mapper.Map<ResponseVehicles>(update);
+
+            if (update.Odo != previousOdo)
+            {
+                await _hubContext.Clients.All.SendAsync("ReceiveOdoUpdate", update.VehiclesId, update.Odo);
+            }
+
+            var response = _mapper.Map<ResponseVehicles>(update);
+            return response;
         }
     }
 }
