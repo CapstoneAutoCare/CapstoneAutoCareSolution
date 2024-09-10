@@ -31,10 +31,10 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceInformation> Create(CreateMaintenanceInformation create)
         {
             var mi = _mapper.Map<MaintenanceInformation>(create);
-            var email = _tokensHandler.ClaimsFromToken();
-            mi.CreatedDate = DateTime.Now;
-            var account = await _unitOfWork.Account.Profile(email);
-            var customercare = await _unitOfWork.CustomerCare.GetById(account.CustomerCare.CustomerCareId);
+            //var email = _tokensHandler.ClaimsFromToken();
+            //mi.CreatedDate = DateTime.Now;
+            //var account = await _unitOfWork.Account.Profile(email);
+            var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             mi.CustomerCareId = customercare.CustomerCareId;
 
             if (mi.BookingId == null)
@@ -57,9 +57,9 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceInformation> CreateHaveItems(CreateMaintenanceInformationHaveItems create)
         {
             var mi = MapAndInitializeMaintenanceInformation(create);
-            var email = _tokensHandler.ClaimsFromToken();
-            var account = await _unitOfWork.Account.Profile(email);
-            var customercare = await _unitOfWork.CustomerCare.GetById(account.CustomerCare.CustomerCareId);
+            //var email = _tokensHandler.ClaimsFromToken();
+            //var account = await _unitOfWork.Account.Profile(email);
+            var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             mi.CustomerCareId = customercare.CustomerCareId;
 
             var doublePrice = await ProcessSparePartInfos(mi.MaintenanceSparePartInfos, mi.InformationMaintenanceId, mi.TotalPrice);
@@ -99,7 +99,7 @@ namespace Infrastructure.IService.Imp
                     sp.Status = EnumStatus.ACTIVE.ToString();
                     sp.CreatedDate = DateTime.Now;
                     sp.Discount = 0;
-                    sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount / 100));
+                    sp.TotalCost = (sp.ActualCost * sp.Quantity) * (1 - (sp.Discount / 100f));
                     sp.InformationMaintenanceId = maintenanceId;
                     await _unitOfWork.SparePartsItemCost.GetById(sp.SparePartsItemCostId);
                     //await _unitOfWork.SparePartsItem.GetByStatusAndCostActive(sp.SparePartsItemId);
@@ -125,7 +125,7 @@ namespace Infrastructure.IService.Imp
                     msi.Status = EnumStatus.ACTIVE.ToString();
                     msi.CreatedDate = DateTime.Now;
                     msi.Discount = 0;
-                    msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount / 100));
+                    msi.TotalCost = (msi.ActualCost * msi.Quantity) * (1 - (msi.Discount / 100f));
                     msi.InformationMaintenanceId = maintenanceId;
                     await _unitOfWork.MaintenanceServiceCost.GetById(msi.MaintenanceServiceCostId);
                     await _unitOfWork.MaintenanceServiceInfo.Add(msi);
@@ -138,7 +138,10 @@ namespace Infrastructure.IService.Imp
             var mi = _mapper.Map<MaintenanceInformation>(create);
             mi.CreatedDate = DateTime.Now;
             mi.TotalPrice = 0;
-            mi.Status = EnumStatus.CREATEDBYClIENT.ToString();
+            mi.Status = EnumStatus.CHECKIN.ToString();
+
+
+
             return mi;
         }
 
@@ -152,18 +155,39 @@ namespace Infrastructure.IService.Imp
         private async Task<ResponseMaintenanceInformation> HandleNonNullBookingId(MaintenanceInformation mi)
         {
             var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
-            booking.Status = "ACCEPT";
+            booking.Status = STATUSENUM.STATUSBOOKING.ACCEPTED.ToString();
+
+            var listmainbybooking = await _unitOfWork.InformationMaintenance.GetListByBookingId(booking.BookingId);
+
+            if (!listmainbybooking.All(c => c.Status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString())))
+            {
+                throw new Exception("Booking này không thể add thêm maininfor được");
+            }
+
 
             await _unitOfWork.InformationMaintenance.Add(mi);
             MaintenanceHistoryStatus historyStatus = new MaintenanceHistoryStatus
             {
                 MaintenanceHistoryStatusId = Guid.NewGuid(),
-                Status = EnumStatus.CREATEDBYCUSTOMERCARE.ToString(),
-                DateTime = DateTime.Now,
+                Status = EnumStatus.CREATEDBYClIENT.ToString(),
+                DateTime = booking.CreatedDate,
                 MaintenanceInformationId = mi.InformationMaintenanceId,
                 Note = mi.Note,
             };
             await _unitOfWork.MaintenanceHistoryStatuses.Add(historyStatus);
+
+            MaintenanceHistoryStatus historyStatuscheckin = new MaintenanceHistoryStatus
+            {
+                MaintenanceHistoryStatusId = Guid.NewGuid(),
+                Status = EnumStatus.CHECKIN.ToString(),
+                DateTime = DateTime.Now,
+                MaintenanceInformationId = mi.InformationMaintenanceId,
+                Note = mi.Note,
+            };
+            await _unitOfWork.MaintenanceHistoryStatuses.Add(historyStatuscheckin);
+
+
+
 
             await _unitOfWork.Booking.Update(booking);
             await _unitOfWork.Commit();
@@ -243,7 +267,7 @@ namespace Infrastructure.IService.Imp
                 };
                 await _unitOfWork.NotificationRepository.Add(notificationCenter);
 
-                Notification notificationCustomerCare= new Notification
+                Notification notificationCustomerCare = new Notification
                 {
                     AccountId = customercare.AccountId,
                     IsRead = false,
@@ -283,6 +307,30 @@ namespace Infrastructure.IService.Imp
 
                 return _mapper.Map<ResponseMaintenanceInformation>(re);
             }
+            else if (re.Status.Equals(STATUSENUM.STATUSMI.CHECKIN.ToString()) && status.Equals(STATUSENUM.STATUSBOOKING.CHANGEPACKAGE.ToString()))
+            {
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = re.InformationMaintenanceId;
+                var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                if (checkStatus == null)
+                {
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                }
+                re.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
+                //var booking = await _unitOfWork.Booking.GetById(re.BookingId);
+                //booking.Status = status;
+                //await _unitOfWork.Booking.Update(booking);
+                await _unitOfWork.InformationMaintenance.Update(re);
+                await _unitOfWork.Commit();
+
+                return _mapper.Map<ResponseMaintenanceInformation>(re);
+            }
+
+
             else
             {
                 throw new Exception("Không thay đổi Status được nữa");
@@ -317,10 +365,10 @@ namespace Infrastructure.IService.Imp
 
         }
 
-        public async Task<ResponseMaintenanceInformation> GetByBookingId(Guid id)
+        public async Task<List<ResponseMaintenanceInformation>> GetListByBookingId(Guid id)
         {
-            return _mapper.Map<ResponseMaintenanceInformation>(
-                            await _unitOfWork.InformationMaintenance.GetByBookingId(id));
+            return _mapper.Map<List<ResponseMaintenanceInformation>>(
+                            await _unitOfWork.InformationMaintenance.GetListByBookingId(id));
         }
 
         public async Task<List<ResponseMaintenanceInformation>> GetListByCenterId(Guid id)
@@ -341,7 +389,108 @@ namespace Infrastructure.IService.Imp
                                         await _unitOfWork.InformationMaintenance.GetInforPAIDByMonthInYearByCenterId(id, year));
         }
 
-        
+        public async Task<ResponseMaintenanceInformation> CreateMaintenance(CreateMaintenanceInformationHavePackage create)
+        {
+            var mi = _mapper.Map<MaintenanceInformation>(create);
+            mi.TotalPrice = 0;
+            mi.Status = EnumStatus.CHECKIN.ToString();
+            mi.CreatedDate = DateTime.Now;
+            mi.FinishedDate = null;
+            await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
+            var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
+            var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+            var listservice = await _unitOfWork.MaintenanceService
+                .GetListPackageByOdoAndCenterIdAndVehicleId(booking.MaintenanceCenterId, mi.MaintananceScheduleId, vehicle.VehicleModelId);
+            await _unitOfWork.InformationMaintenance.Add(mi);
+            foreach (var itemcost in listservice)
+            {
+                var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                    (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), itemcost.MaintenanceServiceId);
+                MaintenanceServiceInfo info = new MaintenanceServiceInfo
+                {
+                    InformationMaintenanceId = mi.InformationMaintenanceId,
+                    ActualCost = cost.ActuralCost,
+                    Discount = 0,
+                    CreatedDate = DateTime.Now,
+                    Note = "Không tính tiền",
+                    Quantity = 1,
+                    Status = EnumStatus.ACTIVE.ToString(),
+                    TotalCost = (0 * 1) * (1 - (0) / 100f),
+                    MaintenanceServiceCostId = cost.MaintenanceServiceCostId,
+                    MaintenanceServiceInfoId = Guid.NewGuid(),
+                    MaintenanceServiceInfoName = cost.MaintenanceService.MaintenanceServiceName,
+                };
+                await _unitOfWork.MaintenanceServiceInfo.Add(info);
+            }
+            MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+            maintenanceHistoryStatus.Status = EnumStatus.CHECKIN.ToString();
+            maintenanceHistoryStatus.DateTime = DateTime.Now;
+            maintenanceHistoryStatus.Note = EnumStatus.CHECKIN.ToString();
+            maintenanceHistoryStatus.MaintenanceInformationId = mi.InformationMaintenanceId;
+            await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+            await _unitOfWork.Commit();
+            return _mapper.Map<ResponseMaintenanceInformation>(mi);
+
+        }
+
+        //public async Task<ResponseMaintenanceInformation> CreateHavePackage(CreateMaintenanceInformationHavePackage create)
+        //{
+        //    var mi = _mapper.Map<MaintenanceInformation>(create);
+        //    mi.CreatedDate = DateTime.Now;
+        //    mi.Status = EnumStatus.CHECKIN.ToString();
+        //    mi.TotalPrice = 0;
+        //    var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
+        //    mi.Note = booking.Note;
+        //    await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
+        //    await _unitOfWork.Booking.GetById(mi.BookingId);
+        //    var listmainbybooking = await _unitOfWork.InformationMaintenance.GetListByBookingId(booking.BookingId);
+        //    await _unitOfWork.InformationMaintenance.Add(mi);
+        //    if (!listmainbybooking.All(c => c.Status.Equals(STATUSENUM.STATUSBOOKING.CANCELLED.ToString())))
+        //    {
+        //        throw new Exception("Booking này không thể add thêm maininfor được");
+        //    }
+
+        //    var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(mi.MaintananceScheduleId);
+        //    var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+
+
+        //    if (schedule.VehicleModelId != vehicle.VehicleModelId)
+        //    {
+        //        throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe " + schedule.VehicleModel.VehicleModelName);
+        //    }
+        //    var list = await _unitOfWork.MaintenanceService.GetListPackageByOdoAndCenterIdAndVehicleId(booking.MaintenanceCenterId, mi.MaintananceScheduleId, vehicle.VehicleModelId);
+        //    if (!list.Any())
+        //    {
+        //        throw new Exception("Trung tâm này không hỗ trợ gói dịch vụ cho xe ");
+        //    }
+        //    foreach (var item in list)
+        //    {
+        //        var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+        //              (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+        //        MaintenanceServiceInfo maintenanceServiceInfo = new MaintenanceServiceInfo
+        //        {
+        //            InformationMaintenanceId = mi.InformationMaintenanceId,
+        //            ActualCost = cost.ActuralCost,
+        //            Discount = 0,
+        //            CreatedDate = DateTime.Now,
+        //            Note = create.InformationMaintenanceName,
+        //            Quantity = 1,
+        //            Status = EnumStatus.ACTIVE.ToString(),
+        //            TotalCost = (cost.ActuralCost * 1) * (1 - (0) / 100f),
+        //            MaintenanceServiceCostId = cost.MaintenanceServiceCostId,
+        //            MaintenanceServiceInfoId = Guid.NewGuid(),
+        //            MaintenanceServiceInfoName = cost.MaintenanceService.MaintenanceServiceName,
+        //        };
+        //        //await _unitOfWork.MaintenanceServiceCost.CheckCostVehicleIdAndIdCost(check.Vehicles.VehicleModelId, msi.MaintenanceServiceCostId);
+        //        mi.TotalPrice += maintenanceServiceInfo.TotalCost;
+        //        await _unitOfWork.MaintenanceServiceInfo.Add(maintenanceServiceInfo);
+        //    }
+        //    await _unitOfWork.Commit();
+        //    return _mapper.Map<ResponseMaintenanceInformation>(mi);
+
+        //}
+
+
 
         //public Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckin(Guid id)
         //{

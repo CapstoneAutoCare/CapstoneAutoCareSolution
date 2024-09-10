@@ -28,8 +28,12 @@ namespace Domain.Entities
         public string Status { get; set; }
         public Guid? BookingId { get; set; }
         public Guid? CustomerCareId { get; set; }
+        public Guid? MaintananceScheduleId { get; set; }
+
         public Booking Booking { get; set; }
         public CustomerCare CustomerCare { get; set; }
+        public MaintananceSchedule MaintananceSchedule { get; set; }
+
         public ICollection<MaintenanceSparePartInfo> MaintenanceSparePartInfos { get; set; }
         public ICollection<MaintenanceServiceInfo> MaintenanceServiceInfos { get; set; }
         public ICollection<MaintenanceTask> MaintenanceTasks { get; set; }

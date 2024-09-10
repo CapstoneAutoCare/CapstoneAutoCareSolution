@@ -40,9 +40,9 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.GetById(id));
         }
         [HttpGet]
-        public async Task<ActionResult<ResponseMaintenanceInformation>> GetByBookingId(Guid id)
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByBookingId(Guid id)
         {
-            return Ok(await _maintenanceInformationService.GetByBookingId(id));
+            return Ok(await _maintenanceInformationService.GetListByBookingId(id));
         }
         [HttpGet]
         [Authorize]
@@ -94,6 +94,12 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<ResponseMaintenanceInformation>> PostHaveItems([FromBody] CreateMaintenanceInformationHaveItems maintenanceInformation)
         {
             return Ok(await _maintenanceInformationService.CreateHaveItems(maintenanceInformation));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ResponseMaintenanceInformation>> PostMaintenance(CreateMaintenanceInformationHavePackage maintenanceInformation)
+        {
+            return Ok(await _maintenanceInformationService.CreateMaintenance(maintenanceInformation));
         }
 
         [HttpPatch]

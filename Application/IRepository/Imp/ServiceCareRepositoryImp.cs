@@ -19,6 +19,8 @@ namespace Application.IRepository.Imp
         {
             return await _context.Set<ServiceCares>()
                 .Include(p => p.MaintananceSchedule)
+                                .ThenInclude(c => c.MaintenancePlan)
+
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                                 .OrderByDescending(p => p.CreatedDate)
@@ -31,6 +33,8 @@ namespace Application.IRepository.Imp
         {
             var service = await _context.Set<ServiceCares>()
                 .Include(p => p.MaintananceSchedule)
+                                .ThenInclude(c => c.MaintenancePlan)
+
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                                 .OrderByDescending(p => p.CreatedDate)
@@ -53,6 +57,8 @@ namespace Application.IRepository.Imp
                 .Select(c => c.ServiceCareId).ToList();
             var service = await _context.Set<ServiceCares>()
                 .Include(p => p.MaintananceSchedule)
+                                .ThenInclude(c => c.MaintenancePlan)
+
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                                 .OrderByDescending(p => p.CreatedDate)

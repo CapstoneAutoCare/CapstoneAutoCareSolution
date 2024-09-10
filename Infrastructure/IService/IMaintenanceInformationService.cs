@@ -18,9 +18,11 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceInformation>> GetListByCenter();
         Task<List<ResponseMaintenanceInformation>> GetListByCenterId(Guid id);
         Task<List<ResponseMaintenanceInformation>> GetListByCenterAnd(string status);
-        Task<ResponseMaintenanceInformation> GetByBookingId(Guid id);
+        Task<List<ResponseMaintenanceInformation>> GetListByBookingId(Guid id);
         Task<ResponseMaintenanceInformation> Create(CreateMaintenanceInformation create);
         Task<ResponseMaintenanceInformation> CreateHaveItems(CreateMaintenanceInformationHaveItems create);
+        //Task<ResponseMaintenanceInformation> CreateHavePackage(CreateMaintenanceInformationHavePackage create);
+        Task<ResponseMaintenanceInformation> CreateMaintenance(CreateMaintenanceInformationHavePackage create);
         Task<List<ResponseMaintenanceInformation>> GetAll();
         Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
         Task<ResponseMaintenanceInformation> ChangeStatus (Guid id, string status);

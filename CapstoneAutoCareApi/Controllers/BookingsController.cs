@@ -80,36 +80,38 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _bookingService.GetListByCenterAndClient(centerId, clientId));
         }
-        //[HttpPut]
-        //public async Task<IActionResult> PutBooking(Guid id, Booking booking)
-        //{
-
-        //    return NoContent();
-        //}
-
-        [HttpPost]
-        public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseBooking>>> GetListBookingCancelledInformationAndAcceptBooking(Guid centerId)
         {
-            return Ok(await _bookingService.Create(booking));
+
+            return Ok(await _bookingService.GetListBookingCancelledInformationAndAcceptBooking(centerId));
         }
+
+        //[HttpPost]
+        //public async Task<ActionResult<ResponseBooking>> Post([FromBody] RequestBooking booking)
+        //{
+        //    return Ok(await _bookingService.Create(booking));
+        //}
         [HttpPost]
         public async Task<ActionResult<ResponseBooking>> PostHaveItems([FromBody] RequestBookingHaveItems booking)
         {
             return Ok(await _bookingService.CreateHaveItemsByClient(booking));
 
         }
+        [Authorize]
+
         [HttpPost]
-        public async Task<ActionResult<ResponseBooking>> PostHavePackage([FromBody] CreateBookingPackage booking)
+        public async Task<ActionResult<ResponseBooking>> PostMaintenanceBooking(CreateMaintenanceBooking booking)
         {
-            return Ok(await _bookingService.CreatePackageByClient(booking));
+            return Ok(await _bookingService.CreateMaintenanceByClient(booking));
 
         }
 
         [HttpPatch]
-        [Authorize(Roles = "CUSTOMERCARE,CUSTOMER")]
-        public async Task<ActionResult<ResponseBooking>> UpdateStatus(Guid bookingId, string status)
+        [Authorize]
+        public async Task<ActionResult<ResponseBooking>> UpdateStatus(Guid? customercareId,Guid bookingId, string status)
         {
-            return Ok(await _bookingService.UpdateStatus(bookingId, status));
+            return Ok(await _bookingService.UpdateStatus(customercareId,bookingId, status));
 
         }
         //[HttpDelete]

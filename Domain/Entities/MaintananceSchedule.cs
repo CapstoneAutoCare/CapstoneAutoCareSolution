@@ -12,8 +12,10 @@ namespace Domain.Entities
     {
         public MaintananceSchedule()
         {
-            Bookings = new HashSet<Booking>();
+            MaintenanceInformations = new HashSet<MaintenanceInformation>();
             ServiceCares = new HashSet<ServiceCares>();
+            MaintenanceVehiclesDetails = new HashSet<MaintenanceVehiclesDetail>();
+
         }
 
         [Key]
@@ -22,9 +24,10 @@ namespace Domain.Entities
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
         public string Status { get; set; }
-        public Guid VehicleModelId { get; set; }
-        public VehicleModel VehicleModel { get; set; }
-        public ICollection<Booking> Bookings { get; set; }
+        public Guid MaintenancePlanId { get; set; }
+        public MaintenancePlan MaintenancePlan { get; set; }
+        public ICollection<MaintenanceInformation> MaintenanceInformations { get; set; }
         public ICollection<ServiceCares> ServiceCares { get; set; }
+        public ICollection<MaintenanceVehiclesDetail> MaintenanceVehiclesDetails { get; set; }
     }
 }

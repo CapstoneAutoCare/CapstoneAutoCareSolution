@@ -1,6 +1,7 @@
 ﻿using Application.Dashboard;
 using Application.IGenericRepository.Imp;
 using Domain.Entities;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -43,10 +44,13 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c=>c.Account)
                 .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
                 .Include(c => c.MaintenanceCenter.Account)
-                .Include(c => c.MaintenanceInformation)
+                .Include(c => c.MaintenanceInformations)
                 .ThenInclude(c => c.MaintenanceSparePartInfos)
-                .Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
-                .Include(c => c.MaintenanceInformation.MaintenanceHistoryStatuses)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .Include(c => c.MaintenanceInformations)
+                .ThenInclude(c=>c.MaintenanceServiceInfos)
+                .ThenInclude(c=>c.MaintenanceServiceCost)
+                //.Include(c => c.MaintenanceInformations.Select(c => c.MaintenanceHistoryStatuses.ToList()))
                 .OrderByDescending(c => c.CreatedDate)
                 .FirstOrDefaultAsync(c => c.BookingId == id);
             if (booking == null)
@@ -135,19 +139,45 @@ namespace Application.IRepository.Imp
             return monthlySummary;
         }
 
-        public async Task<Booking> GetByInforid(Guid inforid)
+        public async Task<List<Booking>> GetListBookingByCancelledInformationAndBookingAccepted(Guid centerId)
         {
-            var booking =  await _context.Set<Booking>()
-                             .Include(c => c.Client.Account)
-                             .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
-                             .Include(c => c.MaintenanceCenter.Account)
-                             .OrderByDescending(c => c.CreatedDate)
-                             .SingleOrDefaultAsync(c => c.MaintenanceInformation.InformationMaintenanceId == inforid); 
-            if(booking == null)
-            {
-                throw new Exception("Thông tin bảo dưỡng không tồn tại trong booking này");
-            }
-            return booking;
+            var informationList = await _context.Set<MaintenanceInformation>().Where(c=>c.Booking.MaintenanceCenterId==centerId 
+            && c.Status==STATUSENUM.STATUSBOOKING.CANCELLED.ToString())
+                .Select(c=>c.BookingId)
+                .ToListAsync();
+
+            var bookinglist = await _context.Set<Booking>()
+                .Include(c => c.Client)
+                .ThenInclude(c => c.Account)
+                .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                .Include(c => c.MaintenanceCenter.Account)
+                .Include(c => c.MaintenanceInformations)
+                .ThenInclude(c => c.MaintenanceSparePartInfos)
+                .ThenInclude(c => c.SparePartsItemCost)
+                .Include(c => c.MaintenanceInformations)
+                .ThenInclude(c => c.MaintenanceServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceCost)
+                 .Where(b => b.MaintenanceCenterId == centerId  && b.Status== STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()
+                 && informationList.Contains(b.BookingId))
+                 .ToListAsync();
+
+            return bookinglist;
+
         }
+
+        //public async Task<Booking> GetByInforid(Guid inforid)
+        //{
+        //    var booking =  await _context.Set<Booking>()
+        //                     .Include(c => c.Client.Account)
+        //                     .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+        //                     .Include(c => c.MaintenanceCenter.Account)
+        //                     .OrderByDescending(c => c.CreatedDate)
+        //                     .SingleOrDefaultAsync(c => c.MaintenanceInformation.InformationMaintenanceId == inforid); 
+        //    if(booking == null)
+        //    {
+        //        throw new Exception("Thông tin bảo dưỡng không tồn tại trong booking này");
+        //    }
+        //    return booking;
+        //}
     }
 }

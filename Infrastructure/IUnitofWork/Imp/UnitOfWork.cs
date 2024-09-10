@@ -46,6 +46,8 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly IPackageCenterRepository _packageCenterRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IMaintenancePlanRepository _maintenancePlanRepository;
+        private readonly IMaintenanceVehiclesDetailRepository _maintenanceVehiclesDetailRepository;
 
         public UnitOfWork(AppDBContext context)
         {
@@ -81,6 +83,8 @@ namespace Infrastructure.IUnitofWork.Imp
             _packageCenterRepository = new PackageCenterRepositoryImp(_context);
             _packageRepository = new PackageRepositoryImp(_context);
             _transactionRepository = new TransactionRepositoryImp(_context);
+            _maintenanceVehiclesDetailRepository = new MaintenanceVehiclesDetailRepositoryImp(_context);
+            _maintenancePlanRepository = new MaintenancePlanRepositoryImp(_context);
 
         }
 
@@ -147,6 +151,10 @@ namespace Infrastructure.IUnitofWork.Imp
         public IPackageRepository PackageRepository => _packageRepository;
 
         public IPackageCenterRepository PackageCenterRepository => _packageCenterRepository;
+
+        public IMaintenanceVehiclesDetailRepository MaintenanceVehiclesDetailRepository => _maintenanceVehiclesDetailRepository;
+
+        public IMaintenancePlanRepository MaintenancePlanRepository => _maintenancePlanRepository;
 
         public async Task Commit() => await _context.SaveChangesAsync();
 

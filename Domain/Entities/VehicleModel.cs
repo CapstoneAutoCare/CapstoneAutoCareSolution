@@ -12,23 +12,23 @@ namespace Domain.Entities
         public VehicleModel()
         {
             Vehicles = new HashSet<Vehicles>();
-            MaintenanceSchedules = new HashSet<MaintananceSchedule>();
             Parts = new HashSet<SpareParts>();
-
+            MaintenancePlans = new HashSet<MaintenancePlan>();
+            MaintenanceServices = new HashSet<MaintenanceService>();
         }
 
         [Key]
         public Guid VehicleModelId { get; set; }
         public string VehicleModelName { get; set; }
-        public string? Image { get; set; } 
-        public string? VehicleModelDecription {  get; set; } 
+        public string? Image { get; set; }
+        public string? VehicleModelDecription { get; set; }
         public string Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid VehiclesBrandId { get; set; }
         public VehiclesBrand VehiclesBrand { get; set; }
+        public ICollection<MaintenancePlan> MaintenancePlans { get; set; }
         public ICollection<Vehicles> Vehicles { get; set; }
         public ICollection<SpareParts> Parts { get; set; }
         public ICollection<MaintenanceService> MaintenanceServices { get; set; }
-        public ICollection<MaintananceSchedule> MaintenanceSchedules { get; set; }
     }
 }

@@ -16,11 +16,13 @@ namespace Infrastructure.Common.Response.ResponseBooking
         public string Note { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime BookingDate { get; set; }
+        public int? OdoBooking { get; set; }
+
         public string Status { get; set; }
         public Guid ClientId { get; set; }
         public Guid VehicleId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
-        public ResponseMaintenanceInformation ResponseMaintenanceInformation { get; set; }
+        public List<ResponseMaintenanceInformation> ResponseMaintenanceInformation { get; set; }
         public ResponseVehicles ResponseVehicles {  get; set; }
         public ResponseCenter ResponseCenter { get; set; }
         public ResponseClient ResponseClient { get; set; }

@@ -41,6 +41,8 @@ namespace Infrastructure.IUnitofWork
         ITransactionRepository TransactionRepository { get; }
         IPackageRepository PackageRepository { get; }
         IPackageCenterRepository PackageCenterRepository { get; }
+        IMaintenanceVehiclesDetailRepository MaintenanceVehiclesDetailRepository { get; }
+        IMaintenancePlanRepository MaintenancePlanRepository { get; }
         Task Commit();
 
     }

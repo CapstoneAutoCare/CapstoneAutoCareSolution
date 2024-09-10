@@ -11,7 +11,8 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>Application.AppDBContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
-    <NameOfLastUsedPublishProfile>C:\Users\xuand\source\repos\CapstoneAutoCareSolution\CapstoneAutoCareApi\Properties\PublishProfiles\site7587-WebDeploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\xuand\source\repos\CapstoneAutoCareSolution\CapstoneAutoCareApi\Properties\PublishProfiles\CapstoneAutoCareApi20240816003911 - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <WebStackScaffolding_DbContextDialogWidth>650</WebStackScaffolding_DbContextDialogWidth>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

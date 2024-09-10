@@ -23,5 +23,6 @@ namespace Application.IRepository
 
 
         Task<MaintenanceInformation> GetByBookingId(Guid id);
+        Task<List<MaintenanceInformation>> GetListByBookingId(Guid id);
     }
 }

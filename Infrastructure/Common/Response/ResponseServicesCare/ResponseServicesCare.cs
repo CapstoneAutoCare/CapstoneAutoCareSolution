@@ -20,6 +20,8 @@ namespace Infrastructure.Common.Response.ResponseServicesCare
         public string Status { get; set; }
         public Guid MaintananceScheduleId { get; set; }
         public string MaintananceScheduleName { get; set; }
+        public Guid MaintenancePlanId { get; set; }
+        public string MaintenancePlanName { get; set; }
         public ReponseVehicleModels ReponseVehicleModel { get; set; }
 
     }

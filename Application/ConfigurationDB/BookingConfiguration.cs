@@ -20,14 +20,17 @@ namespace Application.ConfigurationDB
                 .HasColumnType("datetime");
             builder.Property(e => e.BookingDate)
                 .HasColumnType("datetime");
+
             builder.HasOne(d => d.Client)
                     .WithMany(d => d.Bookings)
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(d => d.Vehicles)
                     .WithMany(d => d.Bookings)
                     .HasForeignKey(d => d.VehicleId)
                     .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(d => d.MaintenanceCenter)
                     .WithMany(d => d.Bookings)
                     .HasForeignKey(d => d.MaintenanceCenterId)

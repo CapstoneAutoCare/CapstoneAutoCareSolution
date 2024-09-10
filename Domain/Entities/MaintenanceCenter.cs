@@ -19,6 +19,7 @@ namespace Domain.Entities
             FeedBacks = new HashSet<FeedBack>();
             VehiclesMaintenance = new HashSet<VehiclesMaintenance>();
             CenterPackages = new HashSet<CenterPackages>();
+            MaintenanceVehiclesDetails = new HashSet<MaintenanceVehiclesDetail>();
         }
 
         [Key]
@@ -43,6 +44,7 @@ namespace Domain.Entities
         public ICollection<FeedBack> FeedBacks { get; set; }
         public ICollection<VehiclesMaintenance> VehiclesMaintenance { get; set; }
         public ICollection<CenterPackages> CenterPackages { get; set; }
+        public ICollection<MaintenanceVehiclesDetail> MaintenanceVehiclesDetails { get; set; }
 
     }
 }

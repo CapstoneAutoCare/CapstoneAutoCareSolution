@@ -20,9 +20,9 @@ namespace Application.ConfigurationDB
             builder.Property(e => e.CreateDate)
                .HasColumnType("datetime");
 
-            builder.HasOne(d => d.VehicleModel)
+            builder.HasOne(d => d.MaintenancePlan)
                     .WithMany(d => d.MaintenanceSchedules)
-                    .HasForeignKey(d => d.VehicleModelId)
+                    .HasForeignKey(d => d.MaintenancePlanId)
                     .OnDelete(DeleteBehavior.Restrict);
         }
     }

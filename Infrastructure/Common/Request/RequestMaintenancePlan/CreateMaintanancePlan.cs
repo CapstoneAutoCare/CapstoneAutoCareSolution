@@ -8,8 +8,9 @@ namespace Infrastructure.Common.Request.MaintenancePlan
 {
     public class CreateMaintanancePlan
     {
-        public int MaintenancePlanName { get; set; }
-        public string MaintenancePlanDescription { get; set; }
-        public Guid MaintananceScheduleId { get; set; }
+        public Guid VehicleModelId { get; set; }
+        public string MaintenancePlanName { get; set; }
+        public string Description { get; set; }
+
     }
 }

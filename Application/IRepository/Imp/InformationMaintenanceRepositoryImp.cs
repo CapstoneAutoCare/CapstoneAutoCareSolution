@@ -41,7 +41,7 @@ namespace Application.IRepository.Imp
                              .Include(c => c.Booking)
                              .ThenInclude(c => c.Vehicles)
                              .ThenInclude(c => c.VehicleModel)
-                            .ThenInclude(c => c.VehiclesBrand)
+                             .ThenInclude(c => c.VehiclesBrand)
                              .Include(c => c.OdoHistory)
                              .Include(c => c.CustomerCare)
                              .Include(c => c.MaintenanceSparePartInfos)
@@ -209,5 +209,21 @@ namespace Application.IRepository.Imp
             return result;
         }
 
+        public async Task<List<MaintenanceInformation>> GetListByBookingId(Guid id)
+        {
+            return await _context.Set<MaintenanceInformation>()
+                               .Include(c => c.Booking)
+                               .ThenInclude(c => c.Vehicles)
+                               .ThenInclude(c => c.VehicleModel)
+                              .ThenInclude(c => c.VehiclesBrand)
+                               .Include(c => c.OdoHistory)
+                               .Include(c => c.CustomerCare)
+                               .Include(c => c.MaintenanceSparePartInfos)
+                               .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                               .Include(c => c.MaintenanceHistoryStatuses)
+                               .Include(c => c.MaintenanceServiceInfos)
+                               .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
+                               .Where(c => c.BookingId == id).ToListAsync();
+        }
     }
 }

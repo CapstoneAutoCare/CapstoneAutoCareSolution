@@ -12,6 +12,8 @@ namespace Infrastructure.Common.Request.RequestBooking
         public Guid MaintenanceCenterId { get; set; }
         public Guid? MaintananceScheduleId { get; set; }
         public string Note { get; set; }
+        public int? OdoBooking { get; set; }
+
         public DateTime BookingDate { get; set; }
         public string InformationName {  get; set; }
     }

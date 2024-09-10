@@ -17,5 +17,7 @@ namespace Infrastructure.Common.Response.ResponseMaintenanceSchedule
         public string VehiclesBrandName { get; set; }
         public string VehicleModelName { get; set; }
         public string Status { get; set;}
+        public Guid MaintenancePlanId { get; set; }
+        public string MaintenancePlanName { get; set; }
     }
 }

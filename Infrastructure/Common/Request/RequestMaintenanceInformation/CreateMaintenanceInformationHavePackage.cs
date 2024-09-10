@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Common.Request.RequestMaintenanceInformation
 {
-    public class CreateMaintenanceInformation
+    public class CreateMaintenanceInformationHavePackage
     {
-        public Guid? CustomerCareId { get; set; }
-
         public string InformationMaintenanceName { get; set; }
-        public DateTime FinishedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
+        public Guid? CustomerCareId { get; set; }
+        public Guid? MaintananceScheduleId { get; set; }
     }
 }

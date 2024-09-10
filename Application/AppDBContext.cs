@@ -47,13 +47,15 @@ namespace Application
         public virtual DbSet<Transactions> Transactions { get; set; }
         public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<CenterPackages> CenterPackages { get; set; }
+        public virtual DbSet<MaintenanceVehiclesDetail> MaintenanceVehiclesDetails { get; set; }
+        public virtual DbSet<MaintenancePlan> MaintenancePlans { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db7452.public.databaseasp.net; Database=db7452; User Id=db7452; Password=5Lt%h-D4Hf2@; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer("Server=db7452.public.databaseasp.net; Database=db7452; User Id=db7452; Password=5Lt%h-D4Hf2@; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=LAPTOP-O5LECEEK; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer("Server=mssql-181059-0.cloudclusters.net,18755; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssql-182977-0.cloudclusters.net,19984; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
@@ -93,13 +95,20 @@ namespace Application
             modelBuilder.ApplyConfiguration(new PackageConfiguration());
             modelBuilder.ApplyConfiguration(new CenterPackagesConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionsConfiguration());
+            modelBuilder.ApplyConfiguration(new MaintenancePlanConfiguration());
+            modelBuilder.ApplyConfiguration(new MaintenanceVehiclesDetailConfiguration());
             #endregion
 
             var vehicleBrands = SeedingDataVehiclesBrand.Get();
             modelBuilder.Entity<VehiclesBrand>().HasData(vehicleBrands);
             var vehiclemodel = SeedingDataVehicleModel.ServiceSeedingDataVehicleModel(vehicleBrands);
             modelBuilder.Entity<VehicleModel>().HasData(vehiclemodel);
-            var schedule = SeedingDataMaintananceSchedule.Get(vehiclemodel);
+            var plan = SeedingDataMaintanancePlan.Get(vehiclemodel);
+            modelBuilder.Entity<MaintenancePlan>().HasData(plan);
+
+
+
+            var schedule = SeedingDataMaintananceSchedule.Get(plan);
             modelBuilder.Entity<MaintananceSchedule>().HasData(schedule);
 
             var spareParts = SeedingDataSparePart.GetSpareParts(vehiclemodel);
@@ -108,7 +117,7 @@ namespace Application
 
             var serviceCares = SeedingDataServicesItem.GetServicesItem(schedule);
             modelBuilder.Entity<ServiceCares>().HasData(serviceCares);
-
+            //------------------------------------------------------------------
             //var center = SeedingDataCenter.ServiceSeedingDataCenter(modelBuilder);
 
             //var sparepartitems = SeedingDataSparePartsItem.GetSparePartsItems(center, spareParts);

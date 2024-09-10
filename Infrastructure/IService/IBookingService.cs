@@ -14,19 +14,21 @@ namespace Infrastructure.IService
     public interface IBookingService
     {
         Task<List<ResponseBooking>> GetAll();
-        Task<ResponseBooking> Create(RequestBooking create);
+        //Task<ResponseBooking> Create(RequestBooking create);
         Task<ResponseBooking> CreateHaveItemsByClient(RequestBookingHaveItems create);
-        Task<ResponseBooking> CreatePackageByClient(CreateBookingPackage create);
+        //Task<ResponseBooking> CreatePackageByClient(CreateBookingPackage create);
+        Task<ResponseBooking> CreateMaintenanceByClient(CreateMaintenanceBooking create);
 
-        Task<ResponseBooking> GetById (Guid id);
+        Task<ResponseBooking> GetById(Guid id);
         Task<List<ResponseBooking>> GetListByClient();
         Task<List<ResponseBooking>> GetListByCenterAndClient(Guid centerid, Guid clientId);
-        Task<ResponseBooking> UpdateStatus(Guid bookingId,string status);
+        Task<ResponseBooking> UpdateStatus(Guid? customercareId, Guid bookingId, string status);
 
         Task<List<ResponseBooking>> GetListByCenter();
         Task<List<ResponseBooking>> GetListByCenterId(Guid id);
         Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id);
-        Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid id,int year);
+        Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid id, int year);
+        Task<List<ResponseBooking>> GetListBookingCancelledInformationAndAcceptBooking(Guid centerId);
 
     }
 }

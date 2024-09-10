@@ -10,15 +10,15 @@ namespace Application.SeedingData
 {
     public partial class SeedingDataMaintananceSchedule
     {
-        public static List<MaintananceSchedule> Get(List<VehicleModel> vehicles)
+        public static List<MaintananceSchedule> Get(List<MaintenancePlan> plans)
         {
-            var scheduleDistances = new[] { 5000, 10000, 50000 };
+            var scheduleDistances = new[] { 5000, 10000, 25000,35000 };
 
 
-            return vehicles.SelectMany(ve => scheduleDistances.Select(distance => new MaintananceSchedule
+            return plans.SelectMany(plan => scheduleDistances.Select(distance => new MaintananceSchedule
             {
                 CreateDate = DateTime.Now,
-                VehicleModelId = ve.VehicleModelId,
+                MaintenancePlanId = plan.MaintenancePlanId,
                 MaintananceScheduleName = distance,
                 MaintananceScheduleId=Guid.NewGuid(),
                 Status=EnumStatus.ACTIVE.ToString(),

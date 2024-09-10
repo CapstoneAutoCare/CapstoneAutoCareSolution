@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace Application.IRepository
 {
-    public interface IBookingRepository: IGenericRepository<Booking>
+    public interface IBookingRepository : IGenericRepository<Booking>
     {
         Task<Booking> GetById(Guid? id);
         Task<List<Booking>> GetAll();
         Task<List<Booking>> GetListByClient(Guid id);
-        Task<List<Booking>> GetListByCenterAndClient (Guid centerid, Guid clientId);
+        Task<List<Booking>> GetListByCenterAndClient(Guid centerid, Guid clientId);
         Task<List<Booking>> GetListByCenter(Guid id);
         Task<List<MonthlyBookingSummary>> GetBookingsByMonthByCenterId(Guid id);
         Task<List<MonthlyBookingSummary>> GetBookingsByMonthInYearByCenterId(Guid centerId, int year);
-        Task<Booking> GetByInforid(Guid inforid);
+        //Task<Booking> GetByInforid(Guid inforid);
+        Task<List<Booking>> GetListBookingByCancelledInformationAndBookingAccepted(Guid centerId);
 
     }
 }

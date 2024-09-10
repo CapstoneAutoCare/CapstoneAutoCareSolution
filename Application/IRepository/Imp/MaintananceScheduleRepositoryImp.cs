@@ -17,12 +17,12 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintananceSchedule>> GetAll()
         {
-            return await _context.Set<MaintananceSchedule>().Include(c => c.VehicleModel).ThenInclude(c => c.VehiclesBrand).ToListAsync();
+            return await _context.Set<MaintananceSchedule>().Include(c => c.MaintenancePlan).ThenInclude(c => c.VehicleModel).ThenInclude(c => c.VehiclesBrand).ToListAsync();
         }
 
         public async Task<MaintananceSchedule> GetByID(Guid? id)
         {
-            var maintanance_schedule = await _context.Set<MaintananceSchedule>().Include(a => a.VehicleModel).ThenInclude(c => c.VehiclesBrand)
+            var maintanance_schedule = await _context.Set<MaintananceSchedule>().Include(c => c.MaintenancePlan).ThenInclude(a => a.VehicleModel).ThenInclude(c => c.VehiclesBrand)
                 .FirstOrDefaultAsync(c => c.MaintananceScheduleId == id);
             if (maintanance_schedule == null)
             {
@@ -42,15 +42,17 @@ namespace Application.IRepository.Imp
                 .ToListAsync();
 
             var maintananceSchedules = maintenanceServices
-                .Where(ms => ms.ServiceCare != null) 
-                .Select(ms => ms.ServiceCare.MaintananceSchedule) 
+                .Where(ms => ms.ServiceCare != null)
+                .Select(ms => ms.ServiceCare.MaintananceSchedule)
                 .Distinct()
                 .ToList();
 
             return maintananceSchedules;
         }
 
-
-
+        public async Task<List<MaintananceSchedule>> GetListPackageByPlanId(Guid id)
+        {
+            return await _context.Set<MaintananceSchedule>().Include(c => c.MaintenancePlan).Where(c => c.MaintenancePlanId == id).ToListAsync();
+        }
     }
 }

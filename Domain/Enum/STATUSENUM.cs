@@ -23,7 +23,8 @@ namespace Domain.Enum
         {
             INACTIVE,
             ACCEPTED,
-            CANCELLED
+            CANCELLED,
+            CHANGEPACKAGE
         }
     }
 }

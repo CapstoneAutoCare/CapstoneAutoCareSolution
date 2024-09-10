@@ -26,7 +26,10 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceSchedules> Create(CreateMaintenanceSchedule create)
         {
             var maintanance_schedule = _mapper.Map<MaintananceSchedule>(create);
-            await _unitOfWork.VehicleModel.GetById(maintanance_schedule.VehicleModelId);
+
+
+
+            //await _unitOfWork.VehicleModel.GetById(maintanance_schedule.MaintenancePlanId);
 
             maintanance_schedule.CreateDate = DateTime.Now;
             maintanance_schedule.Status = EnumStatus.ACTIVE.ToString();
@@ -57,7 +60,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceSchedules> Update(Guid id, UpdateMaintananceSchedule update)
         {
             var item = await _unitOfWork.MaintenanceSchedule.GetByID(id);
-            await _unitOfWork.VehicleModel.GetById(item.VehicleModelId);
+            //await _unitOfWork.VehicleModel.GetById(item.VehicleModelId);
             item.Description = update.Description;
             item.MaintananceScheduleName = update.Odo;
             await _unitOfWork.MaintenanceSchedule.Update(item);

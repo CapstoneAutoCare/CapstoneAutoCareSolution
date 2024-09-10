@@ -73,7 +73,7 @@ namespace Infrastructure.IService.Imp
                     ServiceCareId = service.ServiceCareId,
                     Status = service.Status,
                     MaintenanceServiceId = Guid.NewGuid(),
-                    VehicleModelId = service.MaintananceSchedule.VehicleModelId,
+                    VehicleModelId = service.MaintananceSchedule.MaintenancePlan.VehicleModelId,
                 };
                 await _unitOfWork.MaintenanceService.Add(maintenanceService);
                 list.Add(maintenanceService);

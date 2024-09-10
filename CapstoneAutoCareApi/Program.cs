@@ -148,6 +148,13 @@ builder.Services.AddTransient<IPackageService, PackageServiceImp>();
 builder.Services.AddTransient<INotificationRepository, NotificationRepositoryImp>();
 builder.Services.AddTransient<INotificationSerivce, NotificationServiceImp>();
 
+builder.Services.AddTransient<IMaintenancePlanService, MaintenancePlanServiceImp>();
+builder.Services.AddTransient<IMaintenancePlanRepository, MaintenancePlanRepositoryImp>();
+
+builder.Services.AddTransient<IMaintenanceVehiclesDetailService, MaintenanceVehiclesDetailServiceImp>();
+builder.Services.AddTransient<IMaintenanceVehiclesDetailRepository, MaintenanceVehiclesDetailRepositoryImp>();
+
+
 builder.Services.AddScoped<ITokensHandler, TokensHandler>();
 #endregion
 

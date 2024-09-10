@@ -10,6 +10,6 @@ namespace Infrastructure.Common.Request.MaintenanceSchedule
     {
         public int MaintananceScheduleName { get; set; }
         public string Description { get; set; }
-        public Guid VehicleModelId { get; set; }
+        public Guid MaintenancePlanId { get; set; }
     }
 }

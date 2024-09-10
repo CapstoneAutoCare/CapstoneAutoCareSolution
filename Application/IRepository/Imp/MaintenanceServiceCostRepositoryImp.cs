@@ -21,6 +21,8 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceService)
                 .ThenInclude(c => c.ServiceCare)
                 .ThenInclude(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.MaintenancePlan)
+
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.MaintenanceServiceInfos)
@@ -39,6 +41,8 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceService)
                 .ThenInclude(c => c.ServiceCare)
                                 .ThenInclude(c => c.MaintananceSchedule)
+                                                .ThenInclude(c => c.MaintenancePlan)
+
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .ToListAsync();
@@ -136,6 +140,8 @@ namespace Application.IRepository.Imp
                                 .Include(c => c.MaintenanceService)
                                 .ThenInclude(c => c.ServiceCare)
                                 .ThenInclude(c => c.MaintananceSchedule)
+                                                .ThenInclude(c => c.MaintenancePlan)
+
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                                 .Include(c => c.MaintenanceServiceInfos)
@@ -157,6 +163,8 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenanceService)
                 .ThenInclude(c => c.ServiceCare)
                                 .ThenInclude(c => c.MaintananceSchedule)
+                                                .ThenInclude(c => c.MaintenancePlan)
+
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .Where(c => c.MaintenanceServiceId == id)

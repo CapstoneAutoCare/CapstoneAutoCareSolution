@@ -21,13 +21,22 @@ namespace Application.ConfigurationDB
                .HasColumnType("datetime");
             builder.Property(e => e.FinishedDate)
                 .HasColumnType("datetime");
-            builder.HasIndex(e => e.BookingId).IsUnique();
+            //builder.HasIndex(e => e.BookingId).IsUnique();
 
             builder.HasOne(d => d.CustomerCare)
                     .WithMany(d => d.InformationMaintenances)
                     .HasForeignKey(d => d.CustomerCareId)
                     .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne(d => d.Booking)
+                    .WithMany(d => d.MaintenanceInformations)
+                    .HasForeignKey(d => d.BookingId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(d => d.MaintananceSchedule)
+                    .WithMany(d => d.MaintenanceInformations)
+                    .HasForeignKey(d => d.MaintananceScheduleId)
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
