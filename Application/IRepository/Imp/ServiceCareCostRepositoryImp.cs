@@ -44,6 +44,7 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+               .ThenInclude(c=>c.MaintenancePlan)
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                 .ToListAsync();
@@ -57,6 +58,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                 .FirstOrDefaultAsync(x => x.MaintenanceServiceId.Equals(id));
@@ -76,6 +79,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                             .Where(c => c.MaintenanceCenterId == center)
@@ -90,6 +95,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                                .Where(c => c.ServiceCareId == id)
@@ -105,6 +112,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                            .Where(c => c.MaintenanceCenterId == centerId
@@ -120,6 +129,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                            .Where(c => c.MaintenanceCenterId == centerId
@@ -144,6 +155,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                            .Where(c => c.MaintenanceCenterId == centerId
@@ -159,6 +172,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                            .Where(c => c.MaintenanceCenterId == centerId
@@ -173,6 +188,8 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                            .Where(c => c.MaintenanceCenterId == centerId

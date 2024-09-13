@@ -9,7 +9,6 @@ namespace Infrastructure.Common.Request.RequestMaintenanceInformation
     public class CreateMaintenanceInformationHavePackage
     {
         public string InformationMaintenanceName { get; set; }
-        public DateTime CreatedDate { get; set; }
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
         public Guid? CustomerCareId { get; set; }

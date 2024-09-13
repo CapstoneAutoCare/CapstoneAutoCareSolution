@@ -21,6 +21,8 @@ namespace Application.IRepository.Imp
         {
             var bookings = await _context.Set<Booking>()
                 .Include(c => c.Client.Account)
+                                .Include(c => c.MaintenancePlan)
+
                 .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
                 .Include(c => c.MaintenanceCenter.Account)
                 //.Include(c => c.MaintenanceCenter.SparePartsItems)
@@ -43,6 +45,7 @@ namespace Application.IRepository.Imp
                 .Include(c => c.Client)
                 .ThenInclude(c=>c.Account)
                 .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                .Include(c=>c.MaintenancePlan)
                 .Include(c => c.MaintenanceCenter.Account)
                 .Include(c => c.MaintenanceInformations)
                 .ThenInclude(c => c.MaintenanceSparePartInfos)
@@ -65,6 +68,8 @@ namespace Application.IRepository.Imp
             return await _context.Set<Booking>()
                             .Include(c => c.Client.Account)
                             .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                                            .Include(c => c.MaintenancePlan)
+
                             .Include(c => c.MaintenanceCenter.Account)
                             .OrderByDescending(c => c.CreatedDate)
                             .Where(c => c.MaintenanceCenterId == id).ToListAsync();
@@ -76,6 +81,8 @@ namespace Application.IRepository.Imp
                             .Include(c => c.Client.Account)
                             .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
                             .Include(c => c.MaintenanceCenter.Account)
+                                            .Include(c => c.MaintenancePlan)
+
                             //.Include(c => c.MaintenanceInformation)
                             //.ThenInclude(c => c.MaintenanceSparePartInfos)
                             //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
@@ -107,6 +114,8 @@ namespace Application.IRepository.Imp
                             .Include(c => c.Client.Account)
                             .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
                             .Include(c => c.MaintenanceCenter.Account)
+                                            .Include(c => c.MaintenancePlan)
+
                             //.Include(c => c.MaintenanceInformation)
                             //.ThenInclude(c => c.MaintenanceSparePartInfos)
                             //.Include(c => c.MaintenanceInformation.MaintenanceServiceInfos)
@@ -121,6 +130,8 @@ namespace Application.IRepository.Imp
             var bookings = await _context.Set<Booking>()
                               .Include(c => c.Client.Account)
                               .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+                                              .Include(c => c.MaintenancePlan)
+
                               .Include(c => c.MaintenanceCenter.Account)
                               .Where(c => c.MaintenanceCenterId == centerId && c.BookingDate.Year == year)
                               .ToListAsync();
@@ -141,27 +152,30 @@ namespace Application.IRepository.Imp
 
         public async Task<List<Booking>> GetListBookingByCancelledInformationAndBookingAccepted(Guid centerId)
         {
-            var informationList = await _context.Set<MaintenanceInformation>().Where(c=>c.Booking.MaintenanceCenterId==centerId 
-            && c.Status==STATUSENUM.STATUSBOOKING.CANCELLED.ToString())
-                .Select(c=>c.BookingId)
-                .ToListAsync();
+            var bookingList = await _context.Set<Booking>()
+                                .Include(c => c.MaintenancePlan)
 
-            var bookinglist = await _context.Set<Booking>()
-                .Include(c => c.Client)
-                .ThenInclude(c => c.Account)
-                .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
-                .Include(c => c.MaintenanceCenter.Account)
-                .Include(c => c.MaintenanceInformations)
-                .ThenInclude(c => c.MaintenanceSparePartInfos)
-                .ThenInclude(c => c.SparePartsItemCost)
-                .Include(c => c.MaintenanceInformations)
-                .ThenInclude(c => c.MaintenanceServiceInfos)
-                .ThenInclude(c => c.MaintenanceServiceCost)
-                 .Where(b => b.MaintenanceCenterId == centerId  && b.Status== STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()
-                 && informationList.Contains(b.BookingId))
-                 .ToListAsync();
+        .Include(c => c.Client)
+        .ThenInclude(c => c.Account)
+        .Include(c => c.Vehicles.VehicleModel.VehiclesBrand)
+        .Include(c => c.MaintenanceCenter.Account)
+        .Include(c => c.MaintenanceInformations)
+        .ThenInclude(c => c.MaintenanceSparePartInfos)
+        .ThenInclude(c => c.SparePartsItemCost)
+        .Include(c => c.MaintenanceInformations)
+        .ThenInclude(c => c.MaintenanceServiceInfos)
+        .ThenInclude(c => c.MaintenanceServiceCost)
+        .Where(b => b.MaintenanceCenterId == centerId && b.Status == STATUSENUM.STATUSBOOKING.ACCEPTED.ToString()
+            && (
+                // Kiểm tra nếu không có MaintenanceInformation nào
+                !b.MaintenanceInformations.Any() ||
+                // Hoặc có ít nhất một MaintenanceInformation với trạng thái CANCELLED
+                b.MaintenanceInformations.All(mi => mi.Status == STATUSENUM.STATUSBOOKING.CANCELLED.ToString())
+            ))
+        .ToListAsync();
 
-            return bookinglist;
+            return bookingList;
+
 
         }
 

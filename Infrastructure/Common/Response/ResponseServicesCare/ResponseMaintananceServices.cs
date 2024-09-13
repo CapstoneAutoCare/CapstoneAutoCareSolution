@@ -26,6 +26,7 @@ namespace Infrastructure.Common.Response.ResponseServicesCare
         public Guid MaintananceScheduleId { get; set; }
         public int MaintananceScheduleName { get; set; }
 
-
+        public Guid MaintenancePlanId { get; set; }
+        public string MaintenancePlanName { get; set; }
     }
 }

@@ -22,6 +22,9 @@ namespace Infrastructure.Common.Response.ResponseBooking
         public Guid ClientId { get; set; }
         public Guid VehicleId { get; set; }
         public Guid MaintenanceCenterId { get; set; }
+        public Guid? MaintenancePlanId { get; set; }
+        public string MaintenancePlanName { get; set; }
+
         public List<ResponseMaintenanceInformation> ResponseMaintenanceInformation { get; set; }
         public ResponseVehicles ResponseVehicles {  get; set; }
         public ResponseCenter ResponseCenter { get; set; }

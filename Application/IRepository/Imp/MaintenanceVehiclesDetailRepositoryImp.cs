@@ -27,6 +27,8 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c=>c.MaintenancePlan)
                  .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
+                                                   .OrderBy(c => c.MaintananceSchedule.MaintananceScheduleName)
+
                 .ToListAsync();
         }
 
@@ -45,7 +47,9 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenancePlan)
                  .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
-                           .Where(c => c.VehiclesId == id).ToListAsync();
+                           .Where(c => c.VehiclesId == id)
+                                   .OrderBy(c => c.MaintananceSchedule.MaintananceScheduleName).
+ToListAsync();
         }
     }
 }

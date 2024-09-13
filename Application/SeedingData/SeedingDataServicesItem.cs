@@ -15,8 +15,8 @@ namespace Application.SeedingData
             var servicesItemName = new[] {
                 "Vệ sinh thổi bụi khoang máy",
                 "Thay nhớt máy",
-                "Vệ sinh lọc gió động cơ" ,
-                "Vệ sinh lọc gió điều hòa" ,
+                //"Vệ sinh lọc gió động cơ" ,
+                //"Vệ sinh lọc gió điều hòa" ,
                 //"Vệ sinh bộ lọc không khí" ,
                 //"Vệ sinh lốp và bánh xe" ,
                 //"Bảo trì và kiểm tra hệ thống điều hòa" ,
@@ -32,8 +32,8 @@ namespace Application.SeedingData
             var servicesItemDescription = new[] {
                 "Vệ sinh thổi bụi khoang máy",
                 "Thay nhớt máy",
-                "Vệ sinh lọc gió động cơ",
-                "Vệ sinh lọc gió điều hòa",
+                //"Vệ sinh lọc gió động cơ",
+                //"Vệ sinh lọc gió điều hòa",
             };
             var services = new List<ServiceCares>();
             foreach (var schedule in maintananceSchedules)

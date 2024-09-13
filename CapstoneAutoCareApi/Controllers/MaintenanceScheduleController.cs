@@ -27,6 +27,17 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceScheduleService.GetListPackageCenterId(id));
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintenanceSchedules>>> GetListPlanIdAndPackageCenterId(Guid planId, Guid id)
+        {
+            return Ok(await _maintenanceScheduleService.GetListPlanIdAndPackageCenterId(planId, id));
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintenanceSchedules>>> GetListPlanIdAndPackageCenterIdBookingId(Guid planId, Guid id, Guid bookingId)
+        {
+            return Ok(await _maintenanceScheduleService.GetListPlanIdAndPackageCenterIdBookingId(planId, id, bookingId));
+        }
         [HttpGet]
         public async Task<IActionResult> GetById(Guid id)
         {

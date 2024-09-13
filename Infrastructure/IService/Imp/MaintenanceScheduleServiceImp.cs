@@ -39,7 +39,7 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<ResponseMaintenanceSchedules>(maintanance_schedule);
         }
 
-        
+
 
         public async Task<List<ResponseMaintenanceSchedules>> GetAll()
         {
@@ -55,6 +55,16 @@ namespace Infrastructure.IService.Imp
         public async Task<List<ResponseMaintenanceSchedules>> GetListPackageCenterId(Guid id)
         {
             return _mapper.Map<List<ResponseMaintenanceSchedules>>(await _unitOfWork.MaintenanceSchedule.GetListPackageByCenterId(id));
+        }
+
+        public async Task<List<ResponseMaintenanceSchedules>> GetListPlanIdAndPackageCenterId(Guid planId, Guid id)
+        {
+            return _mapper.Map<List<ResponseMaintenanceSchedules>>(await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndPackageCenterId(planId, id));
+        }
+
+        public async Task<List<ResponseMaintenanceSchedules>> GetListPlanIdAndPackageCenterIdBookingId(Guid planId, Guid id, Guid bookingId)
+        {
+            return _mapper.Map<List<ResponseMaintenanceSchedules>>(await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndPackageCenterIdBookingId(planId, id, bookingId));
         }
 
         public async Task<ResponseMaintenanceSchedules> Update(Guid id, UpdateMaintananceSchedule update)

@@ -396,6 +396,7 @@ namespace Infrastructure.IService.Imp
             mi.Status = EnumStatus.CHECKIN.ToString();
             mi.CreatedDate = DateTime.Now;
             mi.FinishedDate = null;
+
             await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
             var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);

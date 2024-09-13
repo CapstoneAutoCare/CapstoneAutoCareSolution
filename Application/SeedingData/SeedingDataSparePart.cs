@@ -16,11 +16,11 @@ namespace Application.SeedingData
             var sparePartsName = new[] {
                 "Lọc Dầu",
                 "Lọc Gió Điều Hòa",
-                "Lọc Gió Động Cơ",
-                "Bu Lông",
-                "Má Phanh" ,
-                "Hộp số" ,
-                "Xịt Rỉ Bôi Trơn" ,
+                //"Lọc Gió Động Cơ",
+                //"Bu Lông",
+                //"Má Phanh" ,
+                //"Hộp số" ,
+                //"Xịt Rỉ Bôi Trơn" ,
 
             };
             var spareParts = new List<SpareParts>();
