@@ -11,6 +11,8 @@ namespace Infrastructure.Common.Response.ResponseMVD
 {
     public class ResponseMaintenanceVehicleDetail
     {
+        public Guid MaintenanceVehiclesDetailId { get; set; }
+
         public DateTime DateTime { get; set; }
         public string Status { get; set; }
         public ResponseVehicles ResponseVehicles { get; set; }

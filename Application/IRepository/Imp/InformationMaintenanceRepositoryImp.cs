@@ -166,7 +166,7 @@ namespace Application.IRepository.Imp
         public async Task<List<MonthlyBookingSummary>> GetInforPAIDByMonthInYearByCenterId(Guid centerId, int year)
         {
             var bookings = await _context.Set<MaintenanceInformation>()
-                              .Where(m => m.Booking.BookingDate.Year == year && m.Booking.MaintenanceCenterId == centerId && m.Status=="PAID")
+                              .Where(m => m.Booking.BookingDate.Year == year && m.Booking.MaintenanceCenterId == centerId && m.Status == "PAID")
                                 .GroupBy(m => new { m.Booking.BookingDate.Month, m.Booking.BookingDate.Year })
                                               .ToListAsync();
 
@@ -186,8 +186,8 @@ namespace Application.IRepository.Imp
         public async Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year, Guid id)
         {
             var monthlyRevenues = await _context.Receipts
-                .Include(c=>c.InformationMaintenance)
-                .ThenInclude(c=>c.Booking)
+                .Include(c => c.InformationMaintenance)
+                .ThenInclude(c => c.Booking)
                 .Where(m => m.InformationMaintenance.Booking.BookingDate.Year == year && m.InformationMaintenance.Booking.MaintenanceCenterId == id && m.InformationMaintenance.Status == "PAID")
                 .GroupBy(m => new { m.InformationMaintenance.Booking.BookingDate.Month, m.InformationMaintenance.Booking.BookingDate.Year })
                 .Select(g => new
@@ -224,6 +224,44 @@ namespace Application.IRepository.Imp
                                .Include(c => c.MaintenanceServiceInfos)
                                .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
                                .Where(c => c.BookingId == id).ToListAsync();
+        }
+
+        public async Task<MaintenanceInformation> GetByBookingIdAndScheduleId(Guid id, Guid scheduleId, Guid vehicleId)
+        {
+            var main = await _context.Set<MaintenanceInformation>()
+                               .Include(c => c.Booking)
+                               .ThenInclude(c => c.Vehicles)
+                               .ThenInclude(c => c.VehicleModel)
+                              .ThenInclude(c => c.VehiclesBrand)
+                               .Include(c => c.OdoHistory)
+                               .Include(c => c.CustomerCare)
+                               .Include(c => c.MaintenanceSparePartInfos)
+                               .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                               .Include(c => c.MaintenanceHistoryStatuses)
+                               .Include(c => c.MaintenanceServiceInfos)
+                               .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
+                               .FirstOrDefaultAsync(c => c.BookingId == id && c.MaintenanceVehiclesDetail.MaintananceScheduleId == scheduleId && c.MaintenanceVehiclesDetail.VehiclesId == vehicleId);
+            if (main == null) { throw new Exception("Khong tim thay"); }
+            return main;
+        }
+
+        public async Task<MaintenanceInformation> GetByMVDId(Guid id)
+        {
+            var main = await _context.Set<MaintenanceInformation>()
+                              .Include(c => c.Booking)
+                              .ThenInclude(c => c.Vehicles)
+                              .ThenInclude(c => c.VehicleModel)
+                             .ThenInclude(c => c.VehiclesBrand)
+                              .Include(c => c.OdoHistory)
+                              .Include(c => c.CustomerCare)
+                              .Include(c => c.MaintenanceSparePartInfos)
+                              .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                              .Include(c => c.MaintenanceHistoryStatuses)
+                              .Include(c => c.MaintenanceServiceInfos)
+                              .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
+                              .FirstOrDefaultAsync(c => c.MaintenanceVehiclesDetailId == id);
+            if (main == null) { throw new Exception("Khong tim thay"); }
+            return main;
         }
     }
 }

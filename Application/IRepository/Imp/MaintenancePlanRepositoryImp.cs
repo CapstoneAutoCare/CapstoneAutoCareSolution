@@ -37,21 +37,19 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintenancePlan>> GetListCenterId(Guid id)
         {
-            
-
-
-
-
+            //var mcservice = await _context.Set<MaintenanceService>().Where(c=>c.MaintenanceCenterId == id)
+            //    .Select(c=>c.ServiceCare.MaintananceSchedule.MaintenancePlanId)
+            //    .ToListAsync();
 
 
             var plan = await _context.Set<MaintenancePlan>()
                 .Include(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.MaintenanceSchedules)
-                .ThenInclude(ms => ms.MaintenanceVehiclesDetails) // Include the MaintenanceVehiclesDetails
+                .ThenInclude(ms => ms.MaintenanceVehiclesDetails) 
                 .Where(mp => mp.MaintenanceSchedules
-                    .Any(ms => ms.MaintenanceVehiclesDetails
-                        .Any(mvd => mvd.MaintenanceCenterId == id))) // Use Any instead of Select
+                    .Any(ms => ms.ServiceCares
+                        .Any(mvd => mvd.MaintenanceServices.Any(c=>c.MaintenanceCenterId == id))))
                 .ToListAsync();
 
             return plan;

@@ -15,13 +15,14 @@ namespace Application.IRepository
         Task<List<MaintenanceInformation>> GetAll();
         Task<List<MaintenanceInformation>> GetListByClient(Guid id);
         Task<List<MaintenanceInformation>> GetListByCenter(Guid id);
+        Task<MaintenanceInformation> GetByBookingIdAndScheduleId(Guid id, Guid scheduleId, Guid vehicleId);
         Task<(List<MaintenanceInformation> Costs, float TotalCost, int Count)> TotalGetListByCenter(Guid id);
         Task<List<MaintenanceInformation>> GetListByCenterAndStatus(Guid id, string status);
         Task<List<MaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
         Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year,Guid id);
         Task<List<MonthlyBookingSummary>> GetInforPAIDByMonthInYearByCenterId(Guid centerId, int year);
 
-
+        Task<MaintenanceInformation>GetByMVDId(Guid id);
         Task<MaintenanceInformation> GetByBookingId(Guid id);
         Task<List<MaintenanceInformation>> GetListByBookingId(Guid id);
     }

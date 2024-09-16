@@ -1,6 +1,6 @@
 ﻿using Azure;
 using Infrastructure.Common.Request.MaintenancePlan;
-using Infrastructure.Common.Response.ResponseMaintenancePlan;
+using Infrastructure.Common.Response.MaintenancePlanResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;

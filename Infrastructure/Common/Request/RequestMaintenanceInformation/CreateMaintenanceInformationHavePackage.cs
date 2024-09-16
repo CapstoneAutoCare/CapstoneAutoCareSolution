@@ -12,6 +12,6 @@ namespace Infrastructure.Common.Request.RequestMaintenanceInformation
         public string Note { get; set; }
         public Guid? BookingId { get; set; }
         public Guid? CustomerCareId { get; set; }
-        public Guid? MaintananceScheduleId { get; set; }
+        public Guid? MaintenanceVehiclesDetailId { get; set; }
     }
 }

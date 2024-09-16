@@ -12,7 +12,6 @@ namespace Domain.Entities
     {
         public MaintananceSchedule()
         {
-            MaintenanceInformations = new HashSet<MaintenanceInformation>();
             ServiceCares = new HashSet<ServiceCares>();
             MaintenanceVehiclesDetails = new HashSet<MaintenanceVehiclesDetail>();
 
@@ -26,7 +25,6 @@ namespace Domain.Entities
         public string Status { get; set; }
         public Guid MaintenancePlanId { get; set; }
         public MaintenancePlan MaintenancePlan { get; set; }
-        public ICollection<MaintenanceInformation> MaintenanceInformations { get; set; }
         public ICollection<ServiceCares> ServiceCares { get; set; }
         public ICollection<MaintenanceVehiclesDetail> MaintenanceVehiclesDetails { get; set; }
     }

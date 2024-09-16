@@ -35,7 +35,7 @@ using Infrastructure.Common.Response.ResponseCustomerCare;
 using Infrastructure.Common.Response.ResponseFb;
 using Infrastructure.Common.Response.ResponseHistoryStatus;
 using Infrastructure.Common.Response.ResponseMainInformation;
-using Infrastructure.Common.Response.ResponseMaintenancePlan;
+using Infrastructure.Common.Response.MaintenancePlanResponse;
 using Infrastructure.Common.Response.ResponseMaintenanceSchedule;
 using Infrastructure.Common.Response.ResponseMaintenanceService;
 using Infrastructure.Common.Response.ResponseMaintenanceSparePart;
@@ -588,19 +588,6 @@ namespace Infrastructure.Common.Mapper
 
             CreateMap<Notification, ResponseNotification>()
                .ReverseMap();
-            CreateMap<CreatePackage, Package>()
-              .ReverseMap();
-            CreateMap<CreateCenterPackage, CenterPackages>()
-             .ReverseMap();
-            CreateMap<CreateTransaction, Transactions>()
-             .ReverseMap();
-            CreateMap<Package, ResponsePackage>()
-             .ReverseMap();
-            CreateMap<CenterPackages, ResponseCenterPackage>()
-             .ReverseMap();
-            CreateMap<Transactions, ResponseTransaction>()
-             .ReverseMap();
-
 
 
 

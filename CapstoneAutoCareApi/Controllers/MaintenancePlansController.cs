@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Application;
 using Domain.Entities;
-using Infrastructure.Common.Response.ResponseMaintenancePlan;
+using Infrastructure.Common.Response.MaintenancePlanResponse;
 using Infrastructure.Common.Request.MaintenancePlan;
 using Infrastructure.IService;
 

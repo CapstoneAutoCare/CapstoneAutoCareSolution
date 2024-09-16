@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Common.Response.ResponseMaintenancePlan
+namespace Infrastructure.Common.Response.MaintenancePlanResponse
 {
     public class ResponseMaintenancePlan
     {

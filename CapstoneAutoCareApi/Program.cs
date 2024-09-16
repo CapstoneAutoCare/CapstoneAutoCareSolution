@@ -139,11 +139,6 @@ builder.Services.AddTransient<IMaintenanceTaskSparePartInfoService, MaintenanceT
 builder.Services.AddTransient<ITransactionRepository, TransactionRepositoryImp>();
 builder.Services.AddTransient<ITransactionService, TransactionServiceImp>();
 
-builder.Services.AddTransient<IPackageCenterRepository, PackageCenterRepositoryImp>();
-builder.Services.AddTransient<IPackageCenterService, PackageCenterServiceImp>();
-
-builder.Services.AddTransient<IPackageRepository, PackageRepositoryImp>();
-builder.Services.AddTransient<IPackageService, PackageServiceImp>();
 
 builder.Services.AddTransient<INotificationRepository, NotificationRepositoryImp>();
 builder.Services.AddTransient<INotificationSerivce, NotificationServiceImp>();

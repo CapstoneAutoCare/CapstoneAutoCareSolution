@@ -13,13 +13,11 @@ namespace Application.ConfigurationDB
     {
         public void Configure(EntityTypeBuilder<MaintenanceVehiclesDetail> builder)
         {
-            builder.HasKey(c => new
-            {
-                c.MaintananceScheduleId,
-                c.VehiclesId,
-                c.MaintenanceCenterId
-            });
-
+            builder.HasKey(c => c.MaintenanceVehiclesDetailId);
+            builder.Property(e => e.MaintenanceVehiclesDetailId)
+                    .ValueGeneratedOnAdd();
+            builder.HasIndex(e => new { e.VehiclesId, e.MaintananceScheduleId, e.MaintenanceCenterId })
+           .IsUnique();
             builder.HasOne(d => d.Vehicle)
                     .WithMany(d => d.MaintenanceVehiclesDetails)
                     .HasForeignKey(d => d.VehiclesId)

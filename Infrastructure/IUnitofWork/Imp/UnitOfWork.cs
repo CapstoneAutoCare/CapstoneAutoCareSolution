@@ -42,8 +42,6 @@ namespace Infrastructure.IUnitofWork.Imp
         private readonly ISparePartsItemCostRepository _SparePartsItemCost;
         private readonly IMaintenanceTaskServiceInfoRepository _maintenanceTaskServiceInfoRepository;
         private readonly IMaintenanceTaskSparePartInfoRepository _maintenanceTaskSparePartInfoRepository;
-        private readonly IPackageRepository _packageRepository;
-        private readonly IPackageCenterRepository _packageCenterRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly IMaintenancePlanRepository _maintenancePlanRepository;
@@ -80,8 +78,6 @@ namespace Infrastructure.IUnitofWork.Imp
             _maintenanceTaskSparePartInfoRepository = new MaintenanceTaskSparePartInfoRepositoryImp(_context);
             _VehiclesMaintenance = new VehiclesMaintenanceRepositoryImp(_context);
             _notificationRepository = new NotificationRepositoryImp(_context);
-            _packageCenterRepository = new PackageCenterRepositoryImp(_context);
-            _packageRepository = new PackageRepositoryImp(_context);
             _transactionRepository = new TransactionRepositoryImp(_context);
             _maintenanceVehiclesDetailRepository = new MaintenanceVehiclesDetailRepositoryImp(_context);
             _maintenancePlanRepository = new MaintenancePlanRepositoryImp(_context);
@@ -147,10 +143,6 @@ namespace Infrastructure.IUnitofWork.Imp
         public INotificationRepository NotificationRepository => _notificationRepository;
 
         public ITransactionRepository TransactionRepository => _transactionRepository;
-
-        public IPackageRepository PackageRepository => _packageRepository;
-
-        public IPackageCenterRepository PackageCenterRepository => _packageCenterRepository;
 
         public IMaintenanceVehiclesDetailRepository MaintenanceVehiclesDetailRepository => _maintenanceVehiclesDetailRepository;
 

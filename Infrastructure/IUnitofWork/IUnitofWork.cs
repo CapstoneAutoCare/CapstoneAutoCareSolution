@@ -39,8 +39,6 @@ namespace Infrastructure.IUnitofWork
         IMaintenanceTaskSparePartInfoRepository MaintenanceTaskSparePartInfo { get; }
         INotificationRepository NotificationRepository { get; }
         ITransactionRepository TransactionRepository { get; }
-        IPackageRepository PackageRepository { get; }
-        IPackageCenterRepository PackageCenterRepository { get; }
         IMaintenanceVehiclesDetailRepository MaintenanceVehiclesDetailRepository { get; }
         IMaintenancePlanRepository MaintenancePlanRepository { get; }
         Task Commit();

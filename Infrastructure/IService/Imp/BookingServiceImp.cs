@@ -191,7 +191,7 @@ namespace Infrastructure.IService.Imp
             booking.Status = "WAITING";
             booking.CreatedDate = DateTime.Now;
             var checkpackageVehicle = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetListByVehicleId(booking.VehicleId);
-            if (!checkpackageVehicle.All(c => c.MaintananceSchedule.MaintenancePlanId == booking.MaintenancePlanId))
+            if (!checkpackageVehicle.Any(c => c.MaintananceSchedule.MaintenancePlanId == booking.MaintenancePlanId))
             {
                 throw new Exception("Xe này chưa có mua gói");
             }

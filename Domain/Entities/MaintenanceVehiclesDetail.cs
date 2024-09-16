@@ -11,7 +11,10 @@ namespace Domain.Entities
     {
         public MaintenanceVehiclesDetail()
         {
+            MaintenanceInformations = new HashSet<MaintenanceInformation>();
         }
+        [Key]
+        public Guid MaintenanceVehiclesDetailId { get; set; }
 
         public Guid MaintananceScheduleId { get; set; }
         public Guid VehiclesId { get; set; }
@@ -22,5 +25,6 @@ namespace Domain.Entities
         public MaintananceSchedule MaintananceSchedule { get; set; }
         public MaintenanceCenter MaintenanceCenter { get; set; }
         public Vehicles Vehicle { get; set; }
+        public ICollection<MaintenanceInformation> MaintenanceInformations { get; set; }
     }
 }

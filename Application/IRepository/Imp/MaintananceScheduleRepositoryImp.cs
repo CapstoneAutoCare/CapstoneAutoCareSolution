@@ -21,12 +21,15 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenancePlan)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
+                .OrderBy(c=>c.MaintananceScheduleName)
                 .ToListAsync();
         }
 
         public async Task<MaintananceSchedule> GetByID(Guid? id)
         {
             var maintanance_schedule = await _context.Set<MaintananceSchedule>().Include(c => c.MaintenancePlan).ThenInclude(a => a.VehicleModel).ThenInclude(c => c.VehiclesBrand)
+                                .OrderBy(c => c.MaintananceScheduleName)
+
                 .FirstOrDefaultAsync(c => c.MaintananceScheduleId == id);
             if (maintanance_schedule == null)
             {
@@ -44,6 +47,7 @@ namespace Application.IRepository.Imp
                     .ThenInclude(sc => sc.MaintananceSchedule)
                     .ThenInclude(c => c.MaintenancePlan)
                 .Where(ms => ms.MaintenanceCenterId == id)
+
                 .ToListAsync();
 
             var maintananceSchedules = maintenanceServices
@@ -60,13 +64,16 @@ namespace Application.IRepository.Imp
 
         public async Task<List<MaintananceSchedule>> GetListPackageByPlanId(Guid id)
         {
-            return await _context.Set<MaintananceSchedule>().Include(c => c.MaintenancePlan).Where(c => c.MaintenancePlanId == id).ToListAsync();
+            return await _context.Set<MaintananceSchedule>().Include(c => c.MaintenancePlan).Where(c => c.MaintenancePlanId == id)
+                                .OrderBy(c => c.MaintananceScheduleName)
+
+                .ToListAsync();
         }
 
         public async Task<List<MaintananceSchedule>> GetListPlanIdAndPackageCenterId(Guid planid, Guid id)
         {
             var existingSchedules = await _context.Set<MaintenanceInformation>()
-        .Select(mi => mi.MaintananceScheduleId)
+        .Select(mi => mi.MaintenanceVehiclesDetail.MaintananceScheduleId)
         .ToListAsync();
 
             var maintenanceServices = await _context.Set<MaintenanceService>()
@@ -75,7 +82,7 @@ namespace Application.IRepository.Imp
                 .Include(ms => ms.ServiceCare)
                     .ThenInclude(sc => sc.MaintananceSchedule)
                     .ThenInclude(c => c.MaintenancePlan)
-                            .Include(ms => ms.ServiceCare.MaintananceSchedule.MaintenanceVehiclesDetails) // Bao gồm MaintenanceVehiclesDetails
+                            .Include(ms => ms.ServiceCare.MaintananceSchedule.MaintenanceVehiclesDetails) 
 
                 .Where(ms => ms.MaintenanceCenterId == id && ms.ServiceCare.MaintananceSchedule.MaintenancePlanId == planid)
                 .ToListAsync();
@@ -94,7 +101,7 @@ namespace Application.IRepository.Imp
         {
             var existingSchedules = await _context.Set<MaintenanceInformation>()
                 .Where(c => c.BookingId == bookingId)
-       .Select(mi => mi.MaintananceScheduleId)
+       .Select(mi => mi.MaintenanceVehiclesDetail.MaintananceScheduleId)
        .ToListAsync();
 
             var maintenanceServices = await _context.Set<MaintenanceService>()
@@ -118,5 +125,7 @@ namespace Application.IRepository.Imp
 
             return maintananceSchedules;
         }
+
+       
     }
 }

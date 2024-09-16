@@ -51,6 +51,11 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.GetListByClient());
         }
         [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetByBookingIdAndScheduleIdAndVehicleId(Guid bookingId, Guid scheduleId, Guid vehicleId)
+        {
+            return Ok(await _maintenanceInformationService.GetByBookingIdAndScheduleIdAndVehicleId(bookingId, scheduleId, vehicleId));
+        }
+        [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByCenter()
         {
@@ -63,7 +68,12 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.GetListByCenterId(id));
         }
         [HttpGet]
-        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListGetMonthlyRevenueByCenterId(Guid id,int year)
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetByMvd(Guid id)
+        {
+            return Ok(await _maintenanceInformationService.GetByMVDId(id));
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListGetMonthlyRevenueByCenterId(Guid id, int year)
         {
             return Ok(await _maintenanceInformationService.GetMonthlyRevenue(year, id));
         }
@@ -84,7 +94,7 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceInformationService.GetListByCenterAndStatusCheckinAndTaskInactive(centerId));
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)
         {
@@ -103,7 +113,7 @@ namespace CapstoneAutoCareApi.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult<ResponseMaintenanceInformation>> CHANGESTATUS(Guid id, string  status)
+        public async Task<ActionResult<ResponseMaintenanceInformation>> CHANGESTATUS(Guid id, string status)
         {
             return Ok(await _maintenanceInformationService.ChangeStatus(id, status));
         }

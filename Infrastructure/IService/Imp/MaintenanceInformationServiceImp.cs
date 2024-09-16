@@ -400,8 +400,11 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             var booking = await _unitOfWork.Booking.GetById(mi.BookingId);
             var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+            var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(mi.MaintenanceVehiclesDetailId);
+
             var listservice = await _unitOfWork.MaintenanceService
-                .GetListPackageByOdoAndCenterIdAndVehicleId(booking.MaintenanceCenterId, mi.MaintananceScheduleId, vehicle.VehicleModelId);
+                .GetListPackageByOdoAndCenterIdAndVehicleId(booking.MaintenanceCenterId, mvd.MaintananceScheduleId, vehicle.VehicleModelId);
+
             await _unitOfWork.InformationMaintenance.Add(mi);
             foreach (var itemcost in listservice)
             {
@@ -432,6 +435,16 @@ namespace Infrastructure.IService.Imp
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseMaintenanceInformation>(mi);
 
+        }
+
+        public async Task<ResponseMaintenanceInformation> GetByBookingIdAndScheduleIdAndVehicleId(Guid booking, Guid schedule, Guid vehicleId)
+        {
+            return _mapper.Map<ResponseMaintenanceInformation>(await _unitOfWork.InformationMaintenance.GetByBookingIdAndScheduleId(booking, schedule, vehicleId));
+        }
+
+        public async Task<ResponseMaintenanceInformation> GetByMVDId(Guid id)
+        {
+            return _mapper.Map<ResponseMaintenanceInformation>(await _unitOfWork.InformationMaintenance.GetByMVDId(id));
         }
 
         //public async Task<ResponseMaintenanceInformation> CreateHavePackage(CreateMaintenanceInformationHavePackage create)

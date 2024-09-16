@@ -22,6 +22,7 @@ namespace Infrastructure.IService
         Task<ResponseMaintenanceInformation> Create(CreateMaintenanceInformation create);
         Task<ResponseMaintenanceInformation> CreateHaveItems(CreateMaintenanceInformationHaveItems create);
         //Task<ResponseMaintenanceInformation> CreateHavePackage(CreateMaintenanceInformationHavePackage create);
+        Task<ResponseMaintenanceInformation> GetByBookingIdAndScheduleIdAndVehicleId(Guid booking, Guid schedule, Guid vehicleId);
         Task<ResponseMaintenanceInformation> CreateMaintenance(CreateMaintenanceInformationHavePackage create);
         Task<List<ResponseMaintenanceInformation>> GetAll();
         Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
@@ -29,7 +30,7 @@ namespace Infrastructure.IService
         Task<ResponseMaintenanceInformation> ChangeStatusBackUp (Guid id, string status);
         Task<List<MonthlyRevenue>> GetMonthlyRevenue(int year, Guid id);
         Task<List<MonthlyBookingSummary>> GetMonthlyRevenuePAID(int year, Guid id);
-
+        Task<ResponseMaintenanceInformation> GetByMVDId(Guid id);
         Task Remove (Guid id);
     }
 }

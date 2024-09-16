@@ -12,11 +12,18 @@ namespace Domain.Entities
         public Transactions() { }
         [Key]
         public Guid TransactionsId { get; set; }
-        public Guid CenterPackagesId { get; set; }
+        public Guid MaintenanceCenterId { get; set; }
+        public Guid MaintenancePlanId { get; set; }
+        public Guid VehiclesId { get; set; }
         public DateTime TransactionDate { get; set; }
+        public int VAT { get; set; }
+        public string Description { get; set; }
+
         public float Amount { get; set; }
         public string PaymentMethod { get; set; }
-        public string Status{ get; set; }
-        public CenterPackages CenterPackages { get; set; }
+        public string Status { get; set; }
+        public MaintenanceCenter MaintenanceCenter { get; set; }
+        public MaintenancePlan MaintenancePlan { get; set; }
+        public Vehicles Vehicles { get; set; }
     }
 }

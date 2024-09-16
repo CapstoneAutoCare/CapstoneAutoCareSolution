@@ -12,5 +12,8 @@ namespace Application.IRepository
     {
         Task<List<MaintenanceVehiclesDetail>> GetAll();
         Task<List<MaintenanceVehiclesDetail>> GetListByVehicleId(Guid id);
+        Task<MaintenanceVehiclesDetail> GetById(Guid? id);
+        Task<MaintenanceVehiclesDetail> CheckNotMatch(Guid vehicle, Guid odo, Guid center);
+        Task<List<MaintenanceVehiclesDetail>> GetListByPlanAndVehicleAndCenter(Guid plan, Guid vehicle, Guid center);
     }
 }

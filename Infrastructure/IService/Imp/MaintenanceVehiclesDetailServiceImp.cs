@@ -29,12 +29,20 @@ namespace Infrastructure.IService.Imp
         {
             var plan = await _unitOfWork.MaintenancePlanRepository.GetById(createMainVehicle.MaintanancePlanId);
             var veid = await _unitOfWork.Vehicles.GetById(createMainVehicle.VehiclesId);
-            var list = await _unitOfWork.MaintenanceSchedule.GetListPackageByPlanId(plan.MaintenancePlanId);
+            var mc = await _unitOfWork.MaintenanceCenter.GetById(createMainVehicle.MaintenanceCenterId);
+            var list = await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndPackageCenterId(plan.MaintenancePlanId, mc.MaintenanceCenterId);
             List<MaintenanceVehiclesDetail> mvds = new List<MaintenanceVehiclesDetail>();
             foreach (var mvd in list)
             {
+                var check = await _unitOfWork.MaintenanceVehiclesDetailRepository
+                    .CheckNotMatch(veid.VehiclesId, mvd.MaintananceScheduleId, mc.MaintenanceCenterId);
+                if (check != null)
+                {
+                    throw new Exception("Khong the thhem");
+                }
                 MaintenanceVehiclesDetail v = new MaintenanceVehiclesDetail
                 {
+                    MaintenanceVehiclesDetailId = Guid.NewGuid(),
                     DateTime = DateTime.Now,
                     Status = mvd.Status,
                     VehiclesId = veid.VehiclesId,
@@ -51,6 +59,16 @@ namespace Infrastructure.IService.Imp
         public async Task<List<ResponseMaintenanceVehicleDetail>> GetAll()
         {
             return _mapper.Map<List<ResponseMaintenanceVehicleDetail>>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetAll());
+        }
+
+        public async Task<ResponseMaintenanceVehicleDetail> GetById(Guid? id)
+        {
+            return _mapper.Map<ResponseMaintenanceVehicleDetail>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(id));
+        }
+
+        public async Task<List<ResponseMaintenanceVehicleDetail>> GetListByPlanAndVehicleAndCenter(Guid planId, Guid vehicle, Guid center)
+        {
+            return _mapper.Map<List<ResponseMaintenanceVehicleDetail>>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetListByPlanAndVehicleAndCenter(planId, vehicle, center));
         }
 
         public async Task<List<ResponseMaintenanceVehicleDetail>> GetListByVehicleId(Guid id)

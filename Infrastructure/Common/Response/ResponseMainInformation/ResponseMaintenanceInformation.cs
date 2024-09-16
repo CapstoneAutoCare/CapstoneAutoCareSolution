@@ -22,6 +22,7 @@ namespace Infrastructure.Common.Response.ResponseMainInformation
         public Guid? BookingId { get; set; }
         public Guid CustomerCareId { get; set; }
         public string Status {  get; set; }
+
         public List<ResponseMaintenanceServiceInfo> ResponseMaintenanceServiceInfos { get; set; }
         public List<ResponseMaintenanceSparePartInfo> ResponseMaintenanceSparePartInfos { get; set; }
         public List<ResponseMaintenanceHistoryStatus> ResponseMaintenanceHistoryStatuses { get; set; }

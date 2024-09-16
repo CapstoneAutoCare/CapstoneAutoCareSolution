@@ -45,17 +45,15 @@ namespace Application
         public virtual DbSet<MaintenanceTaskServiceInfo> MaintenanceTaskServiceInfos { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<Transactions> Transactions { get; set; }
-        public virtual DbSet<Package> Packages { get; set; }
-        public virtual DbSet<CenterPackages> CenterPackages { get; set; }
         public virtual DbSet<MaintenanceVehiclesDetail> MaintenanceVehiclesDetails { get; set; }
         public virtual DbSet<MaintenancePlan> MaintenancePlans { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db7867.public.databaseasp.net; Database=db7867; User Id=db7867; Password=3g-XnQ9+6b!T; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer("Server=db7867.public.databaseasp.net; Database=db7867; User Id=db7867; Password=3g-XnQ9+6b!T; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=LAPTOP-O5LECEEK; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer("Server=mssql-182977-0.cloudclusters.net,19984; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssql-183453-0.cloudclusters.net,10069; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
@@ -92,8 +90,6 @@ namespace Application
             modelBuilder.ApplyConfiguration(new MaintenanceTaskServiceInfosConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceTaskSparePartInfosConfiguration());
             modelBuilder.ApplyConfiguration(new NotificationConfiguration());
-            modelBuilder.ApplyConfiguration(new PackageConfiguration());
-            modelBuilder.ApplyConfiguration(new CenterPackagesConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionsConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenancePlanConfiguration());
             modelBuilder.ApplyConfiguration(new MaintenanceVehiclesDetailConfiguration());

@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Domain.Enum;
 using Infrastructure.Common.Request.MaintenancePlan;
-using Infrastructure.Common.Response.ResponseMaintenancePlan;
+using Infrastructure.Common.Response.MaintenancePlanResponse;
 using Infrastructure.ISecurity;
 using Infrastructure.IUnitofWork;
 using System;
