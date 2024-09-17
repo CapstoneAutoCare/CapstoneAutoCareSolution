@@ -16,14 +16,32 @@ namespace Infrastructure.IService.Imp
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokenHandler;
 
-        public Task<List<ResponseTransaction>> GetAll()
+        public TransactionServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokenHandler)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _tokenHandler = tokenHandler;
         }
 
-        public Task<ResponseTransaction> GetById(Guid id)
+        public async Task<List<ResponseTransaction>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetAll());
+        }
+
+        public async Task<ResponseTransaction> GetById(Guid id)
+        {
+            return _mapper.Map<ResponseTransaction>(await _unitOfWork.TransactionRepository.GetById(id));
+        }
+
+
+        public async Task<List<ResponseTransaction>> GetListByCenterAndStatusTransferred(Guid id)
+        {
+            return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetListByCenterIdAndStatusTransferred(id));
+        }
+
+        public async Task<List<ResponseTransaction>> GetListByClientRECEIVED(Guid id)
+        {
+            return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetListByClientRECEIVED(id));
         }
     }
 }

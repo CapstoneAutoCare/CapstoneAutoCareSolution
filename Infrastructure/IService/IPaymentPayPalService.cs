@@ -16,6 +16,8 @@ namespace Infrastructure.IService
         Task<CaptureOrderResponse> CaptureOrder(string orderId);
 
         Task<string> CreatePaymentUrl(HttpContext httpContext, VnPaymentRequest model);
+        Task<string> CreatePaymentUrlTransaction(HttpContext httpContext, CreatePaymentTransaction model);
+        Task<string> PaymentTransactionCallback(IQueryCollection queryParameters);
 
         Task<VnPaymentResponse> PaymentExecute(IQueryCollection  values);
 

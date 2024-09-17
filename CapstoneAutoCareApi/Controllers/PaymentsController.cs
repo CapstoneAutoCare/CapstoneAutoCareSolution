@@ -40,6 +40,12 @@ namespace CapstoneAutoCareApi.Controllers
             var response = await _payPalService.CreatePaymentUrl(HttpContext, vn);
             return Ok(response);
         }
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateVnPayPaymentUrlTransaction(CreatePaymentTransaction vn)
+        {
+            var response = await _payPalService.CreatePaymentUrlTransaction(HttpContext, vn);
+            return Ok(response);
+        }
         [HttpGet]  
         public async Task<ActionResult<string>> PaymentExecute()
         {
@@ -50,6 +56,13 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<IActionResult> PaymentCallback()
         {
             var result = await _payPalService.PaymentExecutev1(Request.Query);
+
+            return Redirect(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> PaymentTransactionCallback()
+        {
+            var result = await _payPalService.PaymentTransactionCallback(Request.Query);
 
             return Redirect(result);
         }

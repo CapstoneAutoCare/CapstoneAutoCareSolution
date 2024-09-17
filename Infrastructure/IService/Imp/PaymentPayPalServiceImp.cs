@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web;
 using static Infrastructure.Common.Payment.PayPalSeal;
 using static Infrastructure.IService.Imp.BookingServiceImp;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Infrastructure.IService.Imp
 {
@@ -261,7 +262,7 @@ namespace Infrastructure.IService.Imp
                 //      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
                 //if (checkStatus == null)
                 //{
-                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
                 //}
 
 
@@ -323,7 +324,7 @@ namespace Infrastructure.IService.Imp
                 return "https://payment-failure.vercel.app/";
             }
         }
-      
+
         public async Task<string> PaymentExecutev2(IQueryCollection queryParameters)
         {
             foreach (var (key, value) in queryParameters)
@@ -359,6 +360,145 @@ namespace Infrastructure.IService.Imp
             {
                 return "https://payment-failure.vercel.app/";
 
+            }
+        }
+
+        public async Task<string> CreatePaymentUrlTransaction(HttpContext httpContext, CreatePaymentTransaction model)
+        {
+            var tick = DateTime.Now.Ticks.ToString();
+            var mc = await _unitOfWork.MaintenanceCenter.GetById(model.MaintenanceCenterId);
+            var plan = await _unitOfWork.MaintenancePlanRepository.GetById(model.MaintenancePlanId);
+            var vehicle = await _unitOfWork.Vehicles.GetById(model.VehiclesId);
+            var list = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
+            float amount = 0;
+            foreach (var item in list)
+            {
+                var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                    (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+
+                amount += cost.ActuralCost;
+
+            }
+
+
+            _vnPayLibrary.AddRequestData("vnp_Version", _confiVnPay.Version);
+            _vnPayLibrary.AddRequestData("vnp_Command", _confiVnPay.Command);
+            _vnPayLibrary.AddRequestData("vnp_TmnCode", _confiVnPay.TmnCode);
+
+            _vnPayLibrary.AddRequestData("vnp_Amount", (amount * 100).ToString());
+
+            _vnPayLibrary.AddRequestData("vnp_CreateDate", model.CreatedDate.ToString("yyyyMMddHHmmss"));
+            _vnPayLibrary.AddRequestData("vnp_CurrCode", _confiVnPay.CurrCode);
+            _vnPayLibrary.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(httpContext));
+            _vnPayLibrary.AddRequestData("vnp_Locale", _confiVnPay.Locale);
+
+            _vnPayLibrary.AddRequestData("vnp_OrderInfo", $"{model.MaintenanceCenterId}&&{model.MaintenancePlanId}&&{model.VehiclesId}");
+            _vnPayLibrary.AddRequestData("vnp_OrderType", "other");
+
+            string baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.PathBase}";
+            string returnUrl = $"{baseUrl}/api/Payments/PaymentTransactionCallback";
+            _vnPayLibrary.AddRequestData("vnp_ReturnUrl", returnUrl);
+
+            _vnPayLibrary.AddRequestData("vnp_TxnRef", tick);
+
+            var paymentUrl = await _vnPayLibrary.CreateRequestUrl(_confiVnPay.BaseUrl, _confiVnPay.HashSecret);
+            return paymentUrl;
+        }
+
+        public async Task<string> PaymentTransactionCallback(IQueryCollection queryParameters)
+        {
+            foreach (var (key, value) in queryParameters)
+            {
+                if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
+                {
+                    _vnPayLibrary.AddResponseData(key, value.ToString());
+                }
+            }
+
+            var vnp_orderId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TxnRef"));
+            var vnp_TransactionId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TransactionNo"));
+            var vnp_SecureHash = _vnPayLibrary.GetResponseData("vnp_SecureHash");
+            var vnp_ResponseCode = _vnPayLibrary.GetResponseData("vnp_ResponseCode");
+            var vnp_OrderInfo = _vnPayLibrary.GetResponseData("vnp_OrderInfo");
+
+            bool checkSignature = _vnPayLibrary.ValidateSignature(vnp_SecureHash, _confiVnPay.HashSecret);
+
+            string vnpOrderInfo = queryParameters["vnp_OrderInfo"];
+            var orderDetails = vnp_OrderInfo.Split("&&");
+            var maintenanceCenterId = orderDetails[0];
+            var maintenancePlanId = orderDetails[1];
+            var vehiclesId = orderDetails[2];
+
+
+            if (!checkSignature)
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+
+            if (vnp_ResponseCode == "00")
+            {
+                var mc = await _unitOfWork.MaintenanceCenter.GetById(Guid.Parse(maintenanceCenterId));
+                var plan = await _unitOfWork.MaintenancePlanRepository.GetById(Guid.Parse(maintenancePlanId));
+                var vehicle = await _unitOfWork.Vehicles.GetById(Guid.Parse(vehiclesId));
+                var listT = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
+                float amount = 0;
+                foreach (var item in listT)
+                {
+                    var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                        (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+
+                    amount += cost.ActuralCost;
+
+                }
+
+                Transactions transactions = new Transactions
+                {
+                    Amount = amount,
+                    Description = "Đã nhận tiền từ khách hàng xe " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
+                    MaintenanceCenterId = mc.MaintenanceCenterId,
+                    MaintenancePlanId = plan.MaintenancePlanId,
+                    PaymentMethod = "VNPAY",
+                    Status = "RECEIVED",
+                    TransactionsId = Guid.NewGuid(),
+                    TransactionDate = DateTime.Now,
+                    VehiclesId = vehicle.VehiclesId,
+                    Volume = 100,
+
+                };
+                await _unitOfWork.TransactionRepository.Add(transactions);
+
+
+
+                var list = await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndPackageCenterId(plan.MaintenancePlanId, mc.MaintenanceCenterId);
+                List<MaintenanceVehiclesDetail> mvds = new List<MaintenanceVehiclesDetail>();
+                foreach (var mvd in list)
+                {
+                    var check = await _unitOfWork.MaintenanceVehiclesDetailRepository
+                        .CheckNotMatch(vehicle.VehiclesId, mvd.MaintananceScheduleId, mc.MaintenanceCenterId);
+                    if (check != null)
+                    {
+                        throw new Exception("Khong the thhem");
+                    }
+                    MaintenanceVehiclesDetail v = new MaintenanceVehiclesDetail
+                    {
+                        MaintenanceVehiclesDetailId = Guid.NewGuid(),
+                        DateTime = DateTime.Now,
+                        Status = mvd.Status,
+                        VehiclesId = vehicle.VehiclesId,
+                        MaintananceScheduleId = mvd.MaintananceScheduleId,
+                        MaintenanceCenterId = mc.MaintenanceCenterId,
+                    };
+                    await _unitOfWork.MaintenanceVehiclesDetailRepository.Add(v);
+                    mvds.Add(v);
+                }
+                await _unitOfWork.Commit();
+
+
+                return "exp://192.168.1.9:8081/";
+            }
+            else
+            {
+                return "https://payment-failure.vercel.app/";
             }
         }
     }

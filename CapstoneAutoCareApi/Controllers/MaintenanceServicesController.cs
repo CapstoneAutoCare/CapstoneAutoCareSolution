@@ -65,6 +65,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _service.GetListPackageAndOdoTRUEByCenterIdAndModelId(id, modelId));
         }
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintananceServices>>> GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(Guid id, Guid modelId,Guid planId)
+        {
+            return Ok(await _service.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(id, modelId, planId));
+        }
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<ResponseMaintananceServices>> Post( CreateMaintananceServices create)

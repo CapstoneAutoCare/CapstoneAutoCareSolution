@@ -623,6 +623,13 @@ namespace Infrastructure.Common.Mapper
             #endregion
 
 
+
+            CreateMap<Transactions, ResponseTransaction>()
+
+                .ForMember(p => p.ResponseMaintenancePlan, act => act.MapFrom(src => src.MaintenancePlan))
+                .ForMember(p => p.ResponseCenter, act => act.MapFrom(src => src.MaintenanceCenter))
+                .ForMember(p => p.ResponseVehicles, act => act.MapFrom(src => src.Vehicles))
+                .ReverseMap();
         }
     }
 }

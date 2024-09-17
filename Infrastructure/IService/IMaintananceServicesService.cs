@@ -22,8 +22,9 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintananceServices>> GetListPackageByOdoAndCenterId(Guid id, Guid odoId);
         Task<List<ResponseMaintananceServices>> GetListPackageAndOdoTRUEByCenterId(Guid id);
         Task<List<ResponseMaintananceServices>> GetListPackageAndOdoTRUEByCenterIdAndModelId(Guid id, Guid modelId);
+        Task<List<ResponseMaintananceServices>> GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(Guid id, Guid modelId,Guid planId);
         Task<List<ResponseMaintananceServices>> GetListFalseByCenterIdAndModelId(Guid id, Guid modelId);
-
+        
         Task<List<ResponseMaintananceServices>> Test(Guid id);
         Task<List<ResponseMaintananceServices>> CreateList(CreateMainServiceList create);
 

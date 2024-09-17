@@ -11,6 +11,9 @@ namespace Infrastructure.IService
     {
         Task<List<ResponseTransaction>> GetAll();
         Task<ResponseTransaction> GetById(Guid id);
+        Task<List<ResponseTransaction>> GetListByCenterAndStatusTransferred(Guid id);
+        Task<List<ResponseTransaction>> GetListByClientRECEIVED(Guid id);
+
 
     }
 }

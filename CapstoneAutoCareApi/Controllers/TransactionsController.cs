@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Application;
 using Domain.Entities;
 using Infrastructure.IService;
+using Infrastructure.Common.Response.ResponseStaffCare;
+using Infrastructure.Common.Response;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -15,96 +17,32 @@ namespace CapstoneAutoCareApi.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase
     {
-        private readonly AppDBContext _context;
         private readonly ITransactionService _transactionService;
 
-        public TransactionsController(AppDBContext context)
+        public TransactionsController(ITransactionService transactionService)
         {
-            _context = context;
+            _transactionService = transactionService;
         }
 
-        // GET: api/Transactions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transactions>>> GetTransactions()
+        public async Task<ActionResult<IEnumerable<ResponseTransaction>>> GetAll()
         {
-            return await _context.Transactions.ToListAsync();
+            return Ok(await _transactionService.GetAll());
         }
-
-        // GET: api/Transactions/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Transactions>> GetTransactions(Guid id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseTransaction>>> GetListByCenterAndStatusTransferred(Guid id)
         {
-            var transactions = await _context.Transactions.FindAsync(id);
-
-            if (transactions == null)
-            {
-                return NotFound();
-            }
-
-            return transactions;
+            return Ok(await _transactionService.GetListByCenterAndStatusTransferred(id));
         }
-
-        // PUT: api/Transactions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTransactions(Guid id, Transactions transactions)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResponseTransaction>>> GetListByClientRECEIVED(Guid id)
         {
-            if (id != transactions.TransactionsId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(transactions).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TransactionsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(await _transactionService.GetListByClientRECEIVED(id));
         }
-
-        // POST: api/Transactions
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Transactions>> PostTransactions(Transactions transactions)
+        [HttpGet]
+        public async Task<ActionResult<ResponseTransaction>> GetById(Guid id)
         {
-            _context.Transactions.Add(transactions);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTransactions", new { id = transactions.TransactionsId }, transactions);
-        }
-
-        // DELETE: api/Transactions/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTransactions(Guid id)
-        {
-            var transactions = await _context.Transactions.FindAsync(id);
-            if (transactions == null)
-            {
-                return NotFound();
-            }
-
-            _context.Transactions.Remove(transactions);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool TransactionsExists(Guid id)
-        {
-            return _context.Transactions.Any(e => e.TransactionsId == id);
+            return Ok(await _transactionService.GetById(id));
         }
     }
 }

@@ -10,5 +10,9 @@ namespace Application.IRepository
 {
     public interface ITransactionRepository : IGenericRepository<Transactions>
     {
+        Task<List<Transactions>> GetAll();
+        Task<List<Transactions>> GetListByCenterIdAndStatusTransferred(Guid centerId);
+        Task<Transactions> GetById(Guid id);
+        Task<List<Transactions>> GetListByClientRECEIVED(Guid clientId);
     }
 }

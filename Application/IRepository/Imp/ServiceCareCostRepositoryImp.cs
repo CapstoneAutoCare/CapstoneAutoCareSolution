@@ -19,12 +19,12 @@ namespace Application.IRepository.Imp
         public async Task<MaintenanceService> CheckServiceAdminExistWithCenterId(Guid? serviceadmin, Guid centerId)
         {
             var item = await _context.Set<MaintenanceService>()
-               .Include(c=>c.MaintenanceCenter)
-               .Include(c=>c.VehicleModel)
-               .ThenInclude(c=>c.VehiclesBrand)
-               .Include(c=>c.ServiceCare)
-               .ThenInclude(c=>c.MaintananceSchedule)
-               .Include(c=>c.MaintenanceServiceCosts)
+               .Include(c => c.MaintenanceCenter)
+               .Include(c => c.VehicleModel)
+               .ThenInclude(c => c.VehiclesBrand)
+               .Include(c => c.ServiceCare)
+               .ThenInclude(c => c.MaintananceSchedule)
+               .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                 .SingleOrDefaultAsync(c => c.ServiceCareId == serviceadmin && c.MaintenanceCenterId == centerId);
             if (item != null)
@@ -44,7 +44,7 @@ namespace Application.IRepository.Imp
                .ThenInclude(c => c.VehiclesBrand)
                .Include(c => c.ServiceCare)
                .ThenInclude(c => c.MaintananceSchedule)
-               .ThenInclude(c=>c.MaintenancePlan)
+               .ThenInclude(c => c.MaintenancePlan)
                .Include(c => c.MaintenanceServiceCosts)
                 .OrderByDescending(p => p.CreatedDate)
                 .ToListAsync();
@@ -194,6 +194,23 @@ namespace Application.IRepository.Imp
                 .OrderByDescending(p => p.CreatedDate)
                            .Where(c => c.MaintenanceCenterId == centerId
                            && c.Boolean == false && c.VehicleModelId == modelId).ToListAsync();
+            return i;
+        }
+
+        public async Task<List<MaintenanceService>> GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(Guid centerId, Guid modelId, Guid planId)
+        {
+            var i = await _context.Set<MaintenanceService>()
+                          .Include(c => c.MaintenanceCenter)
+               .Include(c => c.VehicleModel)
+               .ThenInclude(c => c.VehiclesBrand)
+               .Include(c => c.ServiceCare)
+               .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
+
+               .Include(c => c.MaintenanceServiceCosts)
+                .OrderByDescending(p => p.CreatedDate)
+                           .Where(c => c.MaintenanceCenterId == centerId
+                           && c.Boolean == true && c.VehicleModelId == modelId && c.ServiceCare.MaintananceSchedule.MaintenancePlanId == planId).ToListAsync();
             return i;
         }
     }
