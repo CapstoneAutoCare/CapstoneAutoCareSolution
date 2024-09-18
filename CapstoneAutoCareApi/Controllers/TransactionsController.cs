@@ -10,6 +10,7 @@ using Domain.Entities;
 using Infrastructure.IService;
 using Infrastructure.Common.Response.ResponseStaffCare;
 using Infrastructure.Common.Response;
+using Infrastructure.Common.Payment;
 
 namespace CapstoneAutoCareApi.Controllers
 {
@@ -43,6 +44,11 @@ namespace CapstoneAutoCareApi.Controllers
         public async Task<ActionResult<ResponseTransaction>> GetById(Guid id)
         {
             return Ok(await _transactionService.GetById(id));
+        }
+        [HttpPost]
+        public async Task<ActionResult<ResponseTransaction>> Post(CreatePaymentTransaction transaction)
+        {
+            return Ok(await _transactionService.Create(transaction));
         }
     }
 }

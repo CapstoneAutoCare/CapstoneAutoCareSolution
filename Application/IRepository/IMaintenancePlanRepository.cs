@@ -13,5 +13,7 @@ namespace Application.IRepository
         Task<List<MaintenancePlan>> GetAll();
         Task<MaintenancePlan> GetById(Guid id);
         Task<List<MaintenancePlan>> GetListCenterId(Guid id);
+        Task<List<MaintenancePlan>> GetListCenterIdAndVehicle(Guid id,Guid vehicleId);
+
     }
 }

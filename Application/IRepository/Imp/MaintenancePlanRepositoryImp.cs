@@ -46,13 +46,37 @@ namespace Application.IRepository.Imp
                 .Include(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
                 .Include(c => c.MaintenanceSchedules)
-                .ThenInclude(ms => ms.MaintenanceVehiclesDetails) 
+                .ThenInclude(ms => ms.MaintenanceVehiclesDetails)
                 .Where(mp => mp.MaintenanceSchedules
                     .Any(ms => ms.ServiceCares
-                        .Any(mvd => mvd.MaintenanceServices.Any(c=>c.MaintenanceCenterId == id))))
+                        .Any(mvd => mvd.MaintenanceServices.Any(c => c.MaintenanceCenterId == id))))
+                
                 .ToListAsync();
 
             return plan;
+        }
+
+        public async Task<List<MaintenancePlan>> GetListCenterIdAndVehicle(Guid centerId, Guid vehicleId)
+        {
+
+
+            var plan = await _context.Set<MaintenancePlan>()
+        .Include(c => c.VehicleModel)
+            .ThenInclude(c => c.VehiclesBrand)
+        .Include(c => c.MaintenanceSchedules)
+            .ThenInclude(ms => ms.MaintenanceVehiclesDetails)
+        .Where(mp => mp.MaintenanceSchedules
+            .Any(ms => ms.ServiceCares
+                .Any(sc => sc.MaintenanceServices
+                    .Any(c => c.MaintenanceCenterId == centerId))))
+        .Where(mp => !mp.MaintenanceSchedules
+            .Any(ms => ms.MaintenanceVehiclesDetails
+                .Any(mvd => mvd.VehiclesId == vehicleId && mvd.MaintenanceCenterId == centerId)))
+        
+        .ToListAsync();
+
+            return plan;
+
         }
     }
 }

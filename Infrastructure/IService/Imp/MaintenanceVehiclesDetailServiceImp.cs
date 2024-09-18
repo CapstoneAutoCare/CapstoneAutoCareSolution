@@ -44,7 +44,7 @@ namespace Infrastructure.IService.Imp
                 {
                     MaintenanceVehiclesDetailId = Guid.NewGuid(),
                     DateTime = DateTime.Now,
-                    Status = mvd.Status,
+                    Status = "PENDING",
                     VehiclesId = veid.VehiclesId,
                     MaintananceScheduleId = mvd.MaintananceScheduleId,
                     MaintenanceCenterId = createMainVehicle.MaintenanceCenterId,

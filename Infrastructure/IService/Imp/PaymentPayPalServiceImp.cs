@@ -309,7 +309,12 @@ namespace Infrastructure.IService.Imp
 
                 await _unitOfWork.NotificationRepository.Add(notificationclient);
 
-
+                if (mi.MaintenanceVehiclesDetailId != null)
+                {
+                    var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(mi.MaintenanceVehiclesDetailId); ;
+                    mvd.Status = "FINISHED";
+                    await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvd);
+                }
 
 
 
@@ -495,6 +500,124 @@ namespace Infrastructure.IService.Imp
 
 
                 return "exp://192.168.1.9:8081/";
+            }
+            else
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+        }
+
+        public async Task<string> CreatePaymentUrlTransactionFromAdminToCenter(HttpContext httpContext, CreatePaymentTransaction model)
+        {
+            var tick = DateTime.Now.Ticks.ToString();
+            var mc = await _unitOfWork.MaintenanceCenter.GetById(model.MaintenanceCenterId);
+            var plan = await _unitOfWork.MaintenancePlanRepository.GetById(model.MaintenancePlanId);
+            var vehicle = await _unitOfWork.Vehicles.GetById(model.VehiclesId);
+            var list = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
+            float amount = 0;
+            foreach (var item in list)
+            {
+                var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                    (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+
+                amount += cost.ActuralCost;
+
+            }
+
+
+            _vnPayLibrary.AddRequestData("vnp_Version", _confiVnPay.Version);
+            _vnPayLibrary.AddRequestData("vnp_Command", _confiVnPay.Command);
+            _vnPayLibrary.AddRequestData("vnp_TmnCode", _confiVnPay.TmnCode);
+
+            _vnPayLibrary.AddRequestData("vnp_Amount", (amount * 90 / 100F * 100).ToString());
+
+            _vnPayLibrary.AddRequestData("vnp_CreateDate", model.CreatedDate.ToString("yyyyMMddHHmmss"));
+            _vnPayLibrary.AddRequestData("vnp_CurrCode", _confiVnPay.CurrCode);
+            _vnPayLibrary.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(httpContext));
+            _vnPayLibrary.AddRequestData("vnp_Locale", _confiVnPay.Locale);
+
+            _vnPayLibrary.AddRequestData("vnp_OrderInfo", $"{model.MaintenanceCenterId}&&{model.MaintenancePlanId}&&{model.VehiclesId}");
+            _vnPayLibrary.AddRequestData("vnp_OrderType", "other");
+
+            string baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.PathBase}";
+            string returnUrl = $"{baseUrl}/api/Payments/PaymentTransactionCallbackFromAdminToCenter";
+            _vnPayLibrary.AddRequestData("vnp_ReturnUrl", returnUrl);
+
+            _vnPayLibrary.AddRequestData("vnp_TxnRef", tick);
+
+            var paymentUrl = await _vnPayLibrary.CreateRequestUrl(_confiVnPay.BaseUrl, _confiVnPay.HashSecret);
+            return paymentUrl;
+        }
+
+        public async Task<string> PaymentTransactionCallbackFromAdminToCenter(IQueryCollection queryParameters)
+        {
+            foreach (var (key, value) in queryParameters)
+            {
+                if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
+                {
+                    _vnPayLibrary.AddResponseData(key, value.ToString());
+                }
+            }
+
+            var vnp_orderId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TxnRef"));
+            var vnp_TransactionId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TransactionNo"));
+            var vnp_SecureHash = _vnPayLibrary.GetResponseData("vnp_SecureHash");
+            var vnp_ResponseCode = _vnPayLibrary.GetResponseData("vnp_ResponseCode");
+            var vnp_OrderInfo = _vnPayLibrary.GetResponseData("vnp_OrderInfo");
+
+            bool checkSignature = _vnPayLibrary.ValidateSignature(vnp_SecureHash, _confiVnPay.HashSecret);
+
+            string vnpOrderInfo = queryParameters["vnp_OrderInfo"];
+            var orderDetails = vnp_OrderInfo.Split("&&");
+            var maintenanceCenterId = orderDetails[0];
+            var maintenancePlanId = orderDetails[1];
+            var vehiclesId = orderDetails[2];
+
+
+            if (!checkSignature)
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+
+            if (vnp_ResponseCode == "00")
+            {
+                var mc = await _unitOfWork.MaintenanceCenter.GetById(Guid.Parse(maintenanceCenterId));
+                var plan = await _unitOfWork.MaintenancePlanRepository.GetById(Guid.Parse(maintenancePlanId));
+                var vehicle = await _unitOfWork.Vehicles.GetById(Guid.Parse(vehiclesId));
+                var listT = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
+                float amount = 0;
+                foreach (var item in listT)
+                {
+                    var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                        (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+
+                    amount += cost.ActuralCost;
+
+                }
+
+                Transactions transactions = new Transactions
+                {
+                    Amount = amount*90/100F,
+                    Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
+                    MaintenanceCenterId = mc.MaintenanceCenterId,
+                    MaintenancePlanId = plan.MaintenancePlanId,
+                    PaymentMethod = "VNPAY",
+                    Status = "TRANSFERRED",
+                    TransactionsId = Guid.NewGuid(),
+                    TransactionDate = DateTime.Now,
+                    VehiclesId = vehicle.VehiclesId,
+                    Volume = 90,
+
+                };
+                await _unitOfWork.TransactionRepository.Add(transactions);
+
+
+
+                
+                await _unitOfWork.Commit();
+
+
+                return "http://localhost:3000/dashboard/";
             }
             else
             {

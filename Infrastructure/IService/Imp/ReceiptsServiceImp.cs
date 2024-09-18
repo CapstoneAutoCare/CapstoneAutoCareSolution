@@ -21,7 +21,7 @@ namespace Infrastructure.IService.Imp
         private readonly IMapper _mapper;
         private readonly ITokensHandler _tokensHandler;
         private readonly IConfiguration _configuration;
-        public ReceiptsServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler,IConfiguration configuration)
+        public ReceiptsServiceImp(IUnitOfWork unitOfWork, IMapper mapper, ITokensHandler tokensHandler, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -52,7 +52,7 @@ namespace Infrastructure.IService.Imp
                 //var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
                 //      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
                 //if (checkStatus == null)
-                    {
+                {
                     await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
                 }
 
@@ -96,7 +96,12 @@ namespace Infrastructure.IService.Imp
                 };
 
                 await _unitOfWork.NotificationRepository.Add(notificationclient);
-
+                if (mi.MaintenanceVehiclesDetailId != null)
+                {
+                    var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(mi.MaintenanceVehiclesDetailId); ;
+                    mvd.Status = "FINISHED";
+                    await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvd);
+                }
 
 
                 await _unitOfWork.Commit();

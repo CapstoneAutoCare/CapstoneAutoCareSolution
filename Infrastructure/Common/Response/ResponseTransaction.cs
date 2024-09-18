@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.Common.Response.ClientResponse;
 
 namespace Infrastructure.Common.Response
 {
@@ -26,5 +27,6 @@ namespace Infrastructure.Common.Response
         public ResponseVehicles ResponseVehicles { get; set; }
         public ResponseCenter ResponseCenter { get; set; }
         public ResponseMaintenancePlan ResponseMaintenancePlan { get; set; }
+        public ResponseClient ResponseClient { get; set; }
     }
 }

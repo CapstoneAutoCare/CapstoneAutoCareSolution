@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Response;
+﻿using Infrastructure.Common.Payment;
+using Infrastructure.Common.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Infrastructure.IService
         Task<ResponseTransaction> GetById(Guid id);
         Task<List<ResponseTransaction>> GetListByCenterAndStatusTransferred(Guid id);
         Task<List<ResponseTransaction>> GetListByClientRECEIVED(Guid id);
+        Task<ResponseTransaction> Create(CreatePaymentTransaction transaction);
 
 
     }
