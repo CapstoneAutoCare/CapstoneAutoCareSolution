@@ -3,6 +3,7 @@ using Domain.Enum;
 using Infrastructure.Common.Payment;
 using Infrastructure.IUnitofWork;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -27,8 +28,9 @@ namespace Infrastructure.IService.Imp
         private readonly VnPayLibrary _vnPayLibrary;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
 
-        public PaymentPayPalServiceImp(PaymentPayPall paymentPayPall, HttpClient httpClient, ConfiVnPay confiVnPay, VnPayLibrary vnPayLibrary, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        public PaymentPayPalServiceImp(PaymentPayPall paymentPayPall, HttpClient httpClient, ConfiVnPay confiVnPay, VnPayLibrary vnPayLibrary, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _paymentPayPall = paymentPayPall;
             _httpClient = httpClient;
@@ -36,6 +38,7 @@ namespace Infrastructure.IService.Imp
             _vnPayLibrary = vnPayLibrary;
             _unitOfWork = unitOfWork;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         public string BaseUrl => _paymentPayPall.Model == "Live"
@@ -323,19 +326,21 @@ namespace Infrastructure.IService.Imp
                         .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
                     var amount = tran.Select(x => x.Amount).First();
                     var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
+                    var volumTRANSFERRED = _configuration.GetValue<int>("VolTRANSFERRED");
+
                     if (tran.Any())
                     {
                         Transactions transactions = new Transactions
                         {
                             MaintenancePlanId = plan.MaintenancePlanId,
                             Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
-                            Amount = tran.Select(c => c.Amount).First() * 90 / 100F,
+                            Amount = tran.Select(c => c.Amount).First() * volumTRANSFERRED / 100F,
                             PaymentMethod = "AUTO",
                             MaintenanceCenterId = center.MaintenanceCenterId,
                             Status = "TRANSFERRED",
                             TransactionDate = DateTime.Now,
                             VehiclesId = vehicle.VehiclesId,
-                            Volume = 90,
+                            Volume = volumTRANSFERRED,
                             TransactionsId = Guid.NewGuid(),
                         };
                         await _unitOfWork.TransactionRepository.Add(transactions);
@@ -483,10 +488,11 @@ namespace Infrastructure.IService.Imp
                     amount += cost.ActuralCost;
 
                 }
+                var volumRECEIVED = _configuration.GetValue<int>("VolRECEIVED");
 
                 Transactions transactions = new Transactions
                 {
-                    Amount = amount,
+                    Amount = amount * volumRECEIVED / 100f,
                     Description = "Đã nhận tiền từ khách hàng xe " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
                     MaintenanceCenterId = mc.MaintenanceCenterId,
                     MaintenancePlanId = plan.MaintenancePlanId,
@@ -495,7 +501,7 @@ namespace Infrastructure.IService.Imp
                     TransactionsId = Guid.NewGuid(),
                     TransactionDate = DateTime.Now,
                     VehiclesId = vehicle.VehiclesId,
-                    Volume = 100,
+                    Volume = volumRECEIVED,
 
                 };
                 await _unitOfWork.TransactionRepository.Add(transactions);
@@ -670,12 +676,14 @@ namespace Infrastructure.IService.Imp
                 //    amount += cost.ActuralCost;
 
                 //}
+                var volumTRANSFERRED = _configuration.GetValue<int>("VolTRANSFERRED");
+
                 var transaction = await _unitOfWork.TransactionRepository
                 .GetCostByPlanAndVehicleAndCenterWithStatusRECEIVED(plan.MaintenancePlanId, vehicle.VehiclesId, mc.MaintenanceCenterId);
                 float amount = transaction.Amount;
                 Transactions transactions = new Transactions
                 {
-                    Amount = amount * 90 / 100F,
+                    Amount = amount * volumTRANSFERRED / 100F,
                     Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
                     MaintenanceCenterId = mc.MaintenanceCenterId,
                     MaintenancePlanId = plan.MaintenancePlanId,
@@ -684,7 +692,7 @@ namespace Infrastructure.IService.Imp
                     TransactionsId = Guid.NewGuid(),
                     TransactionDate = DateTime.Now,
                     VehiclesId = vehicle.VehiclesId,
-                    Volume = 90,
+                    Volume = volumTRANSFERRED,
 
                 };
                 await _unitOfWork.TransactionRepository.Add(transactions);
@@ -838,24 +846,26 @@ namespace Infrastructure.IService.Imp
                         .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
                     var amount = tran.Select(x => x.Amount).First();
                     var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
+                    var volumTRANSFERRED = _configuration.GetValue<int>("VolTRANSFERRED");
+
                     if (tran.Any())
                     {
                         Transactions transactions = new Transactions
                         {
                             MaintenancePlanId = plan.MaintenancePlanId,
                             Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
-                            Amount = tran.Select(c=>c.Amount).First() * 90/100F,
+                            Amount = tran.Select(c => c.Amount).First() * volumTRANSFERRED / 100F,
                             PaymentMethod = "AUTO",
                             MaintenanceCenterId = center.MaintenanceCenterId,
                             Status = "TRANSFERRED",
                             TransactionDate = DateTime.Now,
                             VehiclesId = vehicle.VehiclesId,
-                            Volume = 90,
+                            Volume = volumTRANSFERRED,
                             TransactionsId = Guid.NewGuid(),
                         };
                         await _unitOfWork.TransactionRepository.Add(transactions);
                     }
-                    
+
 
                 }
 
