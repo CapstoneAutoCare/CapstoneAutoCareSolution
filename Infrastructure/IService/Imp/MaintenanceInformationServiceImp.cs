@@ -301,6 +301,8 @@ namespace Infrastructure.IService.Imp
                 re.Status = status;
                 var booking = await _unitOfWork.Booking.GetById(re.BookingId);
                 booking.Status = status;
+                re.FinishedDate = DateTime.Now;
+
                 await _unitOfWork.Booking.Update(booking);
                 await _unitOfWork.InformationMaintenance.Update(re);
                 await _unitOfWork.Commit();
@@ -324,6 +326,13 @@ namespace Infrastructure.IService.Imp
                 //var booking = await _unitOfWork.Booking.GetById(re.BookingId);
                 //booking.Status = status;
                 //await _unitOfWork.Booking.Update(booking);
+                if (re.MaintenanceVehiclesDetailId != null)
+                {
+                    var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(re.MaintenanceVehiclesDetailId);
+                    mvd.Status = "EXPIRED";
+                    await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvd);
+                }
+                re.FinishedDate = DateTime.Now;
                 await _unitOfWork.InformationMaintenance.Update(re);
                 await _unitOfWork.Commit();
 
@@ -445,6 +454,55 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceInformation> GetByMVDId(Guid id)
         {
             return _mapper.Map<ResponseMaintenanceInformation>(await _unitOfWork.InformationMaintenance.GetByMVDId(id));
+        }
+
+        public async Task<ResponseMaintenanceInformation> CreateMainV1(CreateMainV1 createMainV1)
+        {
+            var main = await _unitOfWork.InformationMaintenance.GetById(createMainV1.InformationMaintenanceId);
+            var booking = await _unitOfWork.Booking.GetById(createMainV1.BookingId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(createMainV1.CustomerCareId);
+            if (customercare.CenterId != booking.MaintenanceCenterId)
+            {
+                throw new Exception("Không cùng trung tâm");
+            }
+            var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(main.MaintenanceVehiclesDetailId);
+            var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(mvd.MaintananceScheduleId);
+            if (schedule.MaintenancePlanId != booking.MaintenancePlanId)
+            {
+                throw new Exception("Gói này không phù hợp");
+            }
+            if (booking.Status == STATUSENUM.STATUSBOOKING.ACCEPTED.ToString())
+            {
+                main.BookingId = booking.BookingId;
+                main.CustomerCareId = customercare.CustomerCareId;
+                main.Note = createMainV1.Note;
+                main.Status = EnumStatus.CHECKIN.ToString();
+
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.CHECKIN.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.CHECKIN.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = main.InformationMaintenanceId;
+                await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+
+                await _unitOfWork.InformationMaintenance.Update(main);
+                await _unitOfWork.Commit();
+                return _mapper.Map<ResponseMaintenanceInformation>(main);
+            }
+            else
+            {
+                throw new Exception("Không thể cập nhật thông tin bảo dưỡng booking này");
+            }
+
+
+
+
+        }
+
+        public async Task<List<ResponseMaintenanceInformation>> GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(Guid planId, Guid vehicleId, Guid centerId)
+        {
+            return _mapper.Map<List<ResponseMaintenanceInformation>>(
+                await _unitOfWork.InformationMaintenance.GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(planId, vehicleId, centerId));
         }
 
         //public async Task<ResponseMaintenanceInformation> CreateHavePackage(CreateMaintenanceInformationHavePackage create)

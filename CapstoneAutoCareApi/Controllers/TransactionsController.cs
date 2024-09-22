@@ -45,6 +45,14 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _transactionService.GetById(id));
         }
+        //TEST
+
+        //[HttpGet]
+        //public async Task<ActionResult<ResponseTransaction>> GetTransactionsByVehicleAndCenterAndPlan(Guid plan, Guid vehicle, Guid center)
+        //{
+        //    return Ok(await _transactionService.GetTransactionsByVehicleAndCenterAndPlan(vehicle, center, plan));
+        //}
+
         [HttpPost]
         public async Task<ActionResult<ResponseTransaction>> Post(CreatePaymentTransaction transaction)
         {

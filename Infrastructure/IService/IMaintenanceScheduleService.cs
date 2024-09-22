@@ -17,6 +17,8 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceSchedules>> GetListPlanIdAndPackageCenterId(Guid planId,Guid id);
 
         Task<List<ResponseMaintenanceSchedules>> GetListPlanIdAndPackageCenterIdBookingId(Guid planId, Guid id,Guid bookingId);
+        //Task<List<ResponseMaintenanceSchedules>> GetListPlanIdAndOdoCenterId(Guid planId, Guid centerId);
+
         
         Task<ResponseMaintenanceSchedules> Create(CreateMaintenanceSchedule create);
         Task<ResponseMaintenanceSchedules> Update(Guid id, UpdateMaintananceSchedule update);

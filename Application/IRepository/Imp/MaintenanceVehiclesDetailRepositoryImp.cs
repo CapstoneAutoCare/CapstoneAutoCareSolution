@@ -97,6 +97,35 @@ namespace Application.IRepository.Imp
 ToListAsync();
         }
 
+        public async Task<MaintenanceVehiclesDetail> GetListByPlanAndVehicleAndCenterWithStatusFinished(Guid plan, Guid vehicle, Guid center)
+        {
+            // Kiểm tra nếu đã tồn tại giao dịch "TRANSFERRED"
+            var transactionExists = await _context.Set<Transactions>()
+                .FirstOrDefaultAsync(t => t.MaintenancePlanId == plan && t.VehiclesId == vehicle && t.MaintenanceCenterId == center && t.Status == "TRANSFERRED");
+
+            // Nếu không có giao dịch "TRANSFERRED" nào, tiếp tục truy vấn
+            if (transactionExists == null)
+            {
+                return await _context.Set<MaintenanceVehiclesDetail>()
+                    .Include(c => c.MaintenanceCenter)
+                        .ThenInclude(c => c.Account)
+                    .Include(c => c.Vehicle)
+                        .ThenInclude(c => c.VehicleModel)
+                        .ThenInclude(c => c.VehiclesBrand)
+                    .Include(c => c.MaintananceSchedule)
+                        .ThenInclude(c => c.MaintenancePlan)
+                        .ThenInclude(c => c.VehicleModel)
+                        .ThenInclude(c => c.VehiclesBrand)
+
+                    .FirstOrDefaultAsync(c => c.MaintananceSchedule.MaintenancePlanId == plan
+                                && c.VehiclesId == vehicle
+                                && c.MaintenanceCenterId == center
+                                && c.Status == "FINISHED");
+            }
+            return null;
+
+        }
+
         public async Task<List<MaintenanceVehiclesDetail>> GetListByVehicleId(Guid id)
         {
             return await _context.Set<MaintenanceVehiclesDetail>()

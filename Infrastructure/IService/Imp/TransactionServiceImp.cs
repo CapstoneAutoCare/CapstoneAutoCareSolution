@@ -31,16 +31,9 @@ namespace Infrastructure.IService.Imp
             var mc = await _unitOfWork.MaintenanceCenter.GetById((transaction.MaintenanceCenterId));
             var plan = await _unitOfWork.MaintenancePlanRepository.GetById(transaction.MaintenancePlanId);
             var vehicle = await _unitOfWork.Vehicles.GetById(transaction.VehiclesId);
-            var listT = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
-            float amount = 0;
-            foreach (var item in listT)
-            {
-                var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
-                    (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
-
-                amount += cost.ActuralCost;
-
-            }
+            var t = await _unitOfWork.TransactionRepository
+                 .GetCostByPlanAndVehicleAndCenterWithStatusRECEIVED(plan.MaintenancePlanId, vehicle.VehiclesId, mc.MaintenanceCenterId);
+            float amount = t.Amount;
 
             Transactions transactions = new Transactions
             {
@@ -84,6 +77,11 @@ namespace Infrastructure.IService.Imp
         public async Task<List<ResponseTransaction>> GetListByClientRECEIVED(Guid id)
         {
             return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetListByClientRECEIVED(id));
+        }
+
+        public async Task<List<ResponseTransaction>> GetTransactionsByVehicleAndCenterAndPlan(Guid vehicle, Guid center, Guid plan)
+        {
+            return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetTransactionsByVehicleAndCenterAndPlan(plan, vehicle, center));
         }
     }
 }

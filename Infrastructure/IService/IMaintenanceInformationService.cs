@@ -24,6 +24,8 @@ namespace Infrastructure.IService
         //Task<ResponseMaintenanceInformation> CreateHavePackage(CreateMaintenanceInformationHavePackage create);
         Task<ResponseMaintenanceInformation> GetByBookingIdAndScheduleIdAndVehicleId(Guid booking, Guid schedule, Guid vehicleId);
         Task<ResponseMaintenanceInformation> CreateMaintenance(CreateMaintenanceInformationHavePackage create);
+        Task<ResponseMaintenanceInformation> CreateMainV1(CreateMainV1 createMainV1);
+        Task<List<ResponseMaintenanceInformation>> GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(Guid planId, Guid vehicleId, Guid centerId);
         Task<List<ResponseMaintenanceInformation>> GetAll();
         Task<List<ResponseMaintenanceInformation>> GetListByCenterAndStatusCheckinAndTaskInactive(Guid id);
         Task<ResponseMaintenanceInformation> ChangeStatus (Guid id, string status);

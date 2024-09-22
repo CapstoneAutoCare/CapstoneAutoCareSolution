@@ -57,6 +57,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintenanceSchedules>>(await _unitOfWork.MaintenanceSchedule.GetListPackageByCenterId(id));
         }
 
+        public async Task<List<ResponseMaintenanceSchedules>> GetListPlanIdAndOdoCenterId(Guid planId, Guid centerId)
+        {
+            return _mapper.Map<List<ResponseMaintenanceSchedules>>(await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndOdoCenterId(planId, centerId));
+        }
+
         public async Task<List<ResponseMaintenanceSchedules>> GetListPlanIdAndPackageCenterId(Guid planId, Guid id)
         {
             return _mapper.Map<List<ResponseMaintenanceSchedules>>(await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndPackageCenterId(planId, id));

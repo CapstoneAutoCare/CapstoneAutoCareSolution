@@ -22,6 +22,8 @@ namespace Infrastructure.IService
         Task<string> CreatePaymentUrlTransactionFromAdminToCenter(HttpContext httpContext, CreatePaymentTransaction model);
 
         Task<string> PaymentTransactionCallbackFromAdminToCenter(IQueryCollection queryParameters);
+        Task<string> CreatePaymentUrlMoblie(HttpContext httpContext, VnPaymentRequest model);
+        Task<string> PaymentExecutev1Moblie(IQueryCollection queryParameters);
 
 
         Task<VnPaymentResponse> PaymentExecute(IQueryCollection  values);

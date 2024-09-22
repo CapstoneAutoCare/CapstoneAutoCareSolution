@@ -94,7 +94,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _maintenanceInformationService.GetListByCenterAndStatusCheckinAndTaskInactive(centerId));
         }
-
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(Guid planId, Guid vehicleId, Guid centerId)
+        {
+            return Ok(await _maintenanceInformationService.GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(planId, vehicleId, centerId));
+        }
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)
         {
@@ -106,10 +110,15 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.CreateHaveItems(maintenanceInformation));
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult<ResponseMaintenanceInformation>> PostMaintenance(CreateMaintenanceInformationHavePackage maintenanceInformation)
+        //{
+        //    return Ok(await _maintenanceInformationService.CreateMaintenance(maintenanceInformation));
+        //}
         [HttpPost]
-        public async Task<ActionResult<ResponseMaintenanceInformation>> PostMaintenance(CreateMaintenanceInformationHavePackage maintenanceInformation)
+        public async Task<ActionResult<ResponseMaintenanceInformation>> PostMaintenance(CreateMainV1 maintenanceInformation)
         {
-            return Ok(await _maintenanceInformationService.CreateMaintenance(maintenanceInformation));
+            return Ok(await _maintenanceInformationService.CreateMainV1(maintenanceInformation));
         }
 
         [HttpPatch]

@@ -2,6 +2,7 @@
 using Application.SeedingData;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,11 +52,21 @@ namespace Application
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=db7868.public.databaseasp.net; Database=db7868; User Id=db7868; Password=rJ-5S!7yiW#2; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
+                //optionsBuilder.UseSqlServer("Server=db8076.public.databaseasp.net; Database=db8076; User Id=db8076; Password=j+6S%5QbXc2!; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
                 //optionsBuilder.UseSqlServer("Server=LAPTOP-O5LECEEK; Database=AutoCare; User Id=sa;Password=12345;TrustServerCertificate=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer("Server=mssql-183453-0.cloudclusters.net,10069; Database =AutoCare; User Id=duy;Password=0363423742Duy;TrustServerCertificate=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer(GetConnectionString());
+                optionsBuilder.UseSqlServer(GetConnectionString());
             }
+        }
+        private string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
+            var strConn = config["ConnectionStrings:DatabaseConnection"];
+
+            return strConn;
         }
         protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {

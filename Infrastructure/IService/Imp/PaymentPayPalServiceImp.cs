@@ -314,6 +314,34 @@ namespace Infrastructure.IService.Imp
                     var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(mi.MaintenanceVehiclesDetailId); ;
                     mvd.Status = "FINISHED";
                     await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvd);
+
+
+
+                    var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(mvd.MaintananceScheduleId);
+                    var plan = await _unitOfWork.MaintenancePlanRepository.GetById(schedule.MaintenancePlanId);
+                    var tran = await _unitOfWork.TransactionRepository
+                        .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
+                    var amount = tran.Select(x => x.Amount).First();
+                    var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
+                    if (tran.Any())
+                    {
+                        Transactions transactions = new Transactions
+                        {
+                            MaintenancePlanId = plan.MaintenancePlanId,
+                            Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
+                            Amount = tran.Select(c => c.Amount).First() * 90 / 100F,
+                            PaymentMethod = "AUTO",
+                            MaintenanceCenterId = center.MaintenanceCenterId,
+                            Status = "TRANSFERRED",
+                            TransactionDate = DateTime.Now,
+                            VehiclesId = vehicle.VehiclesId,
+                            Volume = 90,
+                            TransactionsId = Guid.NewGuid(),
+                        };
+                        await _unitOfWork.TransactionRepository.Add(transactions);
+                    }
+
+
                 }
 
 
@@ -474,7 +502,7 @@ namespace Infrastructure.IService.Imp
 
 
 
-                var list = await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndPackageCenterId(plan.MaintenancePlanId, mc.MaintenanceCenterId);
+                var list = await _unitOfWork.MaintenanceSchedule.GetListPlanIdAndOdoCenterId(plan.MaintenancePlanId, mc.MaintenanceCenterId);
                 List<MaintenanceVehiclesDetail> mvds = new List<MaintenanceVehiclesDetail>();
                 foreach (var mvd in list)
                 {
@@ -488,14 +516,60 @@ namespace Infrastructure.IService.Imp
                     {
                         MaintenanceVehiclesDetailId = Guid.NewGuid(),
                         DateTime = DateTime.Now,
-                        Status = mvd.Status,
+                        Status = "PENDING",
                         VehiclesId = vehicle.VehiclesId,
                         MaintananceScheduleId = mvd.MaintananceScheduleId,
                         MaintenanceCenterId = mc.MaintenanceCenterId,
                     };
+                    MaintenanceInformation maintenanceInformation = new MaintenanceInformation
+                    {
+                        CreatedDate = DateTime.Now,
+                        InformationMaintenanceId = Guid.NewGuid(),
+                        InformationMaintenanceName = $"{plan.MaintenancePlanName} {mvd.MaintananceScheduleName}",
+                        MaintenanceVehiclesDetailId = v.MaintenanceVehiclesDetailId,
+                        Note = $"{plan.MaintenancePlanName} {mvd.MaintananceScheduleName}",
+                        TotalPrice = 0,
+                        Status = EnumStatus.WAITINGBYCAR.ToString(),
+
+                    };
+                    await _unitOfWork.InformationMaintenance.Add(maintenanceInformation);
+
+                    var listservice = await _unitOfWork.MaintenanceService
+                .GetListPackageByOdoAndCenterIdAndVehicleId(mc.MaintenanceCenterId, mvd.MaintananceScheduleId, vehicle.VehicleModelId);
+
+                    foreach (var itemcost in listservice)
+                    {
+                        var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                            (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), itemcost.MaintenanceServiceId);
+                        MaintenanceServiceInfo info = new MaintenanceServiceInfo
+                        {
+                            InformationMaintenanceId = maintenanceInformation.InformationMaintenanceId,
+                            ActualCost = cost.ActuralCost,
+                            Discount = 0,
+                            CreatedDate = DateTime.Now,
+                            Note = "Không tính tiền",
+                            Quantity = 1,
+                            Status = EnumStatus.ACTIVE.ToString(),
+                            TotalCost = (0 * 1) * (1 - (0) / 100f),
+                            MaintenanceServiceCostId = cost.MaintenanceServiceCostId,
+                            MaintenanceServiceInfoId = Guid.NewGuid(),
+                            MaintenanceServiceInfoName = cost.MaintenanceService.MaintenanceServiceName,
+                        };
+                        await _unitOfWork.MaintenanceServiceInfo.Add(info);
+                    }
+                    MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                    maintenanceHistoryStatus.Status = EnumStatus.WAITINGBYCAR.ToString();
+                    maintenanceHistoryStatus.DateTime = DateTime.Now;
+                    maintenanceHistoryStatus.Note = EnumStatus.WAITINGBYCAR.ToString();
+                    maintenanceHistoryStatus.MaintenanceInformationId = maintenanceInformation.InformationMaintenanceId;
+                    await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+
                     await _unitOfWork.MaintenanceVehiclesDetailRepository.Add(v);
                     mvds.Add(v);
                 }
+
+
+
                 await _unitOfWork.Commit();
 
 
@@ -513,16 +587,18 @@ namespace Infrastructure.IService.Imp
             var mc = await _unitOfWork.MaintenanceCenter.GetById(model.MaintenanceCenterId);
             var plan = await _unitOfWork.MaintenancePlanRepository.GetById(model.MaintenancePlanId);
             var vehicle = await _unitOfWork.Vehicles.GetById(model.VehiclesId);
-            var list = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
-            float amount = 0;
-            foreach (var item in list)
-            {
-                var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
-                    (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+            //var list = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
+            var transaction = await _unitOfWork.TransactionRepository
+                .GetCostByPlanAndVehicleAndCenterWithStatusRECEIVED(plan.MaintenancePlanId, vehicle.VehiclesId, mc.MaintenanceCenterId);
+            float amount = transaction.Amount;
+            //foreach (var item in list)
+            //{
+            //    var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+            //        (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
 
-                amount += cost.ActuralCost;
+            //    amount += cost.ActuralCost;
 
-            }
+            //}
 
 
             _vnPayLibrary.AddRequestData("vnp_Version", _confiVnPay.Version);
@@ -584,20 +660,22 @@ namespace Infrastructure.IService.Imp
                 var mc = await _unitOfWork.MaintenanceCenter.GetById(Guid.Parse(maintenanceCenterId));
                 var plan = await _unitOfWork.MaintenancePlanRepository.GetById(Guid.Parse(maintenancePlanId));
                 var vehicle = await _unitOfWork.Vehicles.GetById(Guid.Parse(vehiclesId));
-                var listT = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
-                float amount = 0;
-                foreach (var item in listT)
-                {
-                    var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
-                        (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
+                //var listT = await _unitOfWork.MaintenanceService.GetListPackageOdoTRUEByCenterIdAndModelIdAndPlanId(mc.MaintenanceCenterId, vehicle.VehicleModelId, plan.MaintenancePlanId);
+                //float amount = 0;
+                //foreach (var item in listT)
+                //{
+                //    var cost = await _unitOfWork.MaintenanceServiceCost.GetByIdMaintenanceServiceActiveAndServiceAdmin
+                //        (EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), EnumStatus.ACTIVE.ToString(), item.MaintenanceServiceId);
 
-                    amount += cost.ActuralCost;
+                //    amount += cost.ActuralCost;
 
-                }
-
+                //}
+                var transaction = await _unitOfWork.TransactionRepository
+                .GetCostByPlanAndVehicleAndCenterWithStatusRECEIVED(plan.MaintenancePlanId, vehicle.VehiclesId, mc.MaintenanceCenterId);
+                float amount = transaction.Amount;
                 Transactions transactions = new Transactions
                 {
-                    Amount = amount*90/100F,
+                    Amount = amount * 90 / 100F,
                     Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
                     MaintenanceCenterId = mc.MaintenanceCenterId,
                     MaintenancePlanId = plan.MaintenancePlanId,
@@ -613,11 +691,179 @@ namespace Infrastructure.IService.Imp
 
 
 
-                
+
                 await _unitOfWork.Commit();
 
 
                 return "http://localhost:3000/dashboard/";
+            }
+            else
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+        }
+
+        public async Task<string> CreatePaymentUrlMoblie(HttpContext httpContext, VnPaymentRequest model)
+        {
+            var tick = DateTime.Now.Ticks.ToString();
+            var r = await _unitOfWork.ReceiptRepository.GetById(model.ReceiptId);
+
+            _vnPayLibrary.AddRequestData("vnp_Version", _confiVnPay.Version);
+            _vnPayLibrary.AddRequestData("vnp_Command", _confiVnPay.Command);
+            _vnPayLibrary.AddRequestData("vnp_TmnCode", _confiVnPay.TmnCode);
+            _vnPayLibrary.AddRequestData("vnp_Amount", (r.TotalAmount * 100).ToString());
+
+            _vnPayLibrary.AddRequestData("vnp_CreateDate", model.CreatedDate.ToString("yyyyMMddHHmmss"));
+            _vnPayLibrary.AddRequestData("vnp_CurrCode", _confiVnPay.CurrCode);
+            _vnPayLibrary.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(httpContext));
+            _vnPayLibrary.AddRequestData("vnp_Locale", _confiVnPay.Locale);
+
+            _vnPayLibrary.AddRequestData("vnp_OrderInfo", "Thanh toán cho đơn hàng:" + model.ReceiptId);
+            _vnPayLibrary.AddRequestData("vnp_OrderType", "other");
+
+            string baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.PathBase}";
+            string returnUrl = $"{baseUrl}/api/Payments/PaymentCallbackMoblie";
+            _vnPayLibrary.AddRequestData("vnp_ReturnUrl", returnUrl);
+
+            _vnPayLibrary.AddRequestData("vnp_TxnRef", tick);
+
+            var paymentUrl = await _vnPayLibrary.CreateRequestUrl(_confiVnPay.BaseUrl, _confiVnPay.HashSecret);
+            return paymentUrl;
+        }
+
+        public async Task<string> PaymentExecutev1Moblie(IQueryCollection queryParameters)
+        {
+            foreach (var (key, value) in queryParameters)
+            {
+                if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
+                {
+                    _vnPayLibrary.AddResponseData(key, value.ToString());
+                }
+            }
+
+            var vnp_orderId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TxnRef"));
+            var vnp_TransactionId = Convert.ToInt64(_vnPayLibrary.GetResponseData("vnp_TransactionNo"));
+            var vnp_SecureHash = _vnPayLibrary.GetResponseData("vnp_SecureHash");
+            var vnp_ResponseCode = _vnPayLibrary.GetResponseData("vnp_ResponseCode");
+            var vnp_OrderInfo = _vnPayLibrary.GetResponseData("vnp_OrderInfo");
+
+            bool checkSignature = _vnPayLibrary.ValidateSignature(vnp_SecureHash, _confiVnPay.HashSecret);
+
+            string vnpOrderInfo = queryParameters["vnp_OrderInfo"];
+            string receiptId = vnpOrderInfo.Substring(vnpOrderInfo.LastIndexOf(":") + 1);
+            Guid receiptIdd = Guid.Parse(receiptId);
+            var receipt = await _unitOfWork.ReceiptRepository.GetById(receiptIdd);
+            var mi = await _unitOfWork.InformationMaintenance.GetById(receipt.InformationMaintenanceId);
+            var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
+            var client = await _unitOfWork.Client.GetById(mi.Booking.ClientId);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(mi.Booking.MaintenanceCenterId);
+            if (!checkSignature)
+            {
+                return "https://payment-failure.vercel.app/";
+            }
+
+            if (vnp_ResponseCode == "00" && receipt.Status.Equals(EnumStatus.YETPAID.ToString()))
+            {
+                receipt.Status = EnumStatus.PAID.ToString();
+                receipt.InformationMaintenance.Status = EnumStatus.PAID.ToString();
+                var i = await _unitOfWork.InformationMaintenance.GetById(receipt.InformationMaintenanceId);
+                await _unitOfWork.InformationMaintenance.Update(receipt.InformationMaintenance);
+                await _unitOfWork.ReceiptRepository.Update(receipt);
+
+                MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
+                maintenanceHistoryStatus.Status = EnumStatus.PAID.ToString();
+                maintenanceHistoryStatus.DateTime = DateTime.Now;
+                maintenanceHistoryStatus.Note = EnumStatus.PAID.ToString();
+                maintenanceHistoryStatus.MaintenanceInformationId = i.InformationMaintenanceId;
+                //var checkStatus = await _unitOfWork.MaintenanceHistoryStatuses
+                //      .CheckExistNameByNameAndIdInfor(maintenanceHistoryStatus.MaintenanceInformationId, maintenanceHistoryStatus.Status);
+                //if (checkStatus == null)
+                //{
+                await _unitOfWork.MaintenanceHistoryStatuses.Add(maintenanceHistoryStatus);
+                //}
+
+
+
+
+
+
+
+                Notification notification = new Notification
+                {
+                    AccountId = customercare.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại{center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+                await _unitOfWork.NotificationRepository.Add(notification);
+                Notification notificationCenter = new Notification
+                {
+                    AccountId = center.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại {center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+                await _unitOfWork.NotificationRepository.Add(notificationCenter);
+                Notification notificationclient = new Notification
+                {
+                    AccountId = client.AccountId,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                    NotificationId = Guid.NewGuid(),
+                    Title = "Hoàn Thành Thanh Toán",
+                    Message = $"Đã hoàn thành thanh toán tại {center.MaintenanceCenterName} vào lúc {DateTime.Now} và biển số xe là {mi.Booking.Vehicles.LicensePlate}",
+                    ReadDate = null,
+                    NotificationType = "Hoàn Thành Thanh Toán"
+                };
+
+                await _unitOfWork.NotificationRepository.Add(notificationclient);
+
+                if (mi.MaintenanceVehiclesDetailId != null)
+                {
+                    var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(mi.MaintenanceVehiclesDetailId); ;
+                    mvd.Status = "FINISHED";
+                    await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvd);
+
+                    var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(mvd.MaintananceScheduleId);
+                    var plan = await _unitOfWork.MaintenancePlanRepository.GetById(schedule.MaintenancePlanId);
+                    var tran = await _unitOfWork.TransactionRepository
+                        .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
+                    var amount = tran.Select(x => x.Amount).First();
+                    var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
+                    if (tran.Any())
+                    {
+                        Transactions transactions = new Transactions
+                        {
+                            MaintenancePlanId = plan.MaintenancePlanId,
+                            Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
+                            Amount = tran.Select(c=>c.Amount).First() * 90/100F,
+                            PaymentMethod = "AUTO",
+                            MaintenanceCenterId = center.MaintenanceCenterId,
+                            Status = "TRANSFERRED",
+                            TransactionDate = DateTime.Now,
+                            VehiclesId = vehicle.VehiclesId,
+                            Volume = 90,
+                            TransactionsId = Guid.NewGuid(),
+                        };
+                        await _unitOfWork.TransactionRepository.Add(transactions);
+                    }
+                    
+
+                }
+
+
+
+                await _unitOfWork.Commit();
+
+                return "exp://192.168.1.9:8081/";
             }
             else
             {

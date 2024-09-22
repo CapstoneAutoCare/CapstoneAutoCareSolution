@@ -1,6 +1,7 @@
 ﻿using Application.IGenericRepository.Imp;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,36 @@ namespace Application.IRepository.Imp
         {
         }
 
+        public async Task<List<Transactions>> GetTransactionsByVehicleAndCenterAndPlan(Guid plan, Guid vehicle, Guid centerId)
+        {
+            var transactions = _context.Transactions
+                .Include(c => c.MaintenancePlan)
+                .Include(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                .Include(c => c.Vehicles.Client)
+                .ThenInclude(c => c.Account)
+                .Include(c => c.MaintenanceCenter)
+                .ThenInclude(c => c.Account)
+                                .OrderByDescending(c => c.TransactionDate)
+
+            .Where(t => t.VehiclesId == vehicle
+                        && t.MaintenanceCenterId == centerId
+                        && t.MaintenancePlanId == plan
+                        && t.Status == "RECEIVED")
+            .ToList();
+
+            // Exclude any transactions with the status "TRANSFERRED"
+            var filteredTransactions = transactions
+                .Where(t => !_context.Transactions.Any(x => x.VehiclesId == vehicle
+                                                           && x.MaintenanceCenterId == centerId
+                                                           && x.MaintenancePlanId == plan
+                                                           && x.Status == "TRANSFERRED"))
+                .ToList();
+
+            return filteredTransactions;
+        }
+
         public async Task<List<Transactions>> GetAll()
         {
             return await _context.Set<Transactions>()
@@ -26,6 +57,7 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.Account)
                 .Include(c => c.MaintenanceCenter)
                 .ThenInclude(c => c.Account)
+                .OrderByDescending(c => c.TransactionDate)
                 .ToListAsync();
         }
 
@@ -40,12 +72,30 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.Account)
                 .Include(c => c.MaintenanceCenter)
                 .ThenInclude(c => c.Account)
+                                .OrderByDescending(c => c.TransactionDate)
+
                 .FirstOrDefaultAsync(c => c.TransactionsId == id);
             if (transaction == null)
             {
                 throw new Exception("Khong tim thay");
             }
             return transaction;
+        }
+
+        public async Task<Transactions> GetCostByPlanAndVehicleAndCenterWithStatusRECEIVED(Guid plan, Guid vehicle, Guid centerId)
+        {
+            return await _context.Set<Transactions>()
+                 .Include(c => c.MaintenancePlan)
+                .Include(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                .Include(c => c.Vehicles.Client)
+                .ThenInclude(c => c.Account)
+                .Include(c => c.MaintenanceCenter)
+                .ThenInclude(c => c.Account)
+                                .OrderByDescending(c => c.TransactionDate)
+
+                .FirstOrDefaultAsync(c => c.MaintenanceCenterId == centerId && c.Status == "RECEIVED" && c.MaintenancePlanId == plan && c.VehiclesId == vehicle);
         }
 
         public async Task<List<Transactions>> GetListByCenterIdAndStatusTransferred(Guid centerId)
@@ -59,7 +109,9 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.Account)
                 .Include(c => c.MaintenanceCenter)
                 .ThenInclude(c => c.Account)
-                .Where(c => c.MaintenanceCenterId == centerId && c.Status == "TRANSFERRED") .ToListAsync();
+                                .OrderByDescending(c => c.TransactionDate)
+
+                .Where(c => c.MaintenanceCenterId == centerId && c.Status == "TRANSFERRED").ToListAsync();
         }
 
         public async Task<List<Transactions>> GetListByClientRECEIVED(Guid clientId)
@@ -73,7 +125,9 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.Account)
                 .Include(c => c.MaintenanceCenter)
                 .ThenInclude(c => c.Account)
-                .Where(c => c.Vehicles.ClientId == clientId&&c.Status== "RECEIVED").ToListAsync();
+                                .OrderByDescending(c => c.TransactionDate)
+
+                .Where(c => c.Vehicles.ClientId == clientId && c.Status == "RECEIVED").ToListAsync();
         }
     }
 }

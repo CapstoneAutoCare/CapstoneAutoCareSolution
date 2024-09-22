@@ -21,7 +21,7 @@ namespace Application.IRepository.Imp
                 .Include(c => c.MaintenancePlan)
                 .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
-                .OrderBy(c=>c.MaintananceScheduleName)
+                .OrderBy(c => c.MaintananceScheduleName)
                 .ToListAsync();
         }
 
@@ -70,6 +70,30 @@ namespace Application.IRepository.Imp
                 .ToListAsync();
         }
 
+        public async Task<List<MaintananceSchedule>> GetListPlanIdAndOdoCenterId(Guid planId, Guid centerId)
+        {
+            var maintenanceServices = await _context.Set<MaintenanceService>()
+                .Include(c => c.VehicleModel)
+                    .ThenInclude(c => c.VehiclesBrand)
+                .Include(ms => ms.ServiceCare)
+                    .ThenInclude(sc => sc.MaintananceSchedule)
+                    .ThenInclude(c => c.MaintenancePlan)
+                .Where(ms => ms.MaintenanceCenterId == centerId && ms.ServiceCare.MaintananceSchedule.MaintenancePlanId == planId)
+
+                .ToListAsync();
+
+            var maintananceSchedules = maintenanceServices
+
+                .Where(ms => ms.ServiceCare != null)
+
+                .Select(ms => ms.ServiceCare.MaintananceSchedule)
+
+                .Distinct()
+                .ToList();
+
+            return maintananceSchedules;
+        }
+
         public async Task<List<MaintananceSchedule>> GetListPlanIdAndPackageCenterId(Guid planid, Guid id)
         {
             var existingSchedules = await _context.Set<MaintenanceInformation>()
@@ -82,7 +106,7 @@ namespace Application.IRepository.Imp
                 .Include(ms => ms.ServiceCare)
                     .ThenInclude(sc => sc.MaintananceSchedule)
                     .ThenInclude(c => c.MaintenancePlan)
-                            .Include(ms => ms.ServiceCare.MaintananceSchedule.MaintenanceVehiclesDetails) 
+                            .Include(ms => ms.ServiceCare.MaintananceSchedule.MaintenanceVehiclesDetails)
 
                 .Where(ms => ms.MaintenanceCenterId == id && ms.ServiceCare.MaintananceSchedule.MaintenancePlanId == planid)
                 .ToListAsync();
@@ -119,13 +143,13 @@ namespace Application.IRepository.Imp
         .Where(ms => ms.ServiceCare != null)
         .Select(ms => ms.ServiceCare.MaintananceSchedule)
         .Where(schedule => schedule != null && !existingSchedules.Contains(schedule.MaintananceScheduleId))
-        .OrderBy(c=>c.MaintananceScheduleName)
+        .OrderBy(c => c.MaintananceScheduleName)
         .Distinct()
         .ToList();
 
             return maintananceSchedules;
         }
 
-       
+
     }
 }

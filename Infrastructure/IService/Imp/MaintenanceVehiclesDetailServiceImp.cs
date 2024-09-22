@@ -71,6 +71,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintenanceVehicleDetail>>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetListByPlanAndVehicleAndCenter(planId, vehicle, center));
         }
 
+        public async Task<ResponseMaintenanceVehicleDetail> GetListByPlanAndVehicleAndCenterWithStatusFinished(Guid planId, Guid vehicle, Guid center)
+        {
+            return _mapper.Map<ResponseMaintenanceVehicleDetail>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetListByPlanAndVehicleAndCenterWithStatusFinished(planId, vehicle, center));
+        }
+
         public async Task<List<ResponseMaintenanceVehicleDetail>> GetListByVehicleId(Guid id)
         {
             return _mapper.Map<List<ResponseMaintenanceVehicleDetail>>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetListByVehicleId(id));

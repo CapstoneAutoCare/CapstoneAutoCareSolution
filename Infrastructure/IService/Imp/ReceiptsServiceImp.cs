@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Infrastructure.Common.Payment.PayPalSeal;
 
 namespace Infrastructure.IService.Imp
 {
@@ -101,6 +102,31 @@ namespace Infrastructure.IService.Imp
                     var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(mi.MaintenanceVehiclesDetailId); ;
                     mvd.Status = "FINISHED";
                     await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvd);
+
+                    var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(mvd.MaintananceScheduleId);
+                    var plan = await _unitOfWork.MaintenancePlanRepository.GetById(schedule.MaintenancePlanId);
+                    var tran = await _unitOfWork.TransactionRepository
+                        .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
+                    var amount = tran.Select(x => x.Amount).First();
+                    var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
+                    if (tran.Any())
+                    {
+                        Transactions transactions = new Transactions
+                        {
+                            MaintenancePlanId = plan.MaintenancePlanId,
+                            Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
+                            Amount = amount * 90 / 100F,
+                            PaymentMethod = "AUTO",
+                            MaintenanceCenterId = center.MaintenanceCenterId,
+                            Status = "TRANSFERRED",
+                            TransactionDate = DateTime.Now,
+                            VehiclesId = vehicle.VehiclesId,
+                            Volume = 90,
+                            TransactionsId = Guid.NewGuid(),
+                        };
+                        await _unitOfWork.TransactionRepository.Add(transactions);
+                    }
+
                 }
 
 
