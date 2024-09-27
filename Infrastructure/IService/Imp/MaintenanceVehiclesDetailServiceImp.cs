@@ -7,6 +7,7 @@ using Infrastructure.IUnitofWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -64,6 +65,11 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseMaintenanceVehicleDetail> GetById(Guid? id)
         {
             return _mapper.Map<ResponseMaintenanceVehicleDetail>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(id));
+        }
+
+        public async Task<List<ResponseMaintenanceVehicleDetail>> GetListByCenterId(Guid centerId)
+        {
+            return _mapper.Map<List<ResponseMaintenanceVehicleDetail>>(await _unitOfWork.MaintenanceVehiclesDetailRepository.GetListByCenterId(centerId));
         }
 
         public async Task<List<ResponseMaintenanceVehicleDetail>> GetListByPlanAndVehicleAndCenter(Guid planId, Guid vehicle, Guid center)

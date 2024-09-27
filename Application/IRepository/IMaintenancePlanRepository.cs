@@ -12,8 +12,10 @@ namespace Application.IRepository
     {
         Task<List<MaintenancePlan>> GetAll();
         Task<MaintenancePlan> GetById(Guid id);
+        Task<MaintenancePlan> GetByIdWi(Guid? id);
         Task<List<MaintenancePlan>> GetListCenterId(Guid id);
-        Task<List<MaintenancePlan>> GetListCenterIdAndVehicle(Guid id,Guid vehicleId);
+        Task<List<MaintenancePlan>> GetListCenterIdAndVehicle(Guid id, Guid vehicleId);
+        Task<List<MaintenancePlan>> GetListFilterCenterAndVehicle(Guid center, Guid vehicleId);
 
     }
 }

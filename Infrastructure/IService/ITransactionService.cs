@@ -16,6 +16,7 @@ namespace Infrastructure.IService
         Task<List<ResponseTransaction>> GetListByClientRECEIVED(Guid id);
         Task<ResponseTransaction> Create(CreatePaymentTransaction transaction);
         Task<List<ResponseTransaction>> GetTransactionsByVehicleAndCenterAndPlan(Guid vehicle, Guid center, Guid plan);
+        Task<List<ResponseTransaction>> GetListByCenterId(Guid centerId);
 
 
     }

@@ -264,7 +264,7 @@ namespace Application.IRepository.Imp
             return main;
         }
 
-        public async Task<List<MaintenanceInformation>> GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(Guid planId, Guid vehicleId, Guid centerId)
+        public async Task<List<MaintenanceInformation>> GetListByPlanAndVehicleAndCenterAndStatusCREATEDBYClIENT(Guid planId, Guid vehicleId, Guid centerId)
         {
             return await _context.Set<MaintenanceInformation>()
                               .Include(c => c.Booking)
@@ -278,12 +278,12 @@ namespace Application.IRepository.Imp
                               .Include(c => c.MaintenanceHistoryStatuses)
                               .Include(c => c.MaintenanceServiceInfos)
                               .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
-                              .Include(c=>c.MaintenanceVehiclesDetail)
-                              .ThenInclude(c=>c.MaintananceSchedule)
-                              .ThenInclude(c=>c.MaintenancePlan)
+                              .Include(c => c.MaintenanceVehiclesDetail)
+                              .ThenInclude(c => c.MaintananceSchedule)
+                              .ThenInclude(c => c.MaintenancePlan)
                               .Where(c => c.MaintenanceVehiclesDetail.MaintananceSchedule.MaintenancePlanId == planId
                               && c.MaintenanceVehiclesDetail.VehiclesId == vehicleId
-                              && c.MaintenanceVehiclesDetail.MaintenanceCenterId == centerId && c.Status==EnumStatus.WAITINGBYCAR.ToString())
+                              && c.MaintenanceVehiclesDetail.MaintenanceCenterId == centerId && c.Status == EnumStatus.CREATEDBYClIENT.ToString())
                               .OrderBy(c => c.MaintenanceVehiclesDetail.MaintananceSchedule.MaintananceScheduleName)
                               .ToListAsync();
         }

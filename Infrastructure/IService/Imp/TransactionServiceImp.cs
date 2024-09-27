@@ -74,6 +74,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetListByCenterIdAndStatusTransferred(id));
         }
 
+        public async Task<List<ResponseTransaction>> GetListByCenterId(Guid centerId)
+        {
+            return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetListByCenterId(centerId));
+        }
+
         public async Task<List<ResponseTransaction>> GetListByClientRECEIVED(Guid id)
         {
             return _mapper.Map<List<ResponseTransaction>>(await _unitOfWork.TransactionRepository.GetListByClientRECEIVED(id));

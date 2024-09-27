@@ -46,7 +46,11 @@ namespace CapstoneAutoCareApi.Controllers
         {
             return Ok(await _vehiclesService.GetListByClient());
         }
-
+        [HttpGet]
+        public async Task<ActionResult<List<ResponseVehicles>>> GetListByCenterWhenBuyPackage(Guid centerId)
+        {
+            return Ok(await _vehiclesService.GetListByCenterWhenBuyPackage(centerId));
+        }
 
         [HttpPost]
         public async Task<ActionResult<ResponseVehicles>> Post(CreateVehicle vehicles)
@@ -60,7 +64,7 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _vehiclesService.UpdateStatus(id, status));
         }
         [HttpPut]
-        public async Task<ActionResult<ResponseVehicles>> PutVehicle(Guid id,UpdateVehicle vehicle)
+        public async Task<ActionResult<ResponseVehicles>> PutVehicle(Guid id, UpdateVehicle vehicle)
         {
 
             return Ok(await _vehiclesService.Update(id, vehicle));

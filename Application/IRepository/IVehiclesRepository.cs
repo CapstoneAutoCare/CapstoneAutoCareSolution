@@ -13,6 +13,7 @@ namespace Application.IRepository
         Task<Vehicles> GetById(Guid id);
         Task<List<Vehicles>> GetAll();
         Task<List<Vehicles>> GetListByClient(Guid id);
-        Task<Vehicles> CheckLicenseplateExist(string  name);
+        Task<Vehicles> CheckLicenseplateExist(string name);
+        Task<List<Vehicles>> GetListByCenterWhenBuyPackage(Guid centerId);
     }
 }

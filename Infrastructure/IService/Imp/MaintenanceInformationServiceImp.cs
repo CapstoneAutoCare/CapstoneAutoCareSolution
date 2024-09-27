@@ -61,7 +61,7 @@ namespace Infrastructure.IService.Imp
             //var account = await _unitOfWork.Account.Profile(email);
             var customercare = await _unitOfWork.CustomerCare.GetById(mi.CustomerCareId);
             mi.CustomerCareId = customercare.CustomerCareId;
-
+            mi.CreatedDate = DateTime.Now;
             var doublePrice = await ProcessSparePartInfos(mi.MaintenanceSparePartInfos, mi.InformationMaintenanceId, mi.TotalPrice);
             mi.TotalPrice = doublePrice;
 
@@ -467,16 +467,41 @@ namespace Infrastructure.IService.Imp
             }
             var mvd = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(main.MaintenanceVehiclesDetailId);
             var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(mvd.MaintananceScheduleId);
+            var plan = await _unitOfWork.MaintenancePlanRepository.GetById(schedule.MaintenancePlanId);
+
+            var milist = await _unitOfWork.InformationMaintenance
+                .GetListByPlanAndVehicleAndCenterAndStatusCREATEDBYClIENT(plan.MaintenancePlanId, booking.VehicleId, customercare.CenterId);
+
+            var mvdlist = await _unitOfWork.MaintenanceVehiclesDetailRepository
+               .GetListByPlanAndVehicleAndCenterStatusPending(plan.MaintenancePlanId, booking.VehicleId, customercare.CenterId);
             if (schedule.MaintenancePlanId != booking.MaintenancePlanId)
             {
                 throw new Exception("Gói này không phù hợp");
             }
+
             if (booking.Status == STATUSENUM.STATUSBOOKING.ACCEPTED.ToString())
             {
                 main.BookingId = booking.BookingId;
                 main.CustomerCareId = customercare.CustomerCareId;
                 main.Note = createMainV1.Note;
                 main.Status = EnumStatus.CHECKIN.ToString();
+                for (var i = 0; i < milist.Count; i++)
+                {
+                    if (milist[i].MaintenanceVehiclesDetailId == mvd.MaintenanceVehiclesDetailId)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        var mvdcheck = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetById(milist[i].MaintenanceVehiclesDetailId);
+                        if (mvdcheck.Status == "PENDING")
+                        {
+                            mvdcheck.Status = "EXPIRED";
+                            await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvdcheck);
+                        }
+                    }
+                }
+
 
                 MaintenanceHistoryStatus maintenanceHistoryStatus = new MaintenanceHistoryStatus();
                 maintenanceHistoryStatus.Status = EnumStatus.CHECKIN.ToString();
@@ -499,10 +524,10 @@ namespace Infrastructure.IService.Imp
 
         }
 
-        public async Task<List<ResponseMaintenanceInformation>> GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(Guid planId, Guid vehicleId, Guid centerId)
+        public async Task<List<ResponseMaintenanceInformation>> GetListByPlanAndVehicleAndCenterAndStatusCREATEDBYClIENT(Guid planId, Guid vehicleId, Guid centerId)
         {
             return _mapper.Map<List<ResponseMaintenanceInformation>>(
-                await _unitOfWork.InformationMaintenance.GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(planId, vehicleId, centerId));
+                await _unitOfWork.InformationMaintenance.GetListByPlanAndVehicleAndCenterAndStatusCREATEDBYClIENT(planId, vehicleId, centerId));
         }
 
         //public async Task<ResponseMaintenanceInformation> CreateHavePackage(CreateMaintenanceInformationHavePackage create)

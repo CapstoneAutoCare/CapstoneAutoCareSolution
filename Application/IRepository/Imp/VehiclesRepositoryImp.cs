@@ -41,6 +41,15 @@ namespace Application.IRepository.Imp
             return vehicle;
         }
 
+        public async Task<List<Vehicles>> GetListByCenterWhenBuyPackage(Guid centerId)
+        {
+            return await _context.Set<Vehicles>()
+                .Include(c => c.Client)
+                .Include(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand).Where(c => c.MaintenanceVehiclesDetails.Any(c=>c.MaintenanceCenterId==centerId &&c.MaintenanceInformations.Any()))
+                .ToListAsync();
+        }
+
         public async Task<List<Vehicles>> GetListByClient(Guid id)
         {
             return await _context.Set<Vehicles>()

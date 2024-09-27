@@ -91,7 +91,7 @@ namespace Infrastructure.IService.Imp
         public async Task<ResponseVehicles> Update(Guid id, UpdateVehicle updateVehicle)
         {
             var vehicle = await _unitOfWork.Vehicles.GetById(id);
-            var previousOdo = vehicle.Odo; 
+            var previousOdo = vehicle.Odo;
 
             var update = _mapper.Map(updateVehicle, vehicle);
             await _unitOfWork.Vehicles.Update(vehicle);
@@ -104,6 +104,12 @@ namespace Infrastructure.IService.Imp
 
             var response = _mapper.Map<ResponseVehicles>(update);
             return response;
+        }
+
+        public async Task<List<ResponseVehicles>> GetListByCenterWhenBuyPackage(Guid centerId)
+        {
+            return _mapper.Map<List<ResponseVehicles>>(
+                            await _unitOfWork.Vehicles.GetListByCenterWhenBuyPackage(centerId));
         }
     }
 }

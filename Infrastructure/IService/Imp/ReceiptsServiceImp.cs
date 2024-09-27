@@ -107,10 +107,10 @@ namespace Infrastructure.IService.Imp
                     var plan = await _unitOfWork.MaintenancePlanRepository.GetById(schedule.MaintenancePlanId);
                     var tran = await _unitOfWork.TransactionRepository
                         .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
-                    var amount = tran.Select(x => x.Amount).First();
                     var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
                     if (tran.Any())
                     {
+                        var amount = tran.Select(x => x.Amount).First(); // Or use FirstOrDefault() and handle null if necessary
                         Transactions transactions = new Transactions
                         {
                             MaintenancePlanId = plan.MaintenancePlanId,
@@ -126,6 +126,7 @@ namespace Infrastructure.IService.Imp
                         };
                         await _unitOfWork.TransactionRepository.Add(transactions);
                     }
+
 
                 }
 

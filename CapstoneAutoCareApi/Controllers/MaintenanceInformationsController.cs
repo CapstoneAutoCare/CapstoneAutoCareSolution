@@ -95,9 +95,9 @@ namespace CapstoneAutoCareApi.Controllers
             return Ok(await _maintenanceInformationService.GetListByCenterAndStatusCheckinAndTaskInactive(centerId));
         }
         [HttpGet]
-        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(Guid planId, Guid vehicleId, Guid centerId)
+        public async Task<ActionResult<List<ResponseMaintenanceInformation>>> GetListByPlanAndVehicleAndCenterAndStatusCREATEDBYClIENT(Guid planId, Guid vehicleId, Guid centerId)
         {
-            return Ok(await _maintenanceInformationService.GetListByPlanAndVehicleAndCenterAndStatusWatingbycar(planId, vehicleId, centerId));
+            return Ok(await _maintenanceInformationService.GetListByPlanAndVehicleAndCenterAndStatusCREATEDBYClIENT(planId, vehicleId, centerId));
         }
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenanceInformation>> Post([FromBody] CreateMaintenanceInformation maintenanceInformation)

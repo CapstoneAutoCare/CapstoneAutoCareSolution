@@ -57,6 +57,11 @@ namespace Infrastructure.IService.Imp
             return _mapper.Map<List<ResponseMaintenancePlan>>(await _unitOfWork.MaintenancePlanRepository.GetListCenterIdAndVehicle(id, vehicleId));
         }
 
+        public async Task<List<ResponseMaintenancePlan>> GetListFilterCenterAndVehicle(Guid center, Guid vehicleId)
+        {
+            return _mapper.Map<List<ResponseMaintenancePlan>>(await _unitOfWork.MaintenancePlanRepository.GetListFilterCenterAndVehicle(center, vehicleId));
+        }
+
         public Task<ResponseMaintenancePlan> Update(UpdateMaintanancePlan updateMaintanancePlan)
         {
             throw new NotImplementedException();

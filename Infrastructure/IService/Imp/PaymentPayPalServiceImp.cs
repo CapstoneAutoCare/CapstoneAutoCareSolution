@@ -535,7 +535,7 @@ namespace Infrastructure.IService.Imp
                         MaintenanceVehiclesDetailId = v.MaintenanceVehiclesDetailId,
                         Note = $"{plan.MaintenancePlanName} {mvd.MaintananceScheduleName}",
                         TotalPrice = 0,
-                        Status = EnumStatus.WAITINGBYCAR.ToString(),
+                        Status = EnumStatus.CREATEDBYClIENT.ToString(),
 
                     };
                     await _unitOfWork.InformationMaintenance.Add(maintenanceInformation);

@@ -129,5 +129,20 @@ namespace Application.IRepository.Imp
 
                 .Where(c => c.Vehicles.ClientId == clientId && c.Status == "RECEIVED").ToListAsync();
         }
+
+        public async Task<List<Transactions>> GetListByCenterId(Guid centerId)
+        {
+            return await _context.Set<Transactions>()
+                 .Include(c => c.MaintenancePlan)
+                .Include(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                .Include(c => c.Vehicles.Client)
+                .ThenInclude(c => c.Account)
+                .Include(c => c.MaintenanceCenter)
+                .ThenInclude(c => c.Account)
+                                .OrderByDescending(c => c.TransactionDate)
+                .Where(c => c.MaintenanceCenterId == centerId).ToListAsync();
+        }
     }
 }

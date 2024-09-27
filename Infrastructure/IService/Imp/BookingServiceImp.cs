@@ -185,18 +185,41 @@ namespace Infrastructure.IService.Imp
             var client = await _unitOfWork.Client.GetById(account.Client.ClientId);
 
             booking.ClientId = client.ClientId;
-            await _unitOfWork.Vehicles.GetById(booking.VehicleId);
+            var vehicle = await _unitOfWork.Vehicles.GetById(booking.VehicleId);
 
-            await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+            var center = await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
             booking.Status = "WAITING";
             booking.CreatedDate = DateTime.Now;
             var checkpackageVehicle = await _unitOfWork.MaintenanceVehiclesDetailRepository.GetListByVehicleId(booking.VehicleId);
+            var plan = await _unitOfWork.MaintenancePlanRepository.GetByIdWi(booking.MaintenancePlanId);
             if (!checkpackageVehicle.Any(c => c.MaintananceSchedule.MaintenancePlanId == booking.MaintenancePlanId))
             {
                 throw new Exception("Xe này chưa có mua gói");
             }
-
             await _unitOfWork.Booking.Add(booking);
+
+            var mvdlist = await _unitOfWork.MaintenanceVehiclesDetailRepository
+                .GetListByPlanAndVehicleAndCenterStatusPending(plan.MaintenancePlanId, vehicle.VehiclesId, center.MaintenanceCenterId);
+
+            if (mvdlist.Any())
+            {
+                var firstmvd = mvdlist.FirstOrDefault();
+                if (firstmvd != null)
+                {
+                    var mvdId = firstmvd.MaintenanceVehiclesDetailId;
+                    var mi = await _unitOfWork.InformationMaintenance.GetByMVDId(mvdId);
+                    mi.CreatedDate = DateTime.Now;
+
+                    mi.BookingId = booking.BookingId;
+                    await _unitOfWork.InformationMaintenance.Update(mi);
+                }
+                else
+                {
+                    throw new Exception("Không tìm thấy trạng thái pending.");
+                }
+
+            }
+
             await _unitOfWork.Commit();
             return _mapper.Map<ResponseBooking>(booking);
 
@@ -374,7 +397,7 @@ namespace Infrastructure.IService.Imp
                 //var email = _tokensHandler.ClaimsFromToken();
                 //var account = await _unitOfWork.Account.Profile(email);
 
-                if (booking.MaintenancePlanId == null)
+                if (customercareId != null)
                 {
                     var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
                     var account = await _unitOfWork.CustomerCare.GetById(customercareId);
@@ -473,6 +496,29 @@ namespace Infrastructure.IService.Imp
                     await _unitOfWork.NotificationRepository.Add(notificationv2);
 
                     await _emailService.SendMail("duypdxse161418@fpt.edu.vn", maintenanceHistoryStatus.Status, "Booking");
+                }
+                else if (booking.MaintenancePlanId != null)
+                {
+                    var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
+                    checkInfor.BookingId = null;
+                    await _unitOfWork.InformationMaintenance.Update(checkInfor);
+                    var client = await _unitOfWork.Client.GetById(booking.ClientId);
+                    var center = await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
+
+                    Notification notificationv2 = new Notification
+                    {
+                        AccountId = client.AccountId,
+                        IsRead = false,
+                        CreatedDate = DateTime.Now,
+                        NotificationId = Guid.NewGuid(),
+                        Title = "Đặt Lịch Bảo Dưỡng",
+                        Message = $"Đã hủy đặt lịch bảo dưỡng tại {center.MaintenanceCenterName} vào lúc {booking.BookingDate} và biển số xe là {booking.Vehicles.LicensePlate}",
+                        ReadDate = null,
+                        NotificationType = "Hủy đặt lịch"
+                    };
+                    await _unitOfWork.NotificationRepository.Add(notificationv2);
+
+                    await _emailService.SendMail("duypdxse161418@fpt.edu.vn", booking.Status, "Booking");
                 }
 
                 booking.Status = status;

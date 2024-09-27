@@ -51,6 +51,13 @@ namespace CapstoneAutoCareApi.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult<ResponseMaintenancePlan>> GetListFilterCenterAndVehicle(Guid id, Guid vehicleId)
+        {
+            return Ok(await _maintenancePlanService.GetListFilterCenterAndVehicle(id, vehicleId));
+
+        }
+
         [HttpPost]
         public async Task<ActionResult<ResponseMaintenancePlan>> Post(CreateMaintanancePlan maintenancePlan)
         {

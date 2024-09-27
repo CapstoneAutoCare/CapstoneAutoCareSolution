@@ -16,6 +16,7 @@ namespace Application.IRepository
         Task<List<Transactions>> GetListByClientRECEIVED(Guid clientId);
         Task<Transactions> GetCostByPlanAndVehicleAndCenterWithStatusRECEIVED(Guid plan,Guid vehicle,Guid centerId);
         Task<List<Transactions>> GetTransactionsByVehicleAndCenterAndPlan(Guid plan, Guid vehicle, Guid centerId);
+        Task<List<Transactions>> GetListByCenterId(Guid centerId);
     
     }
 }

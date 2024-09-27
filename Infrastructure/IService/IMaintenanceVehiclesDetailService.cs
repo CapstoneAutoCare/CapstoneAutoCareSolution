@@ -15,10 +15,11 @@ namespace Infrastructure.IService
         Task<List<ResponseMaintenanceVehicleDetail>> GetAll();
         Task<List<ResponseMaintenanceVehicleDetail>> Create(CreateMainVehicleDetail createMainVehicle);
         Task<List<ResponseMaintenanceVehicleDetail>> GetListByVehicleId(Guid id);
+        Task<List<ResponseMaintenanceVehicleDetail>> GetListByCenterId(Guid centerId);
         Task<ResponseMaintenanceVehicleDetail> GetById(Guid? id);
         Task<List<ResponseMaintenanceVehicleDetail>> GetListByPlanAndVehicleAndCenter(Guid planId, Guid vehicle, Guid center);
         Task<ResponseMaintenanceVehicleDetail> GetListByPlanAndVehicleAndCenterWithStatusFinished(Guid planId, Guid vehicle, Guid center);
 
-        
+
     }
 }

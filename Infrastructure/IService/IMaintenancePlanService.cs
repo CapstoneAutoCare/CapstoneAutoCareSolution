@@ -16,6 +16,7 @@ namespace Infrastructure.IService
         Task<ResponseMaintenancePlan> GetById(Guid id);
         Task<ResponseMaintenancePlan> Update(UpdateMaintanancePlan updateMaintanancePlan);
         Task<List<ResponseMaintenancePlan>> GetListByCenterId(Guid id);
-        Task<List<ResponseMaintenancePlan>> GetListByCenterIdAndVehicleId(Guid id,Guid vehicleId);
+        Task<List<ResponseMaintenancePlan>> GetListByCenterIdAndVehicleId(Guid id, Guid vehicleId);
+        Task<List<ResponseMaintenancePlan>> GetListFilterCenterAndVehicle(Guid center, Guid vehicleId);
     }
 }

@@ -74,6 +74,23 @@ namespace Application.IRepository.Imp
             return mvd;
         }
 
+        public async Task<List<MaintenanceVehiclesDetail>> GetListByCenterId(Guid centerId)
+        {
+            return await _context.Set<MaintenanceVehiclesDetail>()
+                                .Include(c => c.MaintenanceCenter)
+                                                .ThenInclude(c => c.Account)
+                           .Include(c => c.Vehicle)
+                           .ThenInclude(c => c.VehicleModel)
+                           .ThenInclude(c => c.VehiclesBrand)
+                .Include(c => c.MaintananceSchedule)
+                .ThenInclude(c => c.MaintenancePlan)
+                 .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                           .Where(c => c.MaintenanceCenterId == centerId)
+                                   .OrderBy(c => c.MaintananceSchedule.MaintananceScheduleName).
+ToListAsync();
+        }
+
         public async Task<List<MaintenanceVehiclesDetail>> GetListByPlanAndVehicleAndCenter(Guid plan, Guid vehicle, Guid center)
         {
             return await _context.Set<MaintenanceVehiclesDetail>()
@@ -87,14 +104,27 @@ namespace Application.IRepository.Imp
                 .ThenInclude(c => c.MaintenancePlan)
                  .ThenInclude(c => c.VehicleModel)
                 .ThenInclude(c => c.VehiclesBrand)
-                           .Where(c => c.VehiclesId == vehicle && c.MaintananceSchedule.MaintenancePlanId == plan && c.MaintenanceCenterId == center
+                           .Where(c => c.VehiclesId == vehicle && c.MaintananceSchedule.MaintenancePlanId == plan
+                           && c.MaintenanceCenterId == center)
+                           .OrderBy(c => c.MaintananceSchedule.MaintananceScheduleName).ToListAsync();
+        }
 
-                           && !_context.Set<MaintenanceInformation>().Any(mi => mi.MaintenanceVehiclesDetailId == c.MaintenanceVehiclesDetailId)
-                           )
+        public async Task<List<MaintenanceVehiclesDetail>> GetListByPlanAndVehicleAndCenterStatusPending(Guid plan, Guid vehicle, Guid center)
+        {
+            return await _context.Set<MaintenanceVehiclesDetail>()
+                               .Include(c => c.MaintenanceCenter)
+                                               .ThenInclude(c => c.Account)
 
-
-                                   .OrderBy(c => c.MaintananceSchedule.MaintananceScheduleName).
-ToListAsync();
+                          .Include(c => c.Vehicle)
+                          .ThenInclude(c => c.VehicleModel)
+                          .ThenInclude(c => c.VehiclesBrand)
+               .Include(c => c.MaintananceSchedule)
+               .ThenInclude(c => c.MaintenancePlan)
+                .ThenInclude(c => c.VehicleModel)
+               .ThenInclude(c => c.VehiclesBrand)
+                          .Where(c => c.VehiclesId == vehicle && c.MaintananceSchedule.MaintenancePlanId == plan
+                          && c.MaintenanceCenterId == center && c.Status == "PENDING")
+                          .OrderBy(c => c.MaintananceSchedule.MaintananceScheduleName).ToListAsync();
         }
 
         public async Task<MaintenanceVehiclesDetail> GetListByPlanAndVehicleAndCenterWithStatusFinished(Guid plan, Guid vehicle, Guid center)

@@ -35,6 +35,21 @@ namespace Application.IRepository.Imp
             return plan;
         }
 
+
+        public async Task<MaintenancePlan> GetByIdWi(Guid? id)
+        {
+            var plan = await _context.Set<MaintenancePlan>()
+                  .Include(c => c.VehicleModel)
+                  .ThenInclude(c => c.VehiclesBrand)
+                  .Include(c => c.MaintenanceSchedules)
+                  .FirstOrDefaultAsync(c => c.MaintenancePlanId == id);
+            if (plan == null)
+            {
+                throw new Exception("KHONG TIM THAY ");
+            }
+            return plan;
+        }
+
         public async Task<List<MaintenancePlan>> GetListCenterId(Guid id)
         {
             //var mcservice = await _context.Set<MaintenanceService>().Where(c=>c.MaintenanceCenterId == id)
@@ -50,7 +65,7 @@ namespace Application.IRepository.Imp
                 .Where(mp => mp.MaintenanceSchedules
                     .Any(ms => ms.ServiceCares
                         .Any(mvd => mvd.MaintenanceServices.Any(c => c.MaintenanceCenterId == id))))
-                
+
                 .ToListAsync();
 
             return plan;
@@ -72,11 +87,26 @@ namespace Application.IRepository.Imp
         .Where(mp => !mp.MaintenanceSchedules
             .Any(ms => ms.MaintenanceVehiclesDetails
                 .Any(mvd => mvd.VehiclesId == vehicleId && mvd.MaintenanceCenterId == centerId)))
-        
+
         .ToListAsync();
 
             return plan;
 
+        }
+
+        public async Task<List<MaintenancePlan>> GetListFilterCenterAndVehicle(Guid center, Guid vehicleId)
+        {
+            var mvd = await _context.Set<MaintenanceVehiclesDetail>()
+                .Where(c => c.MaintenanceCenterId == center && c.VehiclesId == vehicleId)
+                .OrderBy(c => c.MaintananceSchedule.MaintananceScheduleName)
+                        .Select(c => c.MaintananceScheduleId)
+                .ToListAsync();
+
+            var plan = await _context.Set<MaintenancePlan>()
+               .Where(mp => mp.MaintenanceSchedules.Any(ms => mvd.Contains(ms.MaintananceScheduleId)))
+               .ToListAsync();
+
+            return plan;
         }
     }
 }
