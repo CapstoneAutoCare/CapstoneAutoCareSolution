@@ -497,7 +497,11 @@ namespace Infrastructure.IService.Imp
                         if (mvdcheck.Status == "PENDING")
                         {
                             mvdcheck.Status = "EXPIRED";
+
+                            var mi = await _unitOfWork.InformationMaintenance.GetByMVDId(mvdcheck.MaintenanceVehiclesDetailId);
+                            mi.Status = STATUSENUM.STATUSBOOKING.CANCELLED.ToString();
                             await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvdcheck);
+                            await _unitOfWork.InformationMaintenance.Update(mi);
                         }
                     }
                 }
