@@ -499,9 +499,13 @@ namespace Infrastructure.IService.Imp
                 }
                 else if (booking.MaintenancePlanId != null)
                 {
-                    var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingId(booking.BookingId);
-                    checkInfor.BookingId = null;
-                    await _unitOfWork.InformationMaintenance.Update(checkInfor);
+                    var checkInfor = await _unitOfWork.InformationMaintenance.GetByBookingIdW(booking.BookingId);
+                    if(checkInfor != null)
+                    {
+                        checkInfor.BookingId = null;
+                        await _unitOfWork.InformationMaintenance.Update(checkInfor);
+                    }
+                    
                     var client = await _unitOfWork.Client.GetById(booking.ClientId);
                     var center = await _unitOfWork.MaintenanceCenter.GetById(booking.MaintenanceCenterId);
 

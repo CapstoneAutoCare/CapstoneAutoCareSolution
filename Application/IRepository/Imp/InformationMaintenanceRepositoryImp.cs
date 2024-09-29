@@ -287,5 +287,22 @@ namespace Application.IRepository.Imp
                               .OrderBy(c => c.MaintenanceVehiclesDetail.MaintananceSchedule.MaintananceScheduleName)
                               .ToListAsync();
         }
+
+        public async Task<MaintenanceInformation> GetByBookingIdW(Guid id)
+        {
+            return await _context.Set<MaintenanceInformation>()
+                .Include(c => c.Booking)
+                .ThenInclude(c => c.Vehicles)
+                .ThenInclude(c => c.VehicleModel)
+                .ThenInclude(c => c.VehiclesBrand)
+                .Include(c => c.OdoHistory)
+                .Include(c => c.CustomerCare)
+                .Include(c => c.MaintenanceSparePartInfos)
+                .ThenInclude(c => c.SparePartsItemCost.SparePartsItem)
+                .Include(c => c.MaintenanceHistoryStatuses)
+                .Include(c => c.MaintenanceServiceInfos)
+                .ThenInclude(c => c.MaintenanceServiceCost.MaintenanceService)
+                .FirstOrDefaultAsync(c => c.InformationMaintenanceId == id);
+        }
     }
 }

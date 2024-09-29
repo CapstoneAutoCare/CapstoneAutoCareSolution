@@ -108,6 +108,8 @@ namespace Infrastructure.IService.Imp
                     var tran = await _unitOfWork.TransactionRepository
                         .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
                     var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
+                    var volumTRANSFERRED = _configuration.GetValue<int>("VolTRANSFERRED");
+
                     if (tran.Any())
                     {
                         var amount = tran.Select(x => x.Amount).First(); // Or use FirstOrDefault() and handle null if necessary
@@ -115,7 +117,7 @@ namespace Infrastructure.IService.Imp
                         {
                             MaintenancePlanId = plan.MaintenancePlanId,
                             Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
-                            Amount = amount * 90 / 100F,
+                            Amount = amount * volumTRANSFERRED / 100F,
                             PaymentMethod = "AUTO",
                             MaintenanceCenterId = center.MaintenanceCenterId,
                             Status = "TRANSFERRED",

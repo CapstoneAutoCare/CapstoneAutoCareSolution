@@ -318,29 +318,27 @@ namespace Infrastructure.IService.Imp
                     mvd.Status = "FINISHED";
                     await _unitOfWork.MaintenanceVehiclesDetailRepository.Update(mvd);
 
-
-
                     var schedule = await _unitOfWork.MaintenanceSchedule.GetByID(mvd.MaintananceScheduleId);
                     var plan = await _unitOfWork.MaintenancePlanRepository.GetById(schedule.MaintenancePlanId);
                     var tran = await _unitOfWork.TransactionRepository
                         .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
-                    var amount = tran.Select(x => x.Amount).First();
                     var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
                     var volumTRANSFERRED = _configuration.GetValue<int>("VolTRANSFERRED");
 
                     if (tran.Any())
                     {
+                        var amount = tran.Select(x => x.Amount).First(); // Or use FirstOrDefault() and handle null if necessary
                         Transactions transactions = new Transactions
                         {
                             MaintenancePlanId = plan.MaintenancePlanId,
                             Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
-                            Amount = tran.Select(c => c.Amount).First() * volumTRANSFERRED / 100F,
+                            Amount = amount * volumTRANSFERRED / 100F,
                             PaymentMethod = "AUTO",
                             MaintenanceCenterId = center.MaintenanceCenterId,
                             Status = "TRANSFERRED",
                             TransactionDate = DateTime.Now,
                             VehiclesId = vehicle.VehiclesId,
-                            Volume = volumTRANSFERRED,
+                            Volume = 90,
                             TransactionsId = Guid.NewGuid(),
                         };
                         await _unitOfWork.TransactionRepository.Add(transactions);
@@ -844,23 +842,23 @@ namespace Infrastructure.IService.Imp
                     var plan = await _unitOfWork.MaintenancePlanRepository.GetById(schedule.MaintenancePlanId);
                     var tran = await _unitOfWork.TransactionRepository
                         .GetTransactionsByVehicleAndCenterAndPlan(plan.MaintenancePlanId, mvd.VehiclesId, mvd.MaintenanceCenterId);
-                    var amount = tran.Select(x => x.Amount).First();
                     var vehicle = await _unitOfWork.Vehicles.GetById(mvd.VehiclesId);
                     var volumTRANSFERRED = _configuration.GetValue<int>("VolTRANSFERRED");
 
                     if (tran.Any())
                     {
+                        var amount = tran.Select(x => x.Amount).First(); // Or use FirstOrDefault() and handle null if necessary
                         Transactions transactions = new Transactions
                         {
                             MaintenancePlanId = plan.MaintenancePlanId,
                             Description = "Đã chuyền tiền từ admin " + vehicle.LicensePlate + " - Mua gói " + plan.MaintenancePlanName + " Số tiền " + amount,
-                            Amount = tran.Select(c => c.Amount).First() * volumTRANSFERRED / 100F,
+                            Amount = amount * volumTRANSFERRED / 100F,
                             PaymentMethod = "AUTO",
                             MaintenanceCenterId = center.MaintenanceCenterId,
                             Status = "TRANSFERRED",
                             TransactionDate = DateTime.Now,
                             VehiclesId = vehicle.VehiclesId,
-                            Volume = volumTRANSFERRED,
+                            Volume = 90,
                             TransactionsId = Guid.NewGuid(),
                         };
                         await _unitOfWork.TransactionRepository.Add(transactions);
